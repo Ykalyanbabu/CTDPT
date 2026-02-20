@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/assets/css/home.css" />
+
+<div class="container">
+    <div class="body-content">
+        <div class="page-title">Professional Tax Services</div>
+        <div class="card-grid">
+            <div class="pt-card" onclick="location.href='@Url.Action("Landing", "Registration")'">
+                <div class="card-icon">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <h3>New Dealer Registration</h3>
+                <p>Register as a new taxpayer under Professional Tax Act with easy online process.</p>
+                <div class="card-action">
+                    <a href="@Url.Action("Landing", "Registration")">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-card" onclick="location.href='@Url.Action("Login", "PTHome")'">
+                <div class="card-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Existing Dealer Login</h3>
+                <p>Login to your account using User ID & Password to access your tax services.</p>
+                <div class="card-action">
+                    <a href="@Url.Action("Login", "PTHome")">
+                        <i class="fas fa-sign-in-alt"></i> Login Here
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-card" onclick="location.href='PT_Payment.html'">
+                <div class="card-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h3>PT e-Payment & e-Receipt</h3>
+                <p>Make secure online payments and download payment receipts instantly.</p>
+                <div class="card-action">
+                    <a href="@Url.Action("PaymentPage", "Payment")">
+                        <i class="fas fa-wallet"></i> Make Payment
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-card" onclick="location.href='#'">
+                <div class="card-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>PTO Login</h3>
+                <p>Secure portal for Professional Tax Officers to access administrative functions.</p>
+                <div class="card-action">
+                    <a href="#">
+                        <i class="fas fa-user-shield"></i> Officer Login
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-card" onclick="location.href='@Url.Action("Payment_Rates", "Payment")'">
+                <div class="card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Schedule Rates for PT Payment</h3>
+                <p>View complete schedule of Professional Tax rates as per government rules.</p>
+                <div class="card-action">
+                    <a href="@Url.Action("Payment_Rates", "Payment")">
+                        <i class="fas fa-list-alt"></i> View Rates
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-card" onclick="location.href='#'" style="display:none;">
+                <div class="card-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3>Help & Support</h3>
+                <p>Get assistance with procedures, FAQs, user manuals, and contact support.</p>
+                <div class="card-action">
+                    <a href="#">
+                        <i class="fas fa-headset"></i> Get Help
+                    </a>
+                </div>
+            </div>
+            <a style="font-weight: 700;color: blue;width:200%;text-decoration:none" onclick="saveData();">Click here to Track Registration Status with ARN No.</a>
+        </div>
+
+        <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #0b8b80;display:none;">
+            <h4 style="color: #0b8b80; margin-bottom: 10px;">
+                <i class="fas fa-info-circle"></i> Important Information
+            </h4>
+            <p style="color: #666; margin: 0;">
+                All services are available 24/7. For any technical issues, please contact our helpline at
+                <strong>1800-XXX-XXXX</strong> or email at <strong>support@ctd.telangana.gov.in</strong>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showCustomConfirm() {
+        CustomAlert.showConfirm('Are you sure you want to delete this record?', 'Confirm', function (confirmed) {
+            if (confirmed) {
+
+                CustomAlert.showSuccess('Record deleted successfully!');
+
+                $.ajax({
+                    url: '@Url.Action("Delete", "Home")',
+                    type: 'POST',
+                    data: { id: 1 },
+                    success: function (response) {
+                        CustomAlert.showSuccess('Record deleted!');
+                    },
+                    error: function () {
+                        CustomAlert.showError('Delete failed!');
+                    }
+                });
+            } else {
+                CustomAlert.showInfo('Delete cancelled.');
+            }
+        });
+    }
+
+    function Warning() {
+        CustomAlert.showWarning('Please check your input!');
+    }
+    function Info() {
+        CustomAlert.showInfo('New updates available!');
+    }
+    function Success() {
+        CustomAlert.showSuccess('Record saved successfully!');
+    }
+    function Error() {
+        CustomAlert.showError('An error occurred while saving!');
+    }
+
+    function showSuccess() {
+        ModernAlert.showSuccess('Your profile has been updated successfully!', 'Profile Updated');
+    }
+    function showError() {
+        ModernAlert.showError('Unable to connect to server. Please try again.', 'Connection Error');
+    }
+    function showWarning() {
+        ModernAlert.showWarning('Your session will expire in 5 minutes. Please save your work.', 'Session Warning');
+    }
+    function showInfo() {
+        ModernAlert.showInfo('New features are available. Click here to learn more.', 'What\'s New');
+    }
+
+
+    function showDeleteConfirm() {
+        ModernAlert.showConfirm(
+            'Are you sure you want to delete this item? This action cannot be undone.',
+            'Confirm Delete',
+            function (confirmed) {
+                if (confirmed) {
+                    // Simulate AJAX call
+                    ModernAlert.showLoading('Deleting item...');
+
+                    setTimeout(function() {
+                        ModernAlert.closeAlert();
+                        ModernAlert.toast.success('Item deleted successfully!');
+                    }, 2000);
+                } else {
+                    ModernAlert.toast.info('Delete cancelled');
+                }
+            }
+        );
+    }
+
+    function showAutoCloseAlert() {
+        ModernAlert.showSuccess(
+            'This alert will close automatically in 3 seconds!',
+            'Auto-close Alert',
+            true // auto-close enabled
+        );
+    }
+
+    function showLoadingAlert() {
+        var loader = ModernAlert.showLoading('Processing your request...');
+
+        // Simulate progress
+        setTimeout(function() {
+            loader.update('Almost done...');
+        }, 1500);
+
+        setTimeout(function() {
+            loader.close();
+            ModernAlert.toast.success('Operation completed!');
+        }, 3000);
+    }
+
+    function showAllToasts() {
+        ModernAlert.toast.success('Operation successful!');
+        ModernAlert.toast.error('An error occurred!');
+        ModernAlert.toast.warning('Please check your input!');
+        ModernAlert.toast.info('New update available!');
+    }
+
+    function saveData() {
+        var loader = ModernAlert.showLoading('Saving data...');
+
+        $.ajax({
+            url: '@Url.Action("SaveData", "Home")',
+            type: 'POST',
+            data: { id: 1, name: 'Test' },
+            success: function(response) {
+                loader.close();
+                if (response.success) {
+                    ModernAlert.showSuccess(response.message, 'Success', true);
+                } else {
+                    ModernAlert.showError(response.message, 'Error');
+                }
+            },
+            error: function() {
+                loader.close();
+                ModernAlert.showError('Server error occurred. Please try again.', 'Connection Error');
+            }
+        });
+    }
+</script>

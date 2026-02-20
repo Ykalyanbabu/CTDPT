@@ -1,0 +1,297 @@
+﻿
+@{
+    ViewBag.Title = "Refunds";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+   
+
+    <div class="main-container refunds">
+        <div class="form-wrapper">
+            <!-- Form Header -->
+            <div class="form-header">
+                <h1>FORM XV - Claim for Refund</h1>
+                <div class="form-subtitle">(See Rule 29) Commercial Taxes Department, Telangana</div>
+                <div class="form-number">FORM XV</div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="form-content">
+                <!-- User Information -->
+                <div class="user-info">
+                    <div>
+                        <div class="info-label">
+                            <i class="fas fa-id-card"></i> PTIN
+                        </div>
+                        <div class="info-value">36440805739</div>
+                    </div>
+                    <div>
+                        <div class="info-label">
+                            <i class="fas fa-user"></i> Name of the Claimant
+                        </div>
+                        <div class="info-value">DUMMY</div>
+                    </div>
+                </div>
+
+                <!-- Assessment Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-clipboard-check"></i> Assessment</h2>
+                    </div>
+                    <div class="section-body">
+                        <p style="margin-bottom: 8px; color: #666; font-size: 14px;">
+                            If refund is sought in pursuance of an order of assessment.
+                        </p>
+                        <div class="form-group">
+                            <label class="form-label">
+
+                                Order Number: <span style="color:red">*</span>
+                            </label>
+                            <input type="text" class="form-input" placeholder="Enter Order number" id="OrderNumber">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+
+                                Order Date: <span style="color:red">*</span>
+                            </label>
+                            <input type="datetime" class="form-input" placeholder="Enter Order Date" id="OrderDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+
+                                Amount Determined as Excess in Rupees:: <span style="color:red">*</span>
+                            </label>
+                            <input type="number" class="form-input" placeholder="Enter Determined amount " id="dtrAmnt">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                Refund Amount now Claimed in Rupees: <span style="color:red">*</span>
+                            </label>
+                            <input type="number" class="form-input" placeholder="Enter Claimed Amount" id="ClmdAmnt">
+                        </div>
+                        <!-- <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="assessment" value="yes" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-label">Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="assessment" value="no" class="radio-input" checked>
+                                <span class="radio-custom"></span>
+                                <span class="radio-label">No</span>
+                            </label>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="section-header">
+                        <h2>Remarks</h2>
+                    </div>
+                    <div class="section-body">
+                        <div>
+                            <textarea class="form-content" rows="4" style="width:100%"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compact Upload Documents Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cloud-upload-alt"></i> Upload Documents<span style="color:red">*</span></h2>
+
+                    </div>
+                    <div class="section-body">
+                        <div class="upload-section" id="uploadArea">
+                            <div class="upload-compact">
+                                <div class="upload-info">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-file-upload"></i>
+                                    </div>
+                                    <div class="upload-text">
+                                        <h3>Upload Supporting Documents</h3>
+                                        <p>PDF, JPG, PNG up to 10MB</p>
+                                    </div>
+                                </div>
+                                <button class="btn-upload" id="uploadBtn">
+                                    <i class="fas fa-folder-open"></i> Browse Files
+                                </button>
+                            </div>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+
+                        <!-- Upload Status -->
+                        <div class="upload-status" id="uploadStatus">
+                            <i class="fas fa-info-circle"></i>
+                            <span>No documents uploaded</span>
+                        </div>
+
+                        <!-- Uploaded Files List -->
+                        <div id="fileList" style="display: none;">
+                            <h4 style="color: #0b8b80; margin-bottom: 8px; font-size: 14px;">
+                                <i class="fas fa-files"></i> Uploaded Documents
+                            </h4>
+                            <div id="uploadedFiles"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-section">
+                    <button class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> SUBMIT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const uploadArea = document.getElementById('uploadArea');
+            const uploadStatus = document.getElementById('uploadStatus');
+            const fileList = document.getElementById('fileList');
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            const submitBtn = document.getElementById('submitBtn');
+
+            let files = [];
+
+            // Upload button click
+            uploadBtn.addEventListener('click', () => fileInput.click());
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleFiles(e.target.files);
+                }
+            });
+
+            // Handle file upload
+            function handleFiles(newFiles) {
+                for (let file of newFiles) {
+                    if (!file.type.match('(pdf|image/jpeg|image/png)')) {
+                        alert(`"${file.name}" is not a supported format. Please upload PDF, JPG, or PNG files.`);
+                        continue;
+                    }
+
+                    if (file.size > 10 * 1024 * 1024) {
+                        alert(`"${file.name}" exceeds 10MB size limit.`);
+                        continue;
+                    }
+
+                    files.push(file);
+                }
+
+                updateFileList();
+            }
+
+            // Update file list display
+            function updateFileList() {
+                if (files.length === 0) {
+                    fileList.style.display = 'none';
+                    uploadStatus.innerHTML = '<i class="fas fa-info-circle"></i><span>No documents uploaded</span>';
+                    uploadStatus.style.background = '#fff3cd';
+                    uploadStatus.style.borderLeftColor = '#ffc107';
+                    return;
+                }
+
+                fileList.style.display = 'block';
+                uploadStatus.innerHTML = `<i class="fas fa-check-circle" style="color: #28a745;"></i><span>${files.length} document${files.length > 1 ? 's' : ''} uploaded successfully</span>`;
+                uploadStatus.style.background = '#d4edda';
+                uploadStatus.style.borderLeftColor = '#28a745';
+
+                uploadedFiles.innerHTML = '';
+                files.forEach((file, index) => {
+                    const fileElement = document.createElement('div');
+                    fileElement.className = 'file-item';
+
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'file-info';
+
+                    const icon = document.createElement('i');
+                    icon.className = file.type.includes('pdf') ? 'fas fa-file-pdf' : 'fas fa-file-image';
+                    icon.style.cssText = 'color: #0b8b80; font-size: 14px; flex-shrink: 0;';
+
+                    const fileName = document.createElement('span');
+                    fileName.className = 'file-name';
+                    fileName.textContent = file.name;
+
+                    const fileSize = document.createElement('span');
+                    fileSize.className = 'file-size';
+                    fileSize.textContent = formatFileSize(file.size);
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.onclick = () => removeFile(index);
+
+                    fileInfo.appendChild(icon);
+                    fileInfo.appendChild(fileName);
+                    fileInfo.appendChild(fileSize);
+
+                    fileElement.appendChild(fileInfo);
+                    fileElement.appendChild(removeBtn);
+                    uploadedFiles.appendChild(fileElement);
+                });
+            }
+
+            // Remove file from list
+            function removeFile(index) {
+                files.splice(index, 1);
+                updateFileList();
+            }
+
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+            // Form submission
+            submitBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (files.length === 0) {
+                    if (!confirm("Continue without uploading documents?")) return;
+                }
+
+                // Show loading state
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+
+                // Simulate form submission
+                setTimeout(() => {
+                    alert('Form submitted successfully! Your refund claim is under processing.');
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+

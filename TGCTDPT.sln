@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.36107.64
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGCTDPT", "TGCTDPT\TGCTDPT.csproj", "{043F864B-5A9C-4738-A5BE-571D63B2913D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{043F864B-5A9C-4738-A5BE-571D63B2913D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043F864B-5A9C-4738-A5BE-571D63B2913D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043F864B-5A9C-4738-A5BE-571D63B2913D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043F864B-5A9C-4738-A5BE-571D63B2913D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE2FD8A9-4D90-4B1F-974F-7069230A537E}
+	EndGlobalSection
+EndGlobal

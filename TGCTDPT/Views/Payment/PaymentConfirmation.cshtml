@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "PaymentConfirmation";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content PaymentConfirmation">
+        <div class="payment-container">
+            <div class="payment-card">
+                <!--<div class="card-header">
+                    <h1><i class="fas fa-credit-card"></i> Confirm Your Payment</h1>
+                    <p>Review the details below and proceed with the secure payment</p>
+                </div>-->
+
+                <div class="card-body">
+                    <!-- LEFT PANEL - Payment Summary -->
+                    <div class="payment-summary-section">
+                        <div class="summary-header">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <h2>Payment Summary</h2>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-hashtag"></i> Transaction ID</div>
+                            <div class="value">#REF789012</div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-calendar-alt"></i> Date & Time</div>
+                            <div class="value">15 Oct 2024 • 14:30 IST</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-receipt"></i> Enterprise Name</div>
+                            <div class="value">Kritunga Restaurent</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-receipt"></i> Service Type</div>
+                            <div class="value">Professional Tax Payment</div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-map-marker-alt"></i> Payment Purpose</div>
+                            <div class="value">
+                                Return Tax
+                            </div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-indian-rupee-sign"></i> Total Amount</div>
+                            <div class="value amount">₹ 1,250.00</div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT PANEL - Payment Actions -->
+                    <div class="payment-actions-section">
+                        <div class="actions-header">
+                            <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
+                            <p>Your payment is protected with bank-level security. All transactions are encrypted and processed securely.</p>
+                        </div>
+
+                        <div class="payment-status">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="status-text">
+                                <h3>Ready to Pay</h3>
+                                <p>All payment details are verified and secure</p>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Go Back</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="processPayment()">
+                                <i class="fas fa-lock"></i>
+                                <span>Pay Now</span>
+                            </button>
+                        </div>
+
+                        <div class="security-badge">
+                            <i class="fas fa-shield-check"></i>
+                            <div class="badge-text">
+                                <h4>100% Secure Payment</h4>
+                                <p>Protected by 256-bit SSL encryption. Your card details are never stored on our servers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        function processPayment() {
+            const submitBtn = event.currentTarget;
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            document.querySelector('.btn-secondary').disabled = true;
+
+            setTimeout(() => {
+                const paymentDetails = {
+                    transactionId: 'REF789012',
+                    amount: 1250.00,
+                    timestamp: new Date().toISOString()
+                };
+
+                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful!';
+                submitBtn.style.background = 'linear-gradient(135deg, #28a745 0%, #218838 100%)';
+
+                setTimeout(() => {
+                    alert('Payment Successful! ₹1,250.00 has been processed. Your transaction ID is REF789012');
+
+                    /*window.location.href = 'payment-success.html';*/
+                }, 1000);
+
+            }, 2000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add click animation to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    if (this.disabled) return;
+
+                    // Ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.cssText = `
+                                position: absolute;
+                                border-radius: 50%;
+                                background: rgba(255, 255, 255, 0.7);
+                                transform: scale(0);
+                                animation: ripple 0.6s linear;
+                                width: ${size}px;
+                                height: ${size}px;
+                                top: ${y}px;
+                                left: ${x}px;
+                            `;
+
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add CSS for ripple effect
+            const style = document.createElement('style');
+            style.textContent = `
+                        @@keyframes ripple {
+                            to {
+                                transform: scale(4);
+                                opacity: 0;
+                            }
+                        }
+                    `;
+            document.head.appendChild(style);
+
+            // Add subtle hover effect to payment card
+            const paymentCard = document.querySelector('.payment-card');
+            paymentCard.addEventListener('mouseenter', () => {
+                paymentCard.style.transform = 'translateY(-5px)';
+            });
+
+            paymentCard.addEventListener('mouseleave', () => {
+                paymentCard.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>

@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+ 
+
+    <div class="container Reports">
+        <!--<div class="page-header">
+            <h1 class="page-title"><i class="fas fa-chart-bar"></i> Tax Reports</h1>
+            <p class="page-subtitle">View and analyze your tax demand and return filing status</p>
+        </div>-->
+
+        <div class="main-card">
+            <!--<div class="card-header">
+                <div>
+                    <h2 class="card-title">Taxpayer Reports Dashboard</h2>
+                    <p class="card-subtitle">PTIN: <strong>TS123456789</strong> | Last Updated: 15 Oct 2024</p>
+                </div>
+                <div class="status-badge status-paid">
+                    <i class="fas fa-check-circle"></i> All Dues Cleared
+                </div>
+            </div>-->
+
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('demand')">
+                        <i class="fas fa-file-invoice-dollar"></i> Demand Report
+                    </button>
+                    <button class="tab-btn" onclick="showTab('return')">
+                        <i class="fas fa-file-contract"></i> Return Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= DEMAND REPORT ================= -->
+            <div id="demand" class="view active">
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>PTIN</label>
+                            <input type="text" class="form-control readonly" value="36123456789" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Name of the Person / Business</label>
+                            <input type="text" class="form-control readonly" value="M/S. TELANGANA ENTERPRISES" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Effective Date of Registration</label>
+                            <input type="text" class="form-control readonly" value="15/04/2023" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Jurisdiction (Circle)</label>
+                            <input type="text" class="form-control readonly" value="Saroornagar 1" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Jurisdiction (Division)</label>
+                            <input type="text" class="form-control readonly" value="Saroornagar" readonly>
+                        </div>
+                    </div>
+
+                    <!-- YEARLY DEMAND -->
+                    <div class="section">
+                        <h3 class="section-title"><i class="fas fa-calendar-alt"></i> Enrolment Dealer (Yearly Payments)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Financial Year</th>
+                                    <th>Demand (₹)</th>
+                                    <th>Paid (₹)</th>
+                                    <th>Balance (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2023-24</td>
+                                    <td class="amount-cell">12,500.00</td>
+                                    <td class="amount-cell">12,500.00</td>
+                                    <td class="amount-cell zero-amount">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2024-25</td>
+                                    <td class="amount-cell">15,000.00</td>
+                                    <td class="amount-cell">15,000.00</td>
+                                    <td class="amount-cell zero-amount">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- MONTHLY DEMAND -->
+                    <div class="section">
+                        <h3 class="section-title"><i class="fas fa-calendar-day"></i> Registration Dealer&nbsp (Employers - Monthly Payments)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Financial Year</th>
+                                    <th>Month</th>
+                                    <th>Demand (₹)</th>
+                                    <th>Paid (₹)</th>
+                                    <th>Balance (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2024-25</td>
+                                    <td>April</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell zero-amount">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2024-25</td>
+                                    <td>May</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell zero-amount">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>2024-25</td>
+                                    <td>June</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell">1,250.00</td>
+                                    <td class="amount-cell zero-amount">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- TOTALS -->
+                    <div class="totals-section">
+                        <div class="totals-grid">
+                            <div class="total-item">
+                                <span class="total-label">Total Demand</span>
+                                <span class="total-value">₹ 31,250.00</span>
+                            </div>
+                            <div class="total-item">
+                                <span class="total-label">Total Paid</span>
+                                <span class="total-value">₹ 31,250.00</span>
+                            </div>
+                            <div class="total-item">
+                                <span class="total-label">Total Balance</span>
+                                <span class="total-value zero">₹ 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions" style="display:none;">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= RETURN REPORT ================= -->
+            <div id="return" class="view">
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>PTIN</label>
+                            <input type="text" class="form-control readonly" value="36123456789" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Name of the Person / Business</label>
+                            <input type="text" class="form-control readonly" value="M/S. TELANGANA ENTERPRISES" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Financial Year</label>
+                            <select class="form-control select">
+                                <option selected>2024-25</option>
+                                <option>2023-24</option>
+                                <option>2022-23</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- RETURN DETAILS -->
+                    <div class="section">
+                        <h3 class="section-title"><i class="fas fa-file-alt"></i> RETURN DETAILS</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Month</th>
+                                    <th>Return ID</th>
+                                    <!--<th>Filing Date</th>
+                                    <th>Status</th>
+                                    <th>Amount Paid (₹)</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>April</td>
+                                    <td>RET202425APR001</td>
+                                    <!--<td>15/05/2024</td>
+                                    <td><span class="status-badge status-paid">Filed</span></td>
+                                    <td class="amount-cell">1,250.00</td>-->
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>May</td>
+                                    <td>RET202425MAY001</td>
+                                    <!--<td>15/06/2024</td>
+                                    <td><span class="status-badge status-paid">Filed</span></td>
+                                    <td class="amount-cell">1,250.00</td>-->
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>June</td>
+                                    <td>RET202425JUN001</td>
+                                    <!--<td>15/07/2024</td>
+                                    <td><span class="status-badge status-paid">Filed</span></td>
+                                    <td class="amount-cell">1,250.00</td>-->
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="actions" style="display:none;">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Download CSV
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <script src="active.js"></script>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected view
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('.data-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                });
+
+                row.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Print functionality
+            document.querySelectorAll('.btn-primary').forEach(btn => {
+                if (btn.textContent.includes('Print')) {
+                    btn.addEventListener('click', function () {
+                        window.print();
+                    });
+                }
+            });
+
+            // Select change handler for return report
+            const yearSelect = document.querySelector('.form-control.select');
+            if (yearSelect) {
+                yearSelect.addEventListener('change', function () {
+                    // In a real app, this would fetch new data based on selected year
+                    console.log('Selected year:', this.value);
+                    // Show loading state
+                    const activeView = document.querySelector('.view.active');
+                    const originalContent = activeView.innerHTML;
+                    activeView.innerHTML = `
+                                    <div class="card-body" style="text-align: center; padding: 60px 20px;">
+                                        <div style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                        </div>
+                                        <h3>Loading Report Data...</h3>
+                                        <p>Fetching data for financial year ${this.value}</p>
+                                    </div>
+                                `;
+
+                    // Simulate API call
+                    setTimeout(() => {
+                        activeView.innerHTML = originalContent;
+                        // Re-attach event listeners
+                        showTab('return');
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+

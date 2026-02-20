@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+   
+
+    <!-- Main content area - centered login card -->
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+        <div class="login-card">
+            <!-- Title with icon -->
+            <div class="page-title">
+                <i class="fas fa-user-circle"></i>
+                Dealer Login
+            </div>
+
+            <!-- Form container -->
+            <div class="form-container">
+                <!-- Form fields -->
+                <div class="form-row">
+                    <div class="form-label">
+                        <i class="fas fa-id-card"></i>
+                        PTIN / User ID
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-input" placeholder="Enter PTIN or User ID">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">
+                        <i class="fas fa-lock"></i>
+                        Password
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-key input-icon"></i>
+                        <input type="password" class="form-input" placeholder="Enter Password" id="passwordInput">
+                        <span class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Note -->
+                <div class="note">
+                    <i class="fas fa-info-circle"></i>
+                    Password is case-sensitive
+                </div>
+
+                <!-- Login button -->
+                <div class="actions">
+                    <button class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <a href="secondlogin.html">Login</a>
+                        <!-- <a href="PT_FLogin.html">Login</a> -->
+                    </button>
+                </div>
+
+                <!-- Help links -->
+                <div class="login-help">
+                    <div class="help-links">
+                        <a href="ForgotPassword.html" class="help-link">
+                            <i class="fas fa-question-circle"></i>
+                            Forgot Password?
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordToggle = document.getElementById('passwordToggle');
+            const passwordIcon = passwordToggle.querySelector('i');
+
+            passwordToggle.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                if (type === 'text') {
+                    passwordIcon.classList.remove('fa-eye');
+                    passwordIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordIcon.classList.remove('fa-eye-slash');
+                    passwordIcon.classList.add('fa-eye');
+                }
+            });
+
+            const inputs = document.querySelectorAll('.form-input');
+
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    const icon = this.parentElement.querySelector('.input-icon');
+                    if (icon) icon.style.color = '#75339b';
+                });
+
+                input.addEventListener('blur', function () {
+                    const icon = this.parentElement.querySelector('.input-icon');
+                    if (icon && !this.value) icon.style.color = '#94a3b8';
+                });
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.form-row, .note, .actions, .login-help').forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 100);
+        });
+    </script>
+
+  
+</body>
+

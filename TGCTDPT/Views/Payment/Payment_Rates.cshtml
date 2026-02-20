@@ -1,0 +1,353 @@
+﻿
+@{
+    ViewBag.Title = "Payment_Rates";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+    <!-- CONTENT -->
+    <div class="container Payment_Rates">
+
+        <!-- TOP BANNER -->
+        <div class="pt-banner">
+            <div>
+                <h1>Know Your Schedule Rates for PT Payment</h1>
+                <p>
+                    Select your profession category to fetch the officially notified
+                    types, answer the follow-up questions, and instantly understand
+                    your PT obligations.
+                </p>
+            </div>
+
+            <a href="#" class="schedule-btn" style="display:none;">
+                📅 View Official PT Schedule
+            </a>
+        </div>
+
+        <div class="section">
+            <h3>Choose Profession</h3>
+
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card">
+            <div class="form-group">
+                <label>Profession Category(As Per Schedule-I of PT Act)</label>
+                <select id="ddlCategory" onchange="onCatChange();">
+                    <option value="0">-- Select --</option>
+                    <option value="1">Medical / Legal Practitioners / Agents / Consultants / Engineers etc.</option>
+                    <option value="2">Contractors / Property Developers etc.</option>
+                    <option>Film Industry / Broadcasting services</option>
+                    <option>VAT/GST Act registered dealers (or) Liable to be register</option>
+                    <option>Owners / Lessees of any immovable property</option>
+                    <option>Banks / Co-operative Societies / Money lenders / Chit funds etc.</option>
+                    <option>Educational & all Training Institutions</option>
+                    <option>Companies / Agencies / Operators and Individual relation</option>
+                    <option>Exempted</option>
+                    <option>Others</option>
+                    <option>Govt. Organizations</option>
+                </select>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Choose Your Profession Type</h3>
+            <p>Options are rendered exactly as notified by the department.</p>
+        </div>
+
+        <!-- PROFESSION OPTIONS -->
+        <div class="form-card" id="div1" style="display:none;">
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        Legal practitioners, Solicitors, Notaries, Tax Consultants, Chartered Accountants, Technical and Professional Consultants,
+                        Engineers, RCC Consultants, Architects, Management Consultants, Estate Agents, Chief Agents, Principal Agents, Special Agents,
+                        Insurance Agents, Surveyors or Loss assessors registered or licensed under the Insurance Act, 1938 (Central Act IV of 1938), Pigmy Agents,
+                        UTI agents, Authorized assistants and Sub brokers recognized by SEBI, Commission Agents, Dalals, Brokers, Auctioneers, Medical Practitioners,
+                        Journalists, Medical Consultants (Other than Practitioners of Ayurvedic, Homeopathic and Unani systems of Medicines), Dentists, Radiologists,
+                        Pathologists and persons engaged in other similar professions or callings of a Paramedical nature, whose standing in the profession is:
+                    </div>
+                    <div class="option-tax exempt">
+                        (i) Up to 5 years <br />Exempt from Profession Tax
+                    </div>
+                </div>
+            </label>
+
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        (ii) More than 5 years
+                    </div>
+                    <div class="option-tax">
+                        Tax Per Year: ₹2,500
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="form-card" id="div2" style="display:none;">
+
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        Contractor earning small turnover and under
+                    </div>
+                    <div class="option-tax exempt">
+                        Exempted from Profession Tax <br />(a) Below Rs.10 lakhs
+                    </div>
+                </div>
+            </label>
+
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="1250">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        (b) From Rs.10 lakh to Rs.50 lakhs
+                    </div>
+                    <div class="option-tax">
+                        Tax Per Year: ₹1,250
+                    </div>
+                </div>
+            </label>
+
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        (c) Above Rs 50 lakhs
+                    </div>
+                    <div class="option-tax">
+                        Tax Per Year: ₹2,500
+                    </div>
+                </div>
+            </label>
+
+            <label class="option-card">
+                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+                <span class="radio-ui"></span>
+
+                <div class="option-content">
+                    <div class="option-title">
+                        Property Developers including Land Developers and Building / Flat Developers.
+                    </div>
+                    <div class="option-tax">
+                        Tax Per Year: ₹2,500
+                    </div>
+                </div>
+            </label>
+
+
+        </div>
+
+        <!-- COMMENCEMENT DATE -->
+        <div class="section date-section" id="divDate" style="display:none;">
+            <div class="section-title">
+                Profession / Business Commencement Date
+            </div>
+
+            <input type="date" id="startDate" class="date-input mt-2">
+            <div class="date-note">
+                Select the date when profession or business was commenced
+            </div>
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="section summary-box" id="divSummary" style="display:none;">
+
+            <div class="summary-header">
+                <span>Total Profession Tax Payable</span>
+                <!--<span class="fy-badge" id="fyCount">0 FYs</span>-->
+            </div>
+
+            <div class="summary-table">
+
+                <div id="summaryRows"></div>
+
+                <div class="summary-row summary-total">
+                    <span>Grand Total</span>
+                    <span id="grandTotal">₹0</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- TIME BASED INFO -->
+        <div class="green-box" id="divSummaryPeriod" style="display:none;">
+            <div class="green-title">Time Elapsed Since Commencement</div>
+
+            <div class="time-value" id="elapsedTime">
+                —
+            </div>
+
+            <div class="time-range" id="timeRange">
+                —
+            </div>
+        </div>
+        <div class="green-box" id="divNRR" style="display:none;">
+            <div class="green-title">No Registration Required</div>
+
+            <div class="time-range" id="timeRange">
+                You are not required to register under Profession Tax based on your profession selection.
+            </div>
+        </div>
+
+
+
+
+    </div>
+ 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+    $(function () {
+
+        let selectedTax = null;
+
+        $('input[name="profession"]').on('change', function () {
+            selectedTax = parseInt($(this).data('tax')) || 0;
+            calculatePT();
+        });
+
+        $('#startDate').on('change', calculatePT);
+
+        function calculatePT() {
+
+            $('#summaryRows').empty();
+            $('#grandTotal').text('₹0');
+            $('#timeInfo').text('—');
+
+            const startDateVal = $('#startDate').val();
+            if (!startDateVal || selectedTax === null) return;
+
+            // Exempted case
+            if (selectedTax === 0) {
+                $('#summaryRows').append(`
+                <div class="summary-row">
+                    <span>Exempted</span>
+                    <span>₹0</span>
+                </div>
+            `);
+                $('#timeInfo').text('Profession is exempted from Profession Tax');
+                $('#divSummaryPeriod').hide();
+                $('#divSummary').hide();
+                return;
+            }
+
+            const startDate = new Date(startDateVal);
+            const today = new Date();
+
+            // Determine starting FY
+            let fyYear = startDate.getMonth() >= 3
+                ? startDate.getFullYear()
+                : startDate.getFullYear() - 1;
+
+            let fyCount = 0;
+            let grandTotal = 0;
+
+            while (true) {
+
+                const fyStart = new Date(fyYear, 3, 1);
+                const fyEnd = new Date(fyYear + 1, 2, 31);
+
+                if (fyStart > today) break;
+
+                $('#summaryRows').append(`
+                <div class="summary-row">
+                    <span>FY ${fyYear}-${fyYear + 1}</span>
+                    <span>₹${selectedTax.toLocaleString()}</span>
+                </div>
+            `);
+
+                grandTotal += selectedTax;
+                fyCount++;
+                fyYear++;
+            }
+            updateElapsedTime(startDate);
+            $('#divSummaryPeriod').show();
+            $('#divSummary').show();
+            $('#grandTotal').text('₹' + grandTotal.toLocaleString());
+            $('#timeInfo').text(
+                `From ${startDate.toDateString()} covering ${fyCount} financial year(s)`
+            );
+
+        }
+
+
+    });
+    function updateElapsedTime(startDate) {
+
+        const today = new Date();
+
+        let years = today.getFullYear() - startDate.getFullYear();
+        let months = today.getMonth() - startDate.getMonth();
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        $('#elapsedTime').text(
+            `${years} year(s) ${months} month(s)`
+        );
+
+        $('#timeRange').text(
+            `Calculated from ${startDate.toISOString().split('T')[0]} to today.`
+        );
+    }
+    function onCatChange() {
+        $('#divSummaryPeriod').hide();
+        $('#divSummary').hide();
+        $('#divNRR').hide();
+        $('#divDate').hide();
+        if ($('#ddlCategory').val() == "1") {
+            $('#div2').hide();
+            $('#div1').show();
+        }
+        else if ($('#ddlCategory').val() == "2") {
+            $('#div2').show();
+            $('#div1').hide();
+        }
+        else {
+            $('#div2').hide();
+            $('#div1').hide();
+        }
+    }
+    function radioChange(res) {
+        if (res == "1") {
+            $('#divSummaryPeriod').hide();
+            $('#divSummary').hide();
+            $('#divDate').hide();
+            $('#divNRR').show();
+        }
+        if (res == "2") {
+            $('#divSummaryPeriod').hide();
+            $('#divSummary').hide();
+            $('#divNRR').hide();
+            $('#divDate').show();
+        }
+    }
+
+    </script>
+</body>
+

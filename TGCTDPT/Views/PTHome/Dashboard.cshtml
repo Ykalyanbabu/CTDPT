@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+
+<body>
+
+   
+    <div class="container Dashboard">
+        <div class="body-content">
+
+           
+
+            <div class="home-menu">
+
+
+                <button class="home-btn" onclick="goTo('CheckRC.html')">
+                    <i class="fas fa-search"></i> Check RC
+                </button>
+
+                <button class="home-btn" onclick="goTo('PT_Return.html')">
+                    <i class="fas fa-file-alt"></i> Returns
+                </button>
+
+                <button class="home-btn" onclick="goTo('PT_Reports.html')">
+                    <i class="fas fa-chart-line"></i> Reports
+                </button>
+
+                <button class="home-btn" onclick="goTo('Refunds.html')">
+                    <i class="fas fa-undo"></i> Refunds
+                </button>
+
+                <button class="home-btn" onclick="goTo('PT_Payment.html')">
+                    <i class="fas fa-credit-card"></i> E-Payment
+                </button>
+                <button class="home-btn" onclick="goTo('PT_CHNG_PWD.html')">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <script src="active.js"></script>
+
+    <script>
+        function goTo(url) {
+            window.location.href = url;
+        }
+
+        function logout() {
+            // adjust to your actual logout URL
+            window.location.href = 'Login.html';
+        }
+    </script>
+
+</body>

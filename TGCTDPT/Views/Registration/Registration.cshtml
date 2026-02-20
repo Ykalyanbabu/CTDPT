@@ -1,0 +1,1700 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+    <div class="container Registration">
+        <!-- <div id="employee" display="none"> -->
+
+
+        <div class="body-content">
+            <div class="container">
+                <div class="header">
+                    Application Type<br>
+                    <strong>New Registration</strong>
+                </div>
+
+                <div class="steps">
+                    <div class="step active" onclick="showTab(0)">
+                        <i class="fa-solid fa-briefcase"></i>
+                        Business Details<br>(Principal Place of Business)
+                    </div>
+                    <div class="step" id="divOwnerTab" onclick="showTab(1)">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Owner / MD / Managing Partner
+                    </div>
+                    <div class="step" id="divAuth" onclick="showTab(2)">
+                        <i class="fa-solid fa-user-check"></i>
+                        Authorised Person
+                    </div>
+                    <div class="step" id="divPartnerTab" onclick="showTab(3)">
+                        <i class="fa-solid fa-users"></i>
+                        Partners / Directors
+                    </div>
+                    <div class="step" onclick="showTab(4)">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Additional Places of Business
+                    </div>
+                    <div class="step" onclick="showTab(5)">
+                        <i class="fa-solid fa-building-columns"></i>
+                        Bank Details
+                    </div>
+                    <div class="step" onclick="showTab(6)">
+                        <i class="fa-solid fa-upload"></i>
+                        Check & Upload Documents
+                    </div>
+                    <div class="step" onclick="showTab(7)" style="display:block;">
+                        <i class="fa-solid fa-circle-check"></i>
+                        View Summary
+                    </div>
+                </div>
+
+                <div class="content" style="display:none;">
+                    <div class="tab-content active">
+                        <h3>Business Details</h3>
+                        <p>Enter principal place of business information.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Owner / MD / Managing Partner Details</h3>
+                        <p>Provide details of the owner or managing partner.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Authorised Person Details</h3>
+                        <p>Provide authorised signatory details.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Partners / Directors Details</h3>
+                        <p>List all partners or directors.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Additional Places of Business</h3>
+                        <p>Add any additional business locations.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Bank Details</h3>
+                        <p>Provide bank account details.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Check & Upload Documents</h3>
+                        <p>Upload required documents.</p>
+                    </div>
+
+                    <div class="tab-content">
+                        <h3>Registration & Certification</h3>
+                        <p>Final review and certificate generation.</p>
+                    </div>
+                </div>
+
+                <div id="divBusiness" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary">Enterprise Name and Details</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Name of the Enterprise <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="ABC ENTERPRISES">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PAN (Business) <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="AAAAA1234A">
+                                </div>
+
+                                <div class="form-group" style="display:none;">
+                                    <label>
+                                        TAN (Business)
+                                    </label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+
+                                    <input type="email" class="form-control" value="abcenterprises@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Mobile Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="9999999999">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Door Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="SURVEY NOS 698/P 670">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Road / Street / Building Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Locality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="KONDAPUR">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        City / Town / Village <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="HYDERABAD">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Mandal / Municipality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="SERILINGAMPALLY">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>RANGAREDDY</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PIN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" min="6" max="6" value="500032">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Phone Number(Optional)
+                                    </label>
+                                    <input type="text" min="10" max="10" class="form-control">
+                                </div>
+
+                                <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                    <button type="button" onclick="showTab(1);" class="btn btn-primary px-4 w-auto">
+                                        Next
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div id="divPartner" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary">Owner/MD/Managing Partner Details</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Name  <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Father Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Date of Birth
+                                    </label>
+                                    <input type="date" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Profession/Status of the Individual <span class="text-danger">*</span>
+                                    </label>
+
+                                    <input type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Gender <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Door Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Road / Street / Building Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Locality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="KONDAPUR">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        City / Town / Village <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="HYDERABAD">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Mandal / Municipality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="SERILINGAMPALLY">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>RANGAREDDY</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        State <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>Telangana</option>
+                                        <option>Andhra Pradesh</option>
+                                        <option>Tamilnadu</option>
+                                        <option>Karnataka</option>
+                                        <option>Kerala</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Country <span class="text-danger"></span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>India</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        PIN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" value="500032">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PAN(Owner) <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" maxlength="10" minlength="10" value="ABCDE1234F">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Aadhaar <span class="text-danger"></span>
+                                    </label>
+                                    <input type="text" maxlength="12" class="form-control" maxlength="12" minlength="12" value="500032">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Phone Number(Optional)
+                                    </label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Mobile Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="9999999999">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Have you Nominated any Authorised Person? <span class="text-danger">*</span>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="rdbYes" onchange="oncheckrdb('Y');" name="Nomination" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="rdbNo" name="Nomination" onchange="oncheckrdb('N');" value="No"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(0);">
+                                        Previous
+                                    </button>
+                                    <button type="button" onclick="showTab(2);" class="btn btn-primary px-4 w-auto">
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div id="divAuthPerson" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Name  <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Father Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Date of Birth
+                                    </label>
+                                    <input type="date" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Gender <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Door Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Road / Street / Building Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Locality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="KONDAPUR">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        City / Town / Village <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" value="HYDERABAD">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control">
+                                        <option>RANGAREDDY</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PIN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" maxlength="6" minlength="6" class="form-control" value="500032">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PAN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="500032">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Aadhaar <span class="text-danger"></span>
+                                    </label>
+                                    <input type="text" maxlength="12" minlength="12" class="form-control" value="500032">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Phone Number(Optional)
+                                    </label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Mobile Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="9999999999">
+                                </div>
+                                <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(1);">
+                                        Previous
+                                    </button>
+                                    <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(3);">
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div id="divPartnerDirector" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary">Partner/Director  Details</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Name  <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" id="txtPartnerDirectorName" class="form-control" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Date of Birth
+                                    </label>
+                                    <input type="date" id="txtPartnerDirectorDOB" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Director/Partner <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlPartnerDirectorType">
+                                        <option value="0">--Select--</option>
+                                        <option value="Type-1">Director</option>
+                                        <option value="Type-2">Partner</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Drawing Remuneration <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlPartnerDirectorGender" onchange="onGenderChange();">
+                                        <option value="0">--Select--</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        <!-- <option value="Others">Others</option> -->
+                                    </select>
+                                </div>
+                                <!--<div class="form-group">
+                                    <label>
+                                        Is Housewife <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="checkbox" id="chkHouseWife" disabled>
+                                </div>-->
+
+                                <div class="form-group">
+                                    <label>
+                                        Door Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" id="txtPartnerDirectorDoorNo" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Road / Street / Building Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorRSB" value="RAHEJA MINDSPACE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Locality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorLocality" value="KONDAPUR">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        City / Town / Village <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorTown" value="HYDERABAD">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Mandal / Municipality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorMandal" value="SERILINGAMPALLY">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlPartnerDirectorDist">
+                                        <option>RANGAREDDY</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        State <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlPartnerDirectorState">
+                                        <option>Telangana</option>
+                                        <option>Andhra Pradesh</option>
+                                        <option>Tamilnadu</option>
+                                        <option>Karnataka</option>
+                                        <option>Kerala</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>
+                                        Country <span class="text-danger"></span>
+                                    </label>
+                                    <select class="form-control" id="ddlPartnerDirectorCountry">
+                                        <option value="India">India</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        PIN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorPIN" maxlength="6" minlength="6" value="500032">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        PAN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtPartnerDirectorPAN" maxlength="10" minlength="10" value="ABCDE1234F">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Aadhaar <span class="text-danger"></span>
+                                    </label>
+                                    <input type="text" maxlength="12" minlength="12" id="txtPartnerDirectorAadhar" class="form-control" value="500032">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Email Id
+                                    </label>
+                                    <input type="email" class="form-control" id="txtPartnerDirectorPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Mobile Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" id="txtPartnerDirectorMobile" value="9999999999">
+                                </div>
+                                <div style="align-content: flex-end;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPartner" style="margin: 0px 0px 0px 0px;font-size: medium;">
+                                        <i class="fa fa-plus"></i> Add Director / Partner
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr class="mt-4" />
+
+                        <h6 class="text-primary mb-3">Added Partner / Director Details</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="partnerTable" style="font-size: small;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>S No. </th>
+                                        <th>Name</th>
+                                        <th>DOB</th>
+                                        <th>Director/Partner</th>
+                                        <th>Drawing Remuneration</th>
+                                        <!--<th>IS House Wife</th>-->
+
+                                        <th>Door Number </th>
+                                        <th>Road / Street / <br />Building Name </th>
+                                        <th>Locality </th>
+                                        <th>City / Town / Village </th>
+                                        <th>Mandal / Municipality </th>
+                                        <th>District </th>
+                                        <th>State </th>
+
+                                        <th>Country </th>
+
+                                        <th>PIN  </th>
+                                        <th>PAN  </th>
+                                        <th>Aadhar </th>
+                                        <th> Email Id </th>
+                                        <th>Mobile No. </th>
+                                        <th style="width:120px;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="noDataRow">
+                                        <td colspan="7" class="text-center text-muted">
+                                            No Partner / Director added
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(2,'btnPrevPartner');">
+                                Previous
+                            </button>
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(4);">
+                                Next
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="divAdditionalPlace" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary">Form I  </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary"> Additional Places of Business Address</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Do you have Additional Place of Business? <span class="text-danger">*</span>
+                                    </label>
+
+
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace(this.value);" name="Nomination" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkAdditionalPlace" name="Nomination" onchange="fn_chkAdditionalPlace(this.value);" value="No"> No
+                                        </label>
+                                    </div>
+                                    <!--<input type="checkbox" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace();" />-->
+                                </div>
+                            </div>
+                            <div class="form-grid" id="divAddPlace">
+
+
+                                <div class="form-group">
+                                    <label>
+                                        Door Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" id="txtAddPlaceDoorNo" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Road / Street / Building Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtAddPlaceRSB" value="RAHEJA MINDSPACE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Locality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtAddPlaceLocality" value="KONDAPUR">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        City / Town / Village <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtAddPlaceTown" value="HYDERABAD">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Mandal / Municipality <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="txtAddPlaceMandal" value="SERILINGAMPALLY">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlAddPlaceDist">
+                                        <option value="RANGAREDDY">RANGAREDDY</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        State <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlAddPlaceState">
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Tamilnadu">Tamilnadu</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Country <span class="text-danger"></span>
+                                    </label>
+                                    <select class="form-control" id="ddlAddPlaceCountry">
+                                        <option value="India">India</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        PIN <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="txtAddPlacePIN" value="500032">
+                                </div>
+                                <div style="align-content: flex-end;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 0px 0px;font-size: medium;">
+                                        <i class="fa fa-plus"></i> Add Place
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr class="mt-4" />
+
+                        <h6 class="text-primary mb-3" id="h6AddedPlaces">Added Additional Place Details</h6>
+
+                        <div class="table-responsive" id="tblAddedPlaces">
+                            <table class="table table-bordered table-hover align-middle" id="AdditionalPlaceTable" style="font-size: small;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>S No. </th>
+                                        <th>Country </th>
+                                        <th>State </th>
+                                        <th>District </th>
+                                        <th>Mandal / Municipality </th>
+                                        <th>Door Number </th>
+                                        <th>City / Town / Village </th>
+                                        <th>Road / Street / <br />Building Name </th>
+                                        <th>Locality </th>
+                                        <th>PIN  </th>
+                                        <th style="width:120px;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="noDataRow1">
+                                        <td colspan="10" class="text-center text-muted">
+                                            No Additional Place added
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(3);">
+                                Previous
+                            </button>
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(5);">
+                                Next
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="divBankDtls" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-4 mb-2 text-primary">Bank Details</h5>
+                            <hr />
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle" id="bankTable" style="font-size: small;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width:20%">Account Number</th>
+                                            <th style="width:20%">Account Holder Name</th>
+                                            <th style="width:20%">Bank Name</th>
+                                            <th style="width:15%">IFSC Code</th>
+                                            <th style="width:20%">Branch Address</th>
+                                            <th style="width:10%" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="Account Number">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="Account Holder Name">
+                                            </td>
+                                            <td>
+                                                <select class="form-control">
+                                                    <option value="">-- SELECT --</option>
+                                                    <option>BANK OF AMERICA</option>
+                                                    <option>SBI</option>
+                                                    <option>HDFC</option>
+                                                    <option>ICICI</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="IFSC Code">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="Branch Address">
+                                            </td>
+
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger btn-sm deleteRow">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <button type="button" class="btn btn-success" id="addRow">
+                                    <i class="fa fa-plus"></i> Add Bank
+                                </button>
+                            </div>
+                            <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(4);">
+                                    Previous
+                                </button>
+                                <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(6);">
+                                    Next
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div id="divDocuments" class="container mt-4" style="display:none;">
+                    <div class="card">
+
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            <h6>Profession Tax Application</h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary"> Check and Upload Documents</h5>
+                            <hr />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>
+                                        Document Name <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="ddlDocumentName">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">Address Proof of Principal place of Business [Sale Deed/Rental Agreement/Lease Deed/Sub Lease Deed(Upload along with Main Lease Deed)/No Objection Certoficate in case of Rent Free]</option>
+                                        <option value="2">Copy of PAN Card of Business</option>
+                                        <option value="3">Latest Bank Statement</option>
+                                        <option value="4">Deed of Partnership/Memorandum and Articles of Association along with Certificate from Registrar of Companies in  case of Private Limited Company/Public Limited Company</option>
+                                        <option value="5">Copy of PAN Card of Partners/Directors</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Select File <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" class="form-control" id="FuFileUpload" accept="application/pdf">
+                                </div>
+                                <div style="align-content: flex-end;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 0px 0px;font-size: medium;">
+                                        <i class="fa fa-plus"></i> Upload File
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr class="mt-4" />
+
+                        <h6 class="text-primary mb-3">Uploaded Documents List</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="DocumentsTable" style="font-size: small;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>S No. </th>
+                                        <th>RNR </th>
+                                        <th>Document Name </th>
+                                        <th>File Name </th>
+                                        <th style="width:120px;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="noDataRowFiles">
+                                        <td colspan="5" class="text-center text-muted">
+                                            No Files added
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(5);">
+                                Previous
+                            </button>
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(7);">
+                                Next
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="divPrint" class="container mt-4" style="display:none;">
+                    <div class="card">
+
+                        <h2 id="employee">Form I Enrolment Summary</h2>
+                        <!-- <h2 id="entity">Form II Enrolment Summary</h2> -->
+
+                        <div class="section-title"><span>Enterprise Name and Details</span></div>
+                        <table class="info-table">
+                            <tr>
+                                <td class="label">Name of the Enterprise</td>
+                                <td class="value">ABC ENTERPRISES</td>
+                                <td class="label">PAN (Business)</td>
+                                <td class="value highlight">AAAAA1234A</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Email </td>
+                                <td class="value">abcenterprises@gmail.com</td>
+                                <td class="label">Door Number</td>
+                                <td class="value">SURVEY NOS 698/P 670</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Road / Street / Building Name</td>
+                                <td class="value">Locality</td>
+                                <td class="label">City / Town / Village</td>
+                                <td class="value">HYDERABAD</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Mandal / Municipality</td>
+                                <td class="value highlight">SERILINGAMPALLY</td>
+                                <td class="label">District</td>
+                                <td class="value status">RANGAREDDY</td>
+                            </tr>
+                            <tr>
+                                <td class="label">PIN</td>
+                                <td class="value highlight">500032</td>
+                                <td class="label">Phone Number(Land Line)</td>
+                                <td class="value status"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Mobile Number</td>
+                                <td class="value highlight">9912345678</td>
+
+                            </tr>
+                        </table>
+
+                        <div class="section-title">Owner/MD/Managing Partner Details</div>
+                        <div class="info-text">
+                            <p><strong>Name :</strong> Owner Name</p>
+                            <p><strong>Father Name:</strong> Owner Father Name</p>
+                            <p><strong>Date of Birth:</strong> 18-05-1990</p>
+                            <p><strong>Profession/Status of the Individual :</strong> <span class=""></span></p>
+                            <p><strong>Gender </strong> <span class="">Male</span></p>
+                            <p><strong>Profession:</strong> Entry 8 ii</p>
+
+                            <p><strong>Email :</strong> example@gmail.com</p>
+                            <p><strong>Door Number:</strong> 123</p>
+                            <p><strong>Road / Street / Building Name:</strong> Sp Road</p>
+                            <p><strong>Locality :</strong> <span class="">Kondapur</span></p>
+                            <p><strong>City / Town / Village </strong> <span class=""></span></p>
+                            <p><strong>Mandal / Municipality:</strong> </p>
+
+                            <p><strong>Country  :</strong> India</p>
+                            <p><strong>State :</strong> Telangana</p>
+                            <p><strong>District :</strong></p>
+                            <p><strong>PIN  :</strong> <span class=""></span></p>
+                            <p><strong>PAN(Owner)</strong> <span class=""></span></p>
+                            <p><strong>Aadhar :</strong> </p>
+
+                            <p><strong>Mobile Number</strong> <span class="">999999999</span></p>
+                            <p><strong>Have you Nominated by any Authorised Person? :</strong> Yes</p>
+                        </div>
+
+
+                        <div class="section-title">Authorised Person</div>
+                        <div class="info-text">
+                            <p><strong>Details Not Provided</strong></p>
+                        </div>
+                        <div class="section-title">Partners / Directors</div>
+                        <div class="info-text">
+                            <p><strong>Name :</strong> Owner Name</p>
+                            <p><strong>Father Name:</strong> Owner Father Name</p>
+                            <p><strong>Date of Birth:</strong> 18-05-1990</p>
+                            <p><strong>Profession/Status of the Individual :</strong> <span class=""></span></p>
+                            <p><strong>Gender </strong> <span>Male</span></p>
+                            <p><strong>Email :</strong> example@gmail.com</p>
+                            <p><strong>District :</strong>Rangareddy</p>
+                            <p><strong>Mandal / Municipality:</strong> </p>
+                            <p><strong>City / Town / Village </strong> <span class=""></span></p>
+                            <p><strong>Door Number:</strong> 123</p>
+                            <p><strong>Road / Street / Building Name:</strong> Sp Road</p>
+                            <p><strong>Locality :</strong> <span class="">Kondapur</span></p>
+                            <p><strong>PIN  :</strong> <span class=""></span></p>
+                            <p><strong>PAN(Owner)</strong> <span class=""></span></p>
+                            <p><strong>Aadhar :</strong> </p>
+                            <p><strong>Landline Number</strong> <span class="">999999999</span></p>
+                            <p><strong>Mobile Number</strong> <span class="">999999999</span></p>
+                        </div>
+                        <div class="section-title">Additional Places of Business</div>
+                        <div class="info-text">
+                            <p><strong>Details Not Provided</strong></p>
+                        </div>
+
+                        <div class="section-title">Bank Details</div>
+                        <div class="info-text">
+                            <p><strong>Account No:</strong> 222222222</p>
+                            <p><strong>Account Holder Name:</strong>Virat Kohli</p>
+                            <p><strong>Bank Name:</strong> BANK OF AMERICA</p>
+                            <p><strong>IFSC:</strong> AAAA1111A</p>
+                            <p><strong>Branch:</strong> HYDERABAD</p>
+                        </div>
+
+                        <div class="section-title">Checklist Documents</div>
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Document Name</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Address proof of Principal place of Business</td>
+                                    <td><a href="#">Download</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Copy of PAN card of Business</td>
+                                    <td><a href="#">Download</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
+                                Previous
+                            </button>
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="fnSave();">
+                                Submit
+                            </button>
+
+                        </div>
+
+                        <!--<div class="text-center" style="margin-top: 25px;">
+                            <button class="btn-print" onclick="window.print()">Print</button>
+                        </div>-->
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- </div> -->
+
+
+
+    </div>
+
+ 
+    
+    <script src="/Scripts/jquery-3.4.1.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+
+    <script>
+
+$(document).ready(function () {
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var type = urlParams.get('type');
+
+    if (type === "employee") {
+        $('#employee').show();
+        $('#entity').hide();
+        showTab("0");
+    }
+    else if (type === "entity") {
+        $('#entity').show();
+        $('#employee').hide();
+        showTab("0");
+    }
+});
+
+
+    // $(document).ready(function () {
+    //     showTab("0");
+    // });
+    function gotoPrint() {
+        window.open('PrintPage.html');
+    }
+    function showTab(index, res) {
+        const steps = document.querySelectorAll(".step");
+        const tabs = document.querySelectorAll(".tab-content");
+
+        steps.forEach((step, i) => {
+            step.classList.remove("active");
+            if (i < index) step.classList.add("completed");
+            else step.classList.remove("completed");
+        });
+
+        tabs.forEach(tab => tab.classList.remove("active"));
+
+        steps[index].classList.add("active");
+        tabs[index].classList.add("active");
+        if (index == "0") {
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divBankDtls').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').hide();
+            $('#divBusiness').show();
+        }
+        else if (index == "1") {
+            $('#divBusiness').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').hide();
+            $('#divPartner').show();
+        }
+        else if (index == "2") {
+            //tab2
+
+            if ($('#rdbNo').is(':checked') == true) {
+                $('#divBusiness').hide();
+                $('#divPartner').hide();
+                $('#divAuthPerson').hide();
+                $('#divBankDtls').hide();
+                $('#divAdditionalPlace').hide();
+                $('#divDocuments').hide();
+                $('#divPrint').hide();
+                $('#divPartnerDirector').show();
+                if (res == "btnPrevPartner") {
+                    $('#divOwnerTab').trigger('click');
+                }
+                else {
+                    $('#divPartnerTab').trigger('click');
+                }
+            }
+            else {
+                $('#divBusiness').hide();
+                $('#divPartner').hide();
+                $('#divBankDtls').hide();
+                $('#divPartnerDirector').hide();
+                $('#divAdditionalPlace').hide();
+                $('#divDocuments').hide();
+                $('#divPrint').hide();
+                $('#divAuthPerson').show();
+            }
+
+        }
+        else if (index == "3") {
+
+            $('#divBusiness').hide();
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divBankDtls').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').hide();
+            $('#divPartnerDirector').show();
+        }
+        else if (index == "4") {
+            fn_chkAdditionalPlace();
+            $('#divBusiness').hide();
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divBankDtls').hide();
+            $('#divDocuments').hide();
+            $('#divAdditionalPlace').show();
+        }
+
+        else if (index == "5") {
+            $('#divBusiness').hide();
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').hide();
+            $('#divBankDtls').show();
+        }
+        else if (index == "6") {
+            $('#divBusiness').hide();
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divBankDtls').hide();
+            $('#divPrint').hide();
+            $('#divDocuments').show();
+        }
+        else if (index == "7") {
+            $('#divBusiness').hide();
+            $('#divPartner').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divBankDtls').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').show();
+        }
+    }
+
+    $(document).on("click", "#addRow", function () {
+        let row = `
+                                                <tr>
+                                                    <td>
+                                                        <select class="form-control">
+                                                            <option value="">-- SELECT --</option>
+                                                            <option>BANK OF AMERICA</option>
+                                                            <option>SBI</option>
+                                                            <option>HDFC</option>
+                                                            <option>ICICI</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" placeholder="IFSC Code">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" placeholder="Branch Address">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" placeholder="Account Number">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-sm deleteRow">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>`;
+        $("#bankTable tbody").append(row);
+    });
+
+    $(document).on("click", ".deleteRow", function () {
+        if ($("#bankTable tbody tr").length > 1) {
+            $(this).closest("tr").remove();
+        } else {
+            alert("At least one bank detail is required.");
+        }
+    });
+    function onGenderChange() {
+        if ($('#ddlPartnerDirectorGender').val().toUpperCase() == "FEMALE") {
+            $('#chkHouseWife').prop('disabled', false);
+        }
+        else {
+            $('#chkHouseWife').prop('checked', false).prop('disabled', true);
+        }
+    }
+
+    let editRow = null;
+    let S_No = 1;
+    $("#btnAddPartner").click(function () {
+
+        let Name = $('#txtPartnerDirectorName').val();
+        let Dob = $('#txtPartnerDirectorDOB').val();
+        let PartnerType = $('#ddlPartnerDirectorType').val();
+        let Gender = $('#ddlPartnerDirectorGender').val();
+        //let IsHouseWife = $('#chkHouseWife').is(':checked');
+        //if ($('#chkHouseWife').is(':checked') == true) { IsHouseWife = "Yes"; } else { IsHouseWife = "No" }
+        let Country = $('#ddlPartnerDirectorCountry').val();
+        let State = $('#ddlPartnerDirectorState').val();
+        let Dist = $('#ddlPartnerDirectorDist').val();
+        let DoorNo = $('#txtPartnerDirectorDoorNo').val();
+        let Road = $('#txtPartnerDirectorRSB').val();
+        let Locality = $('#txtPartnerDirectorLocality').val();
+        let Town = $('#txtPartnerDirectorTown').val();
+        let Mandal = $('#txtPartnerDirectorMandal').val();
+        let Pin = $('#txtPartnerDirectorPIN').val();
+        let Pan = $('#txtPartnerDirectorPAN').val();
+        let Aadhar = $('#txtPartnerDirectorAadhar').val();
+        let Phone = $('#txtPartnerDirectorPhone').val();
+        let Mobile = $('#txtPartnerDirectorMobile').val();
+
+
+
+
+        $("#noDataRow").remove();
+
+        let rowHtml = `
+                                                    <tr>
+                                                        <td>${S_No}</td>
+                                                        <td>${Name}</td>
+                                                        <td>${Dob}</td>
+                                                        <td>${PartnerType}</td>
+                                                        <td>${Gender}</td>
+                                                        <td>${Country}</td>
+                                                        <td>${State}</td>
+                                                        <td>${Dist}</td>
+                                                        <td>${DoorNo}</td>
+                                                        <td>${Road}</td>
+                                                        <td>${Locality}</td>
+                                                        <td>${Town}</td>
+
+                                                        <td>${Mandal}</td>
+                                                        <td>${Pin}</td>
+                                                        <td>${Pan}</td>
+                                                        <td>${Aadhar}</td>
+                                                        <td>${Phone}</td>
+                                                        <td>${Mobile}</td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-sm btn-danger deleteRow">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                `;
+
+        if (editRow) {
+            editRow.replaceWith(rowHtml);
+            editRow = null;
+        } else {
+            $("#partnerTable tbody").append(rowHtml);
+            S_No++;
+        }
+
+        $("form")[0].reset();
+    });
+
+    $(document).on("click", ".deleteRow", function () {
+        $(this).closest("tr").remove();
+        updateSerialNumbersPartner();
+
+        if ($("#partnerTable tbody tr").length === 0) {
+            $("#partnerTable tbody").append(`
+                                                        <tr id="noDataRow">
+                                                            <td colspan="7" class="text-center text-muted">
+                                                                No Partner / Director added
+                                                            </td>
+                                                        </tr>
+                                                    `);
+        }
+    });
+
+    $(document).on("click", ".editRow", function () {
+        editRow = $(this).closest("tr");
+
+        let tds = editRow.find("td");
+
+        $("input[type='text']").eq(0).val(tds.eq(0).text());
+        $("input[type='date']").val(tds.eq(1).text());
+        $("select").eq(0).val(tds.eq(2).text());
+        $("#ddlGender").val(tds.eq(3).text());
+        $("input[maxlength='10']").val(tds.eq(4).text());
+    });
+
+    let editRow1 = null;
+    let SNo = 1;
+    $("#btnAddPlace").click(function () {
+
+        let Country = $('#ddlAddPlaceCountry').val();
+        let State = $('#ddlAddPlaceState').val();
+        let Dist = $('#ddlAddPlaceDist').val();
+        let Mandal = $('#txtAddPlaceMandal').val();
+        let DoorNo = $('#txtAddPlaceDoorNo').val();
+        let Road = $('#txtAddPlaceRSB').val();
+        let Locality = $('#txtAddPlaceLocality').val();
+        let Town = $('#txtAddPlaceTown').val();
+        let Pin = $('#txtAddPlacePIN').val();
+
+
+        $("#noDataRow1").remove();
+
+        let rowHtml = `
+                                                    <tr>
+                                                        <td>${SNo}</td>
+                                                        <td>${Country}</td>
+                                                        <td>${State}</td>
+                                                        <td>${Dist}</td>
+                                                        <td>${Mandal}</td>
+                                                        <td>${DoorNo}</td>
+                                                        <td>${Road}</td>
+                                                        <td>${Locality}</td>
+                                                        <td>${Town}</td>
+                                                        <td>${Pin}</td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                `;
+
+        if (editRow1) {
+            editRow1.replaceWith(rowHtml);
+            editRow1 = null;
+        } else {
+            $("#AdditionalPlaceTable tbody").append(rowHtml);
+            SNo++;
+        }
+
+        $("form")[0].reset();
+    });
+
+    function onPlaceDelete(res) {
+        $(this).closest("tr").remove();
+        updateSerialNumbersAddPlace();
+
+        if ($("#AdditionalPlaceTable tbody tr").length === 0) {
+            $("#AdditionalPlaceTable tbody").append(`
+                                                        <tr id="noDataRow1">
+                                                            <td colspan="10" class="text-center text-muted">
+                                                                No Partner / Director added
+                                                            </td>
+                                                        </tr>
+                                                    `);
+        }
+    }
+
+    $(document).on("click", ".editRow", function () {
+        editRow = $(this).closest("tr");
+
+        let tds = editRow.find("td");
+
+        $("input[type='text']").eq(0).val(tds.eq(0).text());
+        $("input[type='date']").val(tds.eq(1).text());
+        $("select").eq(0).val(tds.eq(2).text());
+        $("#ddlGender").val(tds.eq(3).text());
+        $("input[maxlength='10']").val(tds.eq(4).text());
+    });
+
+    let rnrCounter = 1;
+    $('#btnUploadDoc').on('click', function () {
+
+        let docId = $('#ddlDocumentName').val();
+        let docName = $('#ddlDocumentName option:selected').text();
+        let fileInput = $('#FuFileUpload')[0];
+        let rnrNo = "326011297";
+
+        if (docId === "0") {
+            alert("Please select document name");
+            return;
+        }
+
+        if (fileInput.files.length === 0) {
+            alert("Please select a PDF file");
+            return;
+        }
+
+        let file = fileInput.files[0];
+
+        if (file.type !== "application/pdf") {
+            alert("Only PDF files are allowed");
+            $('#FuFileUpload').val('');
+            return;
+        }
+
+        $('#noDataRowFiles').remove();
+
+        let fileURL = URL.createObjectURL(file);
+
+        let row = `
+                                                    <tr>
+                                                        <td>${rnrCounter}</td>
+                                                        <td>${rnrNo}</td>
+                                                        <td>${docName}</td>
+                                                        <td>${file.name}</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
+                                                                View
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger deleteFile">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                `;
+
+        $('#DocumentsTable tbody').append(row);
+        rnrCounter++;
+
+        $('#ddlDocumentName').val('0');
+        $('#FuFileUpload').val('');
+    });
+
+    $(document).on('click', '.viewFile', function () {
+        let url = $(this).data('url');
+        window.open(url, '_blank');
+    });
+
+    $(document).on('click', '.deleteFile', function () {
+        if (!confirm("Do you want to delete this file?")) {
+            return;
+        }
+        $(this).closest('tr').remove();
+
+        if ($('#DocumentsTable tbody tr').length === 0) {
+            $('#DocumentsTable tbody').append(`
+                                                        <tr id="noDataRowFiles">
+                                                            <td colspan="5" class="text-center text-muted">No Files added</td>
+                                                        </tr>
+                                                    `);
+        }
+    });
+
+    function updateSerialNumbersAddPlace() {
+        $("#AdditionalPlaceTable tbody tr").each(function (index) {
+            $(this).find("td:first").text(index + 1);
+        });
+    }
+    function updateSerialNumbersPartner() {
+        $("#partnerTable tbody tr").each(function (index) {
+            $(this).find("td:first").text(index + 1);
+        });
+    }
+    function oncheckrdb(res) {
+        if (res == "Y") {
+            $('#divAuth').show();
+        }
+        else {
+            $('#divAuth').hide();
+        }
+    }
+    function fn_chkAdditionalPlace() {
+        if ($('#chkAdditionalPlace').is(':checked') == true) {
+            $('#divAddPlace').show();
+            $('#h6AddedPlaces').show();
+            $('#tblAddedPlaces').show();
+
+        }
+        else {
+            $('#divAddPlace').hide();
+            $('#h6AddedPlaces').hide();
+            $('#tblAddedPlaces').hide();
+        }
+    }
+    function fnSave() {
+        Swal.fire({
+            title: 'Success',
+            // text: 'Submitted succesfully with ARN No.:XXXX on dd-MMM-yyyy to PTO for Approval.After Approval Your PTIN LoginID & Password will be sent to your Registered Email.',
+            text: 'Registration Application submitted successfully with ARN:XXXXXX on dd-mm-yyyy to the PTO for Approval,The Registration summary sheet with ARN is shared to your registered email.After approval of the PT registration your PTIN,Login Id & Password will be sent to your registered Email.',
+
+            icon: 'success',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'PT_Home.html';
+            }
+        });
+
+    }
+    </script>
+</body>
+

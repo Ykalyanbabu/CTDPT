@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "eRegistration";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+
+    <div class="main-container eRegistration">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">PROFESSION TAX ONLINE REGISTRATION</h1>
+            <p class="page-subtitle">
+                Register as a Professional, Employer, or Business Entity to pay and manage your
+                Profession Tax obligations online with the Telangana Commercial Tax Department.
+            </p>
+        </div>
+
+        <!-- Information Banner -->
+        <!--<div class="info-banner">
+            <h4>
+                <i class="fas fa-info-circle"></i> Quick Registration Guide
+            </h4>
+            <p>
+                Select your registration type below. Registration typically takes 5-10 minutes
+                and requires basic business/personal information.
+            </p>
+        </div>-->
+        <!-- Registration Cards -->
+        <div class="registration-cards">
+            <!-- Professional Card -->
+            <div class="registration-card">
+                <div class="card-header">
+                    <div class="card-icon professional">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="card-title">Professional</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Individuals engaged in specified professions for earning income.
+                    </p>
+                    <div class="highlight-list">
+                        <strong>Eligible Professions:</strong>
+                        Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="step1professional.html" class="cta-btn">
+                        <i class="fas fa-arrow-right"></i> Register as Professional
+                    </a>
+                </div>
+            </div>
+
+            <!-- Employer Card -->
+            <div class="registration-card">
+                <div class="card-header">
+                    <div class="card-icon employer">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Employer</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Entities or individuals managing payroll obligations for employees.
+                    </p>
+                    <div class="highlight-list">
+                        <strong>Eligible Entities:</strong>
+                        Companies, Organizations, Firms with employees
+                        <em>Manages employee tax deductions and returns</em>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
+                        <i class="fas fa-arrow-right"></i> Register as Employer
+                    </a>
+                </div>
+            </div>
+
+            <!-- Business Entity Card -->
+            <div class="registration-card">
+                <div class="card-header">
+                    <div class="card-icon business">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="card-title">Business Entity</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Registered firms, companies, LLPs, or establishments conducting business.
+                    </p>
+                    <div class="highlight-list">
+                        <strong>Business Types:</strong>
+                        Pvt Ltd, Public Ltd, LLP, Partnership Firms, Proprietorships
+                    </div>
+                    <div class="card-note">
+                        <i class="fas fa-exclamation-circle"></i> Note: Those who have applied for
+                        GST or VAT registration need not apply separately. They will be auto-registered under PT.
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
+                        <i class="fas fa-arrow-right"></i> Register Business
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            if (document.getElementById("dateTime")) {
+                document.getElementById("dateTime").innerHTML =
+                    `${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
+            }
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+

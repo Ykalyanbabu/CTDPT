@@ -1,0 +1,530 @@
+﻿
+@{
+    ViewBag.Title = "PaymentPage";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+
+    <!-- MAIN CONTENT - MODERNIZED -->
+    <div class="container payment">
+        <div class="body-content">
+            <div class="payment-wrapper">
+                <div class="section-title">PT e-Payment</div>
+                <!-- Header -->
+                <div class="payment-header" style="display:none;">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h2 class="payment-title">Professional Tax Payment Portal</h2>
+                    <p class="payment-subtitle">Calculate and pay Professional Tax for your business and employees</p>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-id-card"></i>
+                            PTIN / GRN <span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="Enter PTIN or GRN number" id="ptinInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-building"></i>
+                            Name of the Firm
+                        </label>
+                        <input type="text" class="form-input" placeholder="Enter registered firm name" id="firmNameInput">
+                    </div>
+                </div>
+
+                <!-- Payment Purpose -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-bullseye"></i>
+                        Select Payment Purpose <span style="color:red">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="purpose" id="return_radio" checked class="radio-input">
+                            <span class="radio-label">Return Tax</span>
+                        </label>
+
+                        <label class="radio-option">
+                            <input type="radio" name="purpose" id="oth_ret_radio" class="radio-input">
+                            <span class="radio-label">Other than Return Tax</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="purpose" id="oth_radio" class="radio-input">
+                            <span class="radio-label">Amount Payable by Others</span>
+                        </label>
+                        <div class="purpose-box" id="oth_ret_box">
+                            <select class="form-select" id="othRetSelect" style="width: 56%;">
+                                <option value="">-- Select Category --</option>
+                                <option>Tax Demand Raised on Audit/Assessment</option>
+                                <option>Interest Demand Raised on Audit/Assessment</option>
+                                <option>Penalty Demand Raised on Audit/Assessment</option>
+                                <option>Tax Voluntary Payment</option>
+                                <option>Interest Voluntary Payment</option>
+                                <option>Penalty Voluntary Payment</option>
+
+                            </select>
+                        </div>
+                        <div class="purpose-box" id="oth_box">
+                            <select class="form-select" id="othSelect" style="width: 56%;">
+                                <option value="">-- Select Category --</option>
+                                <option>TDS of Professional Tax by Insurer for Agents</option>
+                                <option>Payment by Turf Club on behalf of Licensed Persons U/S 5A</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-buttons" style="display:flex; gap:10px; margin-bottom:15px;">
+                    <button type="button" class="tab-btn active" onclick="showPaymentTab('yearlyTab', this)">
+                        <i class="fas fa-calendar-alt"></i> Yearly Professional Tax
+                    </button>
+                    <button type="button" class="tab-btn" onclick="showPaymentTab('monthlyTab', this)">
+                        <i class="fas fa-calendar-week"></i> Monthly Tax (Employees)
+                    </button>
+                </div>
+                <!-- Year Section -->
+                <div id="yearlyTab" class="payment-tab">
+                    <div class="payment-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Yearly Professional Tax</h3>
+                        </div>
+                        <div style="padding: 18px;">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar"></i>
+                                    For The Financial Year
+                                </label>
+                                <select class="form-select" id="yearSelect">
+                                    <option>--Select Year--</option>
+                                    <!--<option value="2024-2025">2024-2025</option>-->
+                                    <option value="2025-2026">2025-2026</option>
+                                </select>
+                            </div>
+
+                            <p class="section-hint">Calculation: Quantity × Rate = Amount</p>
+
+                            <!-- Grid Header -->
+                            <div class="payment-grid grid-header">
+                                <div>Category</div>
+                                <div>Quantity</div>
+                                <div>Rate (₹)</div>
+                                <div>Amount (₹)</div>
+                            </div>
+
+                            <!-- Yearly Rows -->
+                            <div class="payment-grid payment-row yearly-row" data-rate="2500">
+                                <div class="row-label">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" class="row-checkbox" id="chkFirmCompany" onchange="toggleFirm(this)">
+                                        <i class="fas fa-building"></i>
+                                        <span>Firm / Company / Proprietorship</span>
+                                    </label>
+                                </div>
+                                <input type="number" class="input-qty yearly-qty" id="txtFirmQuantity" value="0" min="0" max="1" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="2,500" readonly>
+                                <input type="text" class="input-amount yearly-amount" readonly>
+                            </div>
+
+                            <div class="payment-grid payment-row yearly-row" data-rate="2500">
+                                <div class="row-label">
+                                    <i class="fas fa-store"></i>
+                                    <span>Additional Places of Business</span>
+                                </div>
+                                <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="2,500" readonly>
+                                <input type="text" class="input-amount yearly-amount" readonly>
+                            </div>
+
+                            <div class="payment-grid payment-row yearly-row" data-rate="2500">
+                                <div class="row-label">
+                                    <i class="fas fa-users"></i>
+                                    <span> Directors</span>
+                                </div>
+                                <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="2,500" readonly>
+                                <input type="text" class="input-amount yearly-amount" readonly>
+                            </div>
+                            <div class="payment-grid payment-row yearly-row" data-rate="1250">
+                                <div class="row-label">
+                                    <i class="fas fa-users"></i>
+                                    <span>Partners </span>
+                                </div>
+                                <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="1,250" readonly>
+                                <input type="text" class="input-amount yearly-amount" readonly>
+                            </div>
+                        </div>
+                        <div class="totals-section" style="padding: 5px 25px 0px 20px; margin: -27px 20px 8px 20px;">
+                            <div class="total-row">
+                                <span class="total-label">Total Yearly Amount</span>
+                                <span class="total-value" id="yearlyTotal">₹ 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Monthly Section -->
+                <div id="monthlyTab" class="payment-tab" style="display:none;">
+                    <div class="payment-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-calendar-week"></i> Monthly Tax (For Employees)</h3>
+                        </div>
+                        <div style="padding: 18px;">
+                            <!-- Date Range -->
+                            <div class="date-range-group">
+                                <div class="date-group">
+                                    <label class="date-label">Month</label>
+                                    <select class="form-select" style="width: 100%;">
+                                        <option>Mar-2025</option>
+                                        <option>Apr-2025</option>
+                                        <option>May-2025</option>
+                                        <option>Jun-2025</option>
+                                        <option>Jul-2025</option>
+                                        <option>Aug-2025</option>
+                                        <option>Sep-2025</option>
+                                        <option>Oct-2025</option>
+                                        <option>Nov-2025</option>
+                                        <option>Dec-2025</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <p class="section-hint" style="margin-top: 12px;">Calculation: No. of Employees × Monthly Rate = Monthly Tax</p>
+
+                            <!-- Grid Header -->
+                            <div class="payment-grid grid-header">
+                                <div>Salary Slab</div>
+                                <div>No. of Employees</div>
+                                <div>Rate (₹)</div>
+                                <div>Amount (₹)</div>
+                            </div>
+
+                            <!-- Monthly Rows -->
+                            <div class="payment-grid payment-row monthly-row" data-rate="0">
+                                <div class="row-label">
+                                    <i class="fas fa-user-check"></i>
+                                    <span>Below ₹15,000 per month</span>
+                                </div>
+                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="0" readonly>
+                                <input type="text" class="input-amount monthly-amount" readonly>
+                            </div>
+
+                            <div class="payment-grid payment-row monthly-row" data-rate="150">
+                                <div class="row-label">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>₹15,001 – ₹20,000</span>
+                                </div>
+                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="150" readonly>
+                                <input type="text" class="input-amount monthly-amount" readonly>
+                            </div>
+
+                            <div class="payment-grid payment-row monthly-row" data-rate="200">
+                                <div class="row-label">
+                                    <i class="fas fa-user-graduate"></i>
+                                    <span>Above ₹20,000</span>
+                                </div>
+                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
+                                <input type="text" class="input-rate" value="200" readonly>
+                                <input type="text" class="input-amount monthly-amount" readonly>
+                            </div>
+                            <div class="totals-section" style="padding: 3px 25px 0px 20px;margin: -5px -1px 0px 0px;">
+                                <div class="total-row">
+                                    <span class="total-label">Total Monthly Amount </span>
+                                    <span class="total-value" id="monthlyTotal">₹ 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Totals Section
+                <div class="totals-section" style="padding: 5px 45px 5px 29px; margin: 8px -1px 0px 0px; background: #fbedda;">
+
+                    <div class="total-row">
+                        <span class="total-label">Total Amount Payable (A + B)</span>
+                        <span class="total-value" id="grandTotal">₹ 0</span>
+                    </div>
+
+                </div> -->
+                <!-- Current Date Display -->
+                <div class="date-display">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <strong>Current Date:</strong>
+                        <span id="todayDate"></span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="actions-section">
+                    <div class="button-group">
+                        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
+                            <i class="fas fa-redo"></i>
+                            Reset Form
+                        </button>
+                        <button class="btn btn-primary" id="proceedBtn1" disabled>
+                            <i class="fas fa-file-alt"></i>
+                            Proceed to File Return
+                        </button>
+                        <button class="btn btn-primary" id="proceedBtn" disabled>
+                            <i class="fas fa-file-invoice"></i>
+                            Generate Challan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="innerheader.js"></script>
+    <script src="active.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+
+
+
+        $(document).ready(function () {
+            $('#proceedBtn1').on('click', function () {
+                $('#btnReset').attr('disabled', true);
+                $('#proceedBtn1').attr('disabled', true);
+                $('#proceedBtn').attr('disabled', false);
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Return Filed Successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+
+            });
+            $('#proceedBtn').on('click', function () {
+                window.location.href = 'PaymentConfirmation.html';
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set today's date
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                weekday: 'long'
+            });
+            document.getElementById('todayDate').textContent = formattedDate;
+
+            // Set default dates for monthly section
+            const fromDate = new Date();
+            fromDate.setDate(1); // First day of current month
+            const toDate = new Date();
+
+            //document.getElementById('fromDate').valueAsDate = fromDate;
+            //document.getElementById('toDate').valueAsDate = toDate;
+
+            // Set max date for date inputs
+            const dateInputs = document.querySelectorAll('.date-input');
+            dateInputs.forEach(input => {
+                input.max = toDate.toISOString().split('T')[0];
+            });
+
+            // Purpose selection toggle
+            const returnRadio = document.getElementById("return_radio");
+            const othRetRadio = document.getElementById("oth_ret_radio");
+            const othRadio = document.getElementById("oth_radio");
+            const othRetBox = document.getElementById("oth_ret_box");
+            const othBox = document.getElementById("oth_box");
+
+            function togglePurpose() {
+                othRetBox.style.display = othRetRadio.checked ? "block" : "none";
+                othBox.style.display = othRadio.checked ? "block" : "none";
+            }
+
+            document.querySelectorAll('input[name="purpose"]').forEach(radio => {
+                radio.addEventListener("change", togglePurpose);
+            });
+            togglePurpose();
+
+            // Initialize calculation
+            calculateAll();
+        });
+
+        // Date validation
+        function validateDates() {
+            const fromDate = new Date(document.getElementById('fromDate').value);
+            const toDate = new Date(document.getElementById('toDate').value);
+
+            if (fromDate > toDate) {
+                alert('From date cannot be after To date. Please correct the dates.');
+                document.getElementById('toDate').value = document.getElementById('fromDate').value;
+            }
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return '₹ ' + amount.toLocaleString('en-IN');
+        }
+
+        // Calculation function
+        function calculateAll() {
+    let yearlyTotal = 0;
+    let monthlyTotal = 0;
+    let totalEmployees = 0;
+
+    // Yearly calculation (Directors = 2500, Partners = 1250)
+    document.querySelectorAll('.yearly-row').forEach(row => {
+        const qty = parseInt(row.querySelector('.yearly-qty').value) || 0;
+        const rate = parseInt(row.dataset.rate) || 0; // ✅ READ FROM HTML
+        const amt = qty * rate;
+
+        row.querySelector('.yearly-amount').value = amt.toLocaleString('en-IN');
+        yearlyTotal += amt;
+    });
+
+    // Monthly calculation
+    document.querySelectorAll('.monthly-row').forEach(row => {
+        const qty = parseInt(row.querySelector('.monthly-qty').value) || 0;
+        const rate = parseInt(row.dataset.rate) || 0;
+        const amt = qty * rate;
+
+        row.querySelector('.monthly-amount').value = amt.toLocaleString('en-IN');
+        monthlyTotal += amt;
+        totalEmployees += qty;
+    });
+
+    // Totals
+    document.getElementById('yearlyTotal').textContent = formatCurrency(yearlyTotal);
+    document.getElementById('monthlyTotal').textContent = formatCurrency(monthlyTotal);
+    document.getElementById('grandTotal').textContent =
+        formatCurrency(yearlyTotal + monthlyTotal);
+
+    // Button logic
+    const proceedBtn = document.getElementById('proceedBtn');
+    const proceedBtn1 = document.getElementById('proceedBtn1');
+
+    proceedBtn.disabled = true;
+    proceedBtn1.disabled = true;
+
+    const totalAmount = yearlyTotal + monthlyTotal;
+if (yearlyTotal > 0  ) {
+        if (totalEmployees === 0) {
+            proceedBtn.disabled = false;
+        } else {
+            proceedBtn1.disabled = true;
+        }
+    }
+    if (monthlyTotal > 0  ) {
+        if (totalEmployees === 0) {
+            proceedBtn.disabled = true;
+        } else {
+            proceedBtn1.disabled = false;
+        }
+    }
+    // if (totalAmount > 0) {
+    //     if (totalEmployees === 0) {
+    //         proceedBtn.disabled = false;
+    //     } else {
+    //         proceedBtn1.disabled = false;
+    //     }
+    // }
+}
+        // function calculateAll() {
+        //     let yearlyTotal = 0;
+        //     let monthlyTotal = 0;
+        //     let totalEmployees = 0;
+
+        //     // Yearly calculation
+        //     document.querySelectorAll('.yearly-row').forEach(row => {
+        //         const qty = parseInt(row.querySelector('.yearly-qty').value) || 0;
+        //         const rate = 2500; // Fixed rate
+        //         const amt = qty * rate;
+        //         row.querySelector('.yearly-amount').value = amt.toLocaleString('en-IN');
+        //         yearlyTotal += amt;
+        //     });
+
+        //     // Monthly calculation
+        //     document.querySelectorAll('.monthly-row').forEach(row => {
+        //         const qty = parseInt(row.querySelector('.monthly-qty').value) || 0;
+        //         const rate = parseInt(row.dataset.rate);
+        //         const amt = qty * rate;
+        //         row.querySelector('.monthly-amount').value = amt.toLocaleString('en-IN');
+        //         monthlyTotal += amt;
+        //         totalEmployees += qty;
+        //     });
+
+        //     // Update totals
+        //     document.getElementById('yearlyTotal').textContent = formatCurrency(yearlyTotal);
+        //     document.getElementById('monthlyTotal').textContent = formatCurrency(monthlyTotal);
+        //     document.getElementById('grandTotal').textContent = formatCurrency(yearlyTotal + monthlyTotal);
+
+        //     // Button logic
+        //     const proceedBtn = document.getElementById('proceedBtn');
+        //     const proceedBtn1 = document.getElementById('proceedBtn1');
+
+        //     proceedBtn.disabled = true;
+        //     proceedBtn1.disabled = true;
+
+        //     const totalAmount = yearlyTotal + monthlyTotal;
+
+        //     if (totalAmount > 0) {
+        //         if (totalEmployees === 0) {
+        //             proceedBtn.disabled = false; // Generate Challan for non-employee payments
+        //         } else {
+        //             proceedBtn1.disabled = false; // Proceed to File Return for employee payments
+        //         }
+        //     }
+        // }
+
+        // Toggle firm checkbox
+        function toggleFirm(cb) {
+            const qty = cb.closest('.yearly-row').querySelector('.yearly-qty');
+            qty.value = cb.checked ? 1 : 0;
+            calculateAll();
+            if ($('#chkFirmCompany').is(':checked') == true) {
+                $('#txtFirmQuantity').attr('disabled', true);
+            }
+            else {
+                $('#txtFirmQuantity').attr('disabled', false);
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all form data?')) {
+                location.reload();
+            }
+        }
+
+        // Expose functions to global scope
+        window.toggleFirm = toggleFirm;
+        window.calculateAll = calculateAll;
+        window.validateDates = validateDates;
+        window.resetForm = resetForm;
+
+        function showPaymentTab(tabId, btn) {
+
+    // Hide both tabs
+    document.getElementById("yearlyTab").style.display = "none";
+    document.getElementById("monthlyTab").style.display = "none";
+
+    // Remove active class
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+
+    // Show selected tab
+    document.getElementById(tabId).style.display = "block";
+
+    // Activate button
+    btn.classList.add("active");
+}
+    </script>
+</body>
+

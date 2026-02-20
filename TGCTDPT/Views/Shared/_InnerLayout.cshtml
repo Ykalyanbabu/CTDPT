@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Commercial Taxes Department, Telangana</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/innersite.css" />
+    <link href="~/Content/custom-alerts.css" rel="stylesheet" />
+    <link href="~/Content/modern-alerts.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div class="fixed-header-container">
+        <div class="site-header">
+            <div class="header-container">
+                <div class="logo-section">
+                    <img src="~/assets/images/RisingTelanganaLogo.jpeg" alt="Telangana Rising">
+                    <img src="~/assets/images/favicon.png" alt="Telangana Emblem">
+                    <div class="header-text">
+                        <div class="dept">COMMERCIAL TAXES DEPARTMENT</div>
+                        <div class="govt">Government of Telangana</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="date-time" id="dateTime" title="Date and Time">Loading...</div>
+                    <a href="@Url.Action("Info", "Home")" class="info-link">
+                        Information & Help Document
+                    </a>
+                    @*<a href="@Url.Action("Index", "Home")" class="home-link" title="Home">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                        </svg>
+                    </a>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-bar">
+            <div class="menu" id="mainMenu">
+               <a href="@Url.Action("Dashboard", "PTHome")"><i class="fa fa-circle-info"></i>Dashboard</a>
+                
+                <a href="@Url.Action("checkRC", "Home")"><i class="fas fa-search"></i>Check RC</a>
+                <a href="@Url.Action("PaymentPage", "Payment")"><i class="fas fa-credit-card"></i>E-Payment</a>
+                <a href="@Url.Action("Return", "Return")"><i class="fas fa-file-alt"></i>Returns</a>
+                <a href="@Url.Action("Reports", "Reports")"><i class="fas fa-chart-bar"></i>Reports</a>
+                <a href="@Url.Action("Refunds", "Refunds")"><i class="fas fa-undo-alt"></i>Refunds</a>
+                <a href="@Url.Action("ChangePassword", "PTHome")"><i class="fas fa-key"></i>Change Password</a>
+                <a href="@Url.Action("Home", "PTHome")"><i class="fas fa-sign-out-alt"></i>Logout</a>
+
+                <div class="more-dropdown" style="display:none;">
+                    <a href="javascript:void(0)" class="more-btn">
+                        <i class="fa fa-ellipsis-h"></i>MORE <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="@Url.Action("NewService1", "Home")"><i class="fa fa-star"></i>NEW SERVICE 1</a>
+                        <a href="@Url.Action("NewService2", "Home")"><i class="fa fa-star"></i>NEW SERVICE 2</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="copyright">
+                &copy; @DateTime.Now.Year - Commercial Taxes Department, Government of Telangana. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/site.js"></script>
+    <script src="~/Scripts/custom-alerts.js"></script>
+    <script src="~/Scripts/modern-alerts.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script>
+        (function () {
+            function updateDateTime() {
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear();
+                let hours = now.getHours();
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12;
+
+                const dateTimeElement = document.getElementById("dateTime");
+                if (dateTimeElement) {
+                    dateTimeElement.innerHTML = `${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
+                }
+            }
+
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        })();
+    </script>
+</body>
+</html>

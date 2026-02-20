@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Return";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<body>
+    
+
+    <div class="wrapper Return">
+        <div class="card">
+
+            <div class="section-title">Return Entry</div>
+
+            <!-- DEALER INFO -->
+            <table class="info-table">
+                <tr>
+                    <td class="label">PTIN</td>
+                    <td>36440805739</td>
+                    <td class="label">Name</td>
+                    <td>DUMMY</td>
+                </tr>
+                <tr>
+                    <td class="label">Division</td>
+                    <td>MADHAPUR</td>
+                    <td class="label">Circle</td>
+                    <td>MADHAPUR 6</td>
+                </tr>
+                <tr>
+                    <td class="label">Profession Type at Registration</td>
+                    <td>Entry 1 Salary Wages</td>
+                    <td class="label">Tax Period</td>
+                    <td>
+                        <select>
+                            <option>DEC-2025</option>
+                            <option>NOV-2025</option>
+                            <option>OCT-2025</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- RETURNS TABLE -->
+            <table class="return-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Pay Range</th>
+                        <th>Tax per Month (₹)</th>
+                        <th>No. of Employees</th>
+                        <th>Tax Payable (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>I</td>
+                        <td>Below 15000</td>
+                        <td>0</td>
+                        <td><input type="number" min="0" oninput="calc()"></td>
+                        <td class="pay">0</td>
+                    </tr>
+                    <tr>
+                        <td>II</td>
+                        <td>15001 – 20000</td>
+                        <td>150</td>
+                        <td><input type="number" min="0" oninput="calc()"></td>
+                        <td class="pay">0</td>
+                    </tr>
+                    <tr>
+                        <td>III</td>
+                        <td>20001 & Above</td>
+                        <td>200</td>
+                        <td><input type="number" min="0" oninput="calc()"></td>
+                        <td class="pay">0</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align:right">Total Payable Amount</td>
+                        <td id="total">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- ACTIONS -->
+            <div class="actions">
+                <button class="primary" id="btnProceed" onclick="onProceed();" disabled>Proceed for e-Payment</button>
+                <button class="primary" id="btnSave" onclick="onSave();">Save</button>
+            </div>
+
+        </div>
+    </div>
+   
+    <script src="active.js"></script>
+    <script>
+        function calc() {
+            const rates = [0, 150, 200];
+            let total = 0;
+            document.querySelectorAll(".return-table tbody tr").forEach((row, i) => {
+                const emp = row.querySelector("input").value || 0;
+                const amt = emp * rates[i];
+                row.querySelector(".pay").innerText = amt;
+                total += amt;
+            });
+            document.getElementById("total").innerText = total;
+        }
+        function onSave() {
+            alert("Data Saved Succesfully");
+            $('#btnSave').attr('disabled', true);
+            $('#btnProceed').attr('disabled', false);
+        }
+        function onProceed() {
+            window.location = "PT_Payment.html";
+        }
+    </script>
+
+</body>
+

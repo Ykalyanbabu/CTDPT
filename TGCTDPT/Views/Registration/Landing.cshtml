@@ -1,0 +1,235 @@
+﻿
+@{
+    ViewBag.Title = "Landing";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+<head>
+</head>
+<body>
+    <div class="main-container">
+        <div class="main-card">
+
+            <div class="main-header">
+                <!--<div class="registration-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>-->
+                <h5 class="main-title">NEW DEALER – PROFESSIONAL TAX REGISTRATION</h5>
+            </div>
+
+            <div class="info-box">
+                <p>
+                    <i class="fas fa-exclamation-circle" style="color: #0b8b80; margin-right: 8px;"></i>
+                    <b>Important Note:</b> If you have already applied for or already have a valid GST Registration or VAT Registration,
+                    you need not apply for PT registration again. An automatic PT Registration will be provided.
+                </p>
+                <p style="color: red;">
+                    <i class="fas fa-exclamation-circle" style="color: #0b8b80; margin-right: 8px;"></i>
+                    <strong>Note: It generally takes 30 days after Registration of GST/VAT to auto generate PTIN, <span class="blink-text ">Please Check Your Registered Email</span> </strong>
+                </p>
+                <p>Please enter your <b>PAN / GSTIN / VAT TIN</b> below for validation and proceed accordingly.</p>
+                <p>
+                    <!--<i class="fas fa-lightbulb" style="color: #ff9800; margin-right: 8px;"></i>-->
+                    <i class="fas fa-exclamation-circle" style="color: #0b8b80; margin-right: 8px;"></i>
+                    <b>New Business:</b> If you DO NOT have GST or VAT registration, please proceed for
+                    <b style="cursor:pointer;" onclick="fngo();">New PT Registration</b> by clicking the button below.
+                </p>
+
+            </div>
+           
+            <div class="form-section">
+                <h3 class="form-section-title">
+                    <i class="fas fa-search"></i>
+                    Validate Existing Registration
+                </h3>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fas fa-id-card"></i>
+                            PAN Number
+                        </label>
+                        <div class="input-field" style="width:50%;">
+                            <input type="text" id="txtPan"  placeholder="Enter 10-digit PAN" minlength="10" maxlength="10">
+                            <span class="input-icon">
+                                <i class="fas fa-building"></i>
+                            </span>
+                            <span id="panError" style="color:red; font-size:13px;"></span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="input-group">
+                        <label class="input-label">
+                            <i class="fas fa-receipt"></i>
+                            GSTIN
+                        </label>
+                        <div class="input-field">
+                            <input type="text" placeholder="Enter 15-digit GSTIN" maxlength="15">
+                            <span class="input-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </span>
+                        </div>
+                    </div> -->
+                    <!-- <div class="input-group">
+                        <label class="input-label">
+                            <i class="fas fa-hashtag"></i>
+                            VAT TIN
+                        </label>
+                        <div class="input-field">
+                            <input type="text" placeholder="Enter VAT TIN">
+                            <span class="input-icon">
+                                <i class="fas fa-tag"></i>
+                            </span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+          
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="validateAndContinue()">
+                    <i class="fas fa-check-circle"></i>
+                    Validate & Continue
+                </button>
+
+            </div>
+            <div class="button-group">
+                <a href="@Url.Action("eRegistration", "Registration")" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #1438c1; font-weight:700;">
+                    <i class="fas fa-file-signature"></i>
+                    Click Here for New PT Registration
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateAndContinue() {
+            const validateBtn = document.querySelector('.btn-primary');
+            const originalText = validateBtn.innerHTML;
+            validateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+            validateBtn.disabled = true;
+
+            if ($('#txtPan').val() == "123") {
+                Swal.fire({
+                    title: 'Information',
+                    text: "You Already have a PTIN with above details.Your PTIN, LoginID & Password have sent to your Registered E-Mail. Please Check. Do you want to Proceed Further?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'PT_Login.html';
+                    }
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Information',
+                    text: 'Verifcation failed with entered details, Please enter the Correct PAN Number or Click on New PT Registration Button to Register yourself.',
+                    icon: 'info',
+                    confirmButtonText: 'Ok'
+                });
+            }
+            setTimeout(() => {
+                validateBtn.innerHTML = originalText;
+                validateBtn.disabled = false;
+
+                const inputs = document.querySelectorAll('.input-field input');
+                let hasValue = false;
+
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        hasValue = true;
+                    }
+                });
+            }, 1500);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const panInput = document.querySelector('input[placeholder*="PAN"]');
+            const gstinInput = document.querySelector('input[placeholder*="GSTIN"]');
+            const vatInput = document.querySelector('input[placeholder*="VAT TIN"]');
+
+            if (panInput) {
+                panInput.addEventListener('input', function (e) {
+                    this.value = this.value.toUpperCase();
+                });
+            }
+
+            if (gstinInput) {
+                gstinInput.addEventListener('input', function (e) {
+                    this.value = this.value.toUpperCase();
+                });
+            }
+        });
+        function fngo() {
+            window.location = "Profession_Tax_eRegistration.html";
+        }
+
+        $(document).ready(function () {
+
+    // Auto uppercase + remove special characters
+    $('#txtPan').on('input', function () {
+        this.value = this.value
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g, '');
+    });
+
+});
+
+
+function validatePAN() {
+
+    var pan = $('#txtPan').val().trim();
+    var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+    if (pan === "") {
+        $('#panError').text("PAN Number is required");
+        return false;
+    }
+
+    if (!panPattern.test(pan)) {
+        $('#panError').text("Invalid PAN format (Example: ABCDE1234F)");
+        return false;
+    }
+
+    $('#panError').text("");
+    return true;
+}
+
+
+function validateAndContinue() {
+
+    if (!validatePAN()) {
+         Swal.fire({
+                    title: 'Information',
+                    text: 'Verifcation failed with entered details, Please enter the Correct PAN Number or Click on New PT Registration Button to Register yourself.',
+                    icon: 'info',
+                    confirmButtonText: 'Ok'
+                });
+
+    }
+    else{
+        Swal.fire({
+                    title: 'Information',
+                    text: "You already have a PTIN with above details. Your PTIN, LoginID & Password have sent to your Registered E-Mail. Please Check. Do you want to Proceed Further?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'PT_Login.html';
+                    }
+                });
+
+    }
+
+
+}
+
+    </script>
+</body>
