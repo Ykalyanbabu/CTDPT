@@ -3,48 +3,280 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_InnerLayout.cshtml";
 }
-<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<style>
+    :root {
+        --primary: #133cdb;
+        --primary-light: #e0e6ff;
+        --accent: #8e24aa;
+        --gradient-mixed: linear-gradient(135deg, #133cdb, #8e24aa);
+        --text-dark: #1e293b;
+        --text-light: #64748b;
+        --white: #ffffff;
+        --border-light: #e2e8f0;
+        --radius-lg: 18px;
+    }
 
+    body {
+        background: linear-gradient(135deg, #f4f7ff, #f9f4ff);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .compact-dashboard {
+        max-width: 1200px;
+        margin: auto;
+        padding: 180px 20px;
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        flex: 1;
+        min-height: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Modern Card */
+    .dashboard-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-radius: var(--radius-lg);
+        padding: 30px 20px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(19, 60, 219, 0.08);
+        box-shadow: 0 15px 35px rgba(19, 60, 219, 0.08);
+        border: 2px solid var(--primary);
+    }
+
+        /* Top gradient bar animation */
+        .dashboard-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-mixed);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .dashboard-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            /*box-shadow: 0 25px 45px rgba(19, 60, 219, 0.15);*/
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(19, 60, 219, 0.3);
+        }
+
+    /* Icon */
+    .card-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--gradient-mixed);
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 26px;
+        color: white;
+        box-shadow: 0 8px 18px rgba(19, 60, 219, 0.25);
+        transition: all 0.35s ease;
+    }
+
+    .dashboard-card:hover .card-icon {
+        transform: rotate(8deg) scale(1.08);
+    }
+
+    .dashboard-card h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 6px;
+    }
+
+    /* Optional description text if needed later */
+    .dashboard-card p {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-bottom: 15px;
+    }
+
+    /* Footer modern style */
+    .card-footer {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border-light);
+        display: flex !important;
+        justify-content: center;
+        gap: 25px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-light);
+    }
+
+        .card-footer span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-footer i {
+            color: var(--primary);
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .card-footer span:hover i {
+            color: var(--accent);
+        }
+
+    /* Smooth entry animation */
+    @@keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dashboard-card {
+        animation: fadeUp 0.6s ease forwards;
+        opacity: 0;
+    }
+
+        .dashboard-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .dashboard-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dashboard-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .dashboard-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .dashboard-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .dashboard-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+    /* Tablet */
+    @@media (max-width: 768px) {
+        .dashboard-grid {
+            gap: 20px;
+        }
+
+        .dashboard-card {
+            padding: 25px 15px;
+        }
+    }
+
+    /* Mobile */
+    @@media (max-width: 480px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-card {
+            padding: 22px 15px;
+        }
+    }
+</style>
 <body>
 
-   
-    <div class="container Dashboard">
-        <div class="body-content">
 
-           
-
-            <div class="home-menu">
-
-
-                <button class="home-btn" onclick="goTo('CheckRC.html')">
-                    <i class="fas fa-search"></i> Check RC
-                </button>
-
-                <button class="home-btn" onclick="goTo('PT_Return.html')">
-                    <i class="fas fa-file-alt"></i> Returns
-                </button>
-
-                <button class="home-btn" onclick="goTo('PT_Reports.html')">
-                    <i class="fas fa-chart-line"></i> Reports
-                </button>
-
-                <button class="home-btn" onclick="goTo('Refunds.html')">
-                    <i class="fas fa-undo"></i> Refunds
-                </button>
-
-                <button class="home-btn" onclick="goTo('PT_Payment.html')">
-                    <i class="fas fa-credit-card"></i> E-Payment
-                </button>
-                <button class="home-btn" onclick="goTo('PT_CHNG_PWD.html')">
-                    <i class="fas fa-key"></i> Change Password
-                </button>
+    <div class="compact-dashboard">
+        <div class="dashboard-grid">
+            <div class="dashboard-card" onclick="goTo('CheckRC.html')">
+                <div class="card-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Check RC</h3>
+                </div>
+                
             </div>
 
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Return", "Return")'">
+                <div class="card-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Returns</h3>
+                </div>
+               
+            </div>
+
+            <!-- E-Payment Card -->
+            <div class="dashboard-card" onclick="goTo('PT_Payment.html')">
+                <div class="card-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>E-Payment</h3>
+                </div>
+                
+            </div>
+
+            <div class="dashboard-card" onclick="goTo('PT_Reports.html')">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Reports</h3>
+                </div>
+                
+            </div>
+
+            <div class="dashboard-card" onclick="goTo('Refunds.html')">
+                <div class="card-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Refunds</h3>
+                </div>
+                
+            </div>
+
+            <div class="dashboard-card" onclick="goTo('PT_CHNG_PWD.html')">
+                <div class="card-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Change Password</h3>
+                </div>
+                @*<div class="card-footer" style="display:none;">
+                    <span><i class="fas fa-shield-alt"></i> High</span>
+                    <span><i class="fas fa-history"></i> 15d</span>
+                </div>*@
+            </div>
         </div>
     </div>
 
-    
-    <script src="active.js"></script>
+
 
     <script>
         function goTo(url) {

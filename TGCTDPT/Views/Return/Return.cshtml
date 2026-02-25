@@ -4,106 +4,542 @@
     Layout = "~/Views/Shared/_InnerLayout.cshtml";
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    .radio-group {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+        .radio-item input[type="radio"] {
+            transform: scale(1.2);
+        }
+
+    .return-table th {
+        background: #6d00a9 !important;
+        font-weight: 600;
+        color: white;
+    }
+</style>
 <body>
-    
+
 
     <div class="wrapper Return">
         <div class="card">
-
             <div class="section-title">Return Entry</div>
+            <table class="info-table" id="tblReturnType" style="display:none;">
+                <tr id="rthide" runat="server">
+                    <td width="50%" align="right" valign="middle" class="label">
+                        Demand/Return Type :
+                    </td>
+                    <td class="formTextBold" width="50%" align="left">
 
-            <!-- DEALER INFO -->
-            <table class="info-table">
-                <tr>
-                    <td class="label">PTIN</td>
-                    <td>36440805739</td>
-                    <td class="label">Name</td>
-                    <td>DUMMY</td>
-                </tr>
-                <tr>
-                    <td class="label">Division</td>
-                    <td>MADHAPUR</td>
-                    <td class="label">Circle</td>
-                    <td>MADHAPUR 6</td>
-                </tr>
-                <tr>
-                    <td class="label">Profession Type at Registration</td>
-                    <td>Entry 1 Salary Wages</td>
-                    <td class="label">Tax Period</td>
-                    <td>
-                        <select>
-                            <option>DEC-2025</option>
-                            <option>NOV-2025</option>
-                            <option>OCT-2025</option>
-                        </select>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                @Html.RadioButton("ReturnType", "Monthly", new { onchange = "OnRadioChange('M');" })
+                                <span>Monthly</span>
+                            </label>
+
+                            <label class="radio-item">
+                                @Html.RadioButton("ReturnType", "Yearly", new { onchange = "OnRadioChange('Y');" })
+                                <span>Yearly</span>
+                            </label>
+                        </div>
                     </td>
                 </tr>
             </table>
+            <div id="divMonthly" style="display:none;">
+                <table class="info-table">
+                    <tr>
+                        <td class="label">PTIN</td>
+                        <td><span id="spnPTIN"></span></td>
+                        <td class="label">Name</td>
+                        <td><span id="spnEnterpriseName"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Division</td>
+                        <td><span id="spnDivision"></span></td>
+                        <td class="label">Circle</td>
+                        <td><span id="spnCircle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Profession Type at Registration</td>
+                        <td><span id="spnPTType"></span></td>
+                        <td class="label">Tax Period</td>
+                        <td>
+                            <select id="ddlMonthYear">
+                                <option value="0" selected>--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
 
-            <!-- RETURNS TABLE -->
-            <table class="return-table">
-                <thead>
+                <table class="return-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Pay Range</th>
+                            <th>Tax per Month (₹)</th>
+                            <th>No. of Employees</th>
+                            <th>Tax Payable (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="slabBody">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:right">Total Payable Amount</td>
+                            <td id="total">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div id="divYearly" style="display:none;">
+                <table class="info-table">
                     <tr>
-                        <th>S.No</th>
-                        <th>Pay Range</th>
-                        <th>Tax per Month (₹)</th>
-                        <th>No. of Employees</th>
-                        <th>Tax Payable (₹)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>I</td>
-                        <td>Below 15000</td>
-                        <td>0</td>
-                        <td><input type="number" min="0" oninput="calc()"></td>
-                        <td class="pay">0</td>
+                        <td class="label">PTIN</td>
+                        <td><span id="spnPTINY"></span></td>
+                        <td class="label">Name</td>
+                        <td><span id="spnEnterpriseNameY"></span></td>
                     </tr>
                     <tr>
-                        <td>II</td>
-                        <td>15001 – 20000</td>
-                        <td>150</td>
-                        <td><input type="number" min="0" oninput="calc()"></td>
-                        <td class="pay">0</td>
+                        <td class="label">Division</td>
+                        <td><span id="spnDivisionY"></span></td>
+                        <td class="label">Circle</td>
+                        <td><span id="spnCircleY"></span></td>
                     </tr>
                     <tr>
-                        <td>III</td>
-                        <td>20001 & Above</td>
-                        <td>200</td>
-                        <td><input type="number" min="0" oninput="calc()"></td>
-                        <td class="pay">0</td>
+                        <td class="label">Profession Type at Registration</td>
+                        <td><span id="spnPTTypeY"></span></td>
+                        <td class="label">Tax Period</td>
+                        <td>
+                            <select id="ddlYear" onchange="onYearChange();">
+                                <option value="0" selected>--Select--</option>
+                            </select>
+                        </td>
                     </tr>
-                </tbody>
-                <tfoot>
                     <tr>
-                        <td colspan="4" style="text-align:right">Total Payable Amount</td>
-                        <td id="total">0</td>
+                        <td class="label">No.of VAT/GST Returns filed</td>
+                        <td><span id="spnTaxPeriodityY"></span></td>
+                        <td class="label">Financial Year</td>
+                        <td><span id="spnFinYearY"></span></td>
                     </tr>
-                </tfoot>
-            </table>
+                </table>
+                <table class="info-table" id="tblYearlyEnity" style="display:none;">
+                    <tr>
+                        <td class="label">Entity</td>
+                        <td>
+                            <select id="ddlEntity" style="width:50%" onchange="onEntityChange();">
+                                <option value="0" selected>--Select--</option>
+                                <option value="1250" selected>1250</option>
+                                <option value="2500" selected>2500</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <table class="return-table" id="tblYearlyReturns" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Type</th>
+                            <th>Count</th>
+                            <th>Tax Payable (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="YearBody">
+                        <tr data-slab="1" data-slabcode="1">
+                            <td>1</td>
+                            <td>No.of Directors</td>
+                            <td>
+                                <input type="number" min="0" value="0" id="txtNoofDirectors" name="txtcount1"
+                                       data-tax=""
+                                       oninput="calcYearTotal()" />
+                            </td>
+                            <td name="taxpayableY" class="pay">0</td>
+                        </tr>
+                        <tr data-slab="2" data-slabcode="2">
+                            <td>2</td>
+                            <td>No.of Partners</td>
+                            <td>
+                                <input type="number" min="0" value="0" id="txtNoofPartners" name="txtcount2"
+                                       data-tax=""
+                                       oninput="calcYearTotal()" />
+                            </td>
+                            <td name="taxpayableY" class="pay">0</td>
+                        </tr>
+                        <tr data-slab="3" data-slabcode="3">
+                            <td>3</td>
+                            <td>No.of Branches</td>
+                            <td>
+                                <input type="number" min="0" value="0" id="txtNoofBranches" name="txtcoun3"
+                                       data-tax=""
+                                       oninput="calcYearTotal()" />
+                            </td>
+                            <td name="taxpayableY" class="pay">0</td>
+                        </tr>
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align:right">Total Payable Amount</td>
+                            <td id="total">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
 
             <!-- ACTIONS -->
             <div class="actions">
                 <button class="primary" id="btnProceed" onclick="onProceed();" disabled>Proceed for e-Payment</button>
-                <button class="primary" id="btnSave" onclick="onSave();">Save</button>
+                <button class="primary" id="btnSave" onclick="saveReturn();">Save</button>
             </div>
-
+            <div style="display:none;">
+                <input type="hidden" id="hdnPtin" />
+                <input type="hidden" id="hdnDealerId" />
+                <input type="hidden" id="hdnOwnerType" />
+                <input type="hidden" id="hdnForm1Reg" />
+            </div>
         </div>
     </div>
-   
-    <script src="active.js"></script>
+
     <script>
-        function calc() {
-            const rates = [0, 150, 200];
-            let total = 0;
-            document.querySelectorAll(".return-table tbody tr").forEach((row, i) => {
-                const emp = row.querySelector("input").value || 0;
-                const amt = emp * rates[i];
-                row.querySelector(".pay").innerText = amt;
-                total += amt;
+        var PTIN = '@Session["Tin"]';
+
+        $(document).ready(function () {
+            var OwnerType = ""; var Form1Reg = "";
+            GetReturnDetails();
+            GetEnterpriseDeatils(PTIN, OwnerType);
+        });
+
+        function GetEnterpriseDeatils(PTIN,type=null) {
+            $.ajax({
+                url: '@Url.Action("GetPTEnterpriseDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: PTIN,
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        var data = response[0];
+                        if (type == "Y") {
+                            $('#spnPTINY').text(data.PTIN);
+                            $('#spnEnterpriseNameY').text(data.EnterPriseName);
+                            $('#spnDivisionY').text(data.Division);
+                            $('#spnCircleY').text(data.Circle);
+                            $('#spnPTTypeY').text(data.ProfessionType);
+                            $('#hdnDealerId').val(data.DealerId);
+                        }
+                        else {
+                            $('#spnPTIN').text(data.PTIN);
+                            $('#spnEnterpriseName').text(data.EnterPriseName);
+                            $('#spnDivision').text(data.Division);
+                            $('#spnCircle').text(data.Circle);
+                            $('#spnPTType').text(data.ProfessionType);
+                            $('#hdnDealerId').val(data.DealerId);
+                        }
+
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    hideloader();
+                    console.error(error);
+                }
             });
-            document.getElementById("total").innerText = total;
         }
+
+
+        function GetReturnDetails() {
+            $.ajax({
+                url: '@Url.Action("GetReturnDetails", "Return")',
+                dataType: 'JSON',
+                type: 'GET',
+                success: function (response) {
+                    $('#hdnOwnerType').val(response[0].OwnerType);
+                    OwnerType = response[0].OwnerType;
+                    $('#hdnForm1Reg').val(response[0].Form1Reg);
+                    Form1Reg = response[0].Form1Reg;
+                    if (response[0].OwnerType == "M" && response[0].Form1Reg == "Y") {
+                        $('#divMonthly').show();
+                        GetPTGstRtnDtls(response[0].PTIN,"M");
+                        GetSalarySlabs();
+                    }
+                    if (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y") {
+                        $('#tblReturnType').show();
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function GetPTGstRtnDtls(ptin, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTGstReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+
+                    }
+                    else {
+                        if (dealertype == "Y") {
+                            GetPTTaxReturnMonthsNew(ptin, "0", dealertype);
+                        }
+                        else {
+                            GetPTTaxReturnMonthsNew(ptin, "1", dealertype);
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function GetPTTaxReturnMonthsNew(ptin, flag, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    flag: flag,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function BindMonthsDropdown(response) {
+            var $ddl = $('#ddlMonthYear');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    var month = item.MonthYear.substring(0, 2);
+                    var year = item.MonthYear.substring(2, 6);
+                    var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                    var monthText = monthNames[parseInt(month) - 1];
+                    var displayText = monthText + "-" + year;
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: displayText
+                    }));
+                }
+            });
+
+        }
+        function BindYearsDropdown(response) {
+            var $ddl = $('#ddlYear');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: item.MonthYear
+                    }));
+                }
+            });
+
+        }
+
+        function GetSalarySlabs() {
+            $.ajax({
+                url: '@Url.Action("GetSlabs", "Return")',
+                dataType: 'JSON',
+                type: 'GET',
+                success: function (response) {
+                    buildTable(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function buildTable(data) {
+            var tbody = $("#slabBody");
+            tbody.empty();
+
+            $.each(data, function (index, item) {
+
+                var tax = item.TaxAmount;
+
+                var row = `
+                <tr data-slab="${index + 1}" data-slabcode="${item.SlabCode}">
+                    <td>${index + 1}</td>
+                    <td >${item.SlabDetails}</td>
+                    <td class="tax" name="taxrate">${tax}</td>
+                    <td>
+                        <input type="number" min="0" name="NoofEmps"
+                               data-tax="${tax}"
+                               oninput="calc()" />
+                    </td>
+                    <td name="taxpayable" class="pay">0</td>
+                </tr>
+            `;
+
+                tbody.append(row);
+            });
+        }
+
+        function calc() {
+
+            var total = 0;
+
+            $("#slabBody tr").each(function () {
+
+                var tax = parseFloat($(this).find("input").data("tax")) || 0;
+                var count = parseFloat($(this).find("input").val()) || 0;
+
+                var amount = tax * count;
+
+                $(this).find(".pay").text(amount);
+
+                total += amount;
+            });
+
+            $("#total").text(total);
+        }
+
+
+        function saveMonthlyReturn() {
+
+            if ($("#ddlMonthYear").val() == "0" || $('#ddlMonthYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Tax Period');
+                return false;
+            }
+
+            var model = {
+                Ptin: PTIN,
+                ReturnMonth: $("#ddlMonthYear").val(),
+                TotalPayable: $("#total").text(),
+                FiledBy: PTIN,
+                DealerId: $("#hdnDealerId").val(),
+                FormType: "M"
+            };
+
+            $("#slabBody tr").each(function () {
+
+                var slabNo = $(this).data("slab");
+                var slabCode = $(this).data("slabcode");
+                var employees = $(this).find("input").val();
+                var totalPay = $(this).find(".pay").text();
+
+                /*if (employees && employees > 0) {*/
+
+                    if (slabNo == 1) {
+                        model.SalSlabCode1 = slabCode;
+                        model.NoEmp1 = employees;
+                        model.TotPble1 = totalPay;
+                    }
+                    if (slabNo == 2) {
+                        model.SalSlabCode2 = slabCode;
+                        model.NoEmp2 = employees;
+                        model.TotPble2 = totalPay;
+                    }
+                    if (slabNo == 3) {
+                        model.SalSlabCode3 = slabCode;
+                        model.NoEmp3 = employees;
+                        model.TotPble3 = totalPay;
+                    }
+                /*}*/
+            });
+            if (model.NoEmp1 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15000 Employes details');
+                return false;
+            }
+            if (model.NoEmp2 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15001-₹20000 Employes details');
+                return false;
+            }
+            if (model.NoEmp3 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹20001 & Above Employes details');
+                return false;
+            }
+            $('#btnSave').attr('disabled', true);
+            $.ajax({
+                url: '/Return/SavePTReturn',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        ModernAlert.showSuccess('Your Return has been submitted Successfully!', 'Return Submitted');
+                        $('#btnProceed').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                    } else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
+        }
+        function GetEntityDetails(ptin) {
+
+            $.ajax({
+                url: '@Url.Action("GetPTEntityDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        $('#txtNoofDirectors').val(response[0].directors);
+                        $('#txtNoofPartners').val(response[0].partners);
+                        $('#txtNoofBranches').val(response[0].branches);
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
         function onSave() {
             alert("Data Saved Succesfully");
             $('#btnSave').attr('disabled', true);
@@ -111,6 +547,52 @@
         }
         function onProceed() {
             window.location = "PT_Payment.html";
+        }
+
+        function OnRadioChange(res) {
+            if (res == "M") {
+                $('#divYearly').hide();
+                $('#divMonthly').show();
+                GetPTGstRtnDtls(PTIN, "M");
+                GetSalarySlabs();
+            }
+            else {
+                $('#divMonthly').hide();
+                $('#divYearly').show();
+                GetEnterpriseDeatils(PTIN, "Y");
+                GetPTGstRtnDtls(PTIN, "Y");
+            }
+        }
+        function onYearChange() {
+            if ($('#ddlYear').val() != "0") {
+                $('#tblYearlyEnity').show();
+                $('#tblYearlyReturns').show();
+                var Year = $('#ddlYear').val()
+                var FinYear = Year + " - " + (parseInt(Year) + 1);
+                $('#spnFinYearY').text(FinYear);
+                $('#spnTaxPeriodityY').text("12");
+            }
+            else {
+                $('#tblYearlyEnity').hide();
+                $('#tblYearlyReturns').hide();
+                $('#spnFinYearY').text("");
+                $('#spnTaxPeriodityY').text("");
+            }
+        }
+        function onEntityChange() {
+            GetEntityDetails(PTIN);
+        }
+        function calcYearTotal() {
+            const enityValue = $('#ddlEntity').val();
+            const DirectorsValue = "";
+            const PartnersValue = "";
+            const BranchesValue = "";
+
+            const DirectorsInput = $('#txtNoofDirectors').val();
+            const PartnersInput = $('#txtNoofPartners').val();
+            const BranchesInput = $('#txtNoofBranches').val();
+
+
         }
     </script>
 

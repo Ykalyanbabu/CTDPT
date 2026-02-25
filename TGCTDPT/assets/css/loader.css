@@ -1,0 +1,142 @@
+﻿.custom-loader {
+    width: 48px;
+    height: 48px;
+    position: relative;
+    margin: 0 auto;
+}
+
+    .custom-loader::before, .custom-loader::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 48em;
+        height: 48em;
+        background-image: radial-gradient(circle 10px, #FF3D00 100%, transparent 0), /* Changed to orange for visibility */ radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0), radial-gradient(circle 10px, #FF3D00 100%, transparent 0);
+        background-position: 0em -18em, 0em 18em, 18em 0em, -18em 0em, 13em -13em, -13em -13em, 13em 13em, -13em 13em;
+        background-repeat: no-repeat;
+        font-size: 0.5px;
+        border-radius: 50%;
+        animation: blast 1s ease-in infinite;
+    }
+
+    .custom-loader::after {
+        font-size: 1px;
+        /*background: #FF3D00; */
+        /*animation: bounce 1s ease-in infinite;*/
+    }
+
+@keyframes bounce {
+    0%, 100% {
+        font-size: 0.75px
+    }
+
+    50% {
+        font-size: 1.5px
+    }
+}
+
+@keyframes blast {
+    0%, 40% {
+        font-size: 0.5px;
+    }
+
+    70% {
+        opacity: 1;
+        font-size: 4px;
+    }
+
+    100% {
+        font-size: 6px;
+        opacity: 0;
+    }
+}
+/* Page Overlay with Mask */
+
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Dark overlay */
+    backdrop-filter: blur(8px); /* Blur effect for masking */
+    -webkit-backdrop-filter: blur(8px);
+    display: none; /* jQuery will change this to flex */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+}
+    /* Optional: Add a subtle vignette effect for better focus */
+
+    .page-loader::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient( ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.9) 100% );
+        pointer-events: none;
+    }
+/* Alternative mask styles (choose one) */
+/* 1. Frosted Glass Mask */
+
+.frosted-mask {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* 2. Gradient Mask */
+
+.gradient-mask {
+    background: linear-gradient( 135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 46, 0.95) 100% );
+}
+/* 3. Colorful Mask */
+
+.colorful-mask {
+    background: linear-gradient( 135deg, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.9) 50%, rgba(236, 72, 153, 0.9) 100% );
+}
+/* Loader Container for better centering */
+
+.loader-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+/* Optional loading text */
+
+.loading-text {
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

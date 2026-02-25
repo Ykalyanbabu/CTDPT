@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.1\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,15 +130,21 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReturnController.cs" />
+    <Compile Include="DAL\ReturnsDAL.cs" />
+    <Compile Include="DAL\UserDetails.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DB_context.cs" />
+    <Compile Include="Models\Returns.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\forms.css" />
     <Content Include="assets\css\home.css" />
+    <Content Include="assets\css\loader.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\logo.png" />
@@ -201,8 +210,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\js\" />
-    <Folder Include="DAL\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

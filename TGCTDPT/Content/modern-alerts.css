@@ -1,7 +1,7 @@
 ﻿@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 :root {
-    --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    --success-gradient: linear-gradient(135deg, #20d262 0%, #176c54 100%);
     --error-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     --warning-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
     --info-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
@@ -137,7 +137,7 @@
     }
 
 .modern-btn-ok {
-    background: var(--success-gradient);
+    background: linear-gradient(135deg, #20d262 0%, #176c54 100%);
     color: white;
 }
 
@@ -154,7 +154,7 @@
 
 /* Alert Type Specific Styles */
 .modern-success .modern-icon-wrapper {
-    background: var(--success-gradient);
+    background: linear-gradient(135deg, #20d262 0%, #176c54 100%);
     box-shadow: 0 10px 20px rgba(0, 176, 155, 0.3);
 }
 
@@ -197,7 +197,8 @@
 }
 
 .modern-toast {
-    background: white;
+    background-color: orangered;
+    color: white;
     border-radius: 12px;
     padding: 16px 24px;
     margin-bottom: 10px;
@@ -222,7 +223,7 @@
     }
 
     .modern-toast.warning i {
-        color: var(--warning-color);
+        color: white;
     }
 
     .modern-toast.info i {
@@ -231,8 +232,9 @@
 
 .modern-toast-message {
     font-size: 14px;
-    color: #2d3436;
+    color: white;
     flex-grow: 1;
+    font-weight:700
 }
 
 .modern-toast-close {
