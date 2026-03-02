@@ -25,6 +25,10 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
-        
+        public ActionResult  Amend_Registration()
+        {
+            return View();
+        }
+
     }
 }

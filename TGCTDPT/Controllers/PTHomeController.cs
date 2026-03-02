@@ -10,6 +10,7 @@ namespace TGCTDPT.Controllers
 {   
     public class PTHomeController : Controller
     {
+        private PTHomeDAL dal = new PTHomeDAL();
         UserDetails _User = new UserDetails();
         // GET: PTHome
         public ActionResult Index()
@@ -32,6 +33,16 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
+        public ActionResult checkRC()
+        {
+            return View();
+        }
+        public JsonResult GetPTEntityDetails(string ptin)
+        {
+            var response = dal.GetPTEntityDetails(ptin);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)

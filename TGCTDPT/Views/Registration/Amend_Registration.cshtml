@@ -1,12 +1,54 @@
 ﻿
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Amend_Registration";
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
+ 
+
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+ 
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+
+    const headings = document.querySelectorAll(".tab-heading");
+
+    if (type === "employee") {
+
+        headings[0].innerText = "Employer Details";
+        headings[1].innerText = "Employer Information";
+        headings[2].innerText = "Authorised Representative";
+        headings[3].innerText = "Employee Details";
+        headings[4].innerText = "Additional Work Locations";
+        headings[5].innerText = "Salary Bank Details";
+        headings[6].innerText = "Upload Employer Documents";
+        headings[7].innerText = "Employer Summary";
+
+    }
+    else if (type === "entity") {
+
+        headings[0].innerText = "Business Details";
+        headings[1].innerText = "Owner / MD / Managing Partner Details";
+        headings[2].innerText = "Authorised Person Details";
+        headings[3].innerText = "Partners / Directors Details";
+        headings[4].innerText = "Additional Places of Business";
+        headings[5].innerText = "Bank Details";
+        headings[6].innerText = "Check & Upload Documents";
+        headings[7].innerText = "Registration & Certification";
+    }
+
+});
+</script>
+
+
+
+
 <body>
-    
-    <div class="container Registration">
+    <div id="header-container"></div>
+    <div class="container">
         <!-- <div id="employee" display="none"> -->
 
 
@@ -24,7 +66,7 @@
                     </div>
                     <div class="step" id="divOwnerTab" onclick="showTab(1)">
                         <i class="fa-solid fa-user-tie"></i>
-                        Owner / MD / Managing Partner
+                        Assessee/ Owner / Managing Director / Managing Partner
                     </div>
                     <div class="step" id="divAuth" onclick="showTab(2)">
                         <i class="fa-solid fa-user-check"></i>
@@ -59,8 +101,8 @@
                     </div>
 
                     <div class="tab-content">
-                        <h3>Owner / MD / Managing Partner Details</h3>
-                        <p>Provide details of the owner or managing partner.</p>
+                        <h3>Details of Assessee/ Owner / Managing Director / Managing Partner </h3>
+                        <p>Provide details of the Assessee or Owner or Managing Director or Managing Partner.</p>
                     </div>
 
                     <div class="tab-content">
@@ -100,13 +142,18 @@
                         <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
                         <!-- Title -->
                         <div class="text-center mb-4">
-                            <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
+                            <h5 class="fw-bold text-primary">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
+
+
                         </div>
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Enterprise Name and Details</h5>
                             <hr />
+
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>
@@ -190,7 +237,6 @@
                                     </label>
                                     <input type="text" class="form-control" min="6" max="6" value="500032">
                                 </div>
-
                                 <div class="form-group">
 
                                 </div>
@@ -200,25 +246,25 @@
                                     <label>
                                         Number Of Employees Earning Below 15000 per month
                                     </label>
-                                    <input type="text" min="10" max="10" class="form-control">
+                                    <br /><input type="number" min="0" max="10" class="form-control" id="emp15000" onchange="updateEmployeeTotal()">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Number Of Employees Earning between 15001 to 20000 per month
                                     </label>
-                                    <input type="text" min="10" max="10" class="form-control">
+                                    <br /> <input type="number" min="0" max="10" class="form-control" id="emp15001to20000" onchange="updateEmployeeTotal()">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Number Of Employees Earning above 20000 per month
                                     </label>
-                                    <input type="text" min="10" max="10" class="form-control">
+                                    <br /><input type="number" min="0" max="10" class="form-control" id="empAbove20000" onchange="updateEmployeeTotal()">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Total Number Of Employees Working
                                     </label>
-                                    <input type="text" min="10" max="10" class="form-control">
+                                    <br /><br /><input type="number" min="0" max="10" id="totalEmployees" class="form-control" readonly>
                                 </div>
 
                                 <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
@@ -242,12 +288,27 @@
                         <div class="text-center mb-4">
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
                         </div>
                         <form>
-                            <h5 class="mt-2 mb-2 text-primary">Owner/MD/Managing Partner Details</h5>
+                            <h5 class="mt-2 mb-2 text-primary">Details of Assessee/Owner/Managing Director/Managing Partner</h5>
                             <hr />
-                            <div class="form-grid">
+                            <!-- <div class="form-group">
+                                    <label>
+                                        Do You Have  Managing Director/Managing Partner? <span class="text-danger">*</span>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="chkrddivOwner" onchange="fn_rddivOwnerTab('Y');" name="Nomination" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkrddivOwner" name="Nomination" onchange="fn_rddivOwnerTab('N');" value="No"> No
+                                        </label>
+                                    </div>
+                                </div> -->
+                            <div class="form-grid" id="divdirpartnr">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
@@ -375,12 +436,12 @@
                                     <input type="text" maxlength="12" class="form-control" maxlength="12" minlength="12" value="500032">
                                 </div>
 
-                                @*<div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>
                                         Phone Number(Optional)
                                     </label>
                                     <input type="text" class="form-control">
-                                </div>*@
+                                </div> -->
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
@@ -389,7 +450,7 @@
                                 </div>
                                 <div class="form-group" style="width:150%">
                                     <label>
-                                        <strong>Have you Nominated any Authorised Person? <span class="text-danger">*</span></strong>
+                                        <strong >Have you Nominated any Authorised Person? <span class="text-danger">*</span></strong>
                                     </label>
                                     <div>
                                         <label for="rdbYes">
@@ -423,12 +484,26 @@
                         <!-- Title -->
                         <div class="text-center mb-4">
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II</h5>
-                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
                         </div>
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
                             <hr />
+                            <!-- <div class="form-group">
+                                    <label>
+                                         Have you Nominated any Authorised Person? <span class="text-danger">*</span>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="chkrddivOwner" onchange="fn_rddivOwnerTab('Y');" name="Nomination" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkrddivOwner" name="Nomination" onchange="fn_rddivOwnerTab('N');" value="No"> No
+                                        </label>
+                                    </div>
+                                </div> -->
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>
@@ -520,12 +595,12 @@
                                     <input type="text" maxlength="12" minlength="12" class="form-control" value="500032">
                                 </div>
 
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <label>
                                         Phone Number(Optional)
                                     </label>
                                     <input type="text" class="form-control">
-                                </div>
+                                </div>*@
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
@@ -556,12 +631,27 @@
                         <div class="text-center mb-4">
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
                         </div>
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Partner/Director  Details</h5>
                             <hr />
-                            <div class="form-grid">
+                            <div class="form-group">
+                                <label>
+                                    Do You Have any Partner/Director? <span class="text-danger">*</span>
+                                </label>
+                                <div>
+                                    <label for="rdbYes">
+                                        <input type="radio" id="chkrdpirpartnr" onchange="fn_rddirprtnrTab('Y');" name="Nomination" value="Yes"> Yes
+                                    </label>
+                                    <label for="rdbNo" style="margin-left:15px;">
+                                        <input type="radio" id="chkrdpirpartnr" name="Nomination" onchange="fn_rddirprtnrTab('N');" value="No"> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-grid" id="divdirprtnr" style="display: none;">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
@@ -586,7 +676,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>
-                                        Drawing Remuneration <span class="text-danger">*</span>
+                                        Drawing Remuneration in this Firm or Not <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="ddlPartnerDirectorGender" onchange="onGenderChange();">
                                         <option value="0">--Select--</option>
@@ -707,9 +797,9 @@
                         </form>
                         <hr class="mt-4" />
 
-                        <h6 class="text-primary mb-3">Added Partner / Director Details</h6>
+                        <h6 class="text-primary mb-3" id="hdrdirprtnrtbl" style="display: none;">Added Partner / Director Details</h6>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="divdirprtnrtbl" style="display: none;">
                             <table class="table table-bordered table-hover align-middle" id="partnerTable" style="font-size: small;">
                                 <thead class="table-light">
                                     <tr>
@@ -766,9 +856,11 @@
                         <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
                         <!-- Title -->
                         <div class="text-center mb-4">
-                            <h5 class="fw-bold text-primary">Form I and Form II</h5>
+                            <h5 class="fw-bold text-primary">Form I and Form II  </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
                         </div>
                         <form>
                             <h5 class="mt-2 mb-2 text-primary"> Additional Places of Business Address</h5>
@@ -919,9 +1011,12 @@
                         <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
                         <!-- Title -->
                         <div class="text-center mb-4">
-                            <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
+                            <h5 class="fw-bold text-primary">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
+
                         </div>
                         <form>
                             <h5 class="mt-4 mb-2 text-primary">Bank Details</h5>
@@ -994,9 +1089,11 @@
                     <div class="card">
 
                         <div class="text-center mb-4">
-                            <h5 class="fw-bold text-primary" id="employee">Form I and Form II</h5>
+                            <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
-                            <h6>Profession Tax Application</h6>
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>Amendament of Registration  </h6>
+                            <!-- <h6>Profession Tax Application</h6> -->
                         </div>
                         <form>
                             <h5 class="mt-2 mb-2 text-primary"> Check and Upload Documents</h5>
@@ -1009,7 +1106,7 @@
                                     <select class="form-control" id="ddlDocumentName">
                                         <option value="0">--Select--</option>
                                         <option value="1">Address Proof of Principal place of Business [Sale Deed/Rental Agreement/Lease Deed/Sub Lease Deed(Upload along with Main Lease Deed)/No Objection Certoficate in case of Rent Free]</option>
-                                        <option value="2">Copy of PAN Card of Business</option>
+                                        <option value="2">Copy of PAN Card </option>
                                         <option value="3">Latest Bank Statement</option>
                                         <option value="4">Deed of Partnership/Memorandum and Articles of Association along with Certificate from Registrar of Companies in  case of Private Limited Company/Public Limited Company</option>
                                         <option value="5">Copy of PAN Card of Partners/Directors</option>
@@ -1193,7 +1290,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Copy of PAN card of Business</td>
+                                    <td>Copy of PAN Card  </td>
                                     <td><a href="#">Download</a></td>
                                 </tr>
                             </tbody>
@@ -1226,38 +1323,37 @@
 
     </div>
 
- 
-    
     <script src="/Scripts/jquery-3.4.1.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
+</body>
 
-    <script>
+<script>
 
-$(document).ready(function () {
+// $(document).ready(function () {
+//     var urlParams = new URLSearchParams(window.location.search);
+//     var type = urlParams.get('type');
+//     showTab("0");
+//     if (type === "employee") {
+//         $('#employee').show();
+//         $('#entity').hide();
+//         showTab("0");
+//     }
+//     else if (type === "entity") {
+//         $('#entity').show();
+//         $('#employee').hide();
+//         showTab("0");
+//     }
+// });
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var type = urlParams.get('type');
 
-    if (type === "employee") {
-        $('#employee').show();
-        $('#entity').hide();
+    $(document).ready(function () {
         showTab("0");
-    }
-    else if (type === "entity") {
-        $('#entity').show();
-        $('#employee').hide();
-        showTab("0");
-    }
-});
-
-
-    // $(document).ready(function () {
-    //     showTab("0");
-    // });
+    });
     function gotoPrint() {
         window.open('PrintPage.html');
     }
     function showTab(index, res) {
+
         const steps = document.querySelectorAll(".step");
         const tabs = document.querySelectorAll(".tab-content");
 
@@ -1271,7 +1367,7 @@ $(document).ready(function () {
 
         steps[index].classList.add("active");
         tabs[index].classList.add("active");
-        if (index == "0") {
+        if (index == "0" ) {
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divBankDtls').hide();
@@ -1703,6 +1799,43 @@ $(document).ready(function () {
             $('#tblAddedPlaces').hide();
         }
     }
+    //  function fn_rddivOwnerTab() {
+    //     if ($('#chkrddivOwner').is(':checked') == true) {
+    //         $('#divdirpartnr').show();
+
+    //     }
+    //     else {
+    //         $('#divdirpartnr').hide();
+
+    //     }
+    // }
+        function fn_rddirprtnrTab() {
+        if ($('#chkrdpirpartnr').is(':checked') == true) {
+            $('#divdirprtnr').show();
+            $('#divdirprtnrtbl').show();
+            $('#hdrdirprtnrtbl').show();
+
+        }
+        else {
+            $('#divdirprtnr').hide();
+             $('#divdirprtnrtbl').hide();
+              $('#hdrdirprtnrtbl').hide();
+        }
+    }
+
+
+    function updateEmployeeTotal() {
+
+        var below15000 = parseInt(document.getElementById("emp15000").value) || 0;
+        var between15001to20000 = parseInt(document.getElementById("emp15001to20000").value) || 0;
+        var above20000 = parseInt(document.getElementById("empAbove20000").value) || 0;
+
+        var total = below15000 + between15001to20000 + above20000;
+
+        document.getElementById("totalEmployees").value = total;
+    }
+
+
     function fnSave() {
         Swal.fire({
             title: 'Success',
@@ -1718,6 +1851,4 @@ $(document).ready(function () {
         });
 
     }
-    </script>
-</body>
-
+</script>
