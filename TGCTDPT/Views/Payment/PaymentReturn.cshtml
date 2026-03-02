@@ -1,0 +1,288 @@
+﻿@model TGCTDPT.Models.PaymentReceiptViewModel
+
+@{
+    ViewBag.Title = Model.IsSuccess ? "Payment Success" : "Payment Failed";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+
+<style>
+    .receipt-container {
+        max-width: 1100px;
+        margin: 140px auto;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        overflow: hidden;
+        border: 1px solid #e5e5e5;
+    }
+
+    /* Header */
+    .receipt-header {
+        background: linear-gradient(90deg, #6a1b9a, #8e24aa);
+        color: white;
+        padding: 22px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .receipt-title {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .receipt-status {
+        background: rgba(255,255,255,0.15);
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    /* Section */
+    .receipt-body {
+        padding: 30px;
+    }
+
+    .section-heading {
+        font-size: 16px;
+        font-weight: 600;
+        color: #6a1b9a;
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-left: 4px solid #8e24aa;
+        padding-left: 10px;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px 15px;
+    }
+
+    .detail-card {
+        background: #faf8fd;
+        border: 1px solid #ece6f5;
+        padding: 3px 20px;
+        border-radius: 8px;
+        transition: 0.2s ease;
+    }
+
+    .detail-card:hover {
+        box-shadow: 0 4px 12px rgba(106,27,154,0.08);
+    }
+
+    .detail-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #777;
+        margin-bottom: 0px;
+        letter-spacing: 0.4px;
+    }
+
+    .detail-value {
+        font-size: 15px;
+        font-weight: 600;
+        color: #222;
+        word-break: break-word;
+    }
+
+    .amount {
+        color: #1b8a3d;
+        font-size: 16px;
+    }
+
+    /* Footer */
+    .receipt-footer {
+        background: #f8f6fb;
+        padding: 18px 30px;
+        border-top: 1px solid #ece6f5;
+        display: flex;
+        justify-content: center; /* ✅ centers horizontally */
+        align-items: center;
+    }
+
+    .footer-note {
+        font-size: 13px;
+        color: #666;
+    }
+    .receipt-footer div {
+        display: flex;
+        gap: 15px;
+    }
+    .btn {
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline
+    }
+
+    .btn-print {
+        background: white;
+        border: 1px solid #6a1b9a;
+        color: #6a1b9a;
+    }
+
+    .btn-print:hover {
+        background: #6a1b9a;
+        color: white;
+    }
+
+    .btn-home {
+        background: #6a1b9a;
+        color: white;
+    }
+
+    .btn-home:hover {
+        background: #8e24aa;
+    }
+
+    @@media (max-width: 768px) {
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .receipt-footer {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    @@media print {
+        .btn {
+            display: none;
+        }
+
+        .receipt-container {
+            box-shadow: none;
+            border: none;
+        }
+    }
+
+    @@media print {
+
+    body * {
+        visibility: hidden;   
+    }
+
+    #printArea, #printArea * {
+        visibility: visible; 
+    }
+
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+}
+</style>
+
+<div class="receipt-container">
+
+    <!-- Header -->
+    <div class="receipt-header">
+        <div class="receipt-title">
+            COMMERCIAL TAXES PAYMENT RECEIPT
+        </div>
+        <div class="receipt-status">
+            @Model.DisplayStatus
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="receipt-body" id="printArea">
+
+        <div class="section-heading">
+            Transaction & Bank Details
+        </div>
+
+        <div class="details-grid">
+
+            <div class="detail-card">
+                <div class="detail-label">CTD Transaction ID</div>
+                <div class="detail-value">@Model.CTDTransactionId</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Type of Tax</div>
+                <div class="detail-value">@Model.TypeofTax</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">TIN</div>
+                <div class="detail-value">@Model.Ptin</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Name of Firm</div>
+                <div class="detail-value">@Model.EnterpriseName</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Tax Purpose</div>
+                <div class="detail-value">@Model.TaxPurpose</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Tax Period</div>
+                <div class="detail-value">@Model.ReturnPeriod</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Amount</div>
+                <div class="detail-value amount">@Model.FormattedAmount</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Head of Account</div>
+                <div class="detail-value">@Model.HOA</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Bank Name</div>
+                <div class="detail-value">@Model.BankName</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Bank Acknowledgement No.</div>
+                <div class="detail-value">@Model.BankAckNo</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Challan Number</div>
+                <div class="detail-value">@Model.ChallanNo</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Payment Status</div>
+                <div class="detail-value">Success</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">Date of Payment</div>
+                <div class="detail-value">@Model.PaymentDate</div>
+            </div>
+        </div>
+        <div class="footer-note">
+            This is a system generated receipt. No signature required.
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="receipt-footer">
+        <div>
+            <button class="btn btn-print" onclick="window.print()">Print</button>
+            <a href="@Url.Action("Dashboard", "PTHome")" class="btn btn-home">Home</a>
+        </div>
+    </div>
+
+</div>

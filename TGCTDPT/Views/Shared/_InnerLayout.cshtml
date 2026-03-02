@@ -96,6 +96,22 @@
         $(document).ajaxStop(function () {
             hideloader();
         });
+
+        $(document).on('ajaxStart.global', function () {
+            
+            if ($('body').hasClass('payment-confirmation-wrapper')) {
+                return; 
+            }
+            showloader();
+        });
+
+        $(document).on('ajaxStop.global', function () {
+            if ($('body').hasClass('payment-confirmation-wrapper')) {
+                return; 
+            }
+            hideloader();
+        });
+
         function hideloader() {
             /*ModernAlert.closeAlert();*/
             $('#pageLoader').hide();

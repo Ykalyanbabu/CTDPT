@@ -30,6 +30,10 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
-        
+        public ActionResult AlertsCheck()
+        {
+            return View();
+        }
+
     }
 }

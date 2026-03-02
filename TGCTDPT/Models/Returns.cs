@@ -54,14 +54,22 @@ namespace TGCTDPT.Models
         public int? SalSlabCode1 { get; set; }
         public int? NoEmp1 { get; set; }
         public decimal? TotPble1 { get; set; }
+        public string Type1 { get; set; }
 
         public int? SalSlabCode2 { get; set; }
         public int? NoEmp2 { get; set; }
         public decimal? TotPble2 { get; set; }
+        public string Type2 { get; set; }
 
         public int? SalSlabCode3 { get; set; }
         public int? NoEmp3 { get; set; }
         public decimal? TotPble3 { get; set; }
+        public string Type3 { get; set; }
+
+        public int? SalSlabCode4 { get; set; }
+        public int? NoEmp4 { get; set; }
+        public decimal? TotPble4 { get; set; }
+        public string Type4 { get; set; }
     }
     public class SaveResponse
     {

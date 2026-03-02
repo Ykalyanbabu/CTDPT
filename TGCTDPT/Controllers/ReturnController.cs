@@ -8,7 +8,7 @@ using TGCTDPT.Models;
 
 namespace TGCTDPT.Controllers
 {
-    public class ReturnController : Controller
+    public class ReturnController : BaseController
     {
         // GET: Return
 
@@ -71,7 +71,28 @@ namespace TGCTDPT.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+
             var response = dal.SavePTReturnDetails(model);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult SavePTReturnYearly(PTReturnModel model)
+        {
+            if (Session["Tin"] == null)
+            {
+                RedirectToAction("Home", "PTHome");
+            }
+            if (model == null)
+            {
+                return Json(new SaveResponse
+                {
+                    success = false,
+                    message = "Invalid Data"
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var response = dal.SavePTReturnYearlyDetails(model);
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
