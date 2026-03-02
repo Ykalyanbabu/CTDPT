@@ -19,30 +19,25 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult Home()
         {
+            if (Request["expired"] == "true")
+            {
+                ViewBag.Message = "Your session has expired. Please login again.";
+            }
             return View();
         }
         public ActionResult ChangePassword()
         {
             return View();
         }
-        public ActionResult Login()
+        public ActionResult Login(string ptin)
         {
+            ViewBag.username = ptin;
             return View();
         }
         public ActionResult Dashboard()
         {
             return View();
         }
-        public ActionResult checkRC()
-        {
-            return View();
-        }
-        public JsonResult GetPTEntityDetails(string ptin)
-        {
-            var response = dal.GetPTEntityDetails(ptin);
-            return Json(response, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
@@ -57,8 +52,9 @@ namespace TGCTDPT.Controllers
             {
                 Session["Tin"] = usd.User_id;
                 Session["Userid"] = usd.User_id;
+                Session["LoginTime"] = DateTime.Now;
             }
-            
+            ModelState.AddModelError("", "Invalid login attempt");
             return RedirectToAction("Dashboard", "PTHome");
         }
     }

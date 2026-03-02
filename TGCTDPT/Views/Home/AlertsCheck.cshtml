@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "AlertsCheck";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2>Test Modern Alerts</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Basic Alerts</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-success mb-2" onclick="testSuccess()">
+                        Test Success
+                    </button>
+
+                    <button class="btn btn-danger mb-2" onclick="testError()">
+                        Test Error
+                    </button>
+
+                    <button class="btn btn-warning mb-2" onclick="testWarning()">
+                        Test Warning
+                    </button>
+
+                    <button class="btn btn-info mb-2" onclick="testInfo()">
+                        Test Info
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Alerts with Redirect</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-primary mb-2" onclick="testSuccessWithRedirect()">
+                        Success with Redirect
+                    </button>
+
+                    <button class="btn btn-secondary mb-2" onclick="testConfirmWithRedirect()">
+                        Confirm with Redirect
+                    </button>
+
+                    <button class="btn btn-info mb-2" onclick="testAutoCloseRedirect()">
+                        Auto-close with Redirect
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Basic test functions
+    function testSuccess() {
+        ModernAlert.showSuccess('Operation completed successfully!', 'Success');
+    }
+
+    function testError() {
+        ModernAlert.showError('An error occurred!', 'Error');
+    }
+
+    function testWarning() {
+        ModernAlert.showWarning('Please check your input!', 'Warning');
+    }
+
+    function testInfo() {
+        ModernAlert.showInfo('New updates available!', 'Information');
+    }
+
+    // Redirect tests
+    function testSuccessWithRedirect() {
+        ModernAlert.showSuccess(
+            'Profile updated! Redirecting to home...',
+            'Success',
+            '@Url.Action("Index", "Home")'
+        );
+    }
+
+    function testConfirmWithRedirect() {
+        ModernAlert.showConfirm(
+            'Do you want to proceed to the dashboard?',
+            'Navigate',
+            function(confirmed) {
+                if (confirmed) {
+                    window.location.href = '@Url.Action("Dashboard", "Home")';
+                }
+            }
+        );
+    }
+
+    function testAutoCloseRedirect() {
+        ModernAlert.showAlert(
+            'Auto-closing...',
+            'Redirecting in 3 seconds',
+            'info',
+            {
+                autoClose: true,
+                duration: 3000,
+                redirectUrl: '@Url.Action("Index", "Home")'
+            }
+        );
+    }
+</script>

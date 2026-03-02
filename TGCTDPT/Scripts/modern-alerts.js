@@ -1,22 +1,13 @@
-﻿var ModernAlert = (function () {
+﻿// Modern Custom Alerts with Redirect Support for ASP.NET MVC 5
+var ModernAlert = (function () {
     // Private variables
     var confirmCallback = null;
     var toastContainer = null;
     var autoCloseTimer = null;
+    var redirectUrl = null;
+    var redirectTarget = '_self'; // _self, _blank, or custom
 
-    // Initialize modals
-    function initializeModals() {
-        if (!document.getElementById('modernAlert')) {
-            createAlertModal();
-        }
-        if (!document.getElementById('modernConfirm')) {
-            createConfirmModal();
-        }
-        if (!document.getElementById('toastContainer')) {
-            createToastContainer();
-        }
-    }
-
+    // Define functions first before using them
     function createAlertModal() {
         var modal = document.createElement('div');
         modal.id = 'modernAlert';
@@ -35,8 +26,8 @@
                 <div class="modern-modal-body">
                     <p id="alertMessage"></p>
                 </div>
-                <div class="modern-modal-footer">
-                    <button onclick="ModernAlert.closeAlert()" class="modern-btn modern-btn-ok" id="alertOkBtn">
+                <div class="modern-modal-footer" id="alertFooter">
+                    <button onclick="ModernAlert.handleAlertOk()" class="modern-btn modern-btn-ok" id="alertOkBtn">
                         <i class="fas fa-check"></i> OK
                     </button>
                 </div>
@@ -64,7 +55,7 @@
                 <div class="modern-modal-body">
                     <p id="confirmMessage"></p>
                 </div>
-                <div class="modern-modal-footer">
+                <div class="modern-modal-footer" id="confirmFooter">
                     <button onclick="ModernAlert.confirmAction(true)" class="modern-btn modern-btn-confirm">
                         <i class="fas fa-check"></i> Yes
                     </button>
@@ -84,6 +75,19 @@
         document.body.appendChild(toastContainer);
     }
 
+    // Initialize modals
+    function initializeModals() {
+        if (!document.getElementById('modernAlert')) {
+            createAlertModal();
+        }
+        if (!document.getElementById('modernConfirm')) {
+            createConfirmModal();
+        }
+        if (!document.getElementById('toastContainer')) {
+            createToastContainer();
+        }
+    }
+
     // Get icon based on type
     function getIconAndWrapper(type) {
         var icons = {
@@ -96,9 +100,24 @@
         return icons[type] || icons.info;
     }
 
+    // Handle redirect based on configuration
+    function executeRedirect() {
+        if (redirectUrl) {
+            if (redirectTarget === '_blank') {
+                window.open(redirectUrl, '_blank');
+            } else if (redirectTarget === '_self') {
+                window.location.href = redirectUrl;
+            } else if (typeof redirectTarget === 'function') {
+                redirectTarget(); // Custom callback
+            }
+            redirectUrl = null;
+            redirectTarget = '_self';
+        }
+    }
+
     // Public methods
     return {
-        showAlert: function (title, message, type, autoClose = false, duration = 3000) {
+        showAlert: function (title, message, type, options = {}) {
             initializeModals();
 
             var modal = document.getElementById('modernAlert');
@@ -108,6 +127,11 @@
             var modalContent = modal.querySelector('.modern-modal-content');
             var progressBar = document.getElementById('alertProgress');
             var okBtn = document.getElementById('alertOkBtn');
+            var footer = document.getElementById('alertFooter');
+
+            // Set redirect options
+            redirectUrl = options.redirectUrl || null;
+            redirectTarget = options.redirectTarget || '_self';
 
             // Remove previous type classes
             modalContent.classList.remove('modern-success', 'modern-error', 'modern-warning', 'modern-info', 'modern-confirm');
@@ -120,10 +144,44 @@
             alertTitle.textContent = title;
             alertMessage.textContent = message;
 
+            // Handle custom buttons
+            if (options.buttons && options.buttons.length > 0) {
+                footer.innerHTML = '';
+                options.buttons.forEach(btn => {
+                    var button = document.createElement('button');
+                    button.className = `modern-btn ${btn.className || 'modern-btn-ok'}`;
+                    button.innerHTML = btn.icon ? `<i class="fas ${btn.icon}"></i> ${btn.text}` : btn.text;
+                    button.onclick = function () {
+                        if (btn.redirectUrl) {
+                            if (btn.redirectTarget === '_blank') {
+                                window.open(btn.redirectUrl, '_blank');
+                            } else {
+                                window.location.href = btn.redirectUrl;
+                            }
+                        }
+                        if (btn.callback) {
+                            btn.callback();
+                        }
+                        ModernAlert.closeAlert();
+                    };
+                    footer.appendChild(button);
+                });
+            } else {
+                // Reset to default OK button
+                footer.innerHTML = `
+                    <button onclick="ModernAlert.handleAlertOk()" class="modern-btn modern-btn-ok" id="alertOkBtn">
+                        <i class="fas fa-check"></i> OK
+                    </button>
+                `;
+            }
+
             // Handle auto-close
             if (autoCloseTimer) {
                 clearTimeout(autoCloseTimer);
             }
+
+            var autoClose = options.autoClose || false;
+            var duration = options.duration || 3000;
 
             if (autoClose) {
                 progressBar.style.display = 'block';
@@ -131,6 +189,12 @@
 
                 autoCloseTimer = setTimeout(() => {
                     this.closeAlert();
+                    if (options.onAutoClose) {
+                        options.onAutoClose();
+                    }
+                    if (redirectUrl && !options.buttons) {
+                        executeRedirect();
+                    }
                 }, duration);
 
                 // Allow user to cancel auto-close by hovering
@@ -143,6 +207,9 @@
                     progressBar.style.animation = `modernProgress ${duration / 1000}s linear`;
                     autoCloseTimer = setTimeout(() => {
                         this.closeAlert();
+                        if (redirectUrl && !options.buttons) {
+                            executeRedirect();
+                        }
                     }, duration);
                 });
             } else {
@@ -150,6 +217,13 @@
             }
 
             modal.style.display = 'block';
+        },
+
+        handleAlertOk: function () {
+            ModernAlert.closeAlert();
+            if (redirectUrl) {
+                executeRedirect();
+            }
         },
 
         closeAlert: function () {
@@ -162,15 +236,43 @@
             }
         },
 
-        showConfirm: function (message, title, callback) {
+        showConfirm: function (message, title, callback, options = {}) {
             initializeModals();
 
             var modal = document.getElementById('modernConfirm');
             var confirmTitle = document.getElementById('confirmTitle');
             var confirmMessage = document.getElementById('confirmMessage');
+            var footer = document.getElementById('confirmFooter');
 
             confirmTitle.textContent = title || 'Confirmation';
             confirmMessage.textContent = message;
+
+            // Customize confirm buttons
+            if (options.buttons) {
+                footer.innerHTML = '';
+                options.buttons.forEach(btn => {
+                    var button = document.createElement('button');
+                    button.className = `modern-btn ${btn.className || 'modern-btn-confirm'}`;
+                    button.innerHTML = btn.icon ? `<i class="fas ${btn.icon}"></i> ${btn.text}` : btn.text;
+                    button.onclick = function () {
+                        if (btn.redirectUrl) {
+                            if (btn.redirectTarget === '_blank') {
+                                window.open(btn.redirectUrl, '_blank');
+                            } else {
+                                window.location.href = btn.redirectUrl;
+                            }
+                        }
+                        if (btn.callback) {
+                            btn.callback();
+                        }
+                        ModernAlert.closeConfirm();
+                        if (callback) {
+                            callback(btn.value === 'yes' || btn.value === true);
+                        }
+                    };
+                    footer.appendChild(button);
+                });
+            }
 
             modal.style.display = 'block';
             confirmCallback = callback;
@@ -189,6 +291,35 @@
             if (modal) {
                 modal.style.display = 'none';
             }
+        },
+
+        // Convenience methods with redirect
+        showSuccess: function (message, title, redirectUrl = null, redirectTarget = '_self') {
+            this.showAlert(title || 'Success!', message, 'success', {
+                redirectUrl: redirectUrl,
+                redirectTarget: redirectTarget
+            });
+        },
+
+        showError: function (message, title, redirectUrl = null, redirectTarget = '_self') {
+            this.showAlert(title || 'Error!', message, 'error', {
+                redirectUrl: redirectUrl,
+                redirectTarget: redirectTarget
+            });
+        },
+
+        showWarning: function (message, title, redirectUrl = null, redirectTarget = '_self') {
+            this.showAlert(title || 'Warning!', message, 'warning', {
+                redirectUrl: redirectUrl,
+                redirectTarget: redirectTarget
+            });
+        },
+
+        showInfo: function (message, title, redirectUrl = null, redirectTarget = '_self') {
+            this.showAlert(title || 'Information', message, 'info', {
+                redirectUrl: redirectUrl,
+                redirectTarget: redirectTarget
+            });
         },
 
         // Toast notifications
@@ -217,23 +348,6 @@
             }, duration);
         },
 
-        // Convenience methods
-        showSuccess: function (message, title, autoClose = false) {
-            this.showAlert(title || 'Success!', message, 'success', autoClose);
-        },
-
-        showError: function (message, title, autoClose = false) {
-            this.showAlert(title || 'Error!', message, 'error', autoClose);
-        },
-
-        showWarning: function (message, title, autoClose = false) {
-            this.showAlert(title || 'Warning!', message, 'warning', autoClose);
-        },
-
-        showInfo: function (message, title, autoClose = false) {
-            this.showAlert(title || 'Information', message, 'info', autoClose);
-        },
-
         toast: {
             success: function (message) {
                 ModernAlert.showToast(message, 'success');
@@ -258,7 +372,7 @@
             var alertMessage = document.getElementById('alertMessage');
             var alertIcon = document.getElementById('alertIcon');
             var modalContent = modal.querySelector('.modern-modal-content');
-            var okBtn = document.getElementById('alertOkBtn');
+            var footer = document.getElementById('alertFooter');
 
             modalContent.classList.remove('modern-success', 'modern-error', 'modern-warning', 'modern-info', 'modern-confirm');
             modalContent.classList.add('modern-info');
@@ -267,13 +381,12 @@
             alertTitle.textContent = 'Please wait...';
             alertMessage.textContent = message || 'Processing your request';
 
-            okBtn.style.display = 'none';
+            footer.innerHTML = ''; // Remove buttons during loading
             modal.style.display = 'block';
 
             return {
                 close: function () {
                     ModernAlert.closeAlert();
-                    okBtn.style.display = 'inline-block';
                 },
                 update: function (newMessage) {
                     alertMessage.textContent = newMessage;
@@ -283,9 +396,11 @@
     };
 })();
 
+// Make it globally available
 window.ModernAlert = ModernAlert;
 
-window.onclick = function (event) {
+// Close modals when clicking outside
+/*window.onclick = function (event) {
     var alertModal = document.getElementById('modernAlert');
     var confirmModal = document.getElementById('modernConfirm');
 
@@ -295,8 +410,9 @@ window.onclick = function (event) {
     if (event.target === confirmModal) {
         ModernAlert.closeConfirm();
     }
-};
+};*/
 
+// Handle escape key
 document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape') {
         ModernAlert.closeAlert();

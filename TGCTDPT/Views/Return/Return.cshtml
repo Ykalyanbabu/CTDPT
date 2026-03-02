@@ -138,10 +138,10 @@
                     <tr>
                         <td class="label">Entity</td>
                         <td>
-                            <select id="ddlEntity" style="width:50%" onchange="onEntityChange();">
+                            <select id="ddlEntity" style="width:20%" onchange="onEntityChange();">
                                 <option value="0" selected>--Select--</option>
-                                <option value="1250" selected>1250</option>
-                                <option value="2500" selected>2500</option>
+                                <option value="1250">1250</option>
+                                <option value="2500">2500</option>
                             </select>
                         </td>
                     </tr>
@@ -164,7 +164,7 @@
                                        data-tax=""
                                        oninput="calcYearTotal()" />
                             </td>
-                            <td name="taxpayableY" class="pay">0</td>
+                            <td name="taxpayableY" id="lblDirectorsAmount" class="pay">0</td>
                         </tr>
                         <tr data-slab="2" data-slabcode="2">
                             <td>2</td>
@@ -174,24 +174,24 @@
                                        data-tax=""
                                        oninput="calcYearTotal()" />
                             </td>
-                            <td name="taxpayableY" class="pay">0</td>
+                            <td name="taxpayableY" id="lblPartnersAmount" class="pay">0</td>
                         </tr>
                         <tr data-slab="3" data-slabcode="3">
                             <td>3</td>
                             <td>No.of Branches</td>
                             <td>
-                                <input type="number" min="0" value="0" id="txtNoofBranches" name="txtcoun3"
+                                <input type="number" min="0" value="0" id="txtNoofBranches" name="txtcount3"
                                        data-tax=""
                                        oninput="calcYearTotal()" />
                             </td>
-                            <td name="taxpayableY" class="pay">0</td>
+                            <td name="taxpayableY" id="lblBranchesAmount" class="pay">0</td>
                         </tr>
                         
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3" style="text-align:right">Total Payable Amount</td>
-                            <td id="total">0</td>
+                            <td id="totalYearly">0</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -199,8 +199,8 @@
 
             <!-- ACTIONS -->
             <div class="actions">
-                <button class="primary" id="btnProceed" onclick="onProceed();" disabled>Proceed for e-Payment</button>
-                <button class="primary" id="btnSave" onclick="saveReturn();">Save</button>
+                <button class="primary" style="display:none;" id="btnProceed" onclick="onProceed();" disabled>Proceed for e-Payment</button>
+                <button class="primary" id="btnSave" onclick="SubmitReturns();">Save</button>
             </div>
             <div style="display:none;">
                 <input type="hidden" id="hdnPtin" />
@@ -220,7 +220,8 @@
             GetEnterpriseDeatils(PTIN, OwnerType);
         });
 
-        function GetEnterpriseDeatils(PTIN,type=null) {
+        function GetEnterpriseDeatils(PTIN, type = null) {
+            debugger;
             $.ajax({
                 url: '@Url.Action("GetPTEnterpriseDetails", "Return")',
                 dataType: 'json',
@@ -261,6 +262,7 @@
 
 
         function GetReturnDetails() {
+            debugger;
             $.ajax({
                 url: '@Url.Action("GetReturnDetails", "Return")',
                 dataType: 'JSON',
@@ -277,6 +279,11 @@
                     }
                     if (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y") {
                         $('#tblReturnType').show();
+                    }
+                    if (response[0].OwnerType == "Y" && response[0].Form1Reg == "N") {
+                        $('#tblReturnType').show();
+                        $('#tblReturnType').hide();
+                        OnRadioChange('Y');
                     }
                 },
                 error: function (error) {
@@ -295,7 +302,12 @@
                 },
                 success: function (response) {
                     if (response.length > 0) {
-
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
                     }
                     else {
                         if (dealertype == "Y") {
@@ -313,6 +325,34 @@
         }
 
         function GetPTTaxReturnMonthsNew(ptin, flag, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    flag: flag,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function GetPTGstReturnMonthsNew(ptin, flag, dealertype) {
             $.ajax({
                 url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
                 dataType: 'json',
@@ -441,83 +481,6 @@
         }
 
 
-        function saveMonthlyReturn() {
-
-            if ($("#ddlMonthYear").val() == "0" || $('#ddlMonthYear').val() == "") {
-                ModernAlert.toast.warning('Please Select Tax Period');
-                return false;
-            }
-
-            var model = {
-                Ptin: PTIN,
-                ReturnMonth: $("#ddlMonthYear").val(),
-                TotalPayable: $("#total").text(),
-                FiledBy: PTIN,
-                DealerId: $("#hdnDealerId").val(),
-                FormType: "M"
-            };
-
-            $("#slabBody tr").each(function () {
-
-                var slabNo = $(this).data("slab");
-                var slabCode = $(this).data("slabcode");
-                var employees = $(this).find("input").val();
-                var totalPay = $(this).find(".pay").text();
-
-                /*if (employees && employees > 0) {*/
-
-                    if (slabNo == 1) {
-                        model.SalSlabCode1 = slabCode;
-                        model.NoEmp1 = employees;
-                        model.TotPble1 = totalPay;
-                    }
-                    if (slabNo == 2) {
-                        model.SalSlabCode2 = slabCode;
-                        model.NoEmp2 = employees;
-                        model.TotPble2 = totalPay;
-                    }
-                    if (slabNo == 3) {
-                        model.SalSlabCode3 = slabCode;
-                        model.NoEmp3 = employees;
-                        model.TotPble3 = totalPay;
-                    }
-                /*}*/
-            });
-            if (model.NoEmp1 == "") {
-                ModernAlert.toast.warning('Please Enter below ₹15000 Employes details');
-                return false;
-            }
-            if (model.NoEmp2 == "") {
-                ModernAlert.toast.warning('Please Enter below ₹15001-₹20000 Employes details');
-                return false;
-            }
-            if (model.NoEmp3 == "") {
-                ModernAlert.toast.warning('Please Enter below ₹20001 & Above Employes details');
-                return false;
-            }
-            $('#btnSave').attr('disabled', true);
-            $.ajax({
-                url: '/Return/SavePTReturn',
-                type: 'POST',
-                data: JSON.stringify(model),
-                contentType: 'application/json',
-                success: function (res) {
-
-                    if (res.success) {
-                        ModernAlert.showSuccess('Your Return has been submitted Successfully!', 'Return Submitted');
-                        $('#btnProceed').attr('disabled', false);
-                        $('#btnSave').attr('disabled', false);
-                    } else {
-                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
-                        $('#btnSave').attr('disabled', false);
-                    }
-                },
-                error: function () {
-                    alert("Error while saving.");
-                    $('#btnSave').attr('disabled', false);
-                }
-            });
-        }
         function GetEntityDetails(ptin) {
 
             $.ajax({
@@ -531,22 +494,13 @@
                         $('#txtNoofDirectors').val(response[0].directors);
                         $('#txtNoofPartners').val(response[0].partners);
                         $('#txtNoofBranches').val(response[0].branches);
+                        calcYearTotal();
                     }
                 },
                 error: function (error) {
                     console.error(error);
                 }
             });
-        }
-
-
-        function onSave() {
-            alert("Data Saved Succesfully");
-            $('#btnSave').attr('disabled', true);
-            $('#btnProceed').attr('disabled', false);
-        }
-        function onProceed() {
-            window.location = "PT_Payment.html";
         }
 
         function OnRadioChange(res) {
@@ -583,17 +537,209 @@
             GetEntityDetails(PTIN);
         }
         function calcYearTotal() {
-            const enityValue = $('#ddlEntity').val();
-            const DirectorsValue = "";
-            const PartnersValue = "";
-            const BranchesValue = "";
+            var enityValue = $('#ddlEntity').val();
+            var DirectorsValue = "";
+            var PartnersValue = "";
+            var BranchesValue = "";
 
-            const DirectorsInput = $('#txtNoofDirectors').val();
-            const PartnersInput = $('#txtNoofPartners').val();
-            const BranchesInput = $('#txtNoofBranches').val();
+            var DirectorsInput = $('#txtNoofDirectors').val() || 0;
+            var PartnersInput = $('#txtNoofPartners').val() || 0;
+            var BranchesInput = $('#txtNoofBranches').val() || 0;
 
+            DirectorsValue = (parseInt(DirectorsInput) * 2500);
+            PartnersValue = (parseInt(PartnersInput) * 1250);
+            BranchesValue = (parseInt(BranchesInput) * parseInt(enityValue));
+            $('#lblDirectorsAmount').text(DirectorsValue);
+            $('#lblPartnersAmount').text(PartnersValue);
+            $('#lblBranchesAmount').text(BranchesValue);
 
+            var Total = (parseInt(DirectorsValue) + parseInt(PartnersValue) + parseInt(BranchesValue));
+            $('#totalYearly').text(Total);
         }
+
+        function SubmitReturns() {
+
+            ModernAlert.showConfirm(
+                'Are you sure you want to Submit Returns Data? This action cannot be undone.',
+                'Confirm Submit',
+                function (confirmed) {
+                    if (confirmed) {
+                        if ($('#hdnOwnerType').val() == "M") {
+                            saveMonthlyReturn();
+                        }
+                        else if ($('#hdnOwnerType').val() == "Y") {
+                            saveYearlyReturn();
+                        }
+                        else {
+                            ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                            return false;
+                        }
+
+                    } else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
+        }
+
+        function saveMonthlyReturn() {
+
+            if ($("#ddlMonthYear").val() == "0" || $('#ddlMonthYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Tax Period');
+                return false;
+            }
+
+            var model = {
+                Ptin: PTIN,
+                ReturnMonth: $("#ddlMonthYear").val(),
+                TotalPayable: $("#total").text(),
+                FiledBy: PTIN,
+                DealerId: $("#hdnDealerId").val(),
+                FormType: "M"
+            };
+
+            $("#slabBody tr").each(function () {
+
+                var slabNo = $(this).data("slab");
+                var slabCode = $(this).data("slabcode");
+                var employees = $(this).find("input").val();
+                var totalPay = $(this).find(".pay").text();
+
+                /*if (employees && employees > 0) {*/
+
+                if (slabNo == 1) {
+                    model.SalSlabCode1 = slabCode;
+                    model.NoEmp1 = employees;
+                    model.TotPble1 = totalPay;
+                }
+                if (slabNo == 2) {
+                    model.SalSlabCode2 = slabCode;
+                    model.NoEmp2 = employees;
+                    model.TotPble2 = totalPay;
+                }
+                if (slabNo == 3) {
+                    model.SalSlabCode3 = slabCode;
+                    model.NoEmp3 = employees;
+                    model.TotPble3 = totalPay;
+                }
+                /*}*/
+            });
+            if (model.NoEmp1 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15000 Employes details');
+                return false;
+            }
+            if (model.NoEmp2 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15001-₹20000 Employes details');
+                return false;
+            }
+            if (model.NoEmp3 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹20001 & Above Employes details');
+                return false;
+            }
+            $('#btnSave').attr('disabled', true);
+            $.ajax({
+                url: '/Return/SavePTReturn',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid;
+                        ModernAlert.showAlert('Your Return has been submitted Successfully!', 'You will be Redirecting to Payment Page','Return Submitted',
+                                             {
+                                                 autoClose: true,
+                                                 duration: 3000,
+                                                 redirectUrl: paymentUrl
+                                             }
+                        );
+                        $('.modern-close').hide();
+                        $('#btnProceed').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                    } else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
+        }
+
+        function saveYearlyReturn() {
+
+            if ($("#ddlYear").val() == "0" || $('#ddlYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Tax Period');
+                return false;
+            }
+            if ($("#ddlEntity").val() == "0" || $('#ddlYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Entity');
+                return false;
+            }
+            var model = {
+                Ptin: PTIN,
+                ReturnMonth: $("#ddlYear").val(),
+                TotalPayable: $("#totalYearly").text(),
+                FiledBy: PTIN,
+                DealerId: $("#hdnDealerId").val(),
+                FormType: "Y",
+
+                SalSlabCode1: "1",
+                NoEmp1: "1",
+                TotPble1: $('#ddlEntity').val(),
+                Type1: "Entity",
+
+                SalSlabCode2: "1",
+                NoEmp2: $('#txtNoofDirectors').val(),
+                TotPble2: $('#lblDirectorsAmount').text(),
+                Type2: "directors",
+
+                SalSlabCode3: "1",
+                NoEmp3: $('#txtNoofPartners').val(),
+                TotPble3: $('#lblPartnersAmount').text(),
+                Type3: "partners",
+
+                SalSlabCode4: "1",
+                NoEmp4: $('#txtNoofBranches').val(),
+                TotPble4: $('#lblBranchesAmount').text(),
+                Type4: "branch"
+            };
+
+            $('#btnSave').attr('disabled', true);
+            $.ajax({
+                url: '/Return/SavePTReturnYearly',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        /*ModernAlert.showSuccess('Your Return has been submitted Successfully!', 'Return Submitted');*/
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid;
+                        ModernAlert.showAlert('Your Return has been submitted Successfully!', 'You will be Redirecting to Payment Page','Return Submitted',
+                                             {
+                                                 autoClose: true,
+                                                 duration: 3000,
+                                                 redirectUrl: paymentUrl
+                                             }
+                        );
+                        $('.modern-close').hide();
+                        $('#btnProceed').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                    } else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
+        }
+
     </script>
 
 </body>

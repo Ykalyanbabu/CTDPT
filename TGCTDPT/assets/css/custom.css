@@ -1836,19 +1836,19 @@ body {
     --transition: all 0.3s ease;
 }
 
-* {
+/** {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
+}*/
 
-body {
+/*body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
-}
+}*/
 
 
 /* RESPONSIVE */
@@ -2107,14 +2107,14 @@ button.primary:disabled {
 }
 
 .wrapper.checkrc {
-    *
+  /*  *
 
 {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
+}*/
 
 body {
     min-height: 100vh;
@@ -5210,6 +5210,7 @@ body {
         pointer-events: none;
     }
 
+
 .payment-container {
     max-width: 1000px;
     width: 100%;
@@ -5282,7 +5283,7 @@ body {
     }
 
 .card-body {
-    padding: 50px;
+    padding: 22px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -5339,7 +5340,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
+    padding: 14px 0;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     transition: var(--transition);
 }
@@ -5541,7 +5542,7 @@ body {
     border: 1px solid var(--warning-color);
     border-radius: var(--radius-md);
     padding: 25px;
-    margin-top: 30px;
+    margin-top: 10px;
     display: flex;
     align-items: flex-start;
     gap: 20px;

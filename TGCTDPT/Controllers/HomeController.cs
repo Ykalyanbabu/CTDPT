@@ -26,6 +26,10 @@ namespace TGCTDPT.Controllers
 
             return View();
         }
-       
+        public ActionResult checkRC()
+        {
+            return View();
+        }
+        
     }
 }

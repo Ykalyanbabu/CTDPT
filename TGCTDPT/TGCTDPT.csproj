@@ -123,6 +123,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CheckSession.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PTHomeController.cs" />
@@ -130,13 +132,14 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReturnController.cs" />
-    <Compile Include="DAL\PTHomeDAL.cs" />
     <Compile Include="DAL\ReturnsDAL.cs" />
     <Compile Include="DAL\UserDetails.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DB_context.cs" />
+    <Compile Include="Models\PaymentConfirmationViewModel.cs" />
+    <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\Returns.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,12 +210,11 @@
     <Content Include="Views\PTHome\ChangePassword.cshtml" />
     <Content Include="Views\PTHome\Dashboard.cshtml" />
     <Content Include="Views\Payment\PaymentConfirmation.cshtml" />
-    <Content Include="Views\Registration\Amend_Registration.cshtml" />
-    <Content Include="Views\PTHome\checkRC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\js\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
