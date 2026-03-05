@@ -18,7 +18,7 @@
             @using (Html.BeginForm("Login", "PTHome", FormMethod.Post, new { @class = "form-container" }))
             {
                 @Html.AntiForgeryToken()
-
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
                 <div class="form-row">
                     <div class="form-label">
                         <i class="fas fa-id-card"></i>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="input-group">
                         @*<i class="fas fa-user input-icon"></i>*@
-                        @Html.TextBox("username", ViewBag.username as string,new { @class = "form-input", placeholder = "Enter PTIN or User ID" })
+                        @Html.TextBox("username", ViewBag.username as string, new { @class = "form-input", placeholder = "Enter PTIN or User ID" })
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
 
                 <div class="login-help">
                     <div class="help-links">
-                        @Html.ActionLink("Forgot Password?", "ForgotPassword", "Account", null, new { @class = "help-link" })
+                        @Html.ActionLink("Forgot Password?", "ResetPassword", "PTHome", null, new { @class = "help-link" })
                     </div>
                 </div>
             }

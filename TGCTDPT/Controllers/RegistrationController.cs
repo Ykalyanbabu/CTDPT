@@ -27,6 +27,12 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
-        
+
+        public JsonResult CheckPantoPT(string PAN)
+        {
+            var response = dal.CheckPantoPT(PAN);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
