@@ -9,7 +9,7 @@
         --primary: #133cdb;
         --primary-light: #e0e6ff;
         --accent: #8e24aa;
-        --gradient-mixed: linear-gradient(135deg, #133cdb, #8e24aa);
+        --gradient-mixed: linear-gradient(135deg, #536fdf, #8e24aa);
         --text-dark: #1e293b;
         --text-light: #64748b;
         --white: #ffffff;
@@ -30,7 +30,7 @@
 
     .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 18px;
         flex: 1;
         min-height: 0;
@@ -50,7 +50,7 @@
         overflow: hidden;
         border: 1px solid rgba(19, 60, 219, 0.08);
         box-shadow: 0 15px 35px rgba(19, 60, 219, 0.08);
-        border: 2px solid var(--primary);
+        border: 2px solid #a10ac7;
     }
 
         /* Top gradient bar animation */
@@ -231,7 +231,7 @@
                 <span><i class="fas fa-history"></i> 15d</span>
             </div>*@
             </div>
-            <div class="dashboard-card" onclick="goTo('PT_CHNG_PWD.html')">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("ChangePassword","PTHome")'" >
                 <div class="card-icon">
                     <i class="fas fa-key"></i>
                 </div>
@@ -290,9 +290,6 @@
                 </div>
 
             </div>
-
-
-
 
 
 

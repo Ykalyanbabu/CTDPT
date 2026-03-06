@@ -168,6 +168,7 @@
     <Content Include="assets\css\forms.css" />
     <Content Include="assets\css\home.css" />
     <Content Include="assets\css\loader.css" />
+    <Content Include="assets\css\passwordchange.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\logo.png" />
