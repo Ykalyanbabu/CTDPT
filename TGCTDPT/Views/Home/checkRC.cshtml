@@ -6,6 +6,21 @@
 
 <link href="~/assets/css/custom.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+ 
+        .actions {
+        display: grid!important;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-left: 200px;
+        margin-bottom: 15px;
+        align-content: end;
+        justify-items: end;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+ 
+</style>
 <body>
 
    
@@ -50,31 +65,35 @@
             </div>
             <div class="actions-section">
                 <!--<div class="actions-title">
-                    <i class="fas fa-print"></i>
-                    Certificate Reprint Options
-                </div>-->
-
+        <i class="fas fa-print"></i>
+        Certificate Reprint Options
+    </div>-->
+               
                 <div class="actions">
-                    <button class="primary">
+                    <button class="primary" id="RCPrnt">
                         <i class="fas fa-file-invoice"></i>
-                        Form-IA (Employer)
+                        Print Certificate
                     </button>
-                    <button class="primary">
-                        <i class="fas fa-file-certificate"></i>
-                        Form-IIA (Enrollment)
-                    </button>
+                    @*<button class="primary">
+            <i class="fas fa-file-invoice"></i>
+            Form-IA(Employer)
+        </button>*@
+                    @*<button class="primary">
+            <i class="fas fa-file-certificate"></i>
+            Form-IIA (Enrollment)
+        </button>*@
                 </div>
 
                 <!--<div class="status-indicator">
-                    <div class="status-item">
-                        <span class="status-dot"></span>
-                        <span>Active Registration</span>
-                    </div>
-                    <div class="status-item">
-                        <i class="fas fa-clock"></i>
-                        <span>Updated: 15 Jan 2024</span>
-                    </div>
-                </div>-->
+        <div class="status-item">
+            <span class="status-dot"></span>
+            <span>Active Registration</span>
+        </div>
+        <div class="status-item">
+            <i class="fas fa-clock"></i>
+            <span>Updated: 15 Jan 2024</span>
+        </div>
+    </div>-->
             </div>
         </div>
     </div>
@@ -130,6 +149,11 @@
                 });
             });
 
+            $(document).ready(function () {
+                $("#RCPrnt").click(function () {
+                    window.open("Views/PTHome/PT_Certificate.html", "_blank");
+                });
+            });
             // Add CSS for alert animation
             const style = document.createElement('style');
             style.textContent = `
