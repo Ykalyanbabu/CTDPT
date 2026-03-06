@@ -69,8 +69,19 @@ namespace TGCTDPT.DAL
         {
             using (var con = new SqlConnection(conStr))
             {
-                return con.Execute(
+                return con.QuerySingle<int>(
                     "pr_UpdateUserPassword",
+                    new { UserId = userId, Password = password },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
+        public int ChangePassword(string userId, string password)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.QuerySingle<int>(
+                    "pr_Change_PT_User_Password",
                     new { UserId = userId, Password = password },
                     commandType: CommandType.StoredProcedure
                 );

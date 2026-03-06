@@ -39,7 +39,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Tin"] == null)
             {
-                RedirectToAction("Login", "PTHome");
+                return RedirectToAction("Login", "PTHome");
             }
             return View();
         }
@@ -62,6 +62,7 @@ namespace TGCTDPT.Controllers
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
+                TempData["ErrorMessage"] = "Username and password are required.";
                 ModelState.AddModelError("", "Username and password are required");
                 return View();
             }
@@ -77,6 +78,7 @@ namespace TGCTDPT.Controllers
                 return RedirectToAction("Dashboard", "PTHome"); 
             }
 
+            TempData["ErrorMessage"] = "Invalid login attempt";
             ModelState.AddModelError("", "Invalid login attempt");
             return View(); 
         }
@@ -124,40 +126,76 @@ namespace TGCTDPT.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeUserPassword(string UserId, string OldPassword,string NewPassword)
+        public ActionResult ChangePassword(string UserId, string OldPassword,string NewPassword,string ConfirmPassword)
         {
+            if (Session["Tin"] == null)
+            {
+                return RedirectToAction("Login", "PTHome");
+            }
+            if (string.IsNullOrEmpty(UserId))
+            {
+                TempData["ErrorMessage"] = "Please enter PTIN/Username.";
+                return View();
+            }
+            if (string.IsNullOrEmpty(OldPassword))
+            {
+                TempData["ErrorMessage"] = "Please enter Old Password";
+                return View();
+            }
+            if (string.IsNullOrEmpty(NewPassword))
+            {
+                TempData["ErrorMessage"] = "Please enter New Password";
+                return View();
+            }
+            if (string.IsNullOrEmpty(NewPassword)!= string.IsNullOrEmpty(ConfirmPassword))
+            {
+                TempData["ErrorMessage"] = "New Password and Confirm Password must match";
+                return View();
+            }
             var RegDtls = _User.GetTINDtlsforRCPrinting(UserId);
             if (RegDtls == null || RegDtls.Count == 0)
             {
-                ModelState.AddModelError("", "Not a valid PTIN");
+                TempData["ErrorMessage"] = "The entered PTIN is invalid. Please check and try again.";
                 return View();
             }
             var users = _User.CheckTinRegistration(UserId);
             if (users == null || users.Count == 0)
             {
-                ModelState.AddModelError("", "Not a registered PTIN");
+                TempData["ErrorMessage"] = "The entered PTIN is not registered in the system.";
                 return View();
             }
             else
             {
                 if (OldPassword != users[0].Password)
                 {
-                    ModelState.AddModelError("", "You are wrongly entered Current Password");
+                    TempData["ErrorMessage"] = "The current password you entered is incorrect. Please try again.";
                     return View();
                 }
                 else
                 {
                     string clientIPAddress = Request.UserHostAddress;
                     string result = _User.InsertPasswordForTrack(UserId, clientIPAddress, OldPassword, NewPassword, Session["Userid"].ToString());
-                    if (result == "SUCCESS") 
+                    if (result == "SUCCESS")
                     {
-                    
+                        int response = _User.ChangePassword(UserId, NewPassword);
+                        if (response > 0)
+                        {
+                            TempData["SuccessMessage"] = "Password changed successfully.";
+                            return View();
+                        }
+                        else 
+                        {
+                            TempData["ErrorMessage"] = "Action Failed please try after sometime or Contact System Administrator.";
+                            return View();
+                        }
+                    }
+                    else 
+                    {
+                        TempData["ErrorMessage"] = "Action Failed please try after sometime or Contact System Administrator.";
+                        return View();
                     }
                 }
             }
-
-            ModelState.AddModelError("", "Invalid login attempt");
-            return View();
         }
     }
 }
