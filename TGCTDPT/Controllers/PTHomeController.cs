@@ -35,6 +35,10 @@ namespace TGCTDPT.Controllers
             }
             return View();
         }
+        public ActionResult PaymentType()
+        {
+            return View();
+        }
         public ActionResult ChangePassword()
         {
             if (Session["Tin"] == null)

@@ -1,0 +1,552 @@
+﻿
+@{
+    ViewBag.Title = "SearchARN";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+<head>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Modern Login Card */
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 16px 30px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 20px 60px rgba(96, 6, 100, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin: auto; /* Center the card */
+        }
+
+            /* Decorative elements */
+            .login-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(to right, #600664, #75339b, #590568, #531f66);
+                border-radius: 20px 20px 0 0;
+            }
+
+            .login-card::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, rgba(96, 6, 100, 0.05) 0%, rgba(117, 51, 155, 0.05) 100%);
+                border-radius: 50%;
+                z-index: 0;
+            }
+
+        /* Title with icon */
+        .page-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+            .page-title i {
+                background: linear-gradient(135deg, #600664, #75339b);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                font-size: 32px;
+            }
+
+        /* Form container */
+        .form-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Form rows */
+        .form-row {
+            margin-bottom: 10px;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+            .form-row:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .form-row:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+        /* Labels */
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+
+            .form-label i {
+                color: #75339b;
+                width: 20px;
+                text-align: center;
+            }
+
+        /* Input groups */
+        .input-group {
+            position: relative;
+        }
+
+        .form-input {
+            padding: 16px 20px 16px 48px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            font-size: 15px;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(248, 250, 252, 0.7);
+            color: #1a1a2e;
+        }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #75339b;
+                box-shadow: 0 0 0 4px rgba(117, 51, 155, 0.15), 0 4px 12px rgba(117, 51, 155, 0.1);
+                background: white;
+                transform: translateY(-1px);
+            }
+
+            .form-input::placeholder {
+                color: #94a3b8;
+                font-weight: 400;
+            }
+
+        .input-icon {
+            position: absolute;
+            /*left: 18px;*/
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: color 0.3s;
+            z-index: 2;
+        }
+
+        .form-input:focus + .input-icon {
+            color: #75339b;
+        }
+
+        /* Password toggle */
+        .password-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 2;
+        }
+
+            .password-toggle:hover {
+                color: #75339b;
+            }
+
+        /* Note */
+        .note {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin: 0px 0 26px;
+            padding: 14px;
+            background: linear-gradient(to right, rgba(117, 51, 155, 0.05), rgba(96, 6, 100, 0.05));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+            animation: fadeInUp 0.5s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+            .note i {
+                color: #75339b;
+                font-size: 16px;
+            }
+
+        /* Login button */
+        .actions {
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.5s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .login-btn {
+            padding: 10px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #600664, #75339b, #590568);
+            color: white;
+            width: 50%; /* Changed from 50% to 100% */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(96, 6, 100, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto; /* Center the button */
+        }
+
+            .login-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(96, 6, 100, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
+
+                .login-btn:hover::before {
+                    left: 100%;
+                }
+
+            .login-btn:active {
+                transform: translateY(0);
+            }
+
+            .login-btn a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                /*letter-spacing: 0.5px;*/
+                position: relative;
+                z-index: 1;
+            }
+
+        /* Help links */
+        .login-help {
+            text-align: center;
+            animation: fadeInUp 0.5s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .help-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .help-link {
+            color: #5a189a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: rgba(117, 51, 155, 0.05);
+        }
+
+            .help-link:hover {
+                background: rgba(117, 51, 155, 0.1);
+                color: #3c096c;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(117, 51, 155, 0.1);
+            }
+
+        /* FOOTER - CORRECTED */
+        footer {
+            width: 100%; /* Changed from 100vw to 100% */
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            margin-top: 30px; /* Add space between card and footer */
+            text-align: center;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #95a5a6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+
+            .login-card {
+                padding: 36px 24px;
+                border-radius: 16px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+                .page-title i {
+                    font-size: 28px;
+                }
+
+            .form-input {
+                padding: 14px 16px 14px 44px;
+            }
+
+            .help-links {
+                flex-direction: column;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .login-btn {
+                width: 100%;
+                padding: 15px 20px;
+            }
+        }
+
+        /* Additional polish */
+        .form-input:not(:placeholder-shown) {
+            background: white;
+            border-color: #c7d2fe;
+        }
+
+    .return-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: smaller !important;
+    }
+
+        .return-table th,
+        .return-table td {
+            border: 1px solid #cfd6dc;
+            padding: 8px;
+            text-align: center;
+            background: white;
+            font-weight: 700;
+        }
+
+        .return-table th {
+            background: #6d00a9;
+            font-weight: 600;
+            color:white;
+        }
+
+        .return-table tfoot td {
+            font-weight: 700;
+            background: #eef2f7;
+        }
+</style>
+</head>
+
+
+<body>
+
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+        <div class="login-card">
+            <div class="page-title">
+                Track Registration Status with ARN No
+            </div>
+
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-label">
+                        <i class="fas fa-id-card"></i>
+                        ARN Number
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-input" id="txtARN" placeholder="Enter ARN Number">
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="login-btn" onclick="GetRNRStatus();">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <a href="#">Track Status</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-container" id="tableContainer" style="display: none; margin-top: 30px; animation: fadeInUp 0.5s ease-out;">
+        <table class="return-table" id="statustbl1" style="display:none;">
+            <thead>
+                <tr>
+                    <th>ARN No</th>
+                    <th>Enterprise Name</th>
+                    <th>Pending with</th>
+                    <th>Status</th>
+                    <th>Query</th>
+                    <th>Applied on</th>
+                    <th>Delay (Days)</th>
+                    <th>PTIN</th>
+                </tr>
+            </thead>
+            <tbody id="StatusBody1">
+            </tbody>
+        </table>
+        <table class="return-table" id="statustbl2" style="display:none;">
+            <thead>
+                <tr>
+                    <th>ARN No</th>
+                    <th>Enterprise Name</th>
+                    <th>Pending with</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Query</th>
+                    <th>Applied on</th>
+                    <th>Delay (Days)</th>
+                    <th>PTIN</th>
+                </tr>
+            </thead>
+            <tbody id="StatusBody2">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+
+        function GetRNRStatus() {
+            var _rnr = $('#txtARN').val();
+            $.ajax({
+                url: '@Url.Action("GetRNRDetails", "Home")',
+                dataType: 'json',
+                data: {
+                    RNR: _rnr,
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        buildTable(response);
+                    }
+                    else {
+                        var tbody1 = $("#StatusBody1");
+                        tbody1.empty();
+                        var tbody2 = $("#StatusBody2");
+                        tbody2.empty();
+                        var tbody1 = $("#StatusBody1");
+                        tbody1.append("<tr ><td colspan='7'>No Data Found<td></tr>");
+                    }
+                },
+                error: function (error) {
+                    hideloader();
+                    console.error(error);
+                }
+            });
+        }
+
+        function buildTable(data) {
+            $('#tableContainer').hide();
+            $('#statustbl1').hide();
+            $('#statustbl2').hide();
+            var tbody1 = $("#StatusBody1");
+            tbody1.empty();
+            var tbody2 = $("#StatusBody2");
+            tbody2.empty();
+            var type = data[0].PendingWith;
+            if (type == "Tax officer") {
+                $.each(data, function (index, item) {
+                    var row = `
+                <tr >
+                    <td >${item.Rnr}</td>
+                    <td >${item.EnterpriseName}</td>
+                    <td >${item.PendingWith}</td>
+                    <td >${item.AssignedTo}</td>
+                    <td >${item.Status}</td>
+                    <td >${item.Query}</td>
+                    <td >${item.AppliedOn}</td>
+                    <td >${item.Delay}</td>
+                    <td >${item.PTIN}</td>
+                </tr>
+            `;
+                    tbody2.append(row);
+                });
+                $('#statustbl2').show();
+            }
+            else {
+                $.each(data, function (index, item) {
+                    var row = `
+                <tr >
+                    <td >${item.Rnr}</td>
+                    <td >${item.EnterpriseName}</td>
+                    <td >${item.PendingWith}</td>
+                    <td >${item.Status}</td>
+                    <td >${item.Query}</td>
+                    <td >${item.AppliedOn}</td>
+                    <td >${item.Delay}</td>
+                    <td >${item.PTIN}</td>
+                </tr>
+            `;
+                    tbody1.append(row);
+                });
+                $('#statustbl1').show();
+            }
+            $('#tableContainer').show();
+        }
+
+    </script>
+
+</body>

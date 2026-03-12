@@ -43,10 +43,11 @@
                 <h3>PT e-Payment & e-Receipt</h3>
                 <p>Make secure online payments and download payment receipts instantly.</p>
                 <div class="card-action">
-                    <a href="@Url.Action("PaymentPage", "Payment")">
+                    <a href="@Url.Action("PaymentType", "PTHome")">
                         <i class="fas fa-wallet"></i> Make Payment
                     </a>
                 </div>
+
             </div>
 
             <div class="pt-card" onclick="location.href='#'">
@@ -87,7 +88,7 @@
                     </a>
                 </div>
             </div>
-            <a style="font-weight: 700;color: blue;width:200%;text-decoration:none" onclick="testSuccessWithRedirect();">Click here to Track Registration Status with ARN No.</a>
+            <a style="font-weight: 700;color: blue;width:200%;text-decoration:none" href="@Url.Action("SearchARN", "Home")" >Click here to Track Registration Status with ARN No.</a>
         </div>
 
         <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #0b8b80;display:none;">

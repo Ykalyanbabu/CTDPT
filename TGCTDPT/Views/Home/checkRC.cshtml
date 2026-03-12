@@ -63,14 +63,14 @@
                     </div>
                 </div>
             </div>
-            <div class="actions-section">
+            <div >
                 <!--<div class="actions-title">
         <i class="fas fa-print"></i>
         Certificate Reprint Options
     </div>-->
                
                 <div class="actions">
-                    <button class="primary" id="RCPrnt">
+                    <button class="primary" id="RCPrnt" onclick="window.open('@Url.Action("PrintCertificate","Home")', '_blank')">
                         <i class="fas fa-file-invoice"></i>
                         Print Certificate
                     </button>
@@ -150,9 +150,10 @@
             });
 
             $(document).ready(function () {
-                $("#RCPrnt").click(function () {
-                    window.open("Views/PTHome/PT_Certificate.html", "_blank");
-                });
+                //$("#RCPrnt").click(function () {
+                //    window.location.href = '/View/PTHome/PT_Certificate.html';
+                //    //window.open("Views/PTHome/PT_Certificate.html", "_blank");
+                //});
             });
             // Add CSS for alert animation
             const style = document.createElement('style');

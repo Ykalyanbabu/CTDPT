@@ -1,18 +1,22 @@
 ﻿
 @{
-    ViewBag.Title = "PaymentPage";
-    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    ViewBag.Title = "ePaymentGen";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<style>
+    .container.payment, .container.Reports {
+        padding: 15px 80px 30px !important;
+    }
+</style>
 <body>
-    
 
-    <!-- MAIN CONTENT - MODERNIZED -->
+
     <div class="container payment">
         <div class="body-content">
             <div class="payment-wrapper">
                 <div class="section-title">PT e-Payment</div>
-                <!-- Header -->
                 <div class="payment-header" style="display:none;">
                     <div class="payment-icon">
                         <i class="fas fa-credit-card"></i>
@@ -21,14 +25,13 @@
                     <p class="payment-subtitle">Calculate and pay Professional Tax for your business and employees</p>
                 </div>
 
-                <!-- Basic Information -->
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">
                             <i class="fas fa-id-card"></i>
                             PTIN / GRN <span style="color:red">*</span>
                         </label>
-                        <input type="text" class="form-input" placeholder="Enter PTIN or GRN number" id="ptinInput">
+                        <input type="text" class="form-input" placeholder="Enter PTIN or GRN number" id="ptinInput" onchange="GetEnterpriseDeatils();">
                     </div>
 
                     <div class="form-group">
@@ -36,11 +39,10 @@
                             <i class="fas fa-building"></i>
                             Name of the Firm
                         </label>
-                        <input type="text" class="form-input" placeholder="Enter registered firm name" id="firmNameInput">
+                        <input type="text" class="form-input" placeholder="Enter registered firm name" id="firmNameInput" readonly>
                     </div>
                 </div>
 
-                <!-- Payment Purpose -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-bullseye"></i>
@@ -82,14 +84,13 @@
                     </div>
                 </div>
                 <div class="tab-buttons" style="display:flex; gap:10px; margin-bottom:15px;">
-                    <button type="button" class="tab-btn active" onclick="showPaymentTab('yearlyTab', this)">
+                    <button type="button" class="tab-btn active" id="yearlytab" onclick="showPaymentTab('yearlyTab', this)">
                         <i class="fas fa-calendar-alt"></i> Yearly Professional Tax
                     </button>
-                    <button type="button" class="tab-btn" onclick="showPaymentTab('monthlyTab', this)">
+                    <button type="button" class="tab-btn" id="monthlytab" onclick="showPaymentTab('monthlyTab', this)">
                         <i class="fas fa-calendar-week"></i> Monthly Tax (Employees)
                     </button>
                 </div>
-                <!-- Year Section -->
                 <div id="yearlyTab" class="payment-tab">
                     <div class="payment-section">
                         <div class="section-header">
@@ -101,16 +102,13 @@
                                     <i class="fas fa-calendar"></i>
                                     For The Financial Year
                                 </label>
-                                <select class="form-select" id="yearSelect">
+                                <select class="form-select" id="ddlYear">
                                     <option>--Select Year--</option>
-                                    <!--<option value="2024-2025">2024-2025</option>-->
-                                    <option value="2025-2026">2025-2026</option>
                                 </select>
                             </div>
 
                             <p class="section-hint">Calculation: Quantity × Rate = Amount</p>
 
-                            <!-- Grid Header -->
                             <div class="payment-grid grid-header">
                                 <div>Category</div>
                                 <div>Quantity</div>
@@ -118,7 +116,6 @@
                                 <div>Amount (₹)</div>
                             </div>
 
-                            <!-- Yearly Rows -->
                             <div class="payment-grid payment-row yearly-row" data-rate="2500">
                                 <div class="row-label">
                                     <label class="checkbox-label">
@@ -127,9 +124,14 @@
                                         <span>Firm / Company / Proprietorship</span>
                                     </label>
                                 </div>
-                                <input type="number" class="input-qty yearly-qty" id="txtFirmQuantity" value="0" min="0" max="1" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="2,500" readonly>
-                                <input type="text" class="input-amount yearly-amount" readonly>
+                                <input type="number" class="input-qty yearly-qty" id="txtFirmQuantity" value="0" readonly min="0" max="1" onchange="calculateAll()">
+                                @*<input type="text" class="input-rate" value="2500" readonly>*@
+                            <select class="form-select" id="ddlFirmRate" style="width:100%;" onchange="onFirmChange();">
+                                <option value="0">--Select--</option>
+                                <option value="1250">1250</option>
+                                <option value="2500" selected>2500</option>
+                            </select>
+                                <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly>
                             </div>
 
                             <div class="payment-grid payment-row yearly-row" data-rate="2500">
@@ -138,7 +140,7 @@
                                     <span>Additional Places of Business</span>
                                 </div>
                                 <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="2,500" readonly>
+                                <input type="text" class="input-rate" value="2500" readonly>
                                 <input type="text" class="input-amount yearly-amount" readonly>
                             </div>
 
@@ -148,7 +150,7 @@
                                     <span> Directors</span>
                                 </div>
                                 <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="2,500" readonly>
+                                <input type="text" class="input-rate" value="2500" readonly>
                                 <input type="text" class="input-amount yearly-amount" readonly>
                             </div>
                             <div class="payment-grid payment-row yearly-row" data-rate="1250">
@@ -157,7 +159,7 @@
                                     <span>Partners </span>
                                 </div>
                                 <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="1,250" readonly>
+                                <input type="text" class="input-rate" value="1250" readonly>
                                 <input type="text" class="input-amount yearly-amount" readonly>
                             </div>
                         </div>
@@ -171,35 +173,22 @@
                 </div>
 
 
-                <!-- Monthly Section -->
                 <div id="monthlyTab" class="payment-tab" style="display:none;">
                     <div class="payment-section">
                         <div class="section-header">
                             <h3><i class="fas fa-calendar-week"></i> Monthly Tax (For Employees)</h3>
                         </div>
                         <div style="padding: 18px;">
-                            <!-- Date Range -->
                             <div class="date-range-group">
                                 <div class="date-group">
                                     <label class="date-label">Month</label>
-                                    <select class="form-select" style="width: 100%;">
-                                        <option>Mar-2025</option>
-                                        <option>Apr-2025</option>
-                                        <option>May-2025</option>
-                                        <option>Jun-2025</option>
-                                        <option>Jul-2025</option>
-                                        <option>Aug-2025</option>
-                                        <option>Sep-2025</option>
-                                        <option>Oct-2025</option>
-                                        <option>Nov-2025</option>
-                                        <option>Dec-2025</option>
+                                    <select class="form-select" style="width: 100%;" id="ddlMonth">
                                     </select>
                                 </div>
                             </div>
 
                             <p class="section-hint" style="margin-top: 12px;">Calculation: No. of Employees × Monthly Rate = Monthly Tax</p>
 
-                            <!-- Grid Header -->
                             <div class="payment-grid grid-header">
                                 <div>Salary Slab</div>
                                 <div>No. of Employees</div>
@@ -207,7 +196,6 @@
                                 <div>Amount (₹)</div>
                             </div>
 
-                            <!-- Monthly Rows -->
                             <div class="payment-grid payment-row monthly-row" data-rate="0">
                                 <div class="row-label">
                                     <i class="fas fa-user-check"></i>
@@ -247,17 +235,6 @@
                     </div>
                 </div>
 
-
-                <!-- Totals Section
-                <div class="totals-section" style="padding: 5px 45px 5px 29px; margin: 8px -1px 0px 0px; background: #fbedda;">
-
-                    <div class="total-row">
-                        <span class="total-label">Total Amount Payable (A + B)</span>
-                        <span class="total-value" id="grandTotal">₹ 0</span>
-                    </div>
-
-                </div> -->
-                <!-- Current Date Display -->
                 <div class="date-display">
                     <i class="fas fa-calendar-check"></i>
                     <div>
@@ -266,7 +243,6 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="actions-section">
                     <div class="button-group">
                         <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
@@ -287,31 +263,72 @@
         </div>
     </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
     <script>
 
 
-
         $(document).ready(function () {
-            $('#proceedBtn1').on('click', function () {
-                $('#btnReset').attr('disabled', true);
-                $('#proceedBtn1').attr('disabled', true);
-                $('#proceedBtn').attr('disabled', false);
-                Swal.fire({
-                    title: 'Success',
-                    text: 'Return Filed Successfully.',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                });
 
-            });
-            $('#proceedBtn').on('click', function () {
-                window.location.href = 'PaymentConfirmation.html';
-            });
         });
+
+        function GetEnterpriseDeatils() {
+            showloader();
+            var PTIN = $('#ptinInput').val();
+            $.ajax({
+                url: '@Url.Action("GetPTEnterpriseDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: PTIN,
+                },
+                success: function (response) {
+                    hideloader();
+                    if (response.length > 0) {
+                        var data = response[0];
+                        $('#firmNameInput').val(data.EnterPriseName);
+                        getPtinDetails(PTIN);
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    hideloader();
+                    console.error(error);
+                }
+            });
+        }
+        function getPtinDetails(ptin) {
+                $.ajax({
+                url: '@Url.Action("GetReturnDetails", "ePayment")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin
+                },
+                success: function (response) {
+
+                    if (response[0].OwnerType == "M" && response[0].Form1Reg == "Y") {
+                        $('#yearlytab').hide();
+                        $('#monthlytab').show();
+                        showPaymentTab('monthlyTab', "monthlytab");
+                    }
+                    if (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y") {
+                        $('#yearlytab').show();
+                        $('#monthlytab').show();
+                        showPaymentTab('monthlyTab', "monthlytab");
+                    }
+                    if (response[0].OwnerType == "Y" && response[0].Form1Reg == "N") {
+                        $('#yearlytab').show();
+                        $('#monthlytab').hide();
+                        showPaymentTab('yearlyTab', "monthlyTab");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
-            // Set today's date
             const today = new Date();
             const formattedDate = today.toLocaleDateString('en-IN', {
                 day: '2-digit',
@@ -321,7 +338,6 @@
             });
             document.getElementById('todayDate').textContent = formattedDate;
 
-            // Set default dates for monthly section
             const fromDate = new Date();
             fromDate.setDate(1); // First day of current month
             const toDate = new Date();
@@ -381,14 +397,13 @@
     // Yearly calculation (Directors = 2500, Partners = 1250)
     document.querySelectorAll('.yearly-row').forEach(row => {
         const qty = parseInt(row.querySelector('.yearly-qty').value) || 0;
-        const rate = parseInt(row.dataset.rate) || 0; // ✅ READ FROM HTML
+        const rate = parseInt(row.dataset.rate) || 0;
         const amt = qty * rate;
 
         row.querySelector('.yearly-amount').value = amt.toLocaleString('en-IN');
         yearlyTotal += amt;
     });
 
-    // Monthly calculation
     document.querySelectorAll('.monthly-row').forEach(row => {
         const qty = parseInt(row.querySelector('.monthly-qty').value) || 0;
         const rate = parseInt(row.dataset.rate) || 0;
@@ -399,13 +414,9 @@
         totalEmployees += qty;
     });
 
-    // Totals
     document.getElementById('yearlyTotal').textContent = formatCurrency(yearlyTotal);
     document.getElementById('monthlyTotal').textContent = formatCurrency(monthlyTotal);
-    document.getElementById('grandTotal').textContent =
-        formatCurrency(yearlyTotal + monthlyTotal);
 
-    // Button logic
     const proceedBtn = document.getElementById('proceedBtn');
     const proceedBtn1 = document.getElementById('proceedBtn1');
 
@@ -435,7 +446,7 @@ if (yearlyTotal > 0  ) {
          }
      }
 }
-         function calculateAll() {
+         function calculateAll1() {
              let yearlyTotal = 0;
              let monthlyTotal = 0;
              let totalEmployees = 0;
@@ -510,19 +521,167 @@ if (yearlyTotal > 0  ) {
 
         function showPaymentTab(tabId, btn) {
 
-    // Hide both tabs
-    document.getElementById("yearlyTab").style.display = "none";
-    document.getElementById("monthlyTab").style.display = "none";
+            document.getElementById("yearlyTab").style.display = "none";
+            document.getElementById("monthlyTab").style.display = "none";
 
-    // Remove active class
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
 
-    // Show selected tab
-    document.getElementById(tabId).style.display = "block";
+            document.getElementById(tabId).style.display = "block";
 
-    // Activate button
-    btn.classList.add("active");
-}
+            if (btn == "yearlytab" || btn == "monthlytab") {
+                $('#' + btn).addClass("active");
+            }
+            else {
+                btn.classList.add("active");
+            }
+            var _ptin = $('#ptinInput').val();
+            if (tabId == "yearlyTab") {
+                GetPTGstRtnDtls(_ptin, "Y");
+            }
+            else if (tabId == "monthlyTab") {
+                GetPTGstRtnDtls(_ptin, "M");
+            }
+
+        }
+
+        function GetPTGstRtnDtls(ptin, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTGstReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
+                    }
+                    else {
+                        if (dealertype == "Y") {
+                            GetPTTaxReturnMonthsNew(ptin, "0", dealertype);
+                        }
+                        else {
+                            GetPTTaxReturnMonthsNew(ptin, "1", dealertype);
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+        function BindYearsDropdown(response) {
+            var $ddl = $('#ddlYear');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: item.MonthYear
+                    }));
+                }
+            });
+
+        }
+        function BindMonthsDropdown(response) {
+            var $ddl = $('#ddlMonth');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    var month = item.MonthYear.substring(0, 2);
+                    var year = item.MonthYear.substring(2, 6);
+                    var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                    var monthText = monthNames[parseInt(month) - 1];
+                    var displayText = monthText + "-" + year;
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: displayText
+                    }));
+                }
+            });
+
+        }
+        function GetPTGstReturnMonthsNew(ptin, flag, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    flag: flag,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+         function GetPTTaxReturnMonthsNew(ptin, flag, dealertype) {
+            $.ajax({
+                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
+                dataType: 'json',
+                data: {
+                    ptin: ptin,
+                    flag: flag,
+                    type: dealertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        if (dealertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                        else {
+                            BindMonthsDropdown(response);
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+        function onFirmChange() {
+
+            const ddl = document.getElementById("ddlFirmRate");
+            const row = ddl.closest(".yearly-row");
+
+            row.dataset.rate = ddl.value;
+
+            var qty = $('#txtFirmQuantity').val();
+            var rate = $('#ddlFirmRate').val();
+            var value = parseInt(qty) * parseInt(rate);
+            $('#txtFirmAmount').val(value);
+
+            calculateAll();
+        }
     </script>
 </body>
-

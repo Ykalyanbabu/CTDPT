@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Payment Type";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0">
+
+                <!-- Header -->
+                <div class="card-header text-center text-white payment-header">
+                    <h4 class="mb-1">
+                        <i class="fa fa-credit-card"></i> Select Payment Type
+                    </h4>
+                    <small>Choose your preferred payment method</small>
+                </div>
+
+                <!-- Buttons -->
+                <div class="card-body text-center">
+
+                    <div class="row justify-content-center" style="text-align: -webkit-center;">
+
+                        <div class="col-md-5 mb-3" style="width: 50%;">
+                            <a href="@Url.Action("ePaymentGenMonthly","ePayment")"
+                               class="btn payment-btn monthly-btn w-100">
+                                📅 Monthly Return Tax Payment
+                            </a>
+                        </div>
+
+                        <div class="col-md-5 mb-3" style="width: 50%;">
+                            <a href="@Url.Action("ePaymentGenYearly","ePayment")"
+                               class="btn payment-btn yearly-btn w-100">
+                                💳 Yearly Demand Payment
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 1400px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        /* padding: 4px; */
+        margin: 0px 0px 0px 0px;
+        height: 370px;
+    }
+    .payment-header {
+        background: linear-gradient(to right, #83079d 0%, #60135d 100%);
+        padding: 15px;
+        margin: 0px 0px 15px 0px;
+        color:white;
+    }
+
+    .payment-btn {
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 30px;
+        color: white;
+        transition: 0.3s;
+        margin: 0px 0px 25px -2px;
+    }
+
+    .monthly-btn {
+        background: linear-gradient(90deg, #7984cd, #5d3e91);
+    }
+
+    .yearly-btn {
+        background: linear-gradient(90deg,#06b6d4,#22c55e);
+    }
+
+    .payment-btn:hover {
+        transform: scale(1.05);
+        color: white;
+    }
+</style>

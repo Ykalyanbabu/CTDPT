@@ -1,11 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = "PaymentPage";
-    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    ViewBag.Title = "ePaymentGen";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
+
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<style>
+    .container.payment, .container.Reports
+     {
+        padding: 15px 80px 30px !important;
+    }
+</style>
 <body>
-    
+
 
     <!-- MAIN CONTENT - MODERNIZED -->
     <div class="container payment">
@@ -525,4 +532,3 @@ if (yearlyTotal > 0  ) {
 }
     </script>
 </body>
-

@@ -35,7 +35,7 @@
 
     <div class="wrapper Return">
         <div class="card">
-            <div class="section-title">Return Entry</div>
+            <div class="section-title" id="header">Return Entry/Yearly Demand</div>
             <table class="info-table" id="tblReturnType" style="display:none;">
                 <tr id="rthide" runat="server">
                     <td width="50%" align="right" valign="middle" class="label">
@@ -46,12 +46,12 @@
                         <div class="radio-group">
                             <label class="radio-item">
                                 @Html.RadioButton("ReturnType", "Monthly", new { onchange = "OnRadioChange('M');" })
-                                <span>Monthly</span>
+                                <span>Monthly(Return Tax)</span>
                             </label>
 
                             <label class="radio-item">
                                 @Html.RadioButton("ReturnType", "Yearly", new { onchange = "OnRadioChange('Y');" })
-                                <span>Yearly</span>
+                                <span>Yearly(Yearly Demand)</span>
                             </label>
                         </div>
                     </td>
@@ -221,7 +221,6 @@
         });
 
         function GetEnterpriseDeatils(PTIN, type = null) {
-            debugger;
             $.ajax({
                 url: '@Url.Action("GetPTEnterpriseDetails", "Return")',
                 dataType: 'json',
@@ -262,7 +261,6 @@
 
 
         function GetReturnDetails() {
-            debugger;
             $.ajax({
                 url: '@Url.Action("GetReturnDetails", "Return")',
                 dataType: 'JSON',
@@ -509,12 +507,14 @@
                 $('#divMonthly').show();
                 GetPTGstRtnDtls(PTIN, "M");
                 GetSalarySlabs();
+                $('#header').text('Return Entry');
             }
             else {
                 $('#divMonthly').hide();
                 $('#divYearly').show();
                 GetEnterpriseDeatils(PTIN, "Y");
                 GetPTGstRtnDtls(PTIN, "Y");
+                $('#header').text('Yearly Demand Information');
             }
         }
         function onYearChange() {

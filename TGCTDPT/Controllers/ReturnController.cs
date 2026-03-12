@@ -8,7 +8,7 @@ using TGCTDPT.Models;
 
 namespace TGCTDPT.Controllers
 {
-    public class ReturnController : BaseController
+    public class ReturnController : Controller
     {
         // GET: Return
 
@@ -17,7 +17,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Tin"] == null) 
             {
-                RedirectToAction("Home", "PTHome");
+                return RedirectToAction("Home", "PTHome");
             }
             return View();
         }
@@ -30,7 +30,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Tin"] == null)
             {
-                RedirectToAction("Home", "PTHome");
+                 RedirectToAction("Home", "PTHome");
             }
             var response = dal.GetReturnDetails(Session["Tin"].ToString());
             return Json(response, JsonRequestBehavior.AllowGet);
@@ -60,7 +60,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Tin"] == null)
             {
-                RedirectToAction("Home", "PTHome");
+                 RedirectToAction("Home", "PTHome");
             }
             if (model == null)
             {
@@ -81,7 +81,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Tin"] == null)
             {
-                RedirectToAction("Home", "PTHome");
+                 RedirectToAction("Home", "PTHome");
             }
             if (model == null)
             {
