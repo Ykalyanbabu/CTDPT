@@ -1,16 +1,28 @@
 ﻿
 @{
     ViewBag.Title = "ePaymentGenYearly";
-    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+    Layout = ViewBag.Layout;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="~/assets/css/custom.css" rel="stylesheet" />
-<style>
-    .container.payment, .container.Reports {
-        padding: 15px 80px 30px !important;
-    }
-</style>
+
+@if (Session["Tin"] != null)
+{
+    <style>
+        .container.payment, .container.Reports {
+            padding: 150px 80px 30px !important;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .container.payment, .container.Reports {
+            padding: 15px 80px 30px !important;
+        }
+    </style>
+}
 <body>
 
 
@@ -85,84 +97,123 @@
                     </div>
                 </div>
                 <div id="divReturnTax">
-                    <div class="tab-buttons" style="display:flex; gap:10px; margin-bottom:15px;">
+                    @*<div class="tab-buttons" style="display:flex; gap:10px; margin-bottom:15px;">
                         <button type="button" class="tab-btn active" id="yearlytab" onclick="showPaymentTab('yearlyTab', this)">
                             <i class="fas fa-calendar-alt"></i> Yearly Demand
                         </button>
-                    </div>
+                    </div>*@
                     <div id="yearlyTab" class="payment-tab">
                         <div class="payment-section">
                             <div class="section-header">
-                                <h3><i class="fas fa-calendar-alt"></i> Yearly Professional Tax</h3>
+                                <h3><i class="fas fa-calendar-alt"></i> Yearly Demand Information</h3>
                             </div>
                             <div style="padding: 18px;">
-                                <div class="form-group">
-                                    <label class="form-label">
+                                <div >
+                                    <label>
                                         <i class="fas fa-calendar"></i>
                                         For The Financial Year
                                     </label>
-                                    <select class="form-select" id="ddlYear">
-                                        <option>--Select Year--</option>
+                                    <select class="form-select" id="ddlYear" onchange="onYearChange();">
+                                        <option value="0">--Select Year--</option>
                                     </select>
                                 </div>
 
                                 <p class="section-hint">Calculation: Quantity × Rate = Amount</p>
 
-                                <div class="payment-grid grid-header">
-                                    <div>Category</div>
-                                    <div>Quantity</div>
-                                    <div>Rate (₹)</div>
-                                    <div>Amount (₹)</div>
-                                </div>
 
-                                <div class="payment-grid payment-row yearly-row" data-rate="2500">
-                                    <div class="row-label">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" class="row-checkbox" id="chkFirmCompany" onchange="toggleFirm(this)">
-                                            <i class="fas fa-building"></i>
-                                            <span>Firm / Company / Proprietorship</span>
-                                        </label>
-                                    </div>
-                                    <input type="number" class="input-qty yearly-qty" id="txtFirmQuantity" value="0" readonly min="0" max="1" onchange="calculateAll()">
-                                    @*<input type="text" class="input-rate" value="2500" readonly>*@
-                                    <select class="form-select" id="ddlFirmRate" style="width:100%;" onchange="onFirmChange();">
-                                        <option value="0">--Select--</option>
-                                        <option value="1250">1250</option>
-                                        <option value="2500" selected>2500</option>
-                                    </select>
-                                    <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly>
-                                </div>
+                                <table style="width: 100%; border-collapse: collapse; border: 1px solid #dee2e6; border-radius: 8px; font-family: Arial, sans-serif;" id="tblYear">
+                                    <thead>
+                                        <tr style="background: linear-gradient(135deg, #600664, #75339b, #590568, #531f66);">
+                                            <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 40%;">Category</th>
+                                            <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">Quantity</th>
+                                            <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">Rate (₹)</th>
+                                            <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">Amount (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="taxTableBody">
+                                        <tr class="yearly-row" data-rate="2500" style="background-color: #ffffff;">
+                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                    <input type="checkbox" class="row-checkbox" id="chkFirmCompany" onchange="toggleFirm(this)" style="cursor: pointer;">
+                                                    <i class="fas fa-building" style="color: #6c757d;"></i>
+                                                    <span style="color: #495057;">Firm / Company / Proprietorship</span>
+                                                </label>
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="number" class="input-qty yearly-qty" id="txtFirmQuantity" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                            @*<td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <select class="form-select" id="ddlFirmRate" style="width:100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" onchange="onFirmChange();">
+                                                    <option value="0">--Select--</option>
+                                                    <option value="1250">1250</option>
+                                                    <option value="2500" selected>2500</option>
+                                                </select>
+                                            </td>*@
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                        </tr>
 
-                                <div class="payment-grid payment-row yearly-row" data-rate="2500">
-                                    <div class="row-label">
-                                        <i class="fas fa-store"></i>
-                                        <span>Additional Places of Business</span>
-                                    </div>
-                                    <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                    <input type="text" class="input-rate" value="2500" readonly>
-                                    <input type="text" class="input-amount yearly-amount" readonly>
-                                </div>
+                                        <tr class="yearly-row" data-rate="2500" style="background-color: #ffffff;">
+                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <i class="fas fa-store" style="color: #6c757d;"></i>
+                                                    <span style="color: #495057;">Additional Places of Business</span>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                        </tr>
 
-                                <div class="payment-grid payment-row yearly-row" data-rate="2500">
-                                    <div class="row-label">
-                                        <i class="fas fa-users"></i>
-                                        <span> Directors</span>
-                                    </div>
-                                    <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                    <input type="text" class="input-rate" value="2500" readonly>
-                                    <input type="text" class="input-amount yearly-amount" readonly>
-                                </div>
-                                <div class="payment-grid payment-row yearly-row" data-rate="1250">
-                                    <div class="row-label">
-                                        <i class="fas fa-users"></i>
-                                        <span>Partners </span>
-                                    </div>
-                                    <input type="number" class="input-qty yearly-qty" value="0" min="0" onchange="calculateAll()">
-                                    <input type="text" class="input-rate" value="1250" readonly>
-                                    <input type="text" class="input-amount yearly-amount" readonly>
-                                </div>
+                                        <tr class="yearly-row" data-rate="2500" style="background-color: #ffffff;">
+                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <i class="fas fa-users" style="color: #6c757d;"></i>
+                                                    <span style="color: #495057;">Directors</span>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                            <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                        </tr>
+
+                                        <tr class="yearly-row" data-rate="1250" style="background-color: #ffffff;">
+                                            <td style="padding: 12px 15px;">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <i class="fas fa-users" style="color: #6c757d;"></i>
+                                                    <span style="color: #495057;">Partners</span>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 8px 15px;">
+                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            </td>
+                                            <td style="padding: 8px 15px;">
+                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                            <td style="padding: 8px 15px;">
+                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="totals-section" style="padding: 5px 25px 0px 20px; margin: -18px 20px 8px 20px;">
+                            <div class="totals-section" style="padding: 5px 25px 0px 20px; margin: -10px 20px 8px 20px;">
                                 <div class="total-row">
                                     <span class="total-label">Total Yearly Amount</span>
                                     <span class="total-value" id="yearlyTotal">₹ 0</span>
@@ -184,18 +235,15 @@
                             <i class="fas fa-redo"></i>
                             Reset Form
                         </button>
-                        <button class="btn btn-primary" id="proceedBtn1" disabled>
+                        <button class="btn btn-primary" id="btnProceed" disabled>
                             <i class="fas fa-file-alt"></i>
-                            Proceed to File Return
-                        </button>
-                        <button class="btn btn-primary" id="proceedBtn" disabled>
-                            <i class="fas fa-file-invoice"></i>
-                            Generate Challan
+                            Proceed to Pay
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="hdnReturnId" />
     </div>
 
 
@@ -203,6 +251,7 @@
         var PTIN = '@Session["Tin"]';
 
         $(document).ready(function () {
+            $('#tblYear :input').prop('disabled', true);
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
                 $('#ptinInput').val(PTIN);
                 $('#ptinInput').attr('disabled', true);
@@ -254,7 +303,7 @@
                 },
                 success: function (response) {
                     if ((response[0].OwnerType == "Y" && response[0].Form1Reg == "N") || (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y")) {
-                        GetPTGstRtnDtls(ptin, "Y");
+                        GetPaymentPendingReturns(ptin);
                     }
                     else {
                         ModernAlert.toast.info('You are not eligible');
@@ -308,7 +357,7 @@
             togglePurpose();
 
             // Initialize calculation
-            calculateAll();
+            //calculateAll();
         });
 
         // Date validation
@@ -392,37 +441,7 @@
         window.validateDates = validateDates;
         window.resetForm = resetForm;
 
-        function GetPTGstRtnDtls(ptin, dealertype) {
-            $.ajax({
-                url: '@Url.Action("GetPTGstReturnDetails", "Return")',
-                dataType: 'json',
-                data: {
-                    ptin: ptin,
-                    type: dealertype
-                },
-                success: function (response) {
-                    if (response.length > 0) {
-                        if (dealertype == "Y") {
-                            BindYearsDropdown(response);
-                        }
-                        else {
-                            BindMonthsDropdown(response);
-                        }
-                    }
-                    else {
-                        if (dealertype == "Y") {
-                            GetPTTaxReturnMonthsNew(ptin, "0", dealertype);
-                        }
-                        else {
-                            GetPTTaxReturnMonthsNew(ptin, "1", dealertype);
-                        }
-                    }
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        }
+      
         function BindYearsDropdown(response) {
             var $ddl = $('#ddlYear');
             $ddl.empty();
@@ -440,46 +459,19 @@
             });
 
         }
-        function BindMonthsDropdown(response) {
-            var $ddl = $('#ddlMonth');
-            $ddl.empty();
-            $ddl.append($('<option>', {
-                value: '0',
-                text: '-- Select --'
-            }));
-            $.each(response, function (i, item) {
-                if (item.MonthYear) {
-                    var month = item.MonthYear.substring(0, 2);
-                    var year = item.MonthYear.substring(2, 6);
-                    var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-                        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-                    var monthText = monthNames[parseInt(month) - 1];
-                    var displayText = monthText + "-" + year;
-                    $ddl.append($('<option>', {
-                        value: item.MonthYear,
-                        text: displayText
-                    }));
-                }
-            });
-
-        }
-        function GetPTGstReturnMonthsNew(ptin, flag, dealertype) {
+        
+          function GetPaymentPendingReturns(ptin) {
             $.ajax({
-                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
+                url: '@Url.Action("GetPaymentPendingReturns", "ePayment")',
                 dataType: 'json',
                 data: {
                     ptin: ptin,
-                    flag: flag,
-                    type: dealertype
+                    OwnerType: "Y"
                 },
                 success: function (response) {
                     if (response.length > 0) {
-                        if (dealertype == "Y") {
-                            BindYearsDropdown(response);
-                        }
-                        else {
-                            BindMonthsDropdown(response);
-                        }
+                        PendingReturns = response;
+                        BindYearsDropdown(response);
                     }
                     else {
 
@@ -530,6 +522,66 @@
             $('#txtFirmAmount').val(value);
 
             calculateAll();
+        }
+
+        function onYearChange() {
+            var selectedYear = $('#ddlYear').val();
+            var record = PendingReturns.find(x => x.MonthYear == selectedYear);
+            var returnId = record ? record.ReturnId : null;
+            if (returnId != null && returnId != undefined) {
+                $('#hdnReturnId').val(returnId.trim());
+            }
+            BuildTable();
+        }
+        function BuildTable() {
+            var returnid = $('#hdnReturnId').val();
+            var totalamount = "";
+            $('#taxTableBody').empty();
+            $.ajax({
+               url: '@Url.Action("GetReturnDetailsByReturnId", "ePayment")',
+                dataType: 'json',
+                data: {
+                    ReturnId: returnid
+                },
+                success: function (data) {
+                     totalamount = data[0].TotalAmount;
+                    var html = '';
+
+                    $.each(data, function (i, item) {
+
+                        html += '<tr class="yearly-row">' +
+                            '<td style="padding:12px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<span>' + item.Type + '</span>' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="number" class="input-qty yearly-qty" value="' + item.Quantity + '" id="txtRate' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="text" class="input-rate"  value="' + item.TaxAmount + '" id="txtEmployees' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;;">' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="text" class="input-amount yearly-amount"  value="' + item.PayableTaxAmount + '" id="txtTaxAmount' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
+                            '</td>' +
+
+                            '</tr>';
+
+                    });
+
+                    $('#taxTableBody').html(html);
+                    $('#yearlyTotal').text("₹ " + totalamount);
+                    $('#tblYear :input').prop('disabled', true);
+                    $('#btnProceed').attr('disabled', false);
+
+                },
+                error: function () {
+                    alert("Error loading data");
+                }
+
+            });
+
         }
     </script>
 </body>

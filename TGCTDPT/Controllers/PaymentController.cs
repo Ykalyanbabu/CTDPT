@@ -21,11 +21,15 @@ namespace TGCTDPT.Controllers
             return View();
         }
        
-        public ActionResult PaymentConfirmation(string returnId)
+        public ActionResult PaymentConfirmation(string returnId,string tin)
         {
+            if (tin != null && tin != "")
+            {
+                Session["Tin"] = tin;
+            }
             if (Session["Tin"] == null)
             {
-                RedirectToAction("Home", "PTHome");
+                return RedirectToAction("Home", "PTHome");
             }
             var data = dal.GetReturnById(returnId);
             Session["ReturnId"] = data.ReturnId; ;
@@ -78,7 +82,8 @@ namespace TGCTDPT.Controllers
                     data.ReturnPeriod,
                     Convert.ToInt32(amount),
                     data.TaxPurpose,
-                    Session["Tin"].ToString()
+                    Session["Tin"].ToString(),
+                    Session["ReturnId"].ToString()
                 );
 
                 if (string.IsNullOrEmpty(paymentId))

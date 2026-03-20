@@ -50,14 +50,14 @@
 
             </div>
 
-            <div class="pt-card" onclick="location.href='#'">
+            <div class="pt-card" onclick="location.href='@Url.Action("DeptLogin", "PTHome")'">
                 <div class="card-icon">
                     <i class="fas fa-user-tie"></i>
                 </div>
                 <h3>PTO Login</h3>
                 <p>Secure portal for Professional Tax Officers to access administrative functions.</p>
                 <div class="card-action">
-                    <a href="#">
+                    <a href="@Url.Action("DeptLogin", "PTHome")">
                         <i class="fas fa-user-shield"></i> Officer Login
                     </a>
                 </div>

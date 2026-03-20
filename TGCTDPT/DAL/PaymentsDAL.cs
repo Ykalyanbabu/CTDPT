@@ -57,7 +57,7 @@ namespace TGCTDPT.DAL
             }
         }
         public string InsertPTPaymentDetails(string CTDTransactionId,string PTIN,string Act,string FromTaxPeriod, string ToTaxPeriod,int Amount,string TaxPurpose,
-            string UserId)
+            string UserId,string ReturnId)
         {
             try
             {
@@ -75,6 +75,7 @@ namespace TGCTDPT.DAL
                         cmd.Parameters.AddWithValue("@amount", Amount);
                         cmd.Parameters.AddWithValue("@purpose", TaxPurpose);
                         cmd.Parameters.AddWithValue("@inserted_userid", UserId);
+                        cmd.Parameters.AddWithValue("@returnid", ReturnId);
 
                         con.Open();
 

@@ -1,0 +1,1152 @@
+﻿@{
+    ViewBag.Title = "Form II Enrolment Summary";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1d4ed8;
+            --primary-light: #eff6ff;
+            --primary-mid: #bfdbfe;
+            --secondary: #6b7280;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --dark: #111827;
+            --mid: #374151;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+            --border-strong: #d1d5db;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 12px rgba(0,0,0,0.07);
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f3f4f6;
+            padding: 1.5rem;
+            color: var(--dark);
+        }
+
+        .summary-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: #c94ae9;
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border: 1px solid var(--border);
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .page-header h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.2px;
+        }
+
+        .rnr-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-mid);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'IBM Plex Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .status-badge {
+            background: var(--success-light);
+            color: var(--success);
+            border: 1px solid #a7f3d0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .btn {
+            padding: 0.35rem 0.85rem;
+            border-radius: 7px;
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: 1px solid var(--border-strong);
+            background: white;
+            color: var(--mid);
+        }
+
+            .btn:hover {
+                background: var(--light);
+            }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+            .btn-primary:hover {
+                background: #1a45c2;
+            }
+
+        /* ── Quick Stats ── */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .stat-item {
+            background: white;
+            border-radius: 9px;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-label {
+            font-size: 0.62rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-top: 0.25rem;
+        }
+
+        /* ── Sections ── */
+        .section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 0.5rem 1.2rem;
+            background: var(--light);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            background-color: rgb(146 183 255);
+        }
+
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-mid);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .section-title1 {
+            font-size: 0.92rem !important;
+            font-weight: 700;
+            color: black;
+            letter-spacing: -0.1px;
+        }
+
+        .section-body {
+            padding: 1.2rem;
+        }
+
+        /* ── Details Grid ── */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .detail-cell {
+            padding: 0.7rem 1rem;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: white;
+        }
+
+            .detail-cell:nth-child(even) {
+                background: #fafafa;
+            }
+
+            /* Remove right border on last in row — handled via JS or just allow overflow */
+            .detail-cell.full-width {
+                grid-column: 1 / -1;
+                background: white !important;
+            }
+
+        .detail-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 0.83rem;
+            color: var(--dark);
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+            .detail-value.highlight {
+                font-family: 'IBM Plex Mono', monospace;
+                font-size: 0.82rem;
+                color: var(--primary);
+                font-weight: 600;
+            }
+
+            .detail-value.empty {
+                color: #9ca3af;
+                font-style: italic;
+                font-size: 0.78rem;
+            }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: var(--success-light);
+            color: var(--success);
+            border: 1px solid #a7f3d0;
+        }
+
+        /* ── Owner Avatar ── */
+        .owner-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-mid);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .owner-avatar {
+            width: 38px;
+            height: 38px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .owner-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .owner-sub {
+            font-size: 0.72rem;
+            color: var(--secondary);
+            margin-top: 0.1rem;
+        }
+
+        /* ── Bank Card ── */
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .bank-cell {
+            padding: 0.75rem 1rem;
+            border-right: 1px solid var(--border);
+        }
+
+            .bank-cell:last-child {
+                border-right: none;
+            }
+
+        /* ── Footer Info ── */
+        .info-table {
+            margin-top: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .info-row {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .info-row:last-child {
+                border-bottom: none;
+            }
+
+        .info-label {
+            min-width: 130px;
+            padding: 0.55rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            background: var(--light);
+            border-right: 1px solid var(--border);
+        }
+
+        .info-value {
+            padding: 0.55rem 1rem;
+            font-size: 0.82rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        /* ── Responsive ── */
+        @@media (max-width: 768px) {
+            body {
+                padding: 0.6rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .bank-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bank-cell {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+                .bank-cell:last-child {
+                    border-bottom: none;
+                }
+
+            .info-row {
+                flex-direction: column;
+            }
+
+            .info-label {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                min-width: unset;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #divbuttons, #divbuttons * {
+                visibility: hidden;
+            }
+
+            #printSection {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+        /* ── Bank Table ── */
+        .bank-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.82rem;
+        }
+
+            .bank-table thead tr {
+                background: var(--light);
+                border-bottom: 2px solid var(--border);
+            }
+
+            .bank-table thead th {
+                padding: 0.65rem 1rem;
+                text-align: left;
+                font-size: 0.62rem;
+                font-weight: 700;
+                color: white;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border-right: 1px solid var(--border);
+                white-space: nowrap;
+                background-color: #7a7a7a;
+            }
+
+                .bank-table thead th:last-child {
+                    border-right: none;
+                }
+
+            .bank-table tbody tr {
+                border-bottom: 1px solid var(--border);
+                transition: background 0.15s ease;
+            }
+
+                .bank-table tbody tr:last-child {
+                    border-bottom: none;
+                }
+
+                .bank-table tbody tr:nth-child(even) {
+                    background: #fafafa;
+                }
+
+                .bank-table tbody tr:hover {
+                    background: var(--primary-light);
+                }
+
+            .bank-table tbody td {
+                padding: 0.65rem 1rem;
+                color: var(--dark);
+                font-weight: 500;
+                border-right: 1px solid var(--border);
+                vertical-align: middle;
+            }
+
+                .bank-table tbody td:last-child {
+                    border-right: none;
+                }
+
+        .row-num {
+            color: var(--secondary) !important;
+            font-weight: 600 !important;
+            font-size: 0.75rem !important;
+            text-align: center;
+            width: 36px;
+        }
+
+        .mono-val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--dark);
+        }
+
+        .badge-primary-acc {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-mid);
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        .badge-secondary-acc {
+            background: #f3f4f6;
+            color: var(--secondary);
+            border: 1px solid var(--border-strong);
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        .empty-row {
+            text-align: center !important;
+            color: #9ca3af !important;
+            font-style: italic;
+            font-size: 0.8rem !important;
+            padding: 1.5rem !important;
+            border-right: none !important;
+        }
+
+            .empty-row i {
+                margin-right: 0.3rem;
+                color: #d1d5db;
+            }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .bank-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="summary-container" id="printSection">
+
+        <div class="page-header">
+            <div class="header-center">
+                <h1>Form I & II Registration Summary</h1>
+                @*<span class="rnr-badge"><i class="fas fa-qrcode"></i> 38280118202289</span>
+                    <span class="status-badge"><i class="fas fa-check-circle"></i> Registered</span>*@
+            </div>
+        </div>
+
+        @*<div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Application Date</div>
+                    <div class="stat-value">18-01-2028</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Category</div>
+                    <div class="stat-value">PRIVATE LTD</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Circle</div>
+                    <div class="stat-value">MADHAPUR 1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">EDR</div>
+                    <div class="stat-value">01-01-2028</div>
+                </div>
+            </div>*@
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-id-card"></i></div>
+                <span class="section-title1">Registration Details</span>
+            </div>
+            <div class="section-body">
+                <div class="details-grid">
+                    <div class="detail-cell">
+                        <div class="detail-label">RNR</div>
+                        <div class="detail-value highlight"><span id="spnrnr">123</span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Application Date</div>
+                        <div class="detail-value"><span id="spnApplicationDate"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Registration Type</div>
+                        <div class="detail-value"><span id="spnRegType"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Category</div>
+                        <div class="detail-value"><span id="spnCategory"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Data Entry Date</div>
+                        <div class="detail-value"><span id="spnDataEntryDate"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Division</div>
+                        <div class="detail-value"><span id="spnDivision"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Circle</div>
+                        <div class="detail-value"><span id="spnCircle"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">EDR</div>
+                        <div class="detail-value"><span id="spnEDR"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Form II Reg</div>
+                        <div class="detail-value">
+                            <span class="badge badge-green" id="spnFormIIReg"><i class="fas fa-check"></i> Yes</span>
+                        </div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">
+                            <span class="badge badge-green" id="spnStatus"><i class="fas fa-check-circle"></i> Registered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-building"></i></div>
+                <span class="section-title1">Enterprise Details</span>
+            </div>
+            <div class="section-body">
+                <div class="details-grid">
+                    <div class="detail-cell full-width">
+                        <div class="detail-label">Enterprise Name</div>
+                        <div class="detail-value highlight"><span id="spnEnterpriseName"></span></div>
+                    </div>
+                    <div class="detail-cell full-width">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value"><span id="spnAddress"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Constitution of Business</div>
+                        <div class="detail-value"><span id="spnConstitution"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">PAN</div>
+                        <div class="detail-value"><span id="spnPAN"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Mobile</div>
+                        <div class="detail-value"><span id="spnMobile"></span></div>
+                    </div>
+                    @*<div class="detail-cell">
+                            <div class="detail-label">Land Line</div>
+                            <div class="detail-value"><span id="spnLandLine"></span></div>
+                        </div>*@
+                    <div class="detail-cell">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value"><span id="spnEmail"></span></div>
+                    </div>
+
+                    <div class="detail-cell">
+                        <div class="detail-label">No. of Employees Earning below 15000 per Month </div>
+                        <div class="detail-value"><span id="spnBelow15k"></span></div>
+                    </div>
+
+                    <div class="detail-cell">
+                        <div class="detail-label">No. of Employees Earning between 15001 to 20000 per Month</div>
+                        <div class="detail-value"><span id="spnAbove15k"></span></div>
+                    </div>
+
+                    <div class="detail-cell">
+                        <div class="detail-label">No. of Employees Earning above 20000 per Month</div>
+                        <div class="detail-value"><span id="spnAbove20k"></span></div>
+                    </div>
+
+                    <div class="detail-cell">
+                        <div class="detail-label">Total No. of Employees Working</div>
+                        <div class="detail-value"><span id="spnTotalEmployees"></span></div>
+                    </div>
+                    @*<div class="detail-cell">
+                            <div class="detail-label">Description</div>
+                            <div class="detail-value"><span id="spnDesc"></span></div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user"></i></div>
+                <span class="section-title1">Owner / MD / Managing Partner Details</span>
+            </div>
+            <div class="section-body">
+                <div class="owner-row">
+                    @*<div class="owner-avatar">MB</div>*@
+                    <div>
+                        <div class="owner-name"><span id="spnOwnerName"></span></div>
+                        <div class="owner-sub"><span id="spnOwnerSub"></span></div>
+                    </div>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-cell">
+                        <div class="detail-label">Father Name</div>
+                        <div class="detail-value"><span id="spnOwnerFatherName"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Status of Individual</div>
+                        <div class="detail-value"><span id="spnOwnerStatus"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">PAN</div>
+                        <div class="detail-value "><span id="spnOwnerPAN"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Aadhar</div>
+                        <div class="detail-value "><span id="spnOwnerAadhar"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Mobile</div>
+                        <div class="detail-value"><span id="spnOwnerMobile"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value"><span id="spnOwnerEmail"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Nominated by Authorised Person?</div>
+                        <div class="detail-value"><span id="spnOwnerNomination"></span></div>
+                    </div>
+                    <div class="detail-cell full-width">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value"><span id="spnOwnerAddress"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user"></i></div>
+                <span class="section-title1">Authorised Person Details</span>
+            </div>
+            <div class="section-body">
+                <div class="owner-row">
+                    @*<div class="owner-avatar"></div>*@
+                    <div>
+                        <div class="owner-name"><span id="spnAuthPersonName"></span></div>
+                        @*<div class="owner-sub">Director / Owner</div>*@
+                    </div>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-cell">
+                        <div class="detail-label">Father Name</div>
+                        <div class="detail-value"><span id="spnAuthFatherName"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value"><span id="spnAuthEmail"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">PAN</div>
+                        <div class="detail-value "><span id="spnAuthPan"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Aadhar</div>
+                        <div class="detail-value "><span id="spnAuthAadhar"></span></div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Mobile</div>
+                        <div class="detail-value "><span id="spnAuthMobile"></span></div>
+                    </div>
+                    <div class="detail-cell full-width">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value"><span id="spnAuthAddress"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user-alt"></i></div>
+                <span class="section-title1">Partners / Directors Details</span>
+            </div>
+            <div class="section-body">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Drawing <br />Remuneration</th>
+                            <th>PAN</th>
+                            <th>Aadhaar</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Partnersbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-location"></i></div>
+                <span class="section-title1">Additional Places of Business Details</span>
+            </div>
+            <div class="section-body">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>District</th>
+                            <th>Mandal</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Placesbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-building-columns"></i></div>
+                <span class="section-title1">Bank Details</span>
+            </div>
+            <div class="section-body">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Bank Name</th>
+                            <th>IFSC Code</th>
+                            <th>Account Number</th>
+                            <th>Account Holder Name</th>
+                            <th>Branch Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bankbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-file"></i></div>
+                <span class="section-title1">Check list Document Details</span>
+            </div>
+            <div class="section-body">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Document Name</th>
+                            <th>Uploaded Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Docbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="actions-section">
+        <div class="button-group">
+            <button class="btn btn-primary" id="btnApprove" onclick="onApprove();">
+                Approve
+            </button>
+            <button class="btn btn-reset" id="btnQuery" style="background: cadetblue;color: white;display:none;">
+                Raise Query
+            </button>
+            <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;">
+                Reject
+            </button>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            loadFullSummary("36260317185057");
+        });
+
+        function loadFullSummary(rnr) {
+
+            // Show skeleton loaders
+            showSkeletons();
+
+            $.ajax({
+                url: '@Url.Action("GetFullSummary", "PTOfficer")',
+                type: 'GET',
+                data: { rnr: rnr },
+                success: function (res) {
+                    if (!res.success) {
+                        showError(res.message);
+                        return;
+                    }
+                    renderBizDtls(res.data.BusinessDetails);
+                    renderOwnerDtls(res.data.OwnerDetails[0]);
+                    renderAuthPersonDtls(res.data.AuthPersonDetails[0]);
+                    renderTable('Partnersbody', res.data.DirectorPartners, renderPartnerRow);
+                    renderTable('Placesbody', res.data.AddlPlacesOfBiz, renderAddlPlaceRow);
+                    renderTable('bankbody', res.data.BankDetails, renderBankRow);
+                    renderTable('Docbody', res.data.DocumentDetails, renderDocRow);
+                },
+                error: function (xhr) {
+                    showError('Server error: ' + xhr.statusText);
+                }
+            });
+        }
+
+        function renderTable(tbodyId, rows, rowFn) {
+            const tbody = $('#' + tbodyId);
+            tbody.empty();
+            if (!rows || rows.length === 0) {
+                tbody.html(`<tr><td colspan="99" class="empty-row">
+                            <i class="fas fa-info-circle"></i> No records found
+                        </td></tr>`);
+                return;
+            }
+            rows.forEach((r, i) => tbody.append(rowFn(r, i + 1)));
+        }
+
+        function renderBizDtls(d) {
+            if (!d) return;
+            $('#spnrnr').text(d.ApplicationId);
+            $('#spnApplicationDate').text(d.ApplicationDate);
+            $('#spnRegType').text(d.appDate);
+            $('#spnCategory').text();
+            $('#spnDataEntryDate').text();
+            $('#spnDivision').text();
+            $('#spnCircle').text();
+            $('#spnEDR').text();
+            $('#spnFormIIReg').text();
+            $('#spnStatus').text();
+
+            $('#spnEnterpriseName').text(d.EnterPriseName);
+            $('#spnAddress').text(d.FullAddress);
+            $('#spnConstitution').text(d.BusinessConstitution);
+            $('#spnPAN').text(d.BusinessPan);
+            $('#spnMobile').text(d.MobileNo);
+            $('#spnEmail').text(d.EmailId);
+            $('#spnBelow15k').text(d.EmpBelow_15000);
+            $('#spnAbove15k').text(d.EmpBetween_15001_20000);
+            $('#spnAbove20k').text(d.EmpAbove_20000);
+            $('#spnTotalEmployees').text(d.TotalEmployees);
+
+        }
+
+        function renderOwnerDtls(d) {
+            if (!d) return;
+            $('#spnOwnerName').text(d.owner_name);
+            $('#spnOwnerFatherName').text(d.father_name);
+            $('#spnOwnerStatus').text(d.status_of_individual);
+            $('#spnOwnerPAN').text(d.pan);
+            $('#spnOwnerAadhar').text(d.aadhaar);
+            $('#spnOwnerMobile').text(d.mobile_no);
+            $('#spnOwnerEmail').text(d.email_id);
+            $('#spnOwnerNomination').text("Yes");
+            $('#spnOwnerAddress').text(d.FullAddress);
+
+        }
+        function renderAuthPersonDtls(d) {
+            if (!d) return;
+            $('#spnAuthPersonName').text(d.auth_prsn_name);
+            $('#spnAuthFatherName').text(d.auth_prsn_father_name);
+            $('#spnAuthEmail').text(d.email_id);
+            $('#spnAuthPan').text(d.auth_prsn_pan);
+            $('#spnAuthAadhar').text(d.auth_prsn_aadhaar);
+            $('#spnAuthMobile').text(d.auth_prsn_mobile_no);
+            $('#spnAuthAddress').text(d.FullAddress);
+
+        }
+
+        function renderEmpRow(r, i) {
+            return `<tr>
+                               <td class="row-num">${i}</td>
+                               <td>${r.empName}</td>
+                               <td>${r.designation}</td>
+                               <td>${r.empType}</td>
+                               <td>${r.gender}</td>
+                               <td>${r.doj}</td>
+                               <td>₹${Number(r.salary).toLocaleString('en-IN')}</td>
+                               <td>${r.mobile || empty()}</td>
+                           </tr>`;
+        }
+
+
+        function renderPartnerRow(r, i) {
+            return `<tr>
+                                <td class="row-num">${i}</td>
+                                <td>${r.dir_name}</td>
+                                <td>${r.type_drp}</td>
+                                <td>${r.drawing_remuneration}</td>
+                                <td><span class="mono-val">${r.pan || 'N/A'}</span></td>
+                                <td><span class="mono-val">${r.aadhar || 'N/A'}</span></td>
+                                <td>${r.email_id}</td>
+                                <td>${r.mobile_no || empty()}</td>
+                                <td>${r.FullAddress}</td>
+                            </tr>`;
+        }
+
+        function renderAddlPlaceRow(r, i) {
+            return `<tr>
+                            <td class="row-num">${i}</td>
+                            <td>${r.country}</td>
+                            <td>${r.state_name}</td>
+                            <td>${r.district}</td>
+                            <td>${r.mandal}</td>
+                            <td>${r.FullAddress}</td>
+                        </tr>`;
+        }
+
+        function renderAuthRow(r, i) {
+            const expired = isExpired(r.validTo);
+            return `<tr>
+                            <td class="row-num">${i}</td>
+                            <td>${r.authName}</td>
+                            <td>${r.designation}</td>
+                            <td>${r.mobile}</td>
+                            <td>${r.validFrom}</td>
+                            <td>${r.validTo}</td>
+                            <td><span class="badge ${expired ? 'badge-expired' : 'badge-green'}">${expired ? 'Expired' : 'Active'}</span></td>
+                        </tr>`;
+        }
+
+
+
+
+        function renderPbzRow(r, i) {
+            const isActive = r.status?.toLowerCase() === 'active';
+            return `<tr>
+                            <td class="row-num">${i}</td>
+                            <td>${r.bzName}</td>
+                            <td>${r.address}</td>
+                            <td>${r.natureOfBz}</td>
+                            <td>${r.fromDate}${r.toDate ? ' → ' + r.toDate : ''}</td>
+                            <td><span class="badge ${isActive ? 'badge-green' : 'badge-secondary-acc'}">${r.status}</span></td>
+                        </tr>`;
+        }
+
+        function renderBankRow(r, i) {
+            return `<tr>
+                            <td class="row-num">${i}</td>
+                            <td>${r.bank_name}</td>
+                            <td>${r.ifsc_code}</td>
+                            <td>${r.account_number}</td>
+                            <td>${r.account_holder_name}</td>
+                            <td>${r.branch_address}</td>
+                        </tr>`;
+            /*<td><span class="badge ${r.isPrimary ? 'badge-primary-acc' : 'badge-secondary-acc'}">${r.isPrimary ? 'Primary' : 'Secondary'}</span></td>*/
+        }
+
+        function renderDocRow(r, i) {
+            //const viewUrl = r.web_url || `/Documents/View/${r.master_doc_id}`;
+
+            return `<tr>
+                        <td class="row-num">${i}</td>
+                        <td>${r.document_type}</td>
+                        <td>${r.uploaded_date}</td>
+                        <td>${r.document_path
+                ? `<a href="${r.document_path}" target="_blank" class="btn btn-sm" onclick="return openDocument('${r.document_path}');">
+                                <i class="fas fa-eye"></i> View
+                               </a>`
+                                    : empty()}</td>
+                    </tr>`;
+        }
+
+        function openDocument(url) {
+            window.open(url, '_blank');
+            return false;
+        }
+
+
+        function empty() { return '<span class="empty-val">Not provided</span>'; }
+        function isExpired(dateStr) {
+            if (!dateStr) return false;
+            return new Date(dateStr.split('-').reverse().join('-')) < new Date();
+        }
+        function showSkeletons() {
+            ['empTbody', 'ownerTbody', 'authTbody', 'dirTbody', 'pbzTbody', 'bankTbody', 'docTbody'].forEach(id => {
+                $('#' + id).html(`<tr><td colspan="99" class="empty-row">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr>`);
+            });
+        }
+        function showError(msg) {
+            console.error(msg);
+        }
+        function onApprove() {
+            $('#btnApprove').attr('disabled', true);
+
+            $.ajax({
+                url: '@Url.Action("ApprooveApplication", "PTOfficer")',
+                type: 'POST',
+                data: {
+                    rnr: $('#spnrnr').text().trim()
+                },
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid;
+                        ModernAlert.showAlert('Your Return has been submitted Successfully!', 'You will be Redirecting to Payment Page','Return Submitted',
+                                             {
+                                                 autoClose: true,
+                                                 duration: 3000,
+                                                 redirectUrl: paymentUrl
+                                             }
+                        );
+                        $('.modern-close').hide();
+                        $('#btnProceed').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                    } else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
+
+        }
+    </script>
+</body>

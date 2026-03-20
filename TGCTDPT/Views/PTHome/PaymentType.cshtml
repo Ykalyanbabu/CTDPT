@@ -1,6 +1,34 @@
 ﻿@{
     ViewBag.Title = "Payment Type";
-    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+    Layout = ViewBag.Layout;
+}
+@if (Session["Tin"] != null)
+{
+    <style>
+        .container {
+            max-width: 1400px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            /* padding: 4px; */
+            margin: 128px 0px 83px 1px;
+            height: 370px;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .container {
+            max-width: 1400px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            /* padding: 4px; */
+            margin: 0px 0px 0px 0px;
+            height: 370px;
+        }
+    </style>
 }
 
 <div class="container mt-5">
@@ -47,20 +75,13 @@
 </div>
 
 <style>
-    .container {
-        max-width: 1400px;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        /* padding: 4px; */
-        margin: 0px 0px 0px 0px;
-        height: 370px;
-    }
+   
+
     .payment-header {
         background: linear-gradient(to right, #83079d 0%, #60135d 100%);
         padding: 15px;
         margin: 0px 0px 15px 0px;
-        color:white;
+        color: white;
     }
 
     .payment-btn {

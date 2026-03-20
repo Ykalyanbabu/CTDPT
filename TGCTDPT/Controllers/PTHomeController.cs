@@ -9,6 +9,7 @@ using TGCTDPT.DAL;
 using TGCTDPT.Models;
 using TGCTDPT.Services;
 using TGCTDPT.Helpers;
+using System.Web.Security;
 
 namespace TGCTDPT.Controllers
 {   
@@ -37,6 +38,14 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult PaymentType()
         {
+            if (Session["Tin"] == null)
+            {
+                ViewBag.Layout = "~/Views/Shared/_OuterLayout.cshtml";
+            }
+            else
+            {
+                ViewBag.Layout = "~/Views/Shared/_InnerLayout.cshtml";
+            }
             return View();
         }
         public ActionResult ChangePassword()
@@ -56,9 +65,56 @@ namespace TGCTDPT.Controllers
             ViewBag.username = ptin;
             return View();
         }
+        public ActionResult DeptLogin()
+        {
+            return View();
+        }
         public ActionResult Dashboard()
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PTOLogin(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                TempData["ErrorMessage"] = "Username and password are required.";
+                ModelState.AddModelError("", "Username and password are required");
+                return View();
+            }
+
+            /*User usd = _User.GetUserData(username, password);*/
+
+            if (username != null && username != "")
+            {   
+                Session["Userid"] = username;
+                Session["CircleCode"] = "9114";
+                Session["LoginTime"] = DateTime.Now;
+                return RedirectToAction("PTOHome", "PTOfficer");
+            }
+            TempData["ErrorMessage"] = "Invalid login attempt";
+            ModelState.AddModelError("", "Invalid login attempt");
+            return View();
+        }
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+
+            Session.Clear();
+            Session.Abandon();
+
+            if (Request.Cookies[".ASPXAUTH"] != null)
+            {
+                Response.Cookies[".ASPXAUTH"].Expires = DateTime.Now.AddDays(-1);
+            }
+
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);
+            }
+
+            return RedirectToAction("Login", "PTHome");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

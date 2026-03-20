@@ -1,18 +1,29 @@
 ﻿
 @{
     ViewBag.Title = "ePaymentGenMonthly";
-    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+    Layout = ViewBag.Layout;
 }
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<link href="~/assets/css/custom.css" rel="stylesheet" />
-<style>
-    .container.payment, .container.Reports {
-        padding: 15px 80px 30px !important;
-    }
-</style>
-<body>
 
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+
+@if (Session["Tin"] != null)
+{
+    <style>
+        .container.payment, .container.Reports {
+            padding: 150px 80px 30px !important;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .container.payment, .container.Reports {
+            padding: 15px 80px 30px !important;
+        }
+    </style>
+}
+<body>
 
     <div class="container payment">
         <div class="body-content">
@@ -51,16 +62,16 @@
                     </label>
                     <div class="radio-group">
                         <label class="radio-option">
-                            <input type="radio" name="purpose" id="return_radio" checked class="radio-input">
+                            <input type="radio" name="purpose" id="return_radio" onchange="onPurposeChange('1');" checked class="radio-input">
                             <span class="radio-label">Return Tax</span>
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="purpose" id="oth_ret_radio" class="radio-input">
+                            <input type="radio" name="purpose" id="oth_ret_radio" onchange="onPurposeChange('2');" class="radio-input">
                             <span class="radio-label">Other than Return Tax</span>
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="purpose" id="oth_radio" class="radio-input">
+                            <input type="radio" name="purpose" id="oth_radio"  onchange="onPurposeChange('3');" class="radio-input">
                             <span class="radio-label">Amount Payable by Others</span>
                         </label>
                         <div class="purpose-box" id="oth_ret_box">
@@ -84,63 +95,91 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-buttons" style="display:flex; gap:10px; margin-bottom:15px;">
-                    <button type="button" class="tab-btn active" id="monthlytab" onclick="showPaymentTab('monthlyTab', this)">
-                        <i class="fas fa-calendar-week"></i> Monthly Tax (Employees)
-                    </button>
-                </div>
+
                 <div id="monthlyTab" class="payment-tab">
                     <div class="payment-section">
                         <div class="section-header">
                             <h3><i class="fas fa-calendar-week"></i> Monthly Tax (For Employees)</h3>
+                            @*<div>
+                                <input type="checkbox" id="monthlyReturns" value="submit" />
+                                <label for="monthlyReturns">Click Here to Submit Monthly Returns</label>
+                            </div>*@
                         </div>
                         <div style="padding: 18px;">
-                            <div class="date-range-group">
-                                <div class="date-group">
-                                    <label class="date-label">Month</label>
-                                    <select class="form-select" style="width: 100%;" id="ddlMonth">
+                            <div>
+                                <div>
+                                    <label>Month</label>
+                                    <select class="form-select" style="width: 20%;" id="ddlMonth" onchange="onReturnMonthSelect();">
+                                        <option value="0">--Select--</option>
                                     </select>
+
                                 </div>
                             </div>
+                            <p class="section-hint">Calculation: No. of Employees × Tax Rate = Tax Payable</p>
+                            <table style="width: 100%; border-collapse: collapse; border: 1px solid #dee2e6; border-radius: 8px; font-family: Arial, sans-serif;" id="tblMonth">
 
-                            <p class="section-hint" style="margin-top: 12px;">Calculation: No. of Employees × Monthly Rate = Monthly Tax</p>
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #600664, #75339b, #590568, #531f66);">
+                                        <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 40%;">Pay Range</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">Tax Rate </th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">No. of Employees</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 500; color: white; border-bottom: 2px solid #dee2e6; width: 20%;">Tax Payable</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="taxTableBody">
+                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                        <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="color: #495057;">Below 15000</span>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="number" class="input-qty yearly-qty" id="txtRate1" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-rate" readonly id="txtEmployees1" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount1" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                    </tr>
 
-                            <div class="payment-grid grid-header">
-                                <div>Salary Slab</div>
-                                <div>No. of Employees</div>
-                                <div>Rate (₹)</div>
-                                <div>Amount (₹)</div>
-                            </div>
+                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                        <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="color: #495057;">15001-20000</span>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="number" class="input-qty yearly-qty" id="txtRate2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-rate" readonly id="txtEmployees2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount2" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                        </td>
+                                    </tr>
 
-                            <div class="payment-grid payment-row monthly-row" data-rate="0">
-                                <div class="row-label">
-                                    <i class="fas fa-user-check"></i>
-                                    <span>Below ₹15,000 per month</span>
-                                </div>
-                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="0" readonly>
-                                <input type="text" class="input-amount monthly-amount" readonly>
-                            </div>
+                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                        <td style="padding: 12px 15px;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="color: #495057;">20001 & Above</span>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="number" class="input-qty yearly-qty" id="txtRate3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-rate" readonly id="txtEmployees3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                        </td>
+                                        <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
+                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount3" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                            <div class="payment-grid payment-row monthly-row" data-rate="150">
-                                <div class="row-label">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span>₹15,001 – ₹20,000</span>
-                                </div>
-                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="150" readonly>
-                                <input type="text" class="input-amount monthly-amount" readonly>
-                            </div>
-
-                            <div class="payment-grid payment-row monthly-row" data-rate="200">
-                                <div class="row-label">
-                                    <i class="fas fa-user-graduate"></i>
-                                    <span>Above ₹20,000</span>
-                                </div>
-                                <input type="number" class="input-qty monthly-qty" value="0" min="0" onchange="calculateAll()">
-                                <input type="text" class="input-rate" value="200" readonly>
-                                <input type="text" class="input-amount monthly-amount" readonly>
-                            </div>
                             <div class="totals-section" style="padding: 3px 25px 0px 20px;margin: 10px -1px 0px 0px;">
                                 <div class="total-row">
                                     <span class="total-label">Total Monthly Amount </span>
@@ -165,33 +204,38 @@
                             <i class="fas fa-redo"></i>
                             Reset Form
                         </button>
-                        <button class="btn btn-primary" id="proceedBtn1" disabled>
+                        <button class="btn btn-primary" id="btnProceed" onclick="ProceedPayment();" disabled>
                             <i class="fas fa-file-alt"></i>
-                            Proceed to File Return
-                        </button>
-                        <button class="btn btn-primary" id="proceedBtn" disabled>
-                            <i class="fas fa-file-invoice"></i>
-                            Generate Challan
+                            Proceed to Pay
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="hdnReturnId" />
     </div>
 
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-
-
        var PTIN = '@Session["Tin"]';
 
         $(document).ready(function () {
+            $('#tblMonth :input').prop('disabled', true);
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
                 $('#ptinInput').val(PTIN);
                 $('#ptinInput').attr('disabled', true);
                 GetEnterpriseDeatils();
             }
         });
+        function onPurposeChange(res) {
+            if (res == "1") {
+                $('#monthlyTab').show();
+            }
+            else {
+                $('#monthlyTab').hide();
+            }
+        }
 
         function GetEnterpriseDeatils() {
             if ($('#ptinInput').val() != "") {
@@ -220,6 +264,7 @@
                 });
             }
         }
+        var PendingReturns = [];
         function getPtinDetails(ptin) {
                 $.ajax({
                 url: '@Url.Action("GetReturnDetails", "ePayment")',
@@ -230,7 +275,7 @@
                 success: function (response) {
 
                     if ((response[0].OwnerType == "M" && response[0].Form1Reg == "Y") || (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y")) {
-                        GetPTGstRtnDtls(ptin, "M");
+                        GetPaymentPendingReturns(ptin);
                     }
                     else {
                         ModernAlert.toast.info('You are not eligible');
@@ -337,95 +382,38 @@
             }
         }
 
-        function toggleFirm(cb) {
-            const qty = cb.closest('.yearly-row').querySelector('.yearly-qty');
-            qty.value = cb.checked ? 1 : 0;
-            calculateAll();
-            if ($('#chkFirmCompany').is(':checked') == true) {
-                $('#txtFirmQuantity').attr('disabled', true);
-            }
-            else {
-                $('#txtFirmQuantity').attr('disabled', false);
-            }
-        }
-
         function resetForm() {
             if (confirm('Are you sure you want to reset all form data?')) {
                 location.reload();
             }
         }
 
-        window.toggleFirm = toggleFirm;
-        window.calculateAll = calculateAll;
+        //window.toggleFirm = toggleFirm;
+        //window.calculateAll = calculateAll;
         window.validateDates = validateDates;
         window.resetForm = resetForm;
 
-        function showPaymentTab(tabId, btn) {
-
-            document.getElementById("monthlyTab").style.display = "none";
-
-            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-
-            document.getElementById(tabId).style.display = "block";
-
-            if (btn == "yearlytab" || btn == "monthlytab") {
-                $('#' + btn).addClass("active");
-            }
-            else {
-                btn.classList.add("active");
-            }
-            var _ptin = $('#ptinInput').val();
-
-            GetPTGstRtnDtls(_ptin, "M");
-        }
-
-        function GetPTGstRtnDtls(ptin, dealertype) {
+        function GetPaymentPendingReturns(ptin) {
             $.ajax({
-                url: '@Url.Action("GetPTGstReturnDetails", "Return")',
+                url: '@Url.Action("GetPaymentPendingReturns", "ePayment")',
                 dataType: 'json',
                 data: {
                     ptin: ptin,
-                    type: dealertype
+                    OwnerType: "M"
                 },
                 success: function (response) {
                     if (response.length > 0) {
-                        if (dealertype == "Y") {
-                            BindYearsDropdown(response);
-                        }
-                        else {
+                        PendingReturns = response;
                             BindMonthsDropdown(response);
-                        }
                     }
                     else {
-                        if (dealertype == "Y") {
-                            GetPTTaxReturnMonthsNew(ptin, "0", dealertype);
-                        }
-                        else {
-                            GetPTTaxReturnMonthsNew(ptin, "1", dealertype);
-                        }
+
                     }
                 },
                 error: function (error) {
                     console.error(error);
                 }
             });
-        }
-        function BindYearsDropdown(response) {
-            var $ddl = $('#ddlYear');
-            $ddl.empty();
-            $ddl.append($('<option>', {
-                value: '0',
-                text: '-- Select --'
-            }));
-            $.each(response, function (i, item) {
-                if (item.MonthYear) {
-                    $ddl.append($('<option>', {
-                        value: item.MonthYear,
-                        text: item.MonthYear
-                    }));
-                }
-            });
-
         }
         function BindMonthsDropdown(response) {
             var $ddl = $('#ddlMonth');
@@ -450,60 +438,7 @@
             });
 
         }
-        function GetPTGstReturnMonthsNew(ptin, flag, dealertype) {
-            $.ajax({
-                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
-                dataType: 'json',
-                data: {
-                    ptin: ptin,
-                    flag: flag,
-                    type: dealertype
-                },
-                success: function (response) {
-                    if (response.length > 0) {
-                        if (dealertype == "Y") {
-                            BindYearsDropdown(response);
-                        }
-                        else {
-                            BindMonthsDropdown(response);
-                        }
-                    }
-                    else {
 
-                    }
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        }
-         function GetPTTaxReturnMonthsNew(ptin, flag, dealertype) {
-            $.ajax({
-                url: '@Url.Action("GetPTTaxReturnDetails", "Return")',
-                dataType: 'json',
-                data: {
-                    ptin: ptin,
-                    flag: flag,
-                    type: dealertype
-                },
-                success: function (response) {
-                    if (response.length > 0) {
-                        if (dealertype == "Y") {
-                            BindYearsDropdown(response);
-                        }
-                        else {
-                            BindMonthsDropdown(response);
-                        }
-                    }
-                    else {
-
-                    }
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        }
         function onFirmChange() {
             const ddl = document.getElementById("ddlFirmRate");
             const row = ddl.closest(".yearly-row");
@@ -513,6 +448,70 @@
             var value = parseInt(qty) * parseInt(rate);
             $('#txtFirmAmount').val(value);
             calculateAll();
+        }
+
+        function onReturnMonthSelect() {
+            var selectedMonth = $('#ddlMonth').val();
+            var record = PendingReturns.find(x => x.MonthYear == selectedMonth);
+            var returnId = record ? record.ReturnId : null;
+            $('#hdnReturnId').val(returnId.trim());
+            BuildTable();
+        }
+        function BuildTable() {
+            var returnid = $('#hdnReturnId').val();
+            var totalamount = "";
+            $('#taxTableBody').empty();
+            $.ajax({
+               url: '@Url.Action("GetReturnDetailsByReturnId", "ePayment")',
+                dataType: 'json',
+                data: {
+                    ReturnId: returnid
+                },
+                success: function (data) {
+                     totalamount = data[0].TotalAmount;
+                    var html = '';
+
+                    $.each(data, function (i, item) {
+
+                        html += '<tr class="yearly-row">' +
+                            '<td style="padding:12px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<span>' + item.Range + '</span>' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="number" class="input-qty yearly-qty" value="' + item.TaxAmount + '" id="txtRate' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="text" class="input-rate"  value="' + item.Quantity + '" id="txtEmployees' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;;">' +
+                            '</td>' +
+
+                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
+                            '<input type="text" class="input-amount yearly-amount"  value="' + item.PayableTaxAmount + '" id="txtTaxAmount' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
+                            '</td>' +
+
+                            '</tr>';
+
+                    });
+
+                    $('#taxTableBody').html(html);
+                    $('#monthlyTotal').text("₹ " + totalamount);
+                    $('#tblMonth :input').prop('disabled', true);
+                    $('#btnProceed').attr('disabled', false);
+
+                },
+                error: function () {
+                    alert("Error loading data");
+                }
+
+            });
+
+        }
+        function ProceedPayment() {
+            var returnid = $('#hdnReturnId').val();
+            var ptin = $('#ptinInput').val();
+            var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + returnid + '&tin=' + ptin;
+            window.location = paymentUrl;
         }
     </script>
 </body>

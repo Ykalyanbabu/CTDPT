@@ -1,0 +1,520 @@
+﻿
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4361ee;
+    --primary-dark: #3a56d4;
+    --primary-light: #eef2ff;
+    --secondary: #64748b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --border: #e2e8f0;
+    --header-bg: #f8fafc;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Full Width Container */
+.search-container {
+    width: 100%;
+    padding: 1.5rem;
+    margin: 0;
+}
+
+/* Search Card */
+.search-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.search-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: var(--light);
+}
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: white;
+    }
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+}
+
+.search-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+    .search-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+    }
+
+/* Results Header */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.results-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.results-count {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 0.2rem 0.6rem;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.export-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: white;
+    color: var(--secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+}
+
+    .export-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+/* Table Card */
+.table-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--border);
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Table with Fixed Layout */
+.data-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 2px solid var(--border);
+    font-size: 0.85rem;
+}
+
+.serial-number {
+    font-weight: 600;
+    color: var(--dark);
+    display: block;
+    text-align: center;
+    background: var(--primary-light);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.data-table th:nth-child(1) {
+    width: 5%;
+}
+/* Serial No */
+.data-table th:nth-child(2) {
+    width: 10%;
+}
+/* Application Number */
+.data-table th:nth-child(3) {
+    width: 15%;
+}
+/* Enterprise Name */
+.data-table th:nth-child(4) {
+    width: 7%;
+}
+/* Circle */
+.data-table th:nth-child(5) {
+    width: 18%;
+}
+/* Address */
+.data-table th:nth-child(6) {
+    width: 7%;
+}
+/* Mode */
+.data-table th:nth-child(7) {
+    width: 7%;
+}
+/* Type */
+.data-table th:nth-child(8) {
+    width: 7%;
+}
+/* Date */
+.data-table th:nth-child(9) {
+    width: 6%;
+}
+/* Delay */
+.data-table th:nth-child(10) {
+    width: 8%;
+}
+/* Actions */
+
+/* Center align serial number column */
+.data-table td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.data-table th {
+    background: var(--header-bg);
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    border: 2px solid var(--border);
+    border-bottom: 3px solid var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.data-table td {
+    padding: 0.6rem 0.5rem;
+    border: 2px solid var(--border);
+    color: var(--dark);
+    vertical-align: middle;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+    /* Right border for last column */
+    .data-table th:last-child,
+    .data-table td:last-child {
+        border-right: 2px solid var(--border);
+    }
+
+/* Bottom border for last row */
+.data-table tbody tr:last-child td {
+    border-bottom: 2px solid var(--border);
+}
+
+/* Zebra striping */
+.data-table tbody tr:nth-child(even) {
+    background-color: #fafaff;
+}
+
+.data-table tbody tr:hover {
+    background: var(--primary-light);
+}
+
+/* FIX FOR ENTERPRISE NAME OVERLAPPING */
+.enterprise-name {
+    font-weight: 600;
+    color: var(--dark);
+    display: block;
+    /*white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;*/
+    max-width: 100%;
+    padding-right: 5px;
+}
+
+/* Circle - now properly contained */
+.circle-cell {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    display: block;
+    /* white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;*/
+    max-width: 100%;
+}
+
+/* Application Number */
+.app-number {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-family: monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Address */
+.address-cell {
+    /*overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;*/
+    cursor: help;
+    font-size: 0.8rem;
+    display: block;
+    max-width: 100%;
+}
+
+/* Badge Styles */
+.badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-block;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge-online {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.badge-original {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #3b82f6;
+}
+
+.badge-renewal {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.badge-amendment {
+    background: #e1d5f7;
+    color: #5a3e9e;
+    border: 1px solid #8b5cf6;
+}
+
+.badge-offline {
+    background: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #6c757d;
+}
+
+/* Delay Indicator */
+.delay-cell {
+    font-weight: 600;
+    text-align: center;
+}
+
+.delay-high {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+    border: 1px solid #ef4444;
+}
+
+.delay-low {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+    border: 1px solid #10b981;
+}
+
+.delay-zero {
+    background: #f3f4f6;
+    color: #4b5563;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+    border: 1px solid #9ca3af;
+}
+
+/* Action Buttons */
+.action-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--primary);
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 0.7rem;
+    flex: 0 0 auto;
+}
+
+    .action-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary);
+    border: 2px dashed var(--border);
+    margin: 1rem;
+    border-radius: 8px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.pagination-info {
+    font-size: 0.8rem;
+    color: var(--secondary);
+}
+
+
+
+
+
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--primary-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .data-table {
+        font-size: 0.8rem;
+    }
+
+        .data-table th {
+            font-size: 0.7rem;
+            padding: 0.5rem 0.25rem;
+        }
+
+        .data-table td {
+            padding: 0.4rem 0.25rem;
+        }
+
+    .action-btn {
+        padding: 0.2rem 0.4rem;
+    }
+}

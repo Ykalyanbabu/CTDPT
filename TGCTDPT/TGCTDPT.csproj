@@ -143,11 +143,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PTHomeController.cs" />
+    <Compile Include="Controllers\PTOfficerController.cs" />
     <Compile Include="Controllers\RefundsController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReturnController.cs" />
     <Compile Include="DAL\CommonDAL.cs" />
+    <Compile Include="DAL\ePaymentDAL.cs" />
+    <Compile Include="DAL\FormIISummaryDAL.cs" />
     <Compile Include="DAL\PaymentsDAL.cs" />
     <Compile Include="DAL\PTHomeDAL.cs" />
     <Compile Include="DAL\RefundsDAL.cs" />
@@ -160,6 +163,8 @@
     <Compile Include="Helpers\ClientHelpers.cs" />
     <Compile Include="Helpers\DB_context.cs" />
     <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\ePayment.cs" />
+    <Compile Include="Models\FormIISummaryModels.cs" />
     <Compile Include="Models\PaymentConfirmationViewModel.cs" />
     <Compile Include="Models\Refunds.cs" />
     <Compile Include="Models\Registration.cs" />
@@ -169,6 +174,7 @@
     <Compile Include="Services\EmailService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\ApprovalPending.css" />
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\forms.css" />
     <Content Include="assets\css\home.css" />
@@ -211,6 +217,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modern-alerts.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="UploadedDocuments\36260317185057\1\AadharCopy.png" />
+    <Content Include="UploadedDocuments\36260317185057\2\PanCopy.png" />
     <Content Include="Views\PTHome\PT_Certificate.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -251,6 +259,11 @@
     <Content Include="Views\ePayment\ePaymentGenMonthly.cshtml" />
     <Content Include="Views\ePayment\ePaymentGenYearly.cshtml" />
     <Content Include="Views\PTHome\PaymentType.cshtml" />
+    <Content Include="Views\Shared\_DeptLayout.cshtml" />
+    <Content Include="Views\PTHome\DeptLogin.cshtml" />
+    <Content Include="Views\PTOfficer\PTOHome.cshtml" />
+    <Content Include="Views\PTOfficer\PendingApprovals.cshtml" />
+    <Content Include="Views\PTOfficer\ViewApplication.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

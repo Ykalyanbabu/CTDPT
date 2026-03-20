@@ -26,6 +26,7 @@ namespace TGCTDPT.Models
         public string OwnerType { get; set; }
         public string Form1Reg { get; set; }
         public string MonthYear { get; set; }
+        public string ReturnId { get; set; }
     }
     public class EnterpriseDetails
     {
