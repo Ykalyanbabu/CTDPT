@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Mail_Registration";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+
+
+
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+ 
+<body>
+
+
+    <!-- MAIN CONTENT - MODERNIZED -->
+    <div class="container payment">
+        <div class="body-content">
+            <div class="payment-wrapper">
+                <div class="section-title">PT Registration </div>
+                <!-- Header -->
+                <div class="payment-header" style="display:none;">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h2 class="payment-title">Profession Tax</h2>
+
+                </div>
+
+                <!-- Basic Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email ID <span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="Enter Email ID" id="email_reg">
+                    </div>
+
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-mobile"></i>
+                            Mobile Number<span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="Enter Mobile Number" id="mobile_reg">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user-tie"></i>
+                            Contact Person Name<span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="Enter Contact Person Name" id="cperson_reg">
+                    </div>
+                </div>
+                @*<div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user-tie"></i>
+                            Designation<span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="Designation" id="desig_reg">
+                    </div>
+                </div>*@
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-building"></i>
+                            Designation<span style="color:red">*</span>
+                        </label>
+                        <select class="form-select" id="desig_reg">
+                            <option>--Select--</option>
+                            <option value="Owner">Owner </option>
+                            <option value="CA/Accountant">CA/Accountant</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="proceedBtn">
+                    <i class="fas fa-file-invoice"></i>
+                    Submit Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+     
+    <script src="/Scripts/custom-alerts.js"></script>
+    <script src="/Scripts/modern-alerts.js"></script>
+    <script>
+
+        $("#proceedBtn").click(function () {
+
+            var email = $("#email_reg").val().trim();
+            var mobile = $("#mobile_reg").val().trim();
+            var contact = $("#cperson_reg").val().trim();
+            var designation = $("#desig_reg").val().trim();
+          /*  var type = $("#Type_reg").val().trim();*/
+
+            var emailPattern = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+            if (email == "") {
+                alert("Enter Email ID");
+                $("#email_reg").focus();
+                return;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert("Enter valid Email ID");
+                $("#email_reg").focus();
+                return;
+            }
+
+            if (mobile == "" || mobile.length != 10) {
+                alert("Enter valid 10 digit Mobile Number");
+                $("#mobile_reg").focus();
+                return;
+            }
+
+            if (contact == "") {
+                alert("Enter Contact Person Name");
+                $("#cperson_reg").focus();
+                return;
+            }
+
+            if (designation == "") {
+                alert("Enter Designation");
+                $("#desig_reg").focus();
+                return;
+            }
+
+            //if (type == "") {
+            //    alert("Enter Type");
+            //    $("#Type_reg").focus();
+            //    return;
+            //}
+
+            $.ajax({
+                url: '@Url.Action("SaveMailRegistration","Registration")',
+                type: 'POST',
+                data: {
+                    Email: email,
+                    Mobile: mobile,
+                    ContactPerson: contact,
+                    Designation: designation
+                },
+                success: function (res) {
+                    alert("Details Submitted Successfully");
+                },
+                error: function () {
+                    alert("Error while saving");
+                }
+            });
+
+        });
+
+    </script>
+</body>

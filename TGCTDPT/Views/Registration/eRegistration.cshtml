@@ -5,7 +5,7 @@
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
 <body>
-    
+
 
     <div class="main-container eRegistration">
         <!-- Page Header -->
@@ -32,80 +32,78 @@
             <!-- Professional Card -->
             <div class="registration-card" style="display:none"></div>
             <!--<div class="registration-card">
-    <div class="card-header">
-        <div class="card-icon professional">
-            <i class="fas fa-user-tie"></i>
-        </div>
-        <h3 class="card-title">Professional</h3>
-    </div>
-    <div class="card-body">
-        <p class="card-description">
-            Individuals engaged in specified professions for earning income.
-        </p>
-        <div class="highlight-list">
-            <strong>Eligible Professions:</strong>
-            Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
-        </div>
-    </div>
+            <div class="card-header">
+                <div class="card-icon professional">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="card-title">Professional</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    Individuals engaged in specified professions for earning income.
+                </p>
+                <div class="highlight-list">
+                    <strong>Eligible Professions:</strong>
+                    Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
+                </div>
+            </div>
 
-     <div class="card-action">
+             <div class="card-action">
 
-    </div>-->
+            </div>-->
             @*<div class="card-action">
-            <a href="step1professional.html" class="cta-btn">
-                <i class="fas fa-arrow-right"></i> Register as Professional
-            </a>
-        </div>*@
+                    <a href="step1professional.html" class="cta-btn">
+                        <i class="fas fa-arrow-right"></i> Register as Professional
+                    </a>
+                </div>*@
             <!--</div>-->
             <!-- Employer Card -->
             <div class="registration-card">
                 <div style="align-content:center">
-                <div class="card-header" style="display:none;">
-                    <div class="card-icon employer">
-                        <i class="fas fa-building"></i>
+                    <div class="card-header">
+                        <div class="card-icon employer">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="card-title">Registration For New PTIN</h3>
                     </div>
-                    <h3 class="card-title">Employer</h3>
-                </div>
-                <div class="card-body">
-                    @*<p class="card-description">
-                        Individuals engaged in specified professions for earning income.
-                    </p>*@
-                    <div class="highlight-list">
-                        <strong>Eligible Professions:</strong>
-                        Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
-                    </div>
-                    
-                    <div class="highlight-list">
-                        <strong>Eligible Entities:</strong>
+                    <div class="card-body">
+                        <p class="card-description">
+                            Individuals engaged in specified professions for earning income.
+                        </p>
+                        <div class="highlight-list">
+                            <strong>Eligible Professions:</strong>
+                            Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
+                        </div>
                         <p class="card-description">
                             Entities or individuals managing payroll obligations for employees.
                         </p>
-                        Companies, Organizations, Firms with employees
-                        <em>Manages employee tax deductions and returns</em>
-                    </div>
-                    
-                    <div class="highlight-list">
-                        <strong>Business Types:</strong>
+                        <div class="highlight-list">
+                            <strong>Eligible Entities:</strong>
+                            Companies, Organizations, Firms with employees
+                            <em>Manages employee tax deductions and returns</em>
+                        </div>
                         <p class="card-description">
                             Registered firms, companies, LLPs, or establishments conducting business.
                         </p>
-                        Pvt Ltd, Public Ltd, LLP, Partnership Firms, Proprietorships
+                        <div class="highlight-list">
+                            <strong>Business Types:</strong>
+                            Pvt Ltd, Public Ltd, LLP, Partnership Firms, Proprietorships
+                        </div>
+                        <div class="card-note">
+                            <i class="fas fa-exclamation-circle"></i> Note: Those who have applied for
+                            GST or VAT registration need not apply separately. They will be auto-registered under PT.
+                        </div>
                     </div>
-                    <div class="card-note">
-                        <i class="fas fa-exclamation-circle"></i> Note: Those who have applied for
-                        GST or VAT registration need not apply separately. They will be auto-registered under PT.
+                    <div class="card-action">
+                        <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
+                            <i class="fas fa-arrow-right"></i> Register
+                        </a>
                     </div>
-                </div>
-                <div class="card-action">
-                    <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
-                        <i class="fas fa-arrow-right"></i> Register
-                    </a>
-                </div>
                 </div>
             </div>
             <div class="registration-card" style="display:none"></div>
-                <!-- Business Entity Card -->
-                @*<div class="registration-card">
+            <!-- Business Entity Card -->
+            @*<div class="registration-card">
                     <div class="card-header">
                         <div class="card-icon business">
                             <i class="fas fa-briefcase"></i>
@@ -131,8 +129,8 @@
                         </a>
                     </div>
                 </div>*@
-            </div>
         </div>
+    </div>
 
 
     <script>

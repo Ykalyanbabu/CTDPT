@@ -257,5 +257,28 @@ namespace TGCTDPT.Controllers
                 }
             }
         }
+        public ActionResult checkRC()
+        {
+            string StrTIN = Session["TIn"].ToString();
+            RC_Details rcd = dal.GetPTEntityDetails(StrTIN);
+            return View(rcd);
+        }
+        public ActionResult PrintRC()
+        {
+            string StrTIN = Session["TIn"].ToString();
+            RC_Details model = dal.GetPTEntityDetails(StrTIN);
+
+            string fileName = "PT_Registration_Certificate_" + model.prof_tin + ".pdf";
+
+            Response.AddHeader("Content-Disposition", "inline; filename=" + fileName);
+
+            return View("profession_tax_certificate", model);
+            //return new ViewAsPdf("profession_tax_certificate", model)
+            //{
+            //    FileName = fileName,
+            //    PageSize = Size.A4,
+            //    PageMargins = new Margins(10, 10, 10, 10)
+            //};
+        }
     }
 }

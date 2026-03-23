@@ -166,6 +166,7 @@
     <Compile Include="Models\ePayment.cs" />
     <Compile Include="Models\FormIISummaryModels.cs" />
     <Compile Include="Models\PaymentConfirmationViewModel.cs" />
+    <Compile Include="Models\RC_Details.cs" />
     <Compile Include="Models\Refunds.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\Returns.cs" />
@@ -264,9 +265,13 @@
     <Content Include="Views\PTOfficer\PTOHome.cshtml" />
     <Content Include="Views\PTOfficer\PendingApprovals.cshtml" />
     <Content Include="Views\PTOfficer\ViewApplication.cshtml" />
+    <Content Include="Views\Registration\Amend_Registration.cshtml" />
+    <Content Include="Views\Registration\Mail_Registration.cshtml" />
+    <Content Include="Views\PTHome\checkRC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\Documents\Registration_docs\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

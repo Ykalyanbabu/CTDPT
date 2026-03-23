@@ -4,8 +4,419 @@
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<style>
+
+        .body-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        /* HERO BANNER */
+        .hero-banner {
+            background: linear-gradient(135deg, #0b8b80 0%, #0a7269 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero-banner::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></svg>');
+                opacity: 0.5;
+            }
+
+            .hero-banner h1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-banner p {
+                font-size: 18px;
+                max-width: 800px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+                opacity: 0.9;
+            }
+
+
+
+        /* RESPONSIVE */
+        @*@media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .header-actions {
+                margin-top: 10px;
+            }
+
+            .menu {
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+
+                .menu a {
+                    padding: 12px 14px;
+                    font-size: 14px;
+                }
+        }*@
+
+        @*@media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 26px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .logo-section img {
+                height: 60px;
+            }
+
+            .header-text .dept {
+                font-size: 20px;
+            }
+        }*@
+</style>
+<style>
+        /* ===== Global ===== */
+        body {
+            font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(180deg, #f4f6f9, #eef1f5);
+            /* padding: 20px;*/
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 1400px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            /*padding: 4px;*/
+            margin: -14px 0px 0px 0px;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            /*background: linear-gradient(90deg, #ffeb70, #ffe14d);*/
+            background: linear-gradient(135deg, #eba9ff, #86248f, #bd67c7, #db1bd9) !important;
+            padding: 18px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* ===== Steps ===== */
+        .steps {
+            display: flex;
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 14px 10px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #6b7280;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .step i {
+                font-size: 18px;
+                margin-bottom: 6px;
+                display: block;
+            }
+
+            .step.active {
+                color: #0d6efd;
+                font-weight: 600;
+                background: #ede2d9;
+            }
+
+                .step.active::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 20%;
+                    width: 60%;
+                    height: 3px;
+                    background: #0d6efd;
+                    border-radius: 5px;
+                }
+
+            .step.completed i {
+                color: #28a745;
+            }
+
+        /* ===== Content ===== */
+        .content {
+            padding: 30px;
+        }
+
+        /* ===== Card ===== */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            padding: 30px;
+        }
+
+            /* ===== Section Title ===== */
+            .card h5.text-primary {
+                font-weight: 600;
+                /*border-left: 4px solid #690376;*/
+                padding-left: 10px;
+            }
+
+        /* ===== Form Grid ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px 24px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .form-group label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 6px;
+            }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+            .form-control:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+            }
+
+        /* ===== Buttons ===== */
+        /*.btn-primary {
+            padding: 10px 28px;
+            font-weight: 600;
+            border-radius: 6px;
+        }*/
+
+        /* ===== Footer ===== */
+        .footer-note {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .btn-primary {
+            padding: 5px 28px;
+            font-weight: 600;
+            border-radius: 6px;
+            font-size: medium;
+            background: linear-gradient(135deg, #500b8b, #7d10b9);
+        }
+            .btn-primary:hover {
+                background: linear-gradient(135deg, #7c0a61, #820ea2);
+                transform: translateY(-3px);
+                /*box-shadow: 0 6px 20px rgba(11, 139, 128, 0.4);*/
+            }
+        .h5, h5 {
+            font-size: 1.25rem !important;
+        }
+
+        .h6, h6 {
+            font-size: 1rem !important;
+        }
+
+        @*@media (max-width: 992px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }*@
+</style>
+<style>
+
+
+        .card {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 25px;
+            /* BORDER */
+            border: 2px solid #374151; /* Dark professional border */
+            /* OPTIONAL polish */
+            border-radius: 6px;
+            background: #ffffff;
+        }
+
+        /* Optional inner spacing look */
+        .section-title {
+            margin-top: 25px;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #9ca3af;
+            padding-bottom: 6px;
+            background: antiquewhite;
+        }
+
+        /* Print-friendly */
+        @*@media print {
+            .card {
+                border: 2px solid #000; /* Strong border on print */
+                border-radius: 0;
+            }
+        }*@
+
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+            .info-table td {
+                padding: 10px;
+                border-bottom: 1px solid #e5e7eb;
+                vertical-align: top;
+            }
+
+                .info-table td.label {
+                    font-weight: 600;
+                    color: #374151;
+                    width: 25%;
+                }
+
+                .info-table td.value {
+                    color: #111827;
+                    width: 25%;
+                }
+
+        .info-text p {
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #2563eb;
+            font-weight: 500;
+        }
+
+        .status {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .doc-table th,
+            .doc-table td {
+                padding: 10px;
+                border: 1px solid #d1d5db;
+                text-align: left;
+            }
+
+            .doc-table th {
+                background: #f3f4f6;
+                font-weight: 600;
+            }
+
+        .btn-print {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .btn-print:hover {
+                background: #1d4ed8;
+            }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .info-text {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 30px;
+            row-gap: 12px;
+        }
+
+            .info-text p {
+                margin: 0;
+                line-height: 1.6;
+                font-size: 14px;
+            }
+
+            .info-text strong {
+                color: #374151;
+            }
+
+        .highlight {
+            color: #2563eb;
+            font-weight: 500;
+        }
+
+        /* Responsive: 2 per row on tablets */
+        @*@media (max-width: 900px) {
+            .info-text {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Responsive: 1 per row on mobile */
+        @media (max-width: 600px) {
+            .info-text {
+                grid-template-columns: 1fr;
+            }
+        }*@
+</style>
+
+
 <body>
-    
+
     <div class="container Registration">
         <!-- <div id="employee" display="none"> -->
 
@@ -22,31 +433,35 @@
                         <i class="fa-solid fa-briefcase"></i>
                         Business Details<br>(Principal Place of Business)
                     </div>
-                    <div class="step" id="divOwnerTab" onclick="showTab(1)">
-                        <i class="fa-solid fa-user-tie"></i>
-                        Owner / MD / Managing Partner
+                    <div class="step" onclick="showTab(1)">
+                        <i class="fa-solid fa-user-group"></i>
+                        Employee Details
                     </div>
-                    <div class="step" id="divAuth" onclick="showTab(2)">
+                    <div class="step" id="divOwnerTab" onclick="showTab(2)">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Owner / Managing Director / Managing Partner
+                    </div>
+                    <div class="step" id="divAuth" onclick="showTab(3)">
                         <i class="fa-solid fa-user-check"></i>
                         Authorised Person
                     </div>
-                    <div class="step" id="divPartnerTab" onclick="showTab(3)">
+                    <div class="step" id="divPartnerTab" onclick="showTab(4)">
                         <i class="fa-solid fa-users"></i>
                         Partners / Directors
                     </div>
-                    <div class="step" onclick="showTab(4)">
+                    <div class="step" onclick="showTab(5)">
                         <i class="fa-solid fa-location-dot"></i>
                         Additional Places of Business
                     </div>
-                    <div class="step" onclick="showTab(5)">
+                    <div class="step" onclick="showTab(6)">
                         <i class="fa-solid fa-building-columns"></i>
                         Bank Details
                     </div>
-                    <div class="step" onclick="showTab(6)">
+                    <div class="step" onclick="showTab(7)">
                         <i class="fa-solid fa-upload"></i>
                         Check & Upload Documents
                     </div>
-                    <div class="step" onclick="showTab(7)" style="display:block;">
+                    <div class="step" onclick="showTab(8)" style="display:none;">
                         <i class="fa-solid fa-circle-check"></i>
                         View Summary
                     </div>
@@ -57,7 +472,10 @@
                         <h3>Business Details</h3>
                         <p>Enter principal place of business information.</p>
                     </div>
-
+                    <div class="tab-content active">
+                        <h3>Employee Details</h3>
+                        <p>Enter Employees information.</p>
+                    </div>
                     <div class="tab-content">
                         <h3>Owner / MD / Managing Partner Details</h3>
                         <p>Provide details of the owner or managing partner.</p>
@@ -116,17 +534,49 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>
-                                        Name of the Enterprise <span class="text-danger">*</span>
+                                        Division <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="ABC ENTERPRISES">
+                                    <select class="form-control" id="bz_division">
+                                        <option value=""> </option>
+                                    </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>
+                                        Circle <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="bz_circle">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Name of the Enterprise/Individual <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" id="enterprise_name" class="form-control">
+                                </div>
+
                                 <div class="form-group">
                                     <label>
                                         PAN (Business) <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="AAAAA1234A">
+                                    <input type="text" id="business_pan" maxlength="10" class="form-control" onblur="validatePAN()" style="text-transform:uppercase;">
                                 </div>
+                                <div class="form-group">
+                                    <label>
+                                        Constitution of Business <span class="text-danger">*</span>
+                                    </label>
 
+                                    <select class="form-control" id="cobz">
+                                        <option value="Proprietorship">Proprietorship</option>
+                                        <option value="Partnership">Partnership</option>
+                                        <option value="PLC">Private Limited Company</option>
+                                        <option value="LLP">Limited Liability Partnership (LLP)</option>
+                                        <option value="PSU">Public Sector Undertaking</option>
+                                        <option value="Society">Society</option>
+                                        <option value="Trust">Trust</option>
+                                        <option value="Government">Government Department</option>
+                                    </select>
+                                </div>
                                 <div class="form-group" style="display:none;">
                                     <label>
                                         TAN (Business)
@@ -139,96 +589,72 @@
                                         Email <span class="text-danger">*</span>
                                     </label>
 
-                                    <input type="email" class="form-control" value="abcenterprises@gmail.com">
+                                    <input type="email" id="email_id" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="9999999999">
+                                    <input type="text" id="mobile_no" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Door Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="SURVEY NOS 698/P 670">
+                                    <input type="text" id="door_no" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Road / Street / Building Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                    <input type="text" id="road_street" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Locality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="KONDAPUR">
+                                    <input type="text" id="locality" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         City / Town / Village <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="HYDERABAD">
+                                    <input type="text" id="city" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Mandal / Municipality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="SERILINGAMPALLY">
+                                    <input type="text" id="mandal" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control">
-                                        <option>RANGAREDDY</option>
+                                    <select class="form-control" id="district">
+                                        <option value=""> </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" min="6" max="6" value="500032">
+                                    <input type="text" id="pincode" class="form-control" min="6" max="6" onkeypress="return isNumber(event)">
                                 </div>
-
-                                <div class="form-group">
-
-                                </div>
-
-
-                                <div class="form-group">
+                                <div style="grid-column:1/-1; display:flex; justify-content:flex-start;">
                                     <label>
-                                        Number Of Employees Earning Below 15000 per month
+                                        <a href="https://tgct.gov.in/tgportal/AboutUs/KnowYourJurDtls.aspx" target="_blank" style="text-decoration:blink;color:blue;font-weight:600;">
+                                            To Know your Divison and Circle Please Click Here
+                                        </a>
                                     </label>
-                                    <input type="text" min="10" max="10" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label>
-                                        Number Of Employees Earning between 15001 to 20000 per month
-                                    </label>
-                                    <input type="text" min="10" max="10" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        Number Of Employees Earning above 20000 per month
-                                    </label>
-                                    <input type="text" min="10" max="10" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        Total Number Of Employees Working
-                                    </label>
-                                    <input type="text" min="10" max="10" class="form-control">
-                                </div>
-
                                 <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
-                                    <button type="button" onclick="showTab(1);" class="btn btn-primary px-4 w-auto">
+                                    <button type="button" onclick="validateBusiness()" class="btn btn-primary px-4 w-auto">
                                         Next
                                     </button>
                                 </div>
@@ -239,8 +665,7 @@
                     </div>
 
                 </div>
-
-                <div id="divPartner" class="container mt-4" style="display:none;">
+                <div id="divEmployee" class="container mt-4" style="display:none;">
                     <div class="card">
                         <!-- Step -->
                         <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
@@ -257,93 +682,157 @@
                             </h6>
                         </div>
                         <form>
-                            <h5 class="mt-2 mb-2 text-primary">Owner/MD/Managing Partner Details</h5>
+                            <h5 class="mt-2 mb-2 text-primary">Employee Details</h5>
+                            <hr />
+                            <div class="form-group">
+                                <label>
+                                    Number Of Employees Earning Below 15000 per month <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" min="10" max="10" id="emp_below_15000" class="form-control" onkeypress="return isNumber(event)">
+
+                                <label>
+                                    Number Of Employees Earning between 15001 to 20000 per month <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" min="10" max="10" id="emp_between_15001_20000" class="form-control" onkeypress="return isNumber(event)">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Number Of Employees Earning above 20000 per month <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" min="10" max="10" id="emp_above_20000" class="form-control" onkeypress="return isNumber(event)">
+
+                                <label>
+                                    Total Number Of Employees Working <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" min="10" max="10" id="tot_emp" class="form-control" onkeypress="return isNumber(event)">
+                            </div>
+                            <br />
+                            <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(0);">
+                                    Previous
+                                </button>
+                                <button type="button" onclick="validate_emp()" class="btn btn-primary px-4 w-auto">
+                                    Next
+                                </button>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div id="divPartner" class="container mt-4" style="display:none;">
+                    <div class="card">
+                        <!-- Step -->
+                        <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                        <!-- Title -->
+                        <div class="text-center mb-4">
+                            <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
+                            <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
+                            @*<%-- <h6>Profession Tax Application</h6>--%>*@
+                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+
+                            <h6>
+                                Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
+                                Under the Telangana Professions,Trades,Callings and Employement Act,1987
+                            </h6>
+                        </div>
+                        <form>
+                            <h5 class="mt-2 mb-2 text-primary">Details of Owner/Managing Director/Managing Partner </h5>
                             <hr />
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="">
+                                    <input type="text" id="O_owner_name" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Father Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="">
+                                    <input type="text" id="O_father_name" class="form-control">
                                 </div>
+
+                                @*<div class="form-group">
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" class="form-control">
+                                    </div>*@
 
                                 <div class="form-group">
                                     <label>
-                                        Date of Birth
+                                        Status of the Individual <span class="text-danger">*</span>
                                     </label>
-                                    <input type="date" class="form-control">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        Profession/Status of the Individual <span class="text-danger">*</span>
-                                    </label>
-
-                                    <input type="text" class="form-control" value="">
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        Gender <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control">
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Others</option>
+                                    <select class="form-control" id="O_status_of_individual">
+                                        <option value="">--Select--</option>
+                                        <option value="Owner">Owner</option>
+                                        <option value="Director">Director</option>
+                                        <option value="Partner">Partner</option>
                                     </select>
                                 </div>
+                                @*<div class="form-group">
+                                        <label>
+                                            Gender <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control">
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Others</option>
+                                        </select>
+                                    </div>*@
 
                                 <div class="form-group">
                                     <label>
                                         Email <span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" class="form-control">
+                                    <input type="email" id="O_email_id" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Door Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" id="O_door_no" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Road / Street / Building Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                    <input type="text" id="O_road_street" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Locality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="KONDAPUR">
+                                    <input type="text" id="O_locality" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         City / Town / Village <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="HYDERABAD">
+                                    <input type="text" id="O_city" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Mandal / Municipality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="SERILINGAMPALLY">
+                                    <input type="text" id="O_mandal" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control">
-                                        <option>RANGAREDDY</option>
+                                    <select class="form-control" id="O_distict">
+                                        <option value="">--Select--</option>
+                                        <option value="RANGAREDDY">RANGAREDDY</option>
+                                        <option value="SANGAREDDY">SANGAREDDY</option>
                                     </select>
                                 </div>
 
@@ -351,19 +840,17 @@
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control">
-                                        <option>Telangana</option>
-                                        <option>Andhra Pradesh</option>
-                                        <option>Tamilnadu</option>
-                                        <option>Karnataka</option>
-                                        <option>Kerala</option>
+                                    <select class="form-control" id="O_state_name">
+                                        <option value="">--Select--</option>
+                                        <option value="Telangana">Telangana</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control">
+                                    <select class="form-control" id="O_country">
+                                        <option value="">--Select--</option>
                                         <option>India</option>
                                     </select>
                                 </div>
@@ -372,51 +859,39 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="6" minlength="6" value="500032">
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="O_pincode" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         PAN(Owner) <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="10" minlength="10" value="ABCDE1234F">
+                                    <input type="text" class="form-control" maxlength="10" minlength="10" id="O_pan">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" maxlength="12" class="form-control" maxlength="12" minlength="12" value="500032">
+                                    <input type="text" maxlength="12" id="O_aadhaar" class="form-control" maxlength="12" minlength="12" onkeypress="return isNumber(event)">
                                 </div>
 
                                 @*<div class="form-group">
-                                    <label>
-                                        Phone Number(Optional)
-                                    </label>
-                                    <input type="text" class="form-control">
-                                </div>*@
+                                        <label>
+                                            Phone Number(Optional)
+                                        </label>
+                                        <input type="text" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="9999999999">
+                                    <input type="text" id="O_mobile_no" maxlength="10" minlength="10" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
-                                <div class="form-group" style="width:150%">
-                                    <label>
-                                        <strong>Have you Nominated any Authorised Person? <span class="text-danger">*</span></strong>
-                                    </label>
-                                    <div>
-                                        <label for="rdbYes">
-                                            <input type="radio" id="rdbYes" onchange="oncheckrdb('Y');" name="Nomination" value="Yes"> Yes
-                                        </label>
-                                        <label for="rdbNo" style="margin-left:15px;">
-                                            <input type="radio" id="rdbNo" name="Nomination" onchange="oncheckrdb('N');" value="No"> No
-                                        </label>
-                                    </div>
-                                </div>
+
                                 <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
-                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(0);">
+                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(1);">
                                         Previous
                                     </button>
-                                    <button type="button" onclick="showTab(2);" class="btn btn-primary px-4 w-auto">
+                                    <button type="button" onclick="validate_ownr_md()" class="btn btn-primary px-4 w-auto">
                                         Next
                                     </button>
                                 </div>
@@ -444,123 +919,149 @@
                                 Under the Telangana Professions,Trades,Callings and Employement Act,1987
                             </h6>
                         </div>
+
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
                             <hr />
-                            <div class="form-grid">
+                            @*<div class="form-group" style="width:150%">
+                                    <label>
+                                        <strong>Have you Nominated any Authorised Person? <span class="text-danger">*</span></strong>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="rdbYes" onchange="oncheckrdb('Y');" name="Nomination" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="rdbNo" name="Nomination" onchange="oncheckrdb('N');" value="No"> No
+                                        </label>
+                                    </div>
+                                </div>*@
+                            <div class="form-group" style="width:150%">
+                                <label>
+                                    Have you Nominated any Authorised Person?  <span class="text-danger">*</span>
+                                </label>
+                                <div>
+                                    <label for="rdbYes">
+                                        <input type="radio" id="chkAuthrisedprsn" onchange="fn_chkAuthorisedprsn(this.value);" name="rdb_auth_prsn" value="Yes"> Yes
+                                    </label>
+                                    <label for="rdbNo" style="margin-left:15px;">
+                                        <input type="radio" id="chkAuthrisedprsn" name="rdb_auth_prsn" onchange="fn_chkAuthorisedprsn(this.value);" value="No"> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-grid" id="divAuthorised">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="">
+                                    <input type="text" id="auth_name" class="form-control" value="">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Father Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="">
+                                    <input type="text" id="auth_fname" class="form-control" value="">
                                 </div>
 
-                                <div class="form-group">
-                                    <label>
-                                        Date of Birth
-                                    </label>
-                                    <input type="date" class="form-control">
-                                </div>
+                                @*<div class="form-group">
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" class="form-control">
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>
-                                        Gender <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control">
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Others</option>
-                                    </select>
-                                </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Gender <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control">
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Others</option>
+                                        </select>
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Email <span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" class="form-control">
+                                    <input type="email" id="auth_email" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Door Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" id="auth_door_no" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Road / Street / Building Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="RAHEJA MINDSPACE">
+                                    <input type="text" id="auth_road_street" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Locality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="KONDAPUR">
+                                    <input type="text" id="auth_locality" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         City / Town / Village <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" value="HYDERABAD">
+                                    <input type="text" id="auth_city" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control">
-                                        <option>RANGAREDDY</option>
+                                    <select class="form-control" id="auth_district">
+                                        <option value="Rangareddy">RANGAREDDY</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" maxlength="6" minlength="6" class="form-control" value="500032">
+                                    <input type="text" id="auth_pincode" maxlength="6" minlength="6" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         PAN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="500032">
+                                    <input type="text" id="auth_pan" maxlength="10" minlength="10" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" maxlength="12" minlength="12" class="form-control" value="500032">
+                                    <input type="text" id="auth_aadhaar" maxlength="12" minlength="12" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
 
-                                <div class="form-group">
-                                    <label>
-                                        Phone Number(Optional)
-                                    </label>
-                                    <input type="text" class="form-control">
-                                </div>
+                                @*<div class="form-group">
+                                        <label>
+                                            Phone Number(Optional)
+                                        </label>
+                                        <input type="text" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" maxlength="10" minlength="10" class="form-control" value="9999999999">
+                                    <input type="text" id="auth_mobile_no" maxlength="10" minlength="10" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
-                                <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
-                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(1);">
-                                        Previous
-                                    </button>
-                                    <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(3);">
-                                        Next
-                                    </button>
-                                </div>
+
                             </div>
-
-
+                            <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(2);">
+                                    Previous
+                                </button>
+                                <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_Authrsdprsn()">
+                                    Next
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -583,39 +1084,39 @@
                             </h6>
                         </div>
                         <form>
-                            <h5 class="mt-2 mb-2 text-primary">Partner/Director  Details</h5>
+                            <h5 class="mt-2 mb-2 text-primary">Partner/Director Details</h5>
                             <hr />
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="txtPartnerDirectorName" class="form-control" value="">
+                                    <input type="text" id="dir_prtnr_name" class="form-control" value="">
                                 </div>
-                                <div class="form-group">
-                                    <label>
-                                        Date of Birth
-                                    </label>
-                                    <input type="date" id="txtPartnerDirectorDOB" class="form-control">
-                                </div>
+                                @*<div class="form-group">
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" id="txtPartnerDirectorDOB" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Director/Partner <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlPartnerDirectorType">
+                                    <select class="form-control" id="dir_prtnr_type">
                                         <option value="0">--Select--</option>
-                                        <option value="Type-1">Director</option>
-                                        <option value="Type-2">Partner</option>
+                                        <option value="Director">Director</option>
+                                        <option value="Partner">Partner</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Drawing Remuneration <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlPartnerDirectorGender" onchange="onGenderChange();">
+                                    <select class="form-control" id="dir_prtnr_remunrtn">
                                         <option value="0">--Select--</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
                                         <!-- <option value="Others">Others</option> -->
                                     </select>
                                 </div>
@@ -630,41 +1131,41 @@
                                     <label>
                                         Door Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="txtPartnerDirectorDoorNo" class="form-control">
+                                    <input type="text" id="dir_prtnr_door_no" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Road / Street / Building Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorRSB" value="RAHEJA MINDSPACE">
+                                    <input type="text" class="form-control" id="dir_prtnr_road_street" >
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Locality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorLocality" value="KONDAPUR">
+                                    <input type="text" class="form-control" id="dir_prtnr_locality" >
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         City / Town / Village <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorTown" value="HYDERABAD">
+                                    <input type="text" class="form-control" id="dir_prtnr_city">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Mandal / Municipality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorMandal" value="SERILINGAMPALLY">
+                                    <input type="text" class="form-control" id="dir_prtnr_mandal">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlPartnerDirectorDist">
+                                    <select class="form-control" id="dir_prtnr_district">
                                         <option>RANGAREDDY</option>
                                     </select>
                                 </div>
@@ -672,7 +1173,7 @@
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlPartnerDirectorState">
+                                    <select class="form-control" id="dir_prtnr_state">
                                         <option>Telangana</option>
                                         <option>Andhra Pradesh</option>
                                         <option>Tamilnadu</option>
@@ -686,7 +1187,7 @@
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="ddlPartnerDirectorCountry">
+                                    <select class="form-control" id="dir_prtnr_country">
                                         <option value="India">India</option>
                                     </select>
                                 </div>
@@ -695,32 +1196,32 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorPIN" maxlength="6" minlength="6" value="500032">
+                                    <input type="text" class="form-control" id="dir_prtnr_pincode" maxlength="6" minlength="6" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         PAN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtPartnerDirectorPAN" maxlength="10" minlength="10" value="ABCDE1234F">
+                                    <input type="text" class="form-control" id="dir_prtnr_pan" maxlength="10" minlength="10" >
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" maxlength="12" minlength="12" id="txtPartnerDirectorAadhar" class="form-control" value="500032">
+                                    <input type="text" maxlength="12" minlength="12" id="dir_prtnr_aadhaar" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Email Id
                                     </label>
-                                    <input type="email" class="form-control" id="txtPartnerDirectorPhone">
+                                    <input type="email" class="form-control" id="dir_prtnr_email">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" maxlength="10" minlength="10" class="form-control" id="txtPartnerDirectorMobile" value="9999999999">
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" id="dir_prtnr_mobile" onkeypress="return isNumber(event)" >
                                 </div>
                                 <div style="align-content: flex-end;">
                                     <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPartner" style="margin: 0px 0px 0px 0px;font-size: medium;">
@@ -734,12 +1235,12 @@
                         <h6 class="text-primary mb-3">Added Partner / Director Details</h6>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle" id="partnerTable" style="font-size: small;">
+                            <table class="table table-bordered table-hover align-middle" id="dirprtnrTable" style="font-size: small;">
                                 <thead class="table-light">
                                     <tr>
                                         <th>S No. </th>
                                         <th>Name</th>
-                                        <th>DOB</th>
+                                        @*<th>DOB</th>*@
                                         <th>Director/Partner</th>
                                         <th>Drawing Remuneration</th>
                                         <!--<th>IS House Wife</th>-->
@@ -772,10 +1273,10 @@
                             </table>
                         </div>
                         <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
-                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(2,'btnPrevPartner');">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(3,'btnPrevPartner');">
                                 Previous
                             </button>
-                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(4);">
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_dirprtnr()">
                                 Next
                             </button>
                         </div>
@@ -811,11 +1312,11 @@
 
 
                                     <div>
-                                        <label for="rdbYes">
-                                            <input type="radio" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace(this.value);" name="Nomination" value="Yes"> Yes
+                                        <label for="rdbAdlpYes">
+                                            <input type="radio" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace(this.value);" name="addl_rdb" value="Yes"> Yes
                                         </label>
-                                        <label for="rdbNo" style="margin-left:15px;">
-                                            <input type="radio" id="chkAdditionalPlace" name="Nomination" onchange="fn_chkAdditionalPlace(this.value);" value="No"> No
+                                        <label for="rdbAdlpNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkAdditionalPlace" name="addl_rdb" onchange="fn_chkAdditionalPlace(this.value);" value="No"> No
                                         </label>
                                     </div>
                                     <!--<input type="checkbox" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace();" />-->
@@ -828,40 +1329,40 @@
                                     <label>
                                         Door Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="txtAddPlaceDoorNo" class="form-control">
+                                    <input type="text" id="addl_plc_door_no" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Road / Street / Building Name <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtAddPlaceRSB" value="RAHEJA MINDSPACE">
+                                    <input type="text" class="form-control" id="addl_plc_road_street" >
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Locality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtAddPlaceLocality" value="KONDAPUR">
+                                    <input type="text" class="form-control" id="addl_plc_locality" >
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         City / Town / Village <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtAddPlaceTown" value="HYDERABAD">
+                                    <input type="text" class="form-control" id="addl_plc_city" >
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Mandal / Municipality <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="txtAddPlaceMandal" value="SERILINGAMPALLY">
+                                    <input type="text" class="form-control" id="addl_plc_mandal" >
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlAddPlaceDist">
+                                    <select class="form-control" id="addl_plc_district">
                                         <option value="RANGAREDDY">RANGAREDDY</option>
                                     </select>
                                 </div>
@@ -870,19 +1371,15 @@
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlAddPlaceState">
+                                    <select class="form-control" id="addl_plc_state">
                                         <option value="Telangana">Telangana</option>
-                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                        <option value="Tamilnadu">Tamilnadu</option>
-                                        <option value="Karnataka">Karnataka</option>
-                                        <option value="Kerala">Kerala</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="ddlAddPlaceCountry">
+                                    <select class="form-control" id="addl_plc_country">
                                         <option value="India">India</option>
                                     </select>
                                 </div>
@@ -891,7 +1388,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="txtAddPlacePIN" value="500032">
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="addl_plc_pincode" onkeypress="return isNumber(event)">
                                 </div>
                                 <div style="align-content: flex-end;">
                                     <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 0px 0px;font-size: medium;">
@@ -931,10 +1428,10 @@
                             </table>
                         </div>
                         <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
-                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(3);">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(4);">
                                 Previous
                             </button>
-                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(5);">
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_addlpalce()">
                                 Next
                             </button>
                         </div>
@@ -978,13 +1475,13 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <input type="text" class="form-control" placeholder="Account Number">
+                                                <input type="text" class="form-control" id="account_number" placeholder="Account Number" onkeypress="return isNumber(event)">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" placeholder="Account Holder Name">
+                                                <input type="text" class="form-control" id="account_holder_name" placeholder="Account Holder Name">
                                             </td>
                                             <td>
-                                                <select class="form-control">
+                                                <select class="form-control" id="bank_name">
                                                     <option value="">-- SELECT --</option>
                                                     <option>BANK OF AMERICA</option>
                                                     <option>SBI</option>
@@ -993,10 +1490,10 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" placeholder="IFSC Code">
+                                                <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" placeholder="Branch Address">
+                                                <input type="text" class="form-control" id="branch_address" placeholder="Branch Address">
                                             </td>
 
                                             <td class="text-center">
@@ -1009,15 +1506,42 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-between mt-3">
-                                <button type="button" class="btn btn-success" id="addRow">
+                                <button type="button" class="btn btn-success" id="btnAddbnk">
                                     <i class="fa fa-plus"></i> Add Bank
                                 </button>
                             </div>
+                            <hr class="mt-4" />
+
+                            <h6 class="text-primary mb-3" id="h6Addedbank">Added Bank Details</h6>
+
+                            <div class="table-responsive" id="tblbnkdtls">
+                                <table class="table table-bordered table-hover align-middle" id="bankdetailsTable" style="font-size: small;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Account Number </th>
+                                            <th>Account Holder Name </th>
+                                            <th>Bank Name </th>
+                                            <th>IFSC Code </th>
+                                            <th>Bank Address</th>
+                                            <th style="width:120px;" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="noDataRow2">
+                                            <td colspan="10" class="text-center text-muted">
+                                                No Bank Details Added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
-                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(4);">
+                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(5);">
                                     Previous
                                 </button>
-                                <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(6);">
+                                <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_bnk()">
                                     Next
                                 </button>
                             </div>
@@ -1048,7 +1572,7 @@
                                     <label>
                                         Document Name <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="ddlDocumentName">
+                                    <select class="form-control" id="doc_name">
                                         <option value="0">--Select--</option>
                                         <option value="1">Address Proof of Principal place of Business [Sale Deed/Rental Agreement/Lease Deed/Sub Lease Deed(Upload along with Main Lease Deed)/No Objection Certoficate in case of Rent Free]</option>
                                         <option value="2">Copy of PAN Card of Business</option>
@@ -1061,7 +1585,7 @@
                                     <label>
                                         Select File <span class="text-danger">*</span>
                                     </label>
-                                    <input type="file" class="form-control" id="FuFileUpload" accept="application/pdf">
+                                    <input type="file" class="form-control" id="doc_file" accept="application/pdf">
                                 </div>
                                 <div style="align-content: flex-end;">
                                     <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 0px 0px;font-size: medium;">
@@ -1079,7 +1603,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>S No. </th>
-                                        <th>RNR </th>
+
                                         <th>Document Name </th>
                                         <th>File Name </th>
                                         <th style="width:120px;" class="text-center">Action</th>
@@ -1095,11 +1619,12 @@
                             </table>
                         </div>
                         <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
-                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(5);">
+                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
                                 Previous
                             </button>
-                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="showTab(7);">
-                                Next
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_document()">
+                                @*Next*@
+                                Submit
                             </button>
                         </div>
 
@@ -1268,8 +1793,8 @@
 
     </div>
 
- 
-    
+
+
     <script src="/Scripts/jquery-3.4.1.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
 
@@ -1280,22 +1805,1150 @@ $(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     var type = urlParams.get('type');
 
-    if (type === "employee") {
-        $('#employee').show();
-        $('#entity').hide();
-        showTab("0");
-    }
-    else if (type === "entity") {
-        $('#entity').show();
-        $('#employee').hide();
-        showTab("0");
-    }
+    loadDivisions();
+    loaddistrict();
+    showTab('0');
+
+
 });
 
 
-    // $(document).ready(function () {
-    //     showTab("0");
-    // });
+        function loaddistrict() {
+            $.ajax({
+                url: '@Url.Action("GetDistricts","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    var dropdown = $('#district');
+                    var dropdown2 = $('#O_distict');
+                    var dropdown3 = $('#auth_district');
+                    var dropdown4 = $('#dir_prtnr_district');
+                    var dropdown5 = $('#addl_plc_district');
+                    dropdown.empty(); dropdown2.empty(); dropdown3.empty(); dropdown4.empty(); dropdown5.empty();
+
+                    dropdown.append('<option value="">Select District</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                    });
+                    dropdown2.append('<option value="">Select District</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown2.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                    });
+                    dropdown3.append('<option value="">Select District</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown3.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                    });
+                     dropdown4.append('<option value="">Select District</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown4.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                    });
+                     dropdown5.append('<option value="">Select District</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown5.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                    });
+
+                },
+                error: function () {
+                    alert('Failed to load Districts');
+                }
+            });
+        }
+
+
+        function loadDivisions() {
+            $.ajax({
+                url: '@Url.Action("GetDivisions","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    var dropdown = $('#bz_division');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Division</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.division_code + '">' + item.division_name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to load divisions');
+                }
+            });
+        }
+        $('#bz_division').change(function () {
+
+            var divisionId = $(this).val();
+
+            if (divisionId !== "") {
+                loadCircles(divisionId);
+            } else {
+                $('#bz_circle').empty().append('<option value="">Select Circle</option>');
+            }
+        });
+        function loadCircles(divisionId) {
+            $.ajax({
+                url:  '@Url.Action("GetCirclesByDivision", "Registration")',
+                type: 'GET',
+                data: { divisionId: divisionId },
+                success: function (data) {
+
+                    var dropdown = $('#bz_circle');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Circle</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.circle_code + '">' + item.circle_name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to load circles');
+                }
+            });
+        }
+
+        /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
+
+        function validatePAN() {
+
+    var pan = $('#business_pan').val().trim().toUpperCase();
+    var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+    $('#business_pan').val(pan);
+
+    if (pan === "") {
+        $('#panError').text("pan number is required");
+        return false;
+    }
+
+    if (!panPattern.test(pan)) {
+        $('#panError').text("invalid pan format (example: abcde1234f)");
+        return false;
+    }
+
+    $('#panError').text("");
+
+
+    $.ajax({
+        url: '@Url.Action("CheckPantoPT", "Registration")',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            pan: pan
+        },
+        success: function (response) {
+
+            if (response && response.length > 0) {
+
+                var _ptin = response[0].ptin;
+
+                ModernAlert.showConfirm(
+                    'you already have a ptin. do you want to proceed?',
+                    'navigate',
+                    function (confirmed) {
+                        if (confirmed) {
+                            window.location.href =
+                                '@Url.Action("Login", "PTHome")?ptin=' + encodeURIComponent(_ptin);
+                        }
+                    }
+                );
+            }
+            else {
+                // optional: don't show error popup here (bad ux)
+                console.log("pan not found, continue registration");
+            }
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+}
+
+        function validateBusiness() {
+
+            var container = document.querySelector("#divBusiness");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    } else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("Please fill all required fields.");
+                return false;
+            }
+
+            var gonext = validate_pan();
+            console.log(gonext);
+
+            if (gonext === true) {
+                var savedetails = fn_savedetails();
+
+                if (savedetails) {
+
+                    showTab("1");
+                }
+                else {
+                    showTab("0");
+                }
+
+            }
+            else {
+                showTab("0");
+            }
+
+        }
+        function fn_savedetails() {
+
+            var data = {
+                enterprise_name: $("#enterprise_name").val(),
+                business_pan: $("#business_pan").val(),
+                cobz: $("#cobz").val(),
+                email_id: $("#email_id").val(),
+                mobile_no: $("#mobile_no").val(),
+                door_no: $("#door_no").val(),
+                road_street: $("#road_street").val(),
+                locality: $("#locality").val(),
+                city: $("#city").val(),
+                mandal: $("#mandal").val(),
+                district: $("#district").val(),
+                pincode: $("#pincode").val()
+
+            };
+            console.log()
+
+            $.ajax({
+                url: '@Url.Action("SaveBusinessDetails", "Registration")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'JSON',
+                success: function (response) {
+
+                    if (response.success) {
+
+                        alert("Please Store this Application ID:" + response.data.application_id+" for Further Reference.");
+                        showTab("1");
+
+                    } else {
+
+                        alert("Error while saving");
+                        showTab("0");
+
+                    }
+                },
+                error: function () {
+
+                    alert("Server Error");
+
+                }
+
+            });
+
+        }
+        function validate_pan() {
+
+            var regpan = document.getElementById("business_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            var panInput = regpan.value.trim().toUpperCase();
+            console.log(panInput);
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("Invalid PAN Format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+
+        /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
+
+        /*##################FOR SAVING THE EMPLOYEE DETAILS DATA#######################*/
+        function calculateTotalEmployees() {
+
+            let below = parseInt($('#emp_below_15000').val()) || 0;
+            let between = parseInt($('#emp_between_15001_20000').val()) || 0;
+            let above = parseInt($('#emp_above_20000').val()) || 0;
+
+            let total = below + between + above;
+
+            $('#tot_emp').val(total);
+        }
+
+        // auto trigger when user types
+        $('#emp_below_15000, #emp_between_15001_20000, #emp_above_20000')
+            .on('input', function () {
+                calculateTotalEmployees();
+            });
+
+
+        function validate_emp() {
+
+            var container = document.querySelector("#divEmployee");
+            var inputs = container.querySelectorAll("input");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+
+            if (!valid) {
+                alert("Please fill all required fields.");
+                return false;
+            }
+
+            saveEmployeeDetails(); // call ajax
+        }
+        function saveEmployeeDetails() {
+
+            var data = {
+                emp_below_15000: $("#emp_below_15000").val()||0,
+                emp_between_15001_20000: $("#emp_between_15001_20000").val() || 0,
+                emp_above_20000: $("#emp_above_20000").val() || 0,
+                tot_emp: $("#tot_emp").val() || 0,
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveEmployeeDetails","Registration")' ,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                success: function (response) {
+                             if (response.success) {
+                                     showTab("2");
+                             }
+                             else {
+                                    alert("Please Enter the Details Correctly.");
+                                    showTab("1");
+                             }
+                },
+                error: function (xhr) {
+
+                        alert("Error Saving Employee Details");
+                    }
+                });
+
+        }
+
+        /*##################FOR SAVING THE EMPLOYEE DETAILS DATA#######################*/
+
+        /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
+
+        function validate_ownr_md() {
+
+            var container = document.querySelector("#divPartner");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    // skip optional aadhaar
+                    if (input.id === "O_aadhaar" && input.value.trim() === "") {
+                        input.style.border = "";
+                        return;
+                    }
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+
+            // additional validations
+
+
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+            if (!validate_mobile()) valid = false;
+            if (!validate_pincode()) valid = false;
+            if (!validate_aadhaar()) valid = false;
+            //if (!validate_email()) valid = false;
+            var gonext = validate_O_pan();
+
+            if (gonext === true) {
+
+                var savedetails = save_Ownr_Details();
+
+                if (savedetails) {
+                    showTab("3");
+                }
+                else {
+                    showTab("2");
+                }
+            }
+            else {
+                showTab("2");
+            }
+        }
+        function validate_mobile() {
+
+            var mob = document.getElementById("O_mobile_no");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+        function validate_pincode() {
+
+            var pin = document.getElementById("O_pincode");
+            var value = pin.value.trim();
+
+            if (!/^[0-9]{6}$/.test(value)) {
+                pin.style.border = "1px solid red";
+                alert("pincode must be 6 digits");
+                return false;
+            }
+
+            pin.style.border = "";
+            return true;
+        }
+        function validate_aadhaar() {
+
+            var aadhaar = document.getElementById("O_aadhaar");
+            var value = aadhaar.value.trim();
+
+            if (value === "") return true; // optional field
+
+            if (!/^[0-9]{12}$/.test(value)) {
+                aadhaar.style.border = "1px solid red";
+                alert("aadhaar must be 12 digits");
+                return false;
+            }
+
+            aadhaar.style.border = "";
+            return true;
+        }
+       @*function validate_email() {
+
+    var email = document.getElementById("O_email_id");
+    var value = email.value.trim();
+
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!pattern.test(value)) {
+        email.style.border = "1px solid red";
+        alert("invalid email format");
+        return false;
+    }
+
+    email.style.border = "";
+    return true;
+}*@
+
+
+        function validate_O_pan() {
+
+            var regpan = document.getElementById("O_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+            var panInput = regpan.value.trim().toUpperCase();
+            regpan.value = panInput; // force uppercase
+
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("invalid pan format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+      function save_Ownr_Details() {
+
+    var data = {
+        O_owner_name: $("#O_owner_name").val(),
+        O_father_name: $("#O_father_name").val(),
+        O_status_of_individual: $("#O_status_of_individual").val(),
+        O_email_id: $("#O_email_id").val(),
+        O_door_no: $("#O_door_no").val(),
+        O_road_street: $("#O_road_street").val(),
+        O_locality: $("#O_locality").val(),
+        O_city: $("#O_city").val(),
+        O_mandal: $("#O_mandal").val(),
+        O_district: $("#O_distict").val(),
+        O_state_name: $("#O_state_name").val(),
+        O_country: $("#O_country").val(),
+        O_pincode: $("#O_pincode").val(),
+        O_pan: $("#O_pan").val(),
+        O_aadhaar: $("#O_aadhaar").val(),
+        O_mobile_no: $("#O_mobile_no").val(),
+        O_nomination: $("input[name='Nomination']:checked").val(),
+        application_id: $("#application_id").val() // if available
+    };
+
+    $.ajax({
+        url: '@Url.Action("Saveownr_mdDetails", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("3");
+            }
+            else {
+
+                showTab("2");
+            }
+        },
+        error: function () {
+            showTab("2");
+        }
+    });
+
+}
+
+        /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
+
+
+
+         /*##################FOR SAVING THE  Authorised Person DETAILS DATA#######################*/
+
+        function validate_Authrsdprsn() {
+            var nomination = $("input[name='rdb_auth_prsn']:checked").val();
+
+            // radio mandatory
+            if (!nomination) {
+                alert("Please select Yes or No for Authorised Person.");
+                return false;
+            }
+
+            // ✅ if NO → skip everything
+            if (nomination === 'No') {
+
+                var savedetails = save_Authrsed_Details();
+
+                if (savedetails) {
+                    showTab("4");
+                } else {
+                    showTab("3");
+                }
+
+                return true;
+            }
+
+            var container = document.querySelector("#divAuthPerson");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    // skip optional aadhaar
+                    if (input.id === "auth_aadhaar" && input.value.trim() === "") {
+                        input.style.border = "";
+                        return;
+                    }
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+
+            if (!validate_Auth_mobile()) valid = false;
+            if (!validate_Auth_pincode()) valid = false;
+            if (!validate_Auth_aadhaar()) valid = false;
+            //if (!validate_Auth_email()) valid = false;
+            var gonext = validate_Auth_pan();
+
+            if (gonext === true) {
+
+                var savedetails = save_Authrsed_Details();
+
+                if (savedetails) {
+                    showTab("4");
+                }
+                else {
+                    showTab("3");
+                }
+            }
+            else {
+                showTab("3");
+            }
+        }
+        function validate_Auth_mobile() {
+
+            var mob = document.getElementById("auth_mobile_no");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+        function validate_Auth_pincode() {
+
+            var pin = document.getElementById("auth_pincode");
+            var value = pin.value.trim();
+
+            if (!/^[0-9]{6}$/.test(value)) {
+                pin.style.border = "1px solid red";
+                alert("pincode must be 6 digits");
+                return false;
+            }
+
+            pin.style.border = "";
+            return true;
+        }
+        function validate_Auth_aadhaar() {
+
+            var aadhaar = document.getElementById("auth_aadhaar");
+            var value = aadhaar.value.trim();
+
+            if (value === "") return true; // optional field
+
+            if (!/^[0-9]{12}$/.test(value)) {
+                aadhaar.style.border = "1px solid red";
+                alert("aadhaar must be 12 digits");
+                return false;
+            }
+
+            aadhaar.style.border = "";
+            return true;
+        }
+       @*function validate_Auth_email() {
+
+    var email = document.getElementById("O_email_id");
+    var value = email.value.trim();
+
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!pattern.test(value)) {
+        email.style.border = "1px solid red";
+        alert("invalid email format");
+        return false;
+    }
+
+    email.style.border = "";
+    return true;
+}*@
+
+
+        function validate_Auth_pan() {
+
+            var regpan = document.getElementById("auth_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+            var panInput = regpan.value.trim().toUpperCase();
+            regpan.value = panInput; // force uppercase
+
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("invalid pan format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+      function save_Authrsed_Details() {
+
+    var data = {
+        auth_prsn_name: $("#auth_name").val()||null,
+        auth_prsn_father_name: $("#auth_fname").val() || null,
+        email_id: $("#auth_email").val() || null,
+        auth_prsn_door_no: $("#auth_door_no").val() || null,
+        auth_prsn_road_street: $("#auth_road_street").val() || null,
+        auth_prsn_locality: $("#auth_locality").val() || null,
+        auth_prsn_city: $("#auth_city").val() || null,
+        auth_prsn_district: $("#auth_district").val() || null,
+        auth_prsn_pincode: $("#auth_pincode").val() || null,
+        auth_prsn_pan: $("#auth_pan").val() || null,
+        auth_prsn_aadhaar: $("#auth_aadhaar").val() || null,
+        auth_prsn_mobile_no: $("#auth_mobile_no").val() || null,
+        is_Authorised_person: $("input[name='rdb_auth_prsn']:checked").val(),
+    };
+
+    $.ajax({
+        url: '@Url.Action("Save_AuthrsedPrsn_Details", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("4");
+            }
+            else {
+
+                showTab("3");
+            }
+        },
+        error: function () {
+            showTab("3");
+        }
+    });
+}
+
+        /*################## FOR SAVING THE Authorised Person DETAILS DATA #######################*/
+
+
+
+         /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
+        function validate_dirprtnr() {
+
+            var container = document.querySelector("#divPartnerDirector");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    // skip optional aadhaar
+                    if (input.id === "dir_prtnr_aadhaar" && input.value.trim() === "") {
+                        input.style.border = "";
+                        return;
+                    }
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+
+            if (!validate_dp_mobile()) valid = false;
+            if (!validate_dp_pincode()) valid = false;
+            if (!validate_dp_aadhaar()) valid = false;
+            //if (!validate_Auth_email()) valid = false;
+            var gonext = validate_dp_pan();
+
+            if (gonext === true) {
+
+                var savedetails = save_prtnr_dir_Details();
+
+                if (savedetails) {
+                    showTab("5");
+                }
+                else {
+                    showTab("4");
+                }
+            }
+            else {
+                showTab("4");
+            }
+        }
+        function validate_dp_mobile() {
+
+            var mob = document.getElementById("dir_prtnr_mobile");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+        function validate_dp_pincode() {
+
+            var pin = document.getElementById("dir_prtnr_pincode");
+            var value = pin.value.trim();
+
+            if (!/^[0-9]{6}$/.test(value)) {
+                pin.style.border = "1px solid red";
+                alert("pincode must be 6 digits");
+                return false;
+            }
+
+            pin.style.border = "";
+            return true;
+        }
+        function validate_dp_aadhaar() {
+
+            var aadhaar = document.getElementById("dir_prtnr_aadhaar");
+            var value = aadhaar.value.trim();
+
+            if (value === "") return true; // optional field
+
+            if (!/^[0-9]{12}$/.test(value)) {
+                aadhaar.style.border = "1px solid red";
+                alert("aadhaar must be 12 digits");
+                return false;
+            }
+
+            aadhaar.style.border = "";
+            return true;
+        }
+    @*function validate_dp_email() {
+    var email = document.getElementById("O_email_id");
+    var value = email.value.trim();
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!pattern.test(value)) {
+        email.style.border = "1px solid red";
+        alert("invalid email format");
+        return false;
+    }
+    email.style.border = "";
+    return true;
+}*@
+        function validate_dp_pan() {
+
+            var regpan = document.getElementById("dir_prtnr_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+            var panInput = regpan.value.trim().toUpperCase();
+            regpan.value = panInput; // force uppercase
+
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("invalid pan format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+      function save_prtnr_dir_Details() {
+          var dataListdir = [];
+
+          $("#dirprtnrTable tbody tr").each(function () {
+
+              var item = $(this).attr("data-item");
+
+              if (item) {
+                  dataListdir.push(JSON.parse(item));
+              }
+          });
+
+
+
+    $.ajax({
+        url: '@Url.Action("Save_DirPrtnr_Details", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ model: dataListdir }),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("5");
+            }
+            else {
+
+                showTab("4");
+            }
+        },
+        error: function () {
+            showTab("4");
+        }
+    });
+}
+
+        /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
+
+                /*################## FOR SAVING THE  Additional Place of businessDETAILS DATA #######################*/
+        function validate_addlpalce() {
+            var is_addl_place = $("input[name='addl_rdb']:checked").val();
+            console.log(is_addl_place);
+            // radio mandatory
+            if (!is_addl_place) {
+                alert("Please select Yes or No Additional Place of Business.");
+                return false;
+            }
+
+            // ✅ if NO → skip everything
+            if (is_addl_place === 'No') {
+
+                var savedetails = save_Addl_plce_Details();
+
+                if (savedetails) {
+                    showTab("6");
+                } else {
+                    showTab("5");
+                }
+
+                return true;
+            }
+            var container = document.querySelector("#divAdditionalPlace");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+            save_Addl_plce_Details();
+        }
+
+        function save_Addl_plce_Details() {
+            var dataListadl = [];
+            var is_addl_plce = $("input[name='addl_rdb']:checked").val();
+           console.log(is_addl_plce);
+            if (is_addl_plce === 'No') {
+                let obj = {
+                    addl_plc_country: null,
+                    addl_plc_state: null,
+                    addl_plc_district: null,
+                    addl_plc_mandal: null,
+                    addl_plc_door_no: null,
+                    addl_plc_road_street: null,
+                    addl_plc_locality: null,
+                    addl_plc_city: null,
+                    addl_plc_pincode: null,
+                    is_Additional_place: is_addl_plce
+                };
+                dataListadl.push(obj);
+            }
+            else {
+                $("#AdditionalPlaceTable tbody tr").each(function () {
+
+                    var item = $(this).attr("data-item");
+
+                    if (item) {
+                        dataListadl.push(JSON.parse(item));
+                    }
+                });
+            }
+    $.ajax({
+        url: '@Url.Action("Save_Addl_Place_Details", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ model: dataListadl }),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("6");
+            }
+            else {
+
+                showTab("5");
+            }
+        },
+        error: function () {
+            showTab("5");
+        }
+    });
+}
+
+        /*################## FOR SAVING THE Additional Place of business DETAILS DATA #######################*/
+
+
+                /*################## FOR SAVING THE  BANK DETAILS DATA #######################*/
+        function validate_bnk() {
+
+            var container = document.querySelector("#divBankDtls");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+            save_bank_Details();
+        }
+
+        function save_bank_Details() {
+          var dataListb = [];
+
+            $("#bankdetailsTable tbody tr").each(function () {
+
+              var item = $(this).attr("data-item");
+
+              if (item) {
+                  dataListb.push(JSON.parse(item));
+              }
+          });
+    $.ajax({
+        url: '@Url.Action("Save_bank_Details", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ model: dataListb }),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("7");
+            }
+            else {
+
+                showTab("6");
+            }
+        },
+        error: function () {
+            showTab("6");
+        }
+    });
+}
+
+        /*################## FOR SAVING THE BANK DETAILS DATA #######################*/
+
+
+                /*################## FOR SAVING THE  documents DATA #######################*/
+        function validate_document() {
+
+
+    var formData = new FormData();
+
+    if (!documentList || documentList.length === 0) {
+        alert("Please upload at least one document");
+        return;
+    }
+
+    let i = 0;
+    let isValid = true;
+
+    documentList.forEach(function (item, index) {
+
+        if (item != null) {
+
+            if (!item.file) {
+                alert("File missing at row " + (index + 1));
+                isValid = false;
+                return false;
+            }
+
+            //formData.append("model[" + i + "].application_id", appId);
+            formData.append("model[" + i + "].master_doc_id", item.master_docid);
+            formData.append("model[" + i + "].document_type", item.document_type);
+            formData.append("files", item.file);
+
+            i++;
+        }
+    });
+
+    if (!isValid) return;
+
+    if (i === 0) {
+        alert("No valid documents to upload");
+        return;
+    }
+
+    $.ajax({
+        url: '@Url.Action("Save_documents", "Registration")',
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            if (res.success) {
+                //alert("Documents uploaded successfully");
+               ModernAlert.showSuccess('Your Refund has been Submitted successfully!', ' Submitted');
+                ModernAlert.showSuccess(
+                    'Your Application has been Submitted successfully with ARN No: ' + res.message,
+                    'Success',
+                    '@Url.Action("Home", "PTHome")'
+                );
+            } else {
+                alert("Failed to upload documents");
+                showTab("7");
+            }
+        },
+        error: function () {
+            alert("Error while uploading documents");
+        }
+    });
+}
+
+/*################## FOR SAVING THE documents DATA #######################*/
+
+
+
+
+
+
+
+
     function gotoPrint() {
         window.open('PrintPage.html');
     }
@@ -1313,7 +2966,9 @@ $(document).ready(function () {
 
         steps[index].classList.add("active");
         tabs[index].classList.add("active");
+
         if (index == "0") {
+            $('#divBusiness').show();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divBankDtls').hide();
@@ -1321,10 +2976,23 @@ $(document).ready(function () {
             $('#divAdditionalPlace').hide();
             $('#divDocuments').hide();
             $('#divPrint').hide();
-            $('#divBusiness').show();
+            $('#divEmployee').hide();
+
         }
         else if (index == "1") {
+
+            $('#divEmployee').show();
             $('#divBusiness').hide();
+            $('#divAuthPerson').hide();
+            $('#divPartnerDirector').hide();
+            $('#divAdditionalPlace').hide();
+            $('#divDocuments').hide();
+            $('#divPrint').hide();
+            $('#divPartner').hide();
+        }
+        else if (index == "2") {
+            $('#divBusiness').hide();
+            $('#divEmployee').hide();
             $('#divAuthPerson').hide();
             $('#divPartnerDirector').hide();
             $('#divAdditionalPlace').hide();
@@ -1332,40 +3000,26 @@ $(document).ready(function () {
             $('#divPrint').hide();
             $('#divPartner').show();
         }
-        else if (index == "2") {
-            //tab2
-
-            if ($('#rdbNo').is(':checked') == true) {
-                $('#divBusiness').hide();
-                $('#divPartner').hide();
-                $('#divAuthPerson').hide();
-                $('#divBankDtls').hide();
-                $('#divAdditionalPlace').hide();
-                $('#divDocuments').hide();
-                $('#divPrint').hide();
-                $('#divPartnerDirector').show();
-                if (res == "btnPrevPartner") {
-                    $('#divOwnerTab').trigger('click');
-                }
-                else {
-                    $('#divPartnerTab').trigger('click');
-                }
-            }
-            else {
-                $('#divBusiness').hide();
-                $('#divPartner').hide();
-                $('#divBankDtls').hide();
-                $('#divPartnerDirector').hide();
-                $('#divAdditionalPlace').hide();
-                $('#divDocuments').hide();
-                $('#divPrint').hide();
-                $('#divAuthPerson').show();
-            }
-
-        }
         else if (index == "3") {
 
+            fn_chkAuthorisedprsn();
+
+                $('#divBusiness').hide();
+                $('#divEmployee').hide();
+                $('#divPartner').hide();
+                $('#divAuthPerson').show();
+                $('#divBankDtls').hide();
+                $('#divAdditionalPlace').hide();
+                $('#divDocuments').hide();
+                $('#divPrint').hide();
+                $('#divPartnerDirector').hide();
+
+
+        }
+        else if (index == "4") {
+
             $('#divBusiness').hide();
+            $('#divEmployee').hide();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divBankDtls').hide();
@@ -1374,9 +3028,10 @@ $(document).ready(function () {
             $('#divPrint').hide();
             $('#divPartnerDirector').show();
         }
-        else if (index == "4") {
+        else if (index == "5") {
             fn_chkAdditionalPlace();
             $('#divBusiness').hide();
+            $('#divEmployee').hide();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divPartnerDirector').hide();
@@ -1385,8 +3040,9 @@ $(document).ready(function () {
             $('#divAdditionalPlace').show();
         }
 
-        else if (index == "5") {
+        else if (index == "6") {
             $('#divBusiness').hide();
+            $('#divEmployee').hide();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divPartnerDirector').hide();
@@ -1395,7 +3051,7 @@ $(document).ready(function () {
             $('#divPrint').hide();
             $('#divBankDtls').show();
         }
-        else if (index == "6") {
+        else if (index == "7") {
             $('#divBusiness').hide();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
@@ -1405,8 +3061,9 @@ $(document).ready(function () {
             $('#divPrint').hide();
             $('#divDocuments').show();
         }
-        else if (index == "7") {
+        else if (index == "8") {
             $('#divBusiness').hide();
+            $('#divEmployee').hide();
             $('#divPartner').hide();
             $('#divAuthPerson').hide();
             $('#divPartnerDirector').hide();
@@ -1464,91 +3121,89 @@ $(document).ready(function () {
     }
 
     let editRow = null;
-    let S_No = 1;
-    $("#btnAddPartner").click(function () {
-
-        let Name = $('#txtPartnerDirectorName').val();
-        let Dob = $('#txtPartnerDirectorDOB').val();
-        let PartnerType = $('#ddlPartnerDirectorType').val();
-        let Gender = $('#ddlPartnerDirectorGender').val();
-        //let IsHouseWife = $('#chkHouseWife').is(':checked');
-        //if ($('#chkHouseWife').is(':checked') == true) { IsHouseWife = "Yes"; } else { IsHouseWife = "No" }
-        let Country = $('#ddlPartnerDirectorCountry').val();
-        let State = $('#ddlPartnerDirectorState').val();
-        let Dist = $('#ddlPartnerDirectorDist').val();
-        let DoorNo = $('#txtPartnerDirectorDoorNo').val();
-        let Road = $('#txtPartnerDirectorRSB').val();
-        let Locality = $('#txtPartnerDirectorLocality').val();
-        let Town = $('#txtPartnerDirectorTown').val();
-        let Mandal = $('#txtPartnerDirectorMandal').val();
-        let Pin = $('#txtPartnerDirectorPIN').val();
-        let Pan = $('#txtPartnerDirectorPAN').val();
-        let Aadhar = $('#txtPartnerDirectorAadhar').val();
-        let Phone = $('#txtPartnerDirectorPhone').val();
-        let Mobile = $('#txtPartnerDirectorMobile').val();
+        let S_No = 1;
 
 
+        $("#btnAddPartner").click(function () {
 
+            if (validate_Partners() == false) {
+                return false;
+            }
 
-        $("#noDataRow").remove();
+            let obj = {
+                dir_prtnr_name: $('#dir_prtnr_name').val(),
+                dir_prtnr_type: $('#dir_prtnr_type').val(),
+                dir_prtnr_remunrtn: $('#dir_prtnr_remunrtn').val(),
+                dir_prtnr_door_no: $('#dir_prtnr_door_no').val(),
+                dir_prtnr_road_street: $('#dir_prtnr_road_street').val(),
+                dir_prtnr_locality: $('#dir_prtnr_locality').val(),
+                dir_prtnr_city: $('#dir_prtnr_city').val(),
+                dir_prtnr_mandal: $('#dir_prtnr_mandal').val(),
+                dir_prtnr_district: $('#dir_prtnr_district').val(),
+                dir_prtnr_state: $('#dir_prtnr_state').val(),
+                dir_prtnr_country: $('#dir_prtnr_country').val(),
+                dir_prtnr_pincode: $('#dir_prtnr_pincode').val(),
+                dir_prtnr_pan: $('#dir_prtnr_pan').val(),
+                dir_prtnr_aadhaar: $('#dir_prtnr_aadhaar').val(),
+                dir_prtnr_email: $('#dir_prtnr_email').val(),
+                dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val()
+            };
 
-        let rowHtml = `
-                                                    <tr>
-                                                        <td>${S_No}</td>
-                                                        <td>${Name}</td>
-                                                        <td>${Dob}</td>
-                                                        <td>${PartnerType}</td>
-                                                        <td>${Gender}</td>
-                                                        <td>${Country}</td>
-                                                        <td>${State}</td>
-                                                        <td>${Dist}</td>
-                                                        <td>${DoorNo}</td>
-                                                        <td>${Road}</td>
-                                                        <td>${Locality}</td>
-                                                        <td>${Town}</td>
+            $("#noDataRow").remove();
 
-                                                        <td>${Mandal}</td>
-                                                        <td>${Pin}</td>
-                                                        <td>${Pan}</td>
-                                                        <td>${Aadhar}</td>
-                                                        <td>${Phone}</td>
-                                                        <td>${Mobile}</td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
-                                                                <i class="fa fa-edit"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-sm btn-danger deleteRow">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                `;
+            let rowHtml = `
+        <tr data-item='${JSON.stringify(obj)}'>
+            <td>${S_No}</td>
+            <td>${obj.dir_prtnr_name}</td>
+            <td>${obj.dir_prtnr_type}</td>
+            <td>${obj.dir_prtnr_remunrtn}</td>
+            <td>${obj.dir_prtnr_door_no}</td>
+            <td>${obj.dir_prtnr_road_street}</td>
+            <td>${obj.dir_prtnr_locality}</td>
+            <td>${obj.dir_prtnr_city}</td>
+            <td>${obj.dir_prtnr_mandal}</td>
+            <td>${obj.dir_prtnr_district}</td>
+            <td>${obj.dir_prtnr_state}</td>
+            <td>${obj.dir_prtnr_country}</td>
+            <td>${obj.dir_prtnr_pincode}</td>
+            <td>${obj.dir_prtnr_pan}</td>
+            <td>${obj.dir_prtnr_aadhaar}</td>
+            <td>${obj.dir_prtnr_email}</td>
+            <td>${obj.dir_prtnr_mobile_no}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger deleteRow">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
 
-        if (editRow) {
-            editRow.replaceWith(rowHtml);
-            editRow = null;
-        } else {
-            $("#partnerTable tbody").append(rowHtml);
-            S_No++;
-        }
+            if (editRow) {
+                editRow.replaceWith(rowHtml);
+                editRow = null;
+            } else {
+                $("#dirprtnrTable tbody").append(rowHtml); // ✅ YOUR TABLE ID
+                S_No++;
+            }
 
-        $("form")[0].reset();
-    });
+            $("form")[0].reset();
+        });
 
-    $(document).on("click", ".deleteRow", function () {
-        $(this).closest("tr").remove();
-        updateSerialNumbersPartner();
+        $(document).on("click", ".deleteRow", function () {
+            $(this).closest("tr").remove();
 
-        if ($("#partnerTable tbody tr").length === 0) {
-            $("#partnerTable tbody").append(`
-                                                        <tr id="noDataRow">
-                                                            <td colspan="7" class="text-center text-muted">
-                                                                No Partner / Director added
-                                                            </td>
-                                                        </tr>
-                                                    `);
-        }
-    });
+            // if no rows left, show no data row
+            if ($("#dirprtnrTable tbody tr").length === 0) {
+                $("#dirprtnrTable tbody").append(`
+            <tr id="noDataRow">
+                <td colspan="18" class="text-center text-muted">
+                    No Partner / Director added
+                </td>
+            </tr>
+        `);
+            }
+        });
+
 
     $(document).on("click", ".editRow", function () {
         editRow = $(this).closest("tr");
@@ -1562,56 +3217,61 @@ $(document).ready(function () {
         $("input[maxlength='10']").val(tds.eq(4).text());
     });
 
+
+
+        /*################### addl place adding butoon ##############*/
     let editRow1 = null;
-    let SNo = 1;
-    $("#btnAddPlace").click(function () {
+        let SNo = 1;
+        $("#btnAddPlace").click(function () {
+            var is_addl_plce = $("input[name='addl_rdb']:checked").val();
+            let obj = {
+                addl_plc_country: $('#addl_plc_country').val(),
+                addl_plc_state: $('#addl_plc_state').val(),
+                addl_plc_district: $('#addl_plc_district').val(),
+                addl_plc_mandal: $('#addl_plc_mandal').val(),
+                addl_plc_door_no: $('#addl_plc_door_no').val(),
+                addl_plc_road_street: $('#addl_plc_road_street').val(),
+                addl_plc_locality: $('#addl_plc_locality').val(),
+                addl_plc_city: $('#addl_plc_city').val(),
+                addl_plc_pincode: $('#addl_plc_pincode').val(),
+                is_Additional_place: is_addl_plce
+            };
 
-        let Country = $('#ddlAddPlaceCountry').val();
-        let State = $('#ddlAddPlaceState').val();
-        let Dist = $('#ddlAddPlaceDist').val();
-        let Mandal = $('#txtAddPlaceMandal').val();
-        let DoorNo = $('#txtAddPlaceDoorNo').val();
-        let Road = $('#txtAddPlaceRSB').val();
-        let Locality = $('#txtAddPlaceLocality').val();
-        let Town = $('#txtAddPlaceTown').val();
-        let Pin = $('#txtAddPlacePIN').val();
+            $("#noDataRow1").remove();
 
+            let rowHtml = `
+        <tr data-item='${JSON.stringify(obj)}'>
+            <td>${SNo}</td>
+            <td>${obj.addl_plc_country}</td>
+            <td>${obj.addl_plc_state}</td>
+            <td>${obj.addl_plc_district}</td>
+            <td>${obj.addl_plc_mandal}</td>
+            <td>${obj.addl_plc_door_no}</td>
+            <td>${obj.addl_plc_road_street}</td>
+            <td>${obj.addl_plc_locality}</td>
+            <td>${obj.addl_plc_city}</td>
+            <td>${obj.addl_plc_pincode}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
 
-        $("#noDataRow1").remove();
+            if (editRow1) {
+                editRow1.replaceWith(rowHtml);
+                editRow1 = null;
+            } else {
+                $("#AdditionalPlaceTable tbody").append(rowHtml);
+                SNo++;
+            }
 
-        let rowHtml = `
-                                                    <tr>
-                                                        <td>${SNo}</td>
-                                                        <td>${Country}</td>
-                                                        <td>${State}</td>
-                                                        <td>${Dist}</td>
-                                                        <td>${Mandal}</td>
-                                                        <td>${DoorNo}</td>
-                                                        <td>${Road}</td>
-                                                        <td>${Locality}</td>
-                                                        <td>${Town}</td>
-                                                        <td>${Pin}</td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
-                                                                <i class="fa fa-edit"></i>
-                                                            </button>
-                                                            <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                `;
-
-        if (editRow1) {
-            editRow1.replaceWith(rowHtml);
-            editRow1 = null;
-        } else {
-            $("#AdditionalPlaceTable tbody").append(rowHtml);
-            SNo++;
-        }
-
-        $("form")[0].reset();
-    });
+            $("form")[0].reset();
+        });
 
     function onPlaceDelete(res) {
         $(this).closest("tr").remove();
@@ -1621,12 +3281,108 @@ $(document).ready(function () {
             $("#AdditionalPlaceTable tbody").append(`
                                                         <tr id="noDataRow1">
                                                             <td colspan="10" class="text-center text-muted">
-                                                                No Partner / Director added
+                                                                No Additional Place added
                                                             </td>
                                                         </tr>
                                                     `);
         }
-    }
+        }
+        /*############addlplace add buton ###############*/
+
+        /*############bnk dtls add buton ###############*/
+        let editRow2 = null;
+        let SNob = 1;
+        $("#btnAddbnk").click(function () {
+
+            var container = document.querySelector("#divBankDtls");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+            let obj = {
+                account_number: $('#account_number').val(),
+                account_holder_name: $('#account_holder_name').val(),
+                bank_name: $('#bank_name').val(),
+                ifsc_code: $('#ifsc_code').val(),
+                branch_address: $('#branch_address').val()
+            };
+
+            $("#noDataRow2").remove();
+
+            let rowHtml = `
+        <tr data-item='${JSON.stringify(obj)}'>
+            <td>${SNob}</td>
+            <td>${obj.account_number}</td>
+            <td>${obj.account_holder_name}</td>
+            <td>${obj.bank_name}</td>
+            <td>${obj.ifsc_code}</td>
+            <td>${obj.branch_address}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
+
+            if (editRow2) {
+                editRow2.replaceWith(rowHtml);
+                editRow2 = null;
+            } else {
+                $("#bankdetailsTable tbody").append(rowHtml);
+                SNob++;
+            }
+
+            $("form")[0].reset();
+        });
+
+        function onPlaceDelete(res) {
+            $(this).closest("tr").remove();
+            updateSerialNumbersPartner1();
+
+            if ($("#bankdetailsTable tbody tr").length === 0) {
+                $("#bankdetailsTable tbody").append(`
+                                                        <tr id="noDataRow2">
+                                                            <td colspan="10" class="text-center text-muted">
+                                                                No Bank Details added
+                                                            </td>
+                                                        </tr>
+                                                    `);
+            }
+        }
+
+        /*####################bnkdtls add btn ######################*/
+
+
+        /*############ documents dtls add buton ###############*/
+
+        /*####################documents add btn ######################*/
+
+
+
+
+
 
     $(document).on("click", ".editRow", function () {
         editRow = $(this).closest("tr");
@@ -1640,60 +3396,70 @@ $(document).ready(function () {
         $("input[maxlength='10']").val(tds.eq(4).text());
     });
 
-    let rnrCounter = 1;
-    $('#btnUploadDoc').on('click', function () {
+        let rnrCounter = 1;
+        var documentList = [];
 
-        let docId = $('#ddlDocumentName').val();
-        let docName = $('#ddlDocumentName option:selected').text();
-        let fileInput = $('#FuFileUpload')[0];
-        let rnrNo = "326011297";
 
-        if (docId === "0") {
-            alert("Please select document name");
-            return;
-        }
+        $('#btnUploadDoc').on('click', function () {
 
-        if (fileInput.files.length === 0) {
-            alert("Please select a PDF file");
-            return;
-        }
+            let docId = $('#doc_name').val();
+            let docName = $('#doc_name option:selected').text();
+           /* let docName = $('#doc_name ').val();*/
+            let fileInput = $('#doc_file')[0];
 
-        let file = fileInput.files[0];
+            if (docId === "0") {
+                alert("Please select document name");
+                return;
+            }
 
-        if (file.type !== "application/pdf") {
-            alert("Only PDF files are allowed");
-            $('#FuFileUpload').val('');
-            return;
-        }
+            if (fileInput.files.length === 0) {
+                alert("Please select a PDF file");
+                return;
+            }
 
-        $('#noDataRowFiles').remove();
+            let file = fileInput.files[0];
 
-        let fileURL = URL.createObjectURL(file);
+            if (file.type !== "application/pdf") {
+                alert("Only PDF files are allowed");
+                $('#doc_file').val('');
+                return;
+            }
 
-        let row = `
-                                                    <tr>
-                                                        <td>${rnrCounter}</td>
-                                                        <td>${rnrNo}</td>
-                                                        <td>${docName}</td>
-                                                        <td>${file.name}</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
-                                                                View
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger deleteFile">
-                                                                Delete
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                `;
+            let obj = {
+                master_docid:docId,
+                document_type: docName,
+                file: file
+            };
 
-        $('#DocumentsTable tbody').append(row);
-        rnrCounter++;
+            documentList.push(obj);
 
-        $('#ddlDocumentName').val('0');
-        $('#FuFileUpload').val('');
-    });
+            $('#noDataRowFiles').remove();
 
+            let fileURL = URL.createObjectURL(file);
+
+            let row = `
+        <tr data-index="${documentList.length - 1}">
+            <td>${rnrCounter}</td>
+            <td>${docName}</td>
+            <td>${file.name}</td>
+            <td class="text-center">
+                <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
+                    View
+                </button>
+                <button class="btn btn-sm btn-danger deleteFile">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `;
+
+            $('#DocumentsTable tbody').append(row);
+            rnrCounter++;
+
+            // reset
+            $('#doc_name').val('0');
+            $('#doc_file').val('');
+        });
     $(document).on('click', '.viewFile', function () {
         let url = $(this).data('url');
         window.open(url, '_blank');
@@ -1723,13 +3489,20 @@ $(document).ready(function () {
         $("#partnerTable tbody tr").each(function (index) {
             $(this).find("td:first").text(index + 1);
         });
-    }
+        }
+        function updateSerialNumbersPartner1() {
+            $("#bankdetailsTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
+        }
     function oncheckrdb(res) {
         if (res == "Y") {
-            $('#divAuth').show();
+            //$('#divAuth').show();
+            $('#divAuthorised').show();
         }
         else {
-            $('#divAuth').hide();
+            //$('#divAuth').hide();
+            $('#divAuthorised').hide();
         }
     }
     function fn_chkAdditionalPlace() {
@@ -1744,6 +3517,14 @@ $(document).ready(function () {
             $('#h6AddedPlaces').hide();
             $('#tblAddedPlaces').hide();
         }
+        }
+        function fn_chkAuthorisedprsn() {
+            if ($('#chkAuthrisedprsn').is(':checked') == true) {
+                $('#divAuthorised').show();
+            }
+        else {
+                $('#divAuthorised').hide();
+             }
     }
     function fnSave() {
         Swal.fire({
@@ -1759,7 +3540,38 @@ $(document).ready(function () {
             }
         });
 
-    }
+        }
+
+
+
+        function validate_Partners() {
+
+            var container = document.querySelector("#divPartnerDirector");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return valid;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+
+        }
+
     </script>
 </body>
 

@@ -13,15 +13,15 @@ namespace TGCTDPT.DAL
     public class PTHomeDAL
     {
         private string conStr = ConfigurationManager.ConnectionStrings["portalConnectionString"].ConnectionString;
-        public List<EnitityDetails> GetPTEntityDetails(string ptin)
+        public RC_Details GetPTEntityDetails(string ptin)
         {
             using (var con = new SqlConnection(conStr))
             {
-                return con.Query<EnitityDetails>(
-                    "",
-                    new { ptin = ptin },
+                return con.QueryFirstOrDefault<RC_Details>(
+                    "Proc_PT_GetTINDetails_1",
+                    new { StrTIN = ptin },
                     commandType: CommandType.StoredProcedure
-                ).ToList();
+                );
             }
         }
 
