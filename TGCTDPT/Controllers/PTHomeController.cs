@@ -87,12 +87,18 @@ namespace TGCTDPT.Controllers
 
             string EncryptdPwd = _help.EncryptPwd(password);
 
-            /*User usd = _User.GetUserData(username, password);*/
+            PTOfficer usd = _User.GetPTOfficerData(username, EncryptdPwd);
 
-            if (username != null && username != "")
+            if (usd.User_id != null)
             {   
-                Session["Userid"] = username;
-                Session["CircleCode"] = "9114";
+                Session["Userid"] = usd.User_id;
+                Session["CircleCode"] = usd.CircleCode;
+                Session["DivisionCode"] = usd.DivisionCode;
+                Session["Circle"] = usd.CircleName;
+                Session["Division"] = usd.DivisionName;
+                Session["DisplayName"] = usd.DisplayName;
+                Session["Hierarchy"] = usd.Hierarchy;
+                Session["ShortDesignationCode"] = usd.ShortDesignationCode;
                 Session["LoginTime"] = DateTime.Now;
                 return RedirectToAction("PTOHome", "PTOfficer");
             }

@@ -2027,8 +2027,9 @@ $(document).ready(function () {
                 city: $("#city").val(),
                 mandal: $("#mandal").val(),
                 district: $("#district").val(),
-                pincode: $("#pincode").val()
-
+                pincode: $("#pincode").val(),
+                division_code: $("#bz_division").val(),
+                circle_code: $("#bz_circle").val()
             };
             console.log()
 
@@ -2042,7 +2043,7 @@ $(document).ready(function () {
 
                     if (response.success) {
 
-                        alert("Please Store this Application ID:" + response.data.application_id+" for Further Reference.");
+                        alert("Please Store this Application ID:" + response.data.application_id + " for Further Reference.");
                         showTab("1");
 
                     } else {

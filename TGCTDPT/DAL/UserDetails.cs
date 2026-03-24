@@ -32,6 +32,33 @@ namespace TGCTDPT.DAL
             return u;
 
         }
+        public PTOfficer GetPTOfficerData(string username, string password)
+        {
+            PTOfficer u = new PTOfficer();
+
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            d.Add("@UserName", username);
+            d.Add("@Password", password);
+            DataSet ds = dB_Context.Get_datatable("PR_CHECK_PTO_LOGIN", d);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];
+                u.DisplayName = dr["DisplayName"].ToString();
+                u.HierarchyCode = dr["Hierarchy"].ToString();
+                u.Hierarchy = dr["user_id"].ToString();
+                u.Designation = dr["Designation"].ToString();
+                u.ShortDesignationCode = dr["ShortDesignationCode"].ToString();
+                u.User_id = dr["User_id"].ToString();
+                u.Mobile = dr["Mobile"].ToString();
+                u.Email = dr["Email"].ToString();
+                u.CircleCode = dr["CircleCode"].ToString();
+                u.DivisionCode = dr["DivisionCode"].ToString();
+                u.DivisionName = dr["DivisionName"].ToString();
+                u.CircleName = dr["CircleName"].ToString();
+            }
+            return u;
+
+        }
         public List<User> CheckTinRegistration(string ptin)
         {
             using (var con = new SqlConnection(conStr))
