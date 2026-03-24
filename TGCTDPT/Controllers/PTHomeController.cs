@@ -16,6 +16,7 @@ namespace TGCTDPT.Controllers
     public class PTHomeController : Controller
     {
         private PTHomeDAL dal = new PTHomeDAL();
+        private ClientHelpers _help = new ClientHelpers();
         UserDetails _User = new UserDetails();
         private readonly IEmailService _emailService;
 
@@ -83,6 +84,8 @@ namespace TGCTDPT.Controllers
                 ModelState.AddModelError("", "Username and password are required");
                 return View();
             }
+
+            string EncryptdPwd = _help.EncryptPwd(password);
 
             /*User usd = _User.GetUserData(username, password);*/
 

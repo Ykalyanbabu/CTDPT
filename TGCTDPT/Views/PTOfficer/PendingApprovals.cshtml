@@ -193,7 +193,6 @@
             document.getElementById('paginationInfo').textContent =
                 `Showing 1 to ${data.length} of ${data.length} entries`;
 
-            // In your populateTable function, update the HTML generation:
 
             let html = '';
             data.forEach((item, index) => {
@@ -256,19 +255,7 @@
             window.location.href = '@Url.Action("ViewApplication", "PTOfficer")' + '?rnr=' + appNumber;
         }
 
-        function downloadApplication(appNumber) {
-            showAlert('success', `Downloading: ${appNumber}`);
-        }
-
-        function exportToExcel() {
-            showAlert('info', 'Exporting to Excel...');
-        }
-
-        function exportToPDF() {
-            showAlert('info', 'Exporting to PDF...');
-        }
-
-
+       
 
         function showLoading() {
             document.getElementById('loadingOverlay').style.display = 'flex';

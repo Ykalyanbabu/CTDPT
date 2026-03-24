@@ -1280,11 +1280,11 @@ body {
     }
 
 .h5, h5 {
-    font-size: 1.25rem !important;
+    font-size: 2.0rem !important;
 }
 
 .h6, h6 {
-    font-size: 1rem !important;
+    font-size: 1.6rem !important;
 }
 
 @media (max-width: 992px) {
