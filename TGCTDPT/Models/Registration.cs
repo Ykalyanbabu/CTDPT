@@ -153,7 +153,10 @@ namespace TGCTDPT.Models
         public string application_id { get; set; }
         public string account_number { get; set; }
         public string account_holder_name { get; set; }
+        public string bank_id { get; set; }
         public string bank_name { get; set; }
+        public string min_digits { get; set; }
+        public string max_digits { get; set; }
         public string ifsc_code { get; set; }
         public string branch_address { get; set; }
 
