@@ -898,12 +898,13 @@
                 Reject
             </button>
         </div>
+        <input type="hidden" id="rnrValue" value="@ViewBag.rnr" />
     </div>
 
     <script>
 
         $(document).ready(function () {
-            loadFullSummary("36260317185057");
+            loadFullSummary($('#rnrValue').val());
         });
 
         function loadFullSummary(rnr) {

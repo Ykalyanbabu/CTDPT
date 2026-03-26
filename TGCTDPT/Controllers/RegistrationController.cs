@@ -60,6 +60,14 @@ namespace TGCTDPT.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
 
         }
+        [HttpGet]
+        public JsonResult GetBanks()
+        {
+
+            var response = dal.Loadbanks();
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
 
         //public ActionResult Mail_Registration()
         //{
@@ -103,6 +111,9 @@ namespace TGCTDPT.Controllers
                 {
                     model.application_id = Session["application_id"].ToString();
                 }
+                else {
+                    return Json(new { success = false, message = "Unable to Save Data" });
+                }
                 var response = dal.SaveEmployeeDetails(model);
 
                 return Json(new { success = true, data = response });
@@ -122,7 +133,10 @@ namespace TGCTDPT.Controllers
                 {
                     model.application_id = Session["application_id"].ToString();
                 }
-                model.application_id = "36180326125765";
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Save Data" });
+                }
                 var response = dal.Saveownr_mdDetails(model);
 
                 return Json(new { success = true, data = response });
@@ -141,7 +155,10 @@ namespace TGCTDPT.Controllers
                 {
                     model.application_id = Session["application_id"].ToString();
                 }
-                model.application_id = "36180326125765";
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Save Data" });
+                }
                 var response = dal.Save_AuthrsedPrsn_Details(model);
 
                 return Json(new { success = true, data = response });
@@ -192,6 +209,10 @@ namespace TGCTDPT.Controllers
                         item.application_id = appId;
                     }
                 }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Save Data" });
+                }
 
                 var response = dal.Save_dir_prtnr_Details(model);
 
@@ -218,6 +239,10 @@ namespace TGCTDPT.Controllers
                     {
                         item.application_id = appId;
                     }
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Save Data" });
                 }
 
                 var response = dal.Save_addl_place_Details(model);
@@ -246,6 +271,10 @@ namespace TGCTDPT.Controllers
                     {
                         item.application_id = appId;
                     }
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Save Data" });
                 }
 
                 var response = dal.Save_Bank_Details(model);

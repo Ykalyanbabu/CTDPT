@@ -9,7 +9,8 @@
     .validation-summary-errors {
         color: red;
         font-weight: 600;
-        margin: 0px 0px 0px 136px;
+        margin: -25px auto 1px auto;
+        width: fit-content;
     }
 </style>
 @if (TempData["ErrorMessage"] != null)
@@ -35,7 +36,7 @@
                 @Html.ActionLink("Switch to Dealer Login", "Login", "PTHome", null, new { @class = "help-link" })
             </div>
 
-            @using (Html.BeginForm("PTOLogin", "PTHome", FormMethod.Post, new { @class = "form-container" }))
+            @using (Html.BeginForm("DeptLogin", "PTHome", FormMethod.Post, new { @class = "form-container" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "alert alert-danger validation-summary-errors" })

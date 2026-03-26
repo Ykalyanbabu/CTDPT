@@ -1,161 +1,604 @@
-﻿
-@{
-    ViewBag.Title = "eRegistration";
-    Layout = "~/Views/Shared/_OuterLayout.cshtml";
-}
-<link href="~/assets/css/custom.css" rel="stylesheet" />
-<body>
+﻿@{ ViewBag.Title = "eRegistration";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml"; }
 
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <div class="main-container eRegistration">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">PROFESSION TAX ONLINE REGISTRATION</h1>
-            <p class="page-subtitle">
-                Register as a Professional, Employer, or Business Entity to pay and manage your
-                Profession Tax obligations online with the Telangana Commercial Tax Department.
-            </p>
-        </div>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-        <!-- Information Banner -->
-        <!--<div class="info-banner">
-            <h4>
-                <i class="fas fa-info-circle"></i> Quick Registration Guide
-            </h4>
-            <p>
-                Select your registration type below. Registration typically takes 5-10 minutes
-                and requires basic business/personal information.
-            </p>
-        </div>-->
-        <!-- Registration Cards -->
-        <div class="registration-cards">
-            <!-- Professional Card -->
-            <div class="registration-card" style="display:none"></div>
-            <!--<div class="registration-card">
-            <div class="card-header">
-                <div class="card-icon professional">
-                    <i class="fas fa-user-tie"></i>
-                </div>
-                <h3 class="card-title">Professional</h3>
-            </div>
-            <div class="card-body">
-                <p class="card-description">
-                    Individuals engaged in specified professions for earning income.
-                </p>
-                <div class="highlight-list">
-                    <strong>Eligible Professions:</strong>
-                    Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
-                </div>
-            </div>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f5f9 0%, #e8edf2 100%);
+            color: #1a2c3e;
+            height: 100%;
+            overflow: hidden;
+        }
 
-             <div class="card-action">
+        .main-container.eRegistration {
+            width: 100%;
+            height: 100vh;
+            max-width: 100%;
+            margin: 0;
+            padding: 1.2rem 2rem 1.2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-            </div>-->
-            @*<div class="card-action">
-                    <a href="step1professional.html" class="cta-btn">
-                        <i class="fas fa-arrow-right"></i> Register as Professional
-                    </a>
-                </div>*@
-            <!--</div>-->
-            <!-- Employer Card -->
-            <div class="registration-card">
-                <div style="align-content:center">
-                    <div class="card-header">
-                        <div class="card-icon employer">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3 class="card-title">Registration For New PTIN</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-description">
-                            Individuals engaged in specified professions for earning income.
-                        </p>
-                        <div class="highlight-list">
-                            <strong>Eligible Professions:</strong>
-                            Doctors, Lawyers, Chartered Accountants, Engineers, Consultants, Etc.,
-                        </div>
-                        <p class="card-description">
-                            Entities or individuals managing payroll obligations for employees.
-                        </p>
-                        <div class="highlight-list">
-                            <strong>Eligible Entities:</strong>
-                            Companies, Organizations, Firms with employees
-                            <em>Manages employee tax deductions and returns</em>
-                        </div>
-                        <p class="card-description">
-                            Registered firms, companies, LLPs, or establishments conducting business.
-                        </p>
-                        <div class="highlight-list">
-                            <strong>Business Types:</strong>
-                            Pvt Ltd, Public Ltd, LLP, Partnership Firms, Proprietorships
-                        </div>
-                        <div class="card-note">
-                            <i class="fas fa-exclamation-circle"></i> Note: Those who have applied for
-                            GST or VAT registration need not apply separately. They will be auto-registered under PT.
-                        </div>
-                    </div>
-                    <div class="card-action">
-                        <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
-                            <i class="fas fa-arrow-right"></i> Register
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="registration-card" style="display:none"></div>
-            <!-- Business Entity Card -->
-            @*<div class="registration-card">
-                    <div class="card-header">
-                        <div class="card-icon business">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <h3 class="card-title">Business Entity</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-description">
-                            Registered firms, companies, LLPs, or establishments conducting business.
-                        </p>
-                        <div class="highlight-list">
-                            <strong>Business Types:</strong>
-                            Pvt Ltd, Public Ltd, LLP, Partnership Firms, Proprietorships
-                        </div>
-                        <div class="card-note">
-                            <i class="fas fa-exclamation-circle"></i> Note: Those who have applied for
-                            GST or VAT registration need not apply separately. They will be auto-registered under PT.
-                        </div>
-                    </div>
-                    <div class="card-action">
-                        <a href="@Url.Action("Registration", "Registration")" class="cta-btn">
-                            <i class="fas fa-arrow-right"></i> Register Business
-                        </a>
-                    </div>
-                </div>*@
-        </div>
-    </div>
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin: -20px 0px -10px 0px;
+            flex-shrink: 0;
+        }
 
+            .page-header::after {
+                content: '';
+                display: block;
+                width: 70px;
+                height: 3px;
+                background: linear-gradient(90deg, #1e6f3f, #4caf7f, #ffb347);
+                margin: 0.7rem auto 0;
+                border-radius: 4px;
+            }
 
-    <script>
-        function updateDateTime() {
-            const now = new Date();
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: black;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.2px;
+            margin-bottom: 0.4rem;
+        }
 
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #2c4b66;
+            max-width: 750px;
+            margin: -10px auto;
+            font-weight: 500;
+            background: rgba(255, 248, 225, 0.7);
+            backdrop-filter: blur(2px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            width: auto;
+            line-height: 1.3;
+        }
 
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
+        .badge-gov {
+            display: inline-flex;
+            align-items: center;
+            background: #eef2f0;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #1e6f3f;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3px;
+        }
 
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12;
+        /* Registration Cards Layout */
+        .registration-cards {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 1.8rem;
+            flex-wrap: nowrap;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
 
-            if (document.getElementById("dateTime")) {
-                document.getElementById("dateTime").innerHTML =
-                    `${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
+        .registration-card {
+            flex: 1;
+            max-width: 1200px;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 18px 32px -12px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid rgba(72, 187, 120, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+            .registration-card::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .registration-card::-webkit-scrollbar-track {
+                background: #eef2f5;
+                border-radius: 10px;
+            }
+
+            .registration-card::-webkit-scrollbar-thumb {
+                background: #b9cfc4;
+                border-radius: 10px;
+            }
+
+            .registration-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 22px 36px -14px rgba(26, 44, 62, 0.2);
+                border-color: rgba(30, 111, 63, 0.35);
+            }
+
+            .registration-card > div {
+                padding: 1.4rem 1.6rem 1.6rem;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+        /* Card Header */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: nowrap;
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(125deg, #eef9f0, #e1f3e8);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 12px -6px rgba(30,111,63,0.15);
+            flex-shrink: 0;
+        }
+
+            .card-icon i {
+                font-size: 1.8rem;
+                color: #9f37bf;
+            }
+
+        .card-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #0f2c3b;
+            letter-spacing: -0.2px;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        /* Horizontal Three Boxes Layout */
+        .three-horizontal-boxes {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .horizontal-box {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 1rem;
+            border: 1px solid #e9edf2;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+            .horizontal-box:hover {
+                border-color: #cde3d4;
+                box-shadow: 0 4px 12px rgba(30, 111, 63, 0.08);
+                background: #fefefe;
+            }
+
+        .box-header {
+            padding: 0.75rem 1rem 0.5rem 1rem;
+            background: linear-gradient(135deg, #fafdf8, #f6faf5);
+            border-bottom: 2px solid #eef3ea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .box-icon {
+            width: 28px;
+            height: 28px;
+            background: #e8f3ec;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .box-icon i {
+                font-size: 0.85rem;
+                color: #b922a5;
+            }
+
+        .box-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #b922a5;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .box-content {
+            padding: 0.85rem 1rem 1rem 1rem;
+        }
+
+        .eligibility-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .eligibility-label i {
+                font-size: 0.65rem;
+                color: #4caf7f;
+            }
+
+        .items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .item-badge {
+            background: #f0f6f2;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: black;
+            transition: all 0.2s;
+            border: 1px solid #e2ebdf;
+        }
+
+            .item-badge:hover {
+                background: #e2f0e8;
+                border-color: #bdd9cb;
+            }
+
+        .entity-note-mini {
+            font-size: 0.68rem;
+            color: #5e7c6b;
+            background: #f9fbf8;
+            padding: 6px 8px;
+            border-radius: 10px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-left: 2px solid #8bc34a;
+        }
+
+            .entity-note-mini i {
+                color: #6fbf4c;
+                font-size: 0.65rem;
+            }
+
+        .business-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .business-pill {
+            background: #f4f8ff;
+            padding: 3px 8px;
+            border-radius: 18px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #2c6280;
+            border: 1px solid #dce7f0;
+        }
+
+        .card-note {
+            background: #fff7e5;
+            border-left: 4px solid #ffb347;
+            padding: 0.7rem 0.9rem;
+            border-radius: 1rem;
+            margin: 0.5rem 0 0.5rem;
+            font-size: 0.75rem;
+            color: #a1651a;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+            .card-note i {
+                font-size: 0.9rem;
+                margin-top: 1px;
+                color: #e68a2e;
+            }
+
+        .info-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.68rem;
+            color: #487a5b;
+            background: #f2f9f0;
+            padding: 8px 14px;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        .card-action {
+            margin-top: 1rem;
+            text-align: center;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #500b8b, #7d10b9);
+            color: white;
+            padding: 0.7rem 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 6px 14px -6px rgba(30,111,63,0.4);
+            border: none;
+            width: auto;
+            min-width: 180px;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+        }
+
+            .cta-btn i {
+                transition: transform 0.2s;
+            }
+
+            .cta-btn:hover {
+                background: linear-gradient(135deg, #7c0a61, #820ea2);
+                transform: scale(1.02);
+                box-shadow: 0 8px 18px -8px #1e6f3f80;
+            }
+
+                .cta-btn:hover i {
+                    transform: translateX(4px);
+                }
+
+        .extra-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #3c5a70;
+            background: rgba(255,255,245,0.6);
+            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            width: fit-content;
+            align-self: center;
+            backdrop-filter: blur(4px);
+            flex-shrink: 0;
+        }
+
+            .extra-note a {
+                color: #1e6f3f;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+        @@media (max-height: 700px) {
+            .main-container.eRegistration {
+                padding: 0.8rem 1.5rem 0.8rem 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.25rem;
+            }
+
+            .card-icon {
+                width: 44px;
+                height: 44px;
+            }
+
+                .card-icon i {
+                    font-size: 1.5rem;
+                }
+
+            .box-header {
+                padding: 0.6rem 0.8rem 0.4rem 0.8rem;
+            }
+
+            .box-content {
+                padding: 0.65rem 0.8rem 0.8rem 0.8rem;
+            }
+
+            .item-badge, .business-pill {
+                font-size: 0.65rem;
+                padding: 2px 8px;
+            }
+
+            .cta-btn {
+                padding: 0.55rem 1.2rem;
+                font-size: 0.85rem;
             }
         }
 
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-    </script>
-</body>
+        @@media (max-width: 750px) {
+            .three-horizontal-boxes {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
 
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<div class="main-container eRegistration">
+    <div class="page-header">
+        
+        <h1 class="page-title">PROFESSION TAX ONLINE REGISTRATION</h1>
+        <p class="page-subtitle">
+            <i class="fas fa-chevron-circle-right" style="font-size: 0.7rem;"></i>
+            Register as a Professional, Employer, or Business Entity to pay and manage your Profession Tax obligations online with the Telangana Commercial Tax Department
+        </p>
+    </div>
+
+    <div class="registration-cards">
+        <div class="registration-card">
+            <div>
+                <div class="card-header">
+                    <div class="card-icon employer">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3 class="card-title">New PTIN Registration</h3>
+                </div>
+
+                <div class="card-body">
+                    <!-- Three Horizontal Boxes -->
+                    <div class="three-horizontal-boxes">
+                        <!-- Box 1: Professionals -->
+                        <div class="horizontal-box">
+                            <div class="box-header">
+                                <div class="box-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <span class="box-title">PROFESSIONALS</span>
+                            </div>
+                            <div class="box-content">
+                                <div class="eligibility-label">
+                                    <i class="fas fa-check-circle"></i> Individuals engaged in specified professions
+                                </div>
+                                <div class="items-list">
+                                    <span class="item-badge">Doctors</span>
+                                    <span class="item-badge">Lawyers</span>
+                                    <span class="item-badge">Chartered Accountants</span>
+                                    <span class="item-badge">Engineers</span>
+                                    <span class="item-badge">Consultants</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Box 2: Employers -->
+                        <div class="horizontal-box">
+                            <div class="box-header">
+                                <div class="box-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <span class="box-title">EMPLOYERS</span>
+                            </div>
+                            <div class="box-content">
+                                <div class="eligibility-label">
+                                    <i class="fas fa-users"></i> Entities managing payroll obligations
+                                </div>
+                                <div class="items-list">
+                                    <span class="item-badge">Registered firms</span>
+                                    <span class="item-badge">Companies</span>
+                                    <span class="item-badge">LLPs</span>
+                                    <span class="item-badge">Establishments Conducting Business</span>
+                                </div>
+                                <div class="entity-note-mini">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Manages employee tax deductions, monthly returns</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Box 3: Business Entities -->
+                        <div class="horizontal-box">
+                            <div class="box-header">
+                                <div class="box-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <span class="box-title">BUSINESS ENTITIES</span>
+                            </div>
+                            <div class="box-content">
+                                <div class="eligibility-label">
+                                    <i class="fas fa-industry"></i> Registered firms, LLPs, establishments
+                                </div>
+                                <div class="business-pills">
+                                    <span class="business-pill">Pvt Ltd</span>
+                                    <span class="business-pill">Public Ltd</span>
+                                    <span class="business-pill">LLP</span>
+                                    <span class="business-pill">Partnership</span>
+                                    <span class="business-pill">Proprietorship</span>
+                                    <span class="business-pill">OPC</span>
+                                    <span class="business-pill">HUF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Note -->
+                    <div class="card-note">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Note: Those who have applied for GST or VAT registration need not apply separately. They will be auto-registered under PT.</span>
+                    </div>
+                </div>
+
+                <div class="card-action">
+                    <a href="@Url.Action("Registration", "Registration")" class="cta-btn" id="registerNowBtn">
+                        <i class="fas fa-arrow-right"></i> Register
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="registration-card" style="display:none"></div>
+    </div>
+
+</div>
+
+<script>
+    
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    let touchStartY = 0;
+    document.body.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: false });
+
+    document.body.addEventListener('touchmove', (e) => {
+        const targetCard = e.target.closest('.registration-card');
+        if (targetCard && targetCard.scrollHeight > targetCard.clientHeight) {
+            return;
+        }
+        e.preventDefault();
+    }, { passive: false });
+
+    document.body.addEventListener('wheel', (e) => {
+        const targetCard = e.target.closest('.registration-card');
+        if (targetCard && targetCard.scrollHeight > targetCard.clientHeight) {
+            return;
+        }
+        e.preventDefault();
+    }, { passive: false });
+</script>

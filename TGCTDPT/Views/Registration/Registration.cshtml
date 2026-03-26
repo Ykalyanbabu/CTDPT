@@ -3,7 +3,7 @@
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
-<link href="~/assets/css/custom.css" rel="stylesheet" />
+@*<link href="~/assets/css/custom.css" rel="stylesheet" />*@
 @*<script src="/Scripts/modernizr-2.8.3.js"></script>*@
 <link href="/Content/bootstrap.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -137,16 +137,17 @@
             border-bottom: 1px solid #e0e0e0;
         }
 
-        .step {
-            flex: 1;
-            text-align: center;
-            padding: 14px 10px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #6b7280;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+    .step {
+        flex: 1;
+        text-align: center;
+        padding: 14px 10px;
+        cursor:default;
+        font-size: 13px;
+        color: black;
+        transition: all 0.3s ease;
+        position: relative;
+        border: 1px solid #d8c1d9;
+    }
 
             .step i {
                 font-size: 18px;
@@ -155,9 +156,9 @@
             }
 
             .step.active {
-                color: #0d6efd;
+                color: black;
                 font-weight: 600;
-                background: #ede2d9;
+                background: #5fd769;
             }
 
                 .step.active::after {
@@ -259,7 +260,7 @@
         }
 
         .h6, h6 {
-            font-size: 1rem !important;
+            font-size: 0.75rem !important;
         }
 
         @*@media (max-width: 992px) {
@@ -465,7 +466,7 @@
                         <i class="fa-solid fa-upload"></i>
                         Check & Upload Documents
                     </div>
-                    <div class="step" onclick="showTab(8)" style="display:none;">
+                    <div class="step" onclick="showTab(8)" style="display:block;">
                         <i class="fa-solid fa-circle-check"></i>
                         View Summary
                     </div>
@@ -1099,11 +1100,11 @@
                                     <input type="text" id="dir_prtnr_name" class="form-control" value="">
                                 </div>
                                 @*<div class="form-group">
-                <label>
-                    Date of Birth
-                </label>
-                <input type="date" id="txtPartnerDirectorDOB" class="form-control">
-            </div>*@
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" id="txtPartnerDirectorDOB" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Director/Partner <span class="text-danger">*</span>
@@ -1126,11 +1127,11 @@
                                     </select>
                                 </div>
                                 <!--<div class="form-group">
-            <label>
-                Is Housewife <span class="text-danger">*</span>
-            </label>
-            <input type="checkbox" id="chkHouseWife" disabled>
-        </div>-->
+                                    <label>
+                                        Is Housewife <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="checkbox" id="chkHouseWife" disabled>
+                                </div>-->
 
                                 <div class="form-group">
                                     <label>
@@ -1228,9 +1229,9 @@
                                     </label>
                                     <input type="text" maxlength="10" minlength="10" class="form-control" id="dir_prtnr_mobile" onkeypress="return isNumber(event)">
                                 </div>
-                               
 
-                            </div>
+
+                            </div><br />
                             <div style="display: flex; justify-content: center; margin: 0px 0px 15px 0px;">
                                 <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPartner" style="font-size: medium;">
                                     <i class="fa fa-plus"></i> Add Director / Partner
@@ -1398,11 +1399,11 @@
                                     <input type="text" class="form-control" maxlength="6" minlength="6" id="addl_plc_pincode" onkeypress="return isNumber(event)">
                                 </div>
                                 <div style="align-content: flex-end;">
-                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 15px 0px;font-size: medium;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 0px 0px;font-size: medium;">
                                         <i class="fa fa-plus"></i> Add Place
                                     </button>
                                 </div>
-                                
+
                             </div>
                         </form>
                         <hr class="mt-4" />
@@ -1472,9 +1473,9 @@
                                 <table class="table table-bordered align-middle" id="bankTable" style="font-size: small;">
                                     <thead class="table-light">
                                         <tr>
+                                            <th style="width:20%">Bank Name</th>
                                             <th style="width:20%">Account Number</th>
                                             <th style="width:20%">Account Holder Name</th>
-                                            <th style="width:20%">Bank Name</th>
                                             <th style="width:15%">IFSC Code</th>
                                             <th style="width:20%">Branch Address</th>
                                         </tr>
@@ -1482,19 +1483,16 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <input type="text" class="form-control" id="account_number" placeholder="Account Number" onkeypress="return isNumber(event)">
+                                                <select class="form-control" id="bank_name">
+                                                    <option value="">-- Select --</option>
+
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="account_number" placeholder="Account Number" onblur="checkAcNumber();" onkeypress="return isNumber(event)">
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" id="account_holder_name" placeholder="Account Holder Name">
-                                            </td>
-                                            <td>
-                                                <select class="form-control" id="bank_name">
-                                                    <option value="">-- SELECT --</option>
-                                                    <option>BANK OF AMERICA</option>
-                                                    <option>SBI</option>
-                                                    <option>HDFC</option>
-                                                    <option>ICICI</option>
-                                                </select>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code">
@@ -1507,14 +1505,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                
+
                                 <div style="display: flex; justify-content: center; margin: 0px 0px 15px 0px;">
                                     <button type="button" class="btn btn-success px-4 w-auto" id="btnAddbnk" style="font-size: medium;">
                                         <i class="fa fa-plus"></i> Add Bank
                                     </button>
                                 </div>
                             </div>
-                           
+
                             <hr class="mt-4" />
 
                             <h6 class="text-primary mb-3" id="h6Addedbank">Added Bank Details</h6>
@@ -1524,9 +1522,9 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>S No. </th>
+                                            <th>Bank Name </th>
                                             <th>Account Number </th>
                                             <th>Account Holder Name </th>
-                                            <th>Bank Name </th>
                                             <th>IFSC Code </th>
                                             <th>Bank Address</th>
                                             <th style="width:120px;" class="text-center">Action</th>
@@ -1593,7 +1591,7 @@
                                     <input type="file" class="form-control" id="doc_file" accept="application/pdf">
                                 </div>
                                 <div style="align-content: flex-end;">
-                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 15px 0px;font-size: medium;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 0px 0px;font-size: medium;">
                                         <i class="fa fa-plus"></i> Upload File
                                     </button>
                                 </div>
@@ -1637,7 +1635,7 @@
 
                 </div>
 
-                <div id="divPrint" class="container mt-4" style="display:none;">
+                <div id="divPrint" class="container mt-4" style="display:block;">
                     <div class="card">
 
                         <h2 id="employee">Form I and Form II Registration Summary</h2>
@@ -1805,17 +1803,18 @@
 
     <script>
 
-$(document).ready(function () {
+        $(document).ready(function () {
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var type = urlParams.get('type');
+            var urlParams = new URLSearchParams(window.location.search);
+            var type = urlParams.get('type');
 
-    loadDivisions();
-    loaddistrict();
-    showTab('0');
+            loadDivisions();
+            loaddistrict();
+            Load_Banks();
+            showTab('0');
 
 
-});
+        });
 
 
         function loaddistrict() {
@@ -1833,27 +1832,27 @@ $(document).ready(function () {
                     dropdown.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                        dropdown.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
                     });
                     dropdown2.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown2.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                        dropdown2.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
                     });
                     dropdown3.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown3.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                        dropdown3.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
                     });
                     dropdown4.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown4.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                        dropdown4.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
                     });
                     dropdown5.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown5.append('<option value="' + item.disrict_code + '">' + item.district_name + '</option>');
+                        dropdown5.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
                     });
 
                 },
@@ -2026,7 +2025,8 @@ $(document).ready(function () {
                 locality: $("#locality").val(),
                 city: $("#city").val(),
                 mandal: $("#mandal").val(),
-                district: $("#district").val(),
+                district_code: $("#district").val(),
+                district_name: $('#district option:selected').text(),
                 pincode: $("#pincode").val(),
                 division_code: $("#bz_division").val(),
                 circle_code: $("#bz_circle").val()
@@ -2845,37 +2845,37 @@ $(document).ready(function () {
         }
 
         function save_bank_Details() {
-          var dataListb = [];
+            var dataListb = [];
 
             $("#bankdetailsTable tbody tr").each(function () {
 
-              var item = $(this).attr("data-item");
+                var item = $(this).attr("data-item");
 
-              if (item) {
-                  dataListb.push(JSON.parse(item));
-              }
-          });
-    $.ajax({
-        url: '@Url.Action("Save_bank_Details", "Registration")',
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ model: dataListb }),
-        dataType: "JSON",
-        success: function (response) {
+                if (item) {
+                    dataListb.push(JSON.parse(item));
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("Save_bank_Details", "Registration")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ model: dataListb }),
+                dataType: "JSON",
+                success: function (response) {
 
-            if (response.success) {
-                showTab("7");
-            }
-            else {
+                    if (response.success) {
+                        showTab("7");
+                    }
+                    else {
 
-                showTab("6");
-            }
-        },
-        error: function () {
-            showTab("6");
+                        showTab("6");
+                    }
+                },
+                error: function () {
+                    showTab("6");
+                }
+            });
         }
-    });
-}
 
         /*################## FOR SAVING THE BANK DETAILS DATA #######################*/
 
@@ -3320,25 +3320,49 @@ $(document).ready(function () {
 
             });
             if (!valid) {
-                alert("please fill all required fields correctly.");
+                ModernAlert.toast.info('Please fill all required fields correctly');
                 return false;
             }
             let obj = {
                 account_number: $('#account_number').val(),
                 account_holder_name: $('#account_holder_name').val(),
-                bank_name: $('#bank_name').val(),
+                bank_id: $('#bank_name').val(),
                 ifsc_code: $('#ifsc_code').val(),
-                branch_address: $('#branch_address').val()
+                branch_address: $('#branch_address').val(),
+                bank_name: $('#bank_name option:selected').text(),
             };
+
+
+            let isDuplicate = false;
+
+            $("#bankdetailsTable tbody tr").each(function () {
+                let rowData = $(this).data("item");
+                if (rowData != undefined && rowData != "") {
+                    if (
+                        rowData.account_number === obj.account_number &&
+                        rowData.bank_name === obj.bank_name &&
+                        rowData.ifsc_code === obj.ifsc_code
+                    ) {
+                        isDuplicate = true;
+                        return false;
+                    }
+                }
+            });
+
+            if (isDuplicate) {
+                ModernAlert.toast.info('This bank detail already exists!');
+                return; 
+            }
+
 
             $("#noDataRow2").remove();
 
             let rowHtml = `
         <tr data-item='${JSON.stringify(obj)}'>
             <td>${SNob}</td>
+            <td>${obj.bank_name}</td>
             <td>${obj.account_number}</td>
             <td>${obj.account_holder_name}</td>
-            <td>${obj.bank_name}</td>
             <td>${obj.ifsc_code}</td>
             <td>${obj.branch_address}</td>
             <td class="text-center">
@@ -3359,7 +3383,10 @@ $(document).ready(function () {
                 $("#bankdetailsTable tbody").append(rowHtml);
                 SNob++;
             }
-
+            $('#account_number').val("");
+            $('#account_holder_name').val("");
+            $('#ifsc_code').val("");
+            $('#branch_address').val("");
             $("form")[0].reset();
         });
 
@@ -3577,7 +3604,70 @@ $(document).ready(function () {
             }
 
         }
+        let bankList = [];
+        function Load_Banks() {
+            $.ajax({
+                url: '@Url.Action("GetBanks","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    bankList = data;
+                    var dropdown = $('#bank_name');
 
+                    dropdown.empty();
+
+                    dropdown.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.bank_id + '">' + item.bank_name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to Load Banks');
+                }
+            });
+        }
+        let selectedMin = 0;
+        let selectedMax = 0;
+
+        $("#bank_name").change(function () {
+            let selectedBankId = $(this).val();
+            let bank = bankList.find(x => x.bank_id == selectedBankId);
+            if (bank) {
+                selectedMin = bank.min_digits;
+                selectedMax = bank.max_digits;
+                if (selectedMax != 1) {
+                    $("#account_number").attr("maxlength", selectedMax);
+                }
+                if (selectedMin == 1) {
+                    $("#account_number").attr("placeholder",
+                        `Enter account number`);
+                }
+                else {
+                    if (selectedMin == selectedMax) {
+                        $("#account_number").attr("placeholder",
+                            `Enter ${selectedMin}  digit account number`);
+                    }
+                    else {
+                        $("#account_number").attr("placeholder",
+                            `Enter ${selectedMin}-${selectedMax} digit account number`);
+                    }
+                }
+            }
+            else {
+                selectedMin = 0;
+                selectedMax = 0;
+            }
+        });
+        function checkAcNumber() {
+            var acnolen = $("#account_number").val().length;
+            if (acnolen > 0 && selectedMin != 1) {
+                if (acnolen < selectedMin || acnolen > selectedMax) {
+                    ModernAlert.toast.info('Please enter valid Account Number');
+                    $("#account_number").focus();
+                    return false;
+                }
+            }
+        }
     </script>
 </body>
 

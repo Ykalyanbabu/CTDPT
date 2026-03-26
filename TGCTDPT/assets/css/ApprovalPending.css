@@ -167,8 +167,9 @@ body {
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 2px solid var(--border);
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
+    max-height:500px;
 }
 
 /* Table with Fixed Layout */
@@ -179,6 +180,14 @@ body {
     border: 2px solid var(--border);
     font-size: 0.85rem;
 }
+    .data-table thead th {
+        position: sticky;
+        top: 0;
+        background: #b520e3;
+        color: white;
+        z-index: 2;
+        border-bottom: 2px solid var(--border);
+    }
 
 .serial-number {
     font-weight: 600;

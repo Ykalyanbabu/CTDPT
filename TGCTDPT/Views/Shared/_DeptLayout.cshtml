@@ -143,10 +143,10 @@
                             <i class="fa fa-circle-info"></i>Actions <i class="fa fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-content">
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTAct.aspx" target="_blank"><i class="fa fa-star"></i>Pending for Approval</a>
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTRules.aspx" target="_blank"><i class="fa fa-star"></i>Cancellation of Registration</a>
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTSchedule.aspx" target="_blank"><i class="fa fa-star"></i>Amendment for Registration</a>
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTForms.aspx" target="_blank"><i class="fa fa-star"></i>Refunds</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Pending for Approval</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Cancellation of Registration</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Amendment for Registration</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Refunds</a>
                         </div>
                     </div>
                     <div class="more-dropdown">
@@ -154,14 +154,18 @@
                             <i class="fa fa-circle-info"></i>Reports <i class="fa fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-content">
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTAct.aspx" target="_blank"><i class="fa fa-star"></i>Approved Registrations</a>
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTRules.aspx" target="_blank"><i class="fa fa-star"></i>DCB Reports</a>
-                            <a href="https://tgct.gov.in/tgportal/AllActs/APPT/APPTSchedule.aspx" target="_blank"><i class="fa fa-star"></i>Return Non-Filers Report</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Approved Registrations</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>DCB Reports</a>
+                            <a href="" target="_blank"><i class="fa fa-star"></i>Return Non-Filers Report</a>
                         </div>
                     </div>
                 </div>
+               
                 <div class="menu-right">
-                    <a href="https://tgct.gov.in/tgportal/"><i class="fa fa-sign-out-alt"></i>Logout</a>
+                    <a href="@Url.Action("DeptLogout", "PTHome")"><i class="fa fa-sign-out-alt"></i>Logout</a>
+                    <button onclick="history.back()">
+                        <i class="fa fa-backward-step"></i> Back
+                    </button>
                 </div>
             </div>
         </div>
@@ -193,7 +197,7 @@
     <script src="~/assets/js/Validations.js"></script>
     @RenderSection("scripts", required: false)
 
-    <script>
+<script>
         $(document).ajaxStart(function () {
             showloader();
         });
@@ -211,24 +215,18 @@
         }
 
         function updateUserInfo() {
-            @if (User.Identity.IsAuthenticated)
-            {
-                var userName = User.Identity.Name; 
-
-                <text>
-                const userName = '@userName';
-                </text>
+            var UserId = '@Session["Userid"]';
+            var UserName = "";
+            if (UserId != null && UserId != "") {
+                UserName = '@Session["DisplayName"]';
             }
-            else
-            {
-                <text>
-                const userName = 'Guest User';
-                </text>
-            }
+            else {
 
+                UserName = 'Guest User';
+            }
             const userDisplayElement = document.getElementById('userDisplayName');
             if (userDisplayElement) {
-                userDisplayElement.textContent = userName;
+                userDisplayElement.textContent = UserName;
             }
         }
 
@@ -264,6 +262,6 @@
                 window.location.href = $(this).attr('href');
             }
         });
-    </script>
+</script>
 </body>
 </html>

@@ -76,7 +76,7 @@ namespace TGCTDPT.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PTOLogin(string username, string password)
+        public ActionResult DeptLogin(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -124,6 +124,25 @@ namespace TGCTDPT.Controllers
             }
 
             return RedirectToAction("Login", "PTHome");
+        }
+        public ActionResult DeptLogout()
+        {
+            FormsAuthentication.SignOut();
+
+            Session.Clear();
+            Session.Abandon();
+
+            if (Request.Cookies[".ASPXAUTH"] != null)
+            {
+                Response.Cookies[".ASPXAUTH"].Expires = DateTime.Now.AddDays(-1);
+            }
+
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);
+            }
+
+            return RedirectToAction("DeptLogin", "PTHome");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

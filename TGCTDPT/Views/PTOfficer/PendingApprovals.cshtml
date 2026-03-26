@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <div class="results-header" style="margin-top: 1rem;">
+        <div class="results-header" style="margin-top: 1rem;display:none;">
             <div class="pagination-info" id="paginationInfo">
                 Showing 1 to 5 of 5 entries
             </div>
@@ -242,7 +242,7 @@
                 let filteredData = PendingData;
                 if (searchInput) {
                     filteredData = PendingData.filter(item =>
-                        item.applicationNumber.includes(searchInput)
+                        String(item.ApplicationNumber || '').includes(searchInput)
                     );
                 }
                 populateTable(filteredData);

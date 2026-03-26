@@ -44,7 +44,7 @@
 
         /* Welcome Banner */
         .welcome-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #5d0f6c 0%, #764ba2 100%);
             border-radius: 24px;
             padding: 1.0rem;
             margin-bottom: 1.5rem;
@@ -213,7 +213,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem;
+            /*padding: 1rem;*/
             background: var(--light);
             border-radius: 14px;
             text-decoration: none;
@@ -369,10 +369,10 @@
 <body>
     <div class="modern-container">
         <!-- Welcome Banner -->
-        <div class="welcome-banner animate-fade-in">
+        <div class="welcome-banner animate-fade-in" style="display:block">
             <div class="welcome-content">
                 <h6 class="welcome-title">
-                    <i class="fas fa-building me-2"></i>Professional Tax Office
+                    <i class="fas fa-building me-2"></i>PT Officer Home
                 </h6>
                 @*<p class="welcome-subtitle">
             Manage registrations, approvals, and reports efficiently
@@ -408,7 +408,7 @@
                     <div class="card-title">
                         <i class="fas fa-bolt"></i>
                         <span>Quick Actions</span>
-                        <span class="badge">4 Pending</span>
+                        <span class="badge"></span>
                     </div>
                     <div class="toggle-icon" id="action-toggle">
                         <i class="fas fa-chevron-down"></i>
@@ -422,7 +422,7 @@
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <span class="menu-text">Pending for Approval</span>
-                                <span class="badge">12</span>
+                                <span class="badge"></span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
                             <a href="#" class="menu-item">
@@ -444,7 +444,7 @@
                                     <i class="fas fa-undo-alt"></i>
                                 </div>
                                 <span class="menu-text">Refunds</span>
-                                <span class="badge">3</span>
+                                <span class="badge"></span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
                         </div>
@@ -562,6 +562,7 @@
     </div>
 
     <script>
+
         function toggleCard(contentId) {
             const content = document.getElementById(contentId);
             const toggleIcon = content.previousElementSibling.querySelector('.toggle-icon i');
