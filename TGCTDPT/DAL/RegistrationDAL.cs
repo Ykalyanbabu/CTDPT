@@ -44,6 +44,17 @@ namespace TGCTDPT.DAL
                     commandType: CommandType.StoredProcedure
                 ).ToList();
             }
+        } 
+        
+        public List<bnk_dtls> Loadbanks()
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<bnk_dtls>(
+                    "pr_PT_Fillbankddl_Dis",
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
         }
         public List<Business_dtls> LoadCircles(string divisionId)
         {

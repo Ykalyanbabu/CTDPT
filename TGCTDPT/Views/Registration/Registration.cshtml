@@ -1371,7 +1371,7 @@
                                         District <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="addl_plc_district">
-                                        <option value="RANGAREDDY">RANGAREDDY</option>
+                                        <option value=""></option>
                                     </select>
                                 </div>
 
@@ -1491,8 +1491,15 @@
                                             <td>
                                                 <input type="text" class="form-control" id="account_number" placeholder="Account Number" onblur="checkAcNumber();" onkeypress="return isNumber(event)">
                                             </td>
+
                                             <td>
-                                                <input type="text" class="form-control" id="account_holder_name" placeholder="Account Holder Name">
+                                                <select class="form-control" id="bank_name">
+                                                    <option value="">-- SELECT --</option>
+                                                    <option>BANK OF AMERICA</option>
+                                                    <option>SBI</option>
+                                                    <option>HDFC</option>
+                                                    <option>ICICI</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code">
@@ -1500,8 +1507,6 @@
                                             <td>
                                                 <input type="text" class="form-control" id="branch_address" placeholder="Branch Address">
                                             </td>
-
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1808,13 +1813,39 @@
             var urlParams = new URLSearchParams(window.location.search);
             var type = urlParams.get('type');
 
-            loadDivisions();
-            loaddistrict();
-            Load_Banks();
-            showTab('0');
+    loadDivisions();
+    loaddistrict();
+    showTab('0');
 
 
-        });
+});
+        let bankList = [];
+        function Load_Banks() {
+            $.ajax({
+                url: '@Url.Action("GetBanks","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    bankList = data;
+                    var dropdown = $('#bank_name');
+
+                    dropdown.empty();
+
+                    dropdown.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.bank_id + '">' + item.bank_name + '</option>');
+                    });
+    		},
+                error: function () {
+                    alert('Failed to Load Banks');
+                }
+            });
+        }
+        let selectedMin = 0;
+        let selectedMax = 0;
+
+});
+
 
 
         function loaddistrict() {

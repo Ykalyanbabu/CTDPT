@@ -59,6 +59,14 @@ namespace TGCTDPT.Controllers
             var response = dal.LoadCircles(divisionId);
             return Json(response, JsonRequestBehavior.AllowGet);
 
+        } 
+        [HttpGet]
+        public JsonResult GetBanks()
+        {
+
+            var response = dal.Loadbanks();
+            return Json(response, JsonRequestBehavior.AllowGet);
+
         }
         [HttpGet]
         public JsonResult GetBanks()
