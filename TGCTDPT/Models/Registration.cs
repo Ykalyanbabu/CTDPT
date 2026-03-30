@@ -82,6 +82,8 @@ namespace TGCTDPT.Models
         public string O_city { get; set; }
         public string O_mandal { get; set; }
         public string O_district { get; set; }
+        public string O_district_code { get; set; }
+        public string O_district_name { get; set; }
         public string O_state_name { get; set; }
         public string O_country { get; set; }
         public string O_pincode { get; set; }
@@ -100,7 +102,8 @@ namespace TGCTDPT.Models
         public string auth_prsn_road_street { get; set; }
         public string auth_prsn_locality { get; set; }
         public string auth_prsn_city { get; set; }
-        public string auth_prsn_district { get; set; }
+        public string auth_prsn_district_code { get; set; }
+        public string auth_prsn_district_name { get; set; }
         public string auth_prsn_pincode { get; set; }
     }
     public class dir_prtnr_dtls
@@ -120,7 +123,8 @@ namespace TGCTDPT.Models
         public string dir_prtnr_mandal { get; set; }
         public string dir_prtnr_state { get; set; }
         public string dir_prtnr_country { get; set; }
-        public string dir_prtnr_district { get; set; }
+        public string dir_prtnr_district_code { get; set; }
+        public string dir_prtnr_district_name { get; set; }
         public string dir_prtnr_pincode { get; set; }
     }
     public class DirPrtnrWrapper
@@ -139,7 +143,8 @@ namespace TGCTDPT.Models
         public string addl_plc_mandal { get; set; }
         public string addl_plc_state { get; set; }
         public string addl_plc_country { get; set; }
-        public string addl_plc_district { get; set; }
+        public string addl_plc_district_code { get; set; }
+        public string addl_plc_district_name { get; set; }
         public string addl_plc_pincode { get; set; }
     }
     public class AddlPlaceWrapper

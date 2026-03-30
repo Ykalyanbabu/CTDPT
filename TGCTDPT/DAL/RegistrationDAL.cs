@@ -66,16 +66,7 @@ namespace TGCTDPT.DAL
                 ).ToList();
             }
         }
-        public List<bnk_dtls> Loadbanks()
-        {
-            using (var con = new SqlConnection(conStr))
-            {
-                return con.Query<bnk_dtls>(
-                    "pr_PT_Fillbankddl_Dis",
-                    commandType: CommandType.StoredProcedure
-                ).ToList();
-            }
-        }
+        
         public Business_dtls SaveBusinessDetails(Business_dtls m)
         {
             using (var con = new SqlConnection(conStr))
@@ -222,6 +213,90 @@ namespace TGCTDPT.DAL
 
                 return result;
             }
+        }
+        public string GenerateRNR(string AppId)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                var result = con.QueryFirstOrDefault<string>(
+                    "usp_generate_rnr_number",
+                    new
+                    {
+                        @ApplicationId = AppId
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
+        public FormIISummaryViewModel GetFullSummary(string appid)
+        {
+            var vm = new FormIISummaryViewModel();
+
+            using (var con = new SqlConnection(conStr))
+            {
+                var param = new DynamicParameters();
+                param.Add("@ApplicationId", appid, DbType.String);
+
+                using (var multi = con.QueryMultiple(
+                    "USP_GETFORMII_ENROLMENTSUMMARY_APPLICANT",
+                    param,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    vm.BusinessDetails = multi.ReadFirstOrDefault<BusinessDetails>();
+
+                    vm.EmployeeDetails = multi.Read<EmployeeDetail>().ToList();
+
+                    vm.OwnerDetails = multi.Read<OwnerDetail>().ToList();
+
+                    vm.AuthPersonDetails = multi.Read<AuthPersonDetail>().ToList();
+
+                    vm.DirectorPartners = multi.Read<DirectorPartner>().ToList();
+
+                    vm.AddlPlacesOfBiz = multi.Read<AddlPlaceOfBiz>().ToList();
+
+                    vm.BankDetails = multi.Read<BankDetail>().ToList();
+
+                    vm.DocumentDetails = multi.Read<DocumentDetail>().ToList();
+                }
+            }
+
+            return vm;
+        }
+        public FormIISummaryViewModel GetApplicationDtls(string appid)
+        {
+            var vm = new FormIISummaryViewModel();
+
+            using (var con = new SqlConnection(conStr))
+            {
+                var param = new DynamicParameters();
+                param.Add("@ApplicationId", appid, DbType.String);
+
+                using (var multi = con.QueryMultiple(
+                    "USP_APPLICANT_ALL_DETAILS",
+                    param,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    vm.BusinessDetails = multi.ReadFirstOrDefault<BusinessDetails>();
+
+                    vm.EmployeeDetails = multi.Read<EmployeeDetail>().ToList();
+
+                    vm.OwnerDetails = multi.Read<OwnerDetail>().ToList();
+
+                    vm.AuthPersonDetails = multi.Read<AuthPersonDetail>().ToList();
+
+                    vm.DirectorPartners = multi.Read<DirectorPartner>().ToList();
+
+                    vm.AddlPlacesOfBiz = multi.Read<AddlPlaceOfBiz>().ToList();
+
+                    vm.BankDetails = multi.Read<BankDetail>().ToList();
+
+                    vm.DocumentDetails = multi.Read<DocumentDetail>().ToList();
+                }
+            }
+
+            return vm;
         }
     }
 }

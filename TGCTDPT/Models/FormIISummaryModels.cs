@@ -38,6 +38,12 @@ namespace TGCTDPT.Models
         public string EmpBetween_15001_20000 { get; set; }
         public string EmpAbove_20000 { get; set; }
         public string TotalEmployees { get; set; }
+        public string division_code { get; set; }
+        public string circle_code { get; set; }
+        public string district_code { get; set; }
+        public string progress_step { get; set; }
+        public string Nominated_Auth_Person { get; set; }
+        
     }
 
     public class EmployeeDetail
@@ -146,6 +152,7 @@ namespace TGCTDPT.Models
         public string document_type { get; set; }
         public string document_path { get; set; }
         public string uploaded_date { get; set; }
+        public string master_doc_id { get; set; }
     }
     public class Response
     {

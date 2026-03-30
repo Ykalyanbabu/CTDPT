@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult Registration()
         {
+            Session["application_id"] = "36260328187219";
             return View();
         }
         public ActionResult eRegistration()
@@ -68,15 +70,7 @@ namespace TGCTDPT.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
 
         }
-        [HttpGet]
-        public JsonResult GetBanks()
-        {
-
-            var response = dal.Loadbanks();
-            return Json(response, JsonRequestBehavior.AllowGet);
-
-        }
-
+        
         //public ActionResult Mail_Registration()
         //{
         //    return View();
@@ -386,6 +380,96 @@ namespace TGCTDPT.Controllers
                     message = "Error: " + ex.Message + " | Path: " + basePath
                 });
             }
+        }
+
+        [HttpPost]
+        public JsonResult SubmitApplication(string AppId)
+        {
+            try
+            {
+               
+                if (Session["application_id"] != null)
+                {
+                     AppId = Session["application_id"].ToString();
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Submit the Application" });
+                }
+
+                var response = dal.GenerateRNR(AppId);
+
+                return Json(new { success = true, data = response });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetFullSummary(string ApplicationId)
+        {
+            if (string.IsNullOrWhiteSpace(ApplicationId))
+                return JsonError("ApplicationId is required.");
+
+            try
+            {
+                var data = dal.GetFullSummary(ApplicationId);
+
+                if (data.BusinessDetails == null)
+                    return JsonError($"No record found for RNR: {ApplicationId}");
+
+                return JsonSuccess(data);
+            }
+            catch (Exception ex)
+            {
+                return JsonError(ex.Message);
+            }
+        }
+        [HttpGet]
+        public ActionResult GetApplicationDtls(string ApplicationId)
+        {
+            if (string.IsNullOrWhiteSpace(ApplicationId))
+                return JsonError("ApplicationId is required.");
+
+            try
+            {
+                var data = dal.GetApplicationDtls(ApplicationId);
+
+                if (data.BusinessDetails == null)
+                    return JsonError($"No record found for ApplicaionId: {ApplicationId}");
+
+                return JsonSuccess(data);
+            }
+            catch (Exception ex)
+            {
+                return JsonError(ex.Message);
+            }
+        }
+        private ActionResult JsonSuccess(object data)
+        {
+            var json = JsonConvert.SerializeObject(
+                new { success = true, data },
+                new JsonSerializerSettings
+                {
+                    DateFormatString = "dd-MM-yyyy",
+                    NullValueHandling = NullValueHandling.Include
+                });
+
+            return Content(json, "application/json");
+        }
+
+        private ActionResult JsonError(string message)
+        {
+            var json = JsonConvert.SerializeObject(new { success = false, message });
+            return Content(json, "application/json");
+        }
+
+        public ActionResult Error(string msg)
+        {
+            ViewBag.ErrorMessage = msg;
+            return View();
         }
     }
 }

@@ -3,422 +3,479 @@
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
-@*<link href="~/assets/css/custom.css" rel="stylesheet" />*@
-@*<script src="/Scripts/modernizr-2.8.3.js"></script>*@
+<link href="~/assets/css/custom.css" rel="stylesheet" />
 <link href="/Content/bootstrap.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
 
-        .body-content {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            padding: 30px;
-            min-height: 500px;
+<style>
+        /* RESET - scoped to .rnr-registration-summary */
+        .rnr-registration-summary * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* HERO BANNER */
-        .hero-banner {
-            background: linear-gradient(135deg, #0b8b80 0%, #0a7269 100%);
+        .rnr-registration-summary {
+            --rnr-primary: #1d4ed8;
+            --rnr-primary-light: #eff6ff;
+            --rnr-primary-mid: #bfdbfe;
+            --rnr-secondary: #6b7280;
+            --rnr-success: #059669;
+            --rnr-success-light: #d1fae5;
+            --rnr-dark: #111827;
+            --rnr-mid: #374151;
+            --rnr-light: #f9fafb;
+            --rnr-border: #e5e7eb;
+            --rnr-border-strong: #d1d5db;
+            --rnr-shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+            --rnr-shadow: 0 4px 12px rgba(0,0,0,0.07);
+
+            /*font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;*/
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            padding: 1.5rem;
+            color: var(--rnr-dark);
+            display: block;
+        }
+
+        .rnr-summary-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── Page Header ── */
+        .rnr-page-header {
+            background: #c94ae9;
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--rnr-shadow-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border: 1px solid var(--rnr-border);
+        }
+
+        .rnr-header-center {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .rnr-page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--rnr-dark);
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .rnr-badge {
+            background: var(--rnr-primary-light);
+            color: var(--rnr-primary);
+            border: 1px solid var(--rnr-primary-mid);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'IBM Plex Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .rnr-status-badge {
+            background: var(--rnr-success-light);
+            color: var(--rnr-success);
+            border: 1px solid #a7f3d0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .rnr-action-buttons {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .rnr-btn {
+            padding: 0.35rem 0.85rem;
+            border-radius: 7px;
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: 1px solid var(--rnr-border-strong);
+            background: white;
+            color: var(--rnr-mid);
+        }
+        .rnr-btn:hover {
+            background: var(--rnr-light);
+        }
+        .rnr-btn-primary {
+            background: var(--rnr-primary);
             color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            position: relative;
+            border-color: var(--rnr-primary);
+        }
+        .rnr-btn-primary:hover {
+            background: #1a45c2;
+        }
+
+        /* ── Quick Stats ── */
+        .rnr-quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+        .rnr-stat-item {
+            background: white;
+            border-radius: 9px;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--rnr-border);
+            box-shadow: var(--rnr-shadow-sm);
+        }
+        .rnr-stat-label {
+            font-size: 0.62rem;
+            color: var(--rnr-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .rnr-stat-value {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--rnr-dark);
+            margin-top: 0.25rem;
+        }
+
+        /* ── Sections ── */
+        .rnr-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--rnr-border);
+            box-shadow: var(--rnr-shadow-sm);
             overflow: hidden;
         }
+        .rnr-section-header {
+            padding: 0.5rem 1.2rem;
+            background: var(--rnr-light);
+            border-bottom: 2px solid var(--rnr-border);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            background-color: rgb(146 183 255);
+        }
+        .rnr-section-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--rnr-primary-light);
+            border: 1px solid var(--rnr-primary-mid);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rnr-primary);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .rnr-section-title {
+            font-size: 1.5rem !important;
+            font-weight: 700;
+            color: black;
+            letter-spacing: -0.1px;
+        }
+        .rnr-section-body {
+            padding: 1.2rem;
+        }
 
-            .hero-banner::before {
-                content: '';
+        /* ── Details Grid ── */
+        .rnr-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0;
+            border: 1px solid var(--rnr-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .rnr-detail-cell {
+            padding: 0.7rem 1rem;
+            border-right: 1px solid var(--rnr-border);
+            border-bottom: 1px solid var(--rnr-border);
+            background: white;
+        }
+        .rnr-detail-cell:nth-child(even) {
+            background: #fafafa;
+        }
+        .rnr-detail-cell.rnr-full-width {
+            grid-column: 1 / -1;
+            background: white !important;
+        }
+        .rnr-detail-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .rnr-detail-value {
+            font-size: 1.2rem;
+            color: var(--rnr-dark);
+            font-weight: 700;
+            word-break: break-word;
+        }
+        .rnr-detail-value.rnr-highlight {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--rnr-primary);
+            font-weight: 600;
+        }
+        .rnr-detail-value.rnr-empty {
+            color: #9ca3af;
+            font-style: italic;
+            font-size: 0.78rem;
+        }
+
+        /* ── Badges ── */
+        .rnr-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .rnr-badge-green {
+            background: var(--rnr-success-light);
+            color: var(--rnr-success);
+            border: 1px solid #a7f3d0;
+        }
+
+        /* ── Owner Avatar ── */
+        .rnr-owner-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: var(--rnr-primary-light);
+            border: 1px solid var(--rnr-primary-mid);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .rnr-owner-avatar {
+            width: 38px;
+            height: 38px;
+            background: var(--rnr-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .rnr-owner-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--rnr-dark);
+        }
+        .rnr-owner-sub {
+            font-size: 0.72rem;
+            color: var(--rnr-secondary);
+            margin-top: 0.1rem;
+        }
+
+        /* ── Bank Table (modern table) ── */
+        .rnr-bank-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--rnr-border);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 1.2rem;
+        }
+        .rnr-bank-table thead tr {
+            background: var(--rnr-light);
+            border-bottom: 2px solid var(--rnr-border);
+        }
+        .rnr-bank-table thead th {
+            padding: 0.65rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid var(--rnr-border);
+            white-space: nowrap;
+            background-color: #7a7a7a;
+        }
+        .rnr-bank-table thead th:last-child {
+            border-right: none;
+        }
+        .rnr-bank-table tbody tr {
+            border-bottom: 1px solid var(--rnr-border);
+            transition: background 0.15s ease;
+        }
+        .rnr-bank-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .rnr-bank-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+        .rnr-bank-table tbody tr:hover {
+            background: var(--rnr-primary-light);
+        }
+        .rnr-bank-table tbody td {
+            padding: 0.65rem 1rem;
+            color: var(--rnr-dark);
+            font-weight: 500;
+            border-right: 1px solid var(--rnr-border);
+            vertical-align: middle;
+        }
+        .rnr-bank-table tbody td:last-child {
+            border-right: none;
+        }
+        .rnr-row-num {
+            color: var(--rnr-secondary) !important;
+            font-weight: 600 !important;
+            font-size: 1.2rem !important;
+            text-align: center;
+            width: 36px;
+        }
+        .rnr-mono-val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--rnr-dark);
+        }
+        .rnr-badge-primary-acc {
+            background: var(--rnr-primary-light);
+            color: var(--rnr-primary);
+            border: 1px solid var(--rnr-primary-mid);
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+        .rnr-badge-secondary-acc {
+            background: #f3f4f6;
+            color: var(--rnr-secondary);
+            border: 1px solid var(--rnr-border-strong);
+            padding: 0.18rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+        .rnr-empty-row {
+            text-align: center !important;
+            color: #9ca3af !important;
+            font-style: italic;
+            font-size: 0.8rem !important;
+            padding: 1.5rem !important;
+            border-right: none !important;
+        }
+        .rnr-empty-row i {
+            margin-right: 0.3rem;
+            color: #d1d5db;
+        }
+
+        /* ── Footer Info / additional rows (bank grid) ── */
+        .rnr-info-table {
+            margin-top: 1rem;
+            border: 1px solid var(--rnr-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .rnr-info-row {
+            display: flex;
+            border-bottom: 1px solid var(--rnr-border);
+        }
+        .rnr-info-row:last-child {
+            border-bottom: none;
+        }
+        .rnr-info-label {
+            min-width: 130px;
+            padding: 0.55rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--rnr-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            background: var(--rnr-light);
+            border-right: 1px solid var(--rnr-border);
+        }
+        .rnr-info-value {
+            padding: 0.55rem 1rem;
+            font-size: 0.82rem;
+            color: var(--rnr-dark);
+            font-weight: 500;
+        }
+
+        /* ── Responsive ── */
+        @@media (max-width: 768px) {
+            .rnr-registration-summary {
+                padding: 0.6rem;
+            }
+            .rnr-page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .rnr-details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .rnr-bank-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .rnr-info-row {
+                flex-direction: column;
+            }
+            .rnr-info-label {
+                border-right: none;
+                border-bottom: 1px solid var(--rnr-border);
+                min-width: unset;
+            }
+        }
+        @@media (max-width: 480px) {
+            .rnr-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+            .rnr-registration-summary, .rnr-registration-summary * {
+                visibility: visible;
+            }
+            .rnr-registration-summary {
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
-                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></svg>');
-                opacity: 0.5;
+                width: 100%;
             }
-
-            .hero-banner h1 {
-                font-size: 32px;
-                margin-bottom: 15px;
-                position: relative;
-                z-index: 1;
+            .rnr-action-buttons {
+                display: none;
             }
-
-            .hero-banner p {
-                font-size: 18px;
-                max-width: 800px;
-                margin: 0 auto;
-                position: relative;
-                z-index: 1;
-                opacity: 0.9;
-            }
-
-
-
-        /* RESPONSIVE */
-        @*@media (max-width: 992px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-
-            .header-actions {
-                margin-top: 10px;
-            }
-
-            .menu {
-                justify-content: flex-start;
-                overflow-x: auto;
-                white-space: nowrap;
-                padding-bottom: 5px;
-            }
-
-                .menu a {
-                    padding: 12px 14px;
-                    font-size: 14px;
-                }
-        }*@
-
-        @*@media (max-width: 768px) {
-            .hero-banner h1 {
-                font-size: 26px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-            }
-
-            .logo-section img {
-                height: 60px;
-            }
-
-            .header-text .dept {
-                font-size: 20px;
-            }
-        }*@
+        }
 </style>
-<style>
-        /* ===== Global ===== */
-        body {
-            font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
-            background: linear-gradient(180deg, #f4f6f9, #eef1f5);
-            /* padding: 20px;*/
-        }
-
-        /* ===== Container ===== */
-        .container {
-            max-width: 1400px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            /*padding: 4px;*/
-            margin: -14px 0px 0px 0px;
-        }
-
-        /* ===== Header ===== */
-        .header {
-            /*background: linear-gradient(90deg, #ffeb70, #ffe14d);*/
-            background: linear-gradient(135deg, #eba9ff, #86248f, #bd67c7, #db1bd9) !important;
-            padding: 18px 28px;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 10px 10px 0 0;
-        }
-
-        /* ===== Steps ===== */
-        .steps {
-            display: flex;
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-    .step {
-        flex: 1;
-        text-align: center;
-        padding: 14px 10px;
-        cursor:default;
-        font-size: 13px;
-        color: black;
-        transition: all 0.3s ease;
-        position: relative;
-        border: 1px solid #d8c1d9;
-    }
-
-            .step i {
-                font-size: 18px;
-                margin-bottom: 6px;
-                display: block;
-            }
-
-            .step.active {
-                color: black;
-                font-weight: 600;
-                background: #5fd769;
-            }
-
-                .step.active::after {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 20%;
-                    width: 60%;
-                    height: 3px;
-                    background: #0d6efd;
-                    border-radius: 5px;
-                }
-
-            .step.completed i {
-                color: #28a745;
-            }
-
-        /* ===== Content ===== */
-        .content {
-            padding: 30px;
-        }
-
-        /* ===== Card ===== */
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-            padding: 30px;
-        }
-
-            /* ===== Section Title ===== */
-            .card h5.text-primary {
-                font-weight: 600;
-                /*border-left: 4px solid #690376;*/
-                padding-left: 10px;
-            }
-
-        /* ===== Form Grid ===== */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px 24px;
-            margin-top: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-            .form-group label {
-                font-size: 13px;
-                font-weight: 600;
-                color: #374151;
-                margin-bottom: 6px;
-            }
-
-        .form-control {
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-
-            .form-control:focus {
-                border-color: #0d6efd;
-                box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
-            }
-
-        /* ===== Buttons ===== */
-        /*.btn-primary {
-            padding: 10px 28px;
-            font-weight: 600;
-            border-radius: 6px;
-        }*/
-
-        /* ===== Footer ===== */
-        .footer-note {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .btn-primary {
-            padding: 5px 28px;
-            font-weight: 600;
-            border-radius: 6px;
-            font-size: medium;
-            background: linear-gradient(135deg, #500b8b, #7d10b9);
-        }
-            .btn-primary:hover {
-                background: linear-gradient(135deg, #7c0a61, #820ea2);
-                transform: translateY(-3px);
-                /*box-shadow: 0 6px 20px rgba(11, 139, 128, 0.4);*/
-            }
-        .h5, h5 {
-            font-size: 1.25rem !important;
-        }
-
-        .h6, h6 {
-            font-size: 0.75rem !important;
-        }
-
-        @*@media (max-width: 992px) {
-            .form-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }*@
-</style>
-<style>
-
-
-        .card {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 25px;
-            /* BORDER */
-            border: 2px solid #374151; /* Dark professional border */
-            /* OPTIONAL polish */
-            border-radius: 6px;
-            background: #ffffff;
-        }
-
-        /* Optional inner spacing look */
-        .section-title {
-            margin-top: 25px;
-            font-weight: 600;
-            color: #111827;
-            border-bottom: 1px solid #9ca3af;
-            padding-bottom: 6px;
-            background: antiquewhite;
-        }
-
-        /* Print-friendly */
-        @*@media print {
-            .card {
-                border: 2px solid #000; /* Strong border on print */
-                border-radius: 0;
-            }
-        }*@
-
-
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-            .info-table td {
-                padding: 10px;
-                border-bottom: 1px solid #e5e7eb;
-                vertical-align: top;
-            }
-
-                .info-table td.label {
-                    font-weight: 600;
-                    color: #374151;
-                    width: 25%;
-                }
-
-                .info-table td.value {
-                    color: #111827;
-                    width: 25%;
-                }
-
-        .info-text p {
-            margin: 6px 0;
-            line-height: 1.6;
-        }
-
-        .highlight {
-            color: #2563eb;
-            font-weight: 500;
-        }
-
-        .status {
-            color: #16a34a;
-            font-weight: 600;
-        }
-
-        .doc-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-            .doc-table th,
-            .doc-table td {
-                padding: 10px;
-                border: 1px solid #d1d5db;
-                text-align: left;
-            }
-
-            .doc-table th {
-                background: #f3f4f6;
-                font-weight: 600;
-            }
-
-        .btn-print {
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-            .btn-print:hover {
-                background: #1d4ed8;
-            }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .info-text {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            column-gap: 30px;
-            row-gap: 12px;
-        }
-
-            .info-text p {
-                margin: 0;
-                line-height: 1.6;
-                font-size: 14px;
-            }
-
-            .info-text strong {
-                color: #374151;
-            }
-
-        .highlight {
-            color: #2563eb;
-            font-weight: 500;
-        }
-
-        /* Responsive: 2 per row on tablets */
-        @*@media (max-width: 900px) {
-            .info-text {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Responsive: 1 per row on mobile */
-        @media (max-width: 600px) {
-            .info-text {
-                grid-template-columns: 1fr;
-            }
-        }*@
-</style>
-
 
 <body>
 
@@ -1271,7 +1328,7 @@
                                         <th style="width:120px;" class="text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="PartnerBody">
                                     <tr id="noDataRow">
                                         <td colspan="7" class="text-center text-muted">
                                             No Partner / Director added
@@ -1427,7 +1484,7 @@
                                         <th style="width:120px;" class="text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="AddlPlaceBody">
                                     <tr id="noDataRow1">
                                         <td colspan="10" class="text-center text-muted">
                                             No Additional Place added
@@ -1530,7 +1587,7 @@
                                             <th style="width:120px;" class="text-center">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="BankDtlsBody">
                                         <tr id="noDataRow2">
                                             <td colspan="10" class="text-center text-muted">
                                                 No Bank Details Added
@@ -1608,11 +1665,11 @@
                                         <th>S No. </th>
 
                                         <th>Document Name </th>
-                                        <th>File Name </th>
+                                        @*<th>File Name </th>*@
                                         <th style="width:120px;" class="text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="FilesBody">
                                     <tr id="noDataRowFiles">
                                         <td colspan="5" class="text-center text-muted">
                                             No Files added
@@ -1626,8 +1683,8 @@
                                 Previous
                             </button>
                             <button type="button" class="btn btn-primary px-4 w-auto" onclick="validate_document()">
-                                @*Next*@
-                                Submit
+                                Next
+                                @*Submit*@
                             </button>
                         </div>
 
@@ -1635,187 +1692,263 @@
 
                 </div>
 
-                <div id="divPrint" class="container mt-4" style="display:block;">
-                    <div class="card">
-
-                        <h2 id="employee">Form I and Form II Registration Summary</h2>
-                        <!-- <h2 id="entity">Form II Enrolment Summary</h2> -->
-
-                        <div class="section-title"><span>Enterprise Name and Details</span></div>
-                        <table class="info-table">
-                            <tr>
-                                <td class="label">Name of the Enterprise</td>
-                                <td class="value">ABC ENTERPRISES</td>
-                                <td class="label">PAN (Business)</td>
-                                <td class="value highlight">AAAAA1234A</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Email </td>
-                                <td class="value">abcenterprises@gmail.com</td>
-                                <td class="label">Door Number</td>
-                                <td class="value">SURVEY NOS 698/P 670</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Road / Street / Building Name</td>
-                                <td class="value">Locality</td>
-                                <td class="label">City / Town / Village</td>
-                                <td class="value">HYDERABAD</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Mandal / Municipality</td>
-                                <td class="value highlight">SERILINGAMPALLY</td>
-                                <td class="label">District</td>
-                                <td class="value status">RANGAREDDY</td>
-                            </tr>
-                            <tr>
-                                <td class="label">PIN</td>
-                                <td class="value highlight">500032</td>
-                                <td class="label">Phone Number(Land Line)</td>
-                                <td class="value status"></td>
-                            </tr>
-                            <tr>
-                                <td class="label">Mobile Number</td>
-                                <td class="value highlight">9912345678</td>
-
-                            </tr>
-                        </table>
-
-                        <div class="section-title">Owner/MD/Managing Partner Details</div>
-                        <div class="info-text">
-                            <p><strong>Name :</strong> Owner Name</p>
-                            <p><strong>Father Name:</strong> Owner Father Name</p>
-                            <p><strong>Date of Birth:</strong> 18-05-1990</p>
-                            <p><strong>Profession/Status of the Individual :</strong> <span class=""></span></p>
-                            <p><strong>Gender </strong> <span class="">Male</span></p>
-                            <p><strong>Profession:</strong> Entry 8 ii</p>
-
-                            <p><strong>Email :</strong> example@gmail.com</p>
-                            <p><strong>Door Number:</strong> 123</p>
-                            <p><strong>Road / Street / Building Name:</strong> Sp Road</p>
-                            <p><strong>Locality :</strong> <span class="">Kondapur</span></p>
-                            <p><strong>City / Town / Village </strong> <span class=""></span></p>
-                            <p><strong>Mandal / Municipality:</strong> </p>
-
-                            <p><strong>Country  :</strong> India</p>
-                            <p><strong>State :</strong> Telangana</p>
-                            <p><strong>District :</strong></p>
-                            <p><strong>PIN  :</strong> <span class=""></span></p>
-                            <p><strong>PAN(Owner)</strong> <span class=""></span></p>
-                            <p><strong>Aadhar :</strong> </p>
-
-                            <p><strong>Mobile Number</strong> <span class="">999999999</span></p>
-                            <p><strong>Have you Nominated by any Authorised Person? :</strong> Yes</p>
+                <div class="rnr-registration-summary" id="divPrint" style="display: none;">
+                    <div class="rnr-summary-container">
+                        <!-- Page Header -->
+                        <div class="rnr-page-header">
+                            <div class="rnr-header-center">
+                                <h1><i class="fas fa-file-alt" style="margin-right: 8px;"></i> Form I & II Registration Summary</h1>
+                            </div>
                         </div>
 
 
-                        <div class="section-title">Authorised Person</div>
-                        <div class="info-text">
-                            <p><strong>Details Not Provided</strong></p>
-                        </div>
-                        <div class="section-title">Partners / Directors</div>
-                        <div class="info-text">
-                            <p><strong>Name :</strong> Owner Name</p>
-                            <p><strong>Father Name:</strong> Owner Father Name</p>
-                            <p><strong>Date of Birth:</strong> 18-05-1990</p>
-                            <p><strong>Profession/Status of the Individual :</strong> <span class=""></span></p>
-                            <p><strong>Gender </strong> <span>Male</span></p>
-                            <p><strong>Email :</strong> example@gmail.com</p>
-                            <p><strong>District :</strong>Rangareddy</p>
-                            <p><strong>Mandal / Municipality:</strong> </p>
-                            <p><strong>City / Town / Village </strong> <span class=""></span></p>
-                            <p><strong>Door Number:</strong> 123</p>
-                            <p><strong>Road / Street / Building Name:</strong> Sp Road</p>
-                            <p><strong>Locality :</strong> <span class="">Kondapur</span></p>
-                            <p><strong>PIN  :</strong> <span class=""></span></p>
-                            <p><strong>PAN(Owner)</strong> <span class=""></span></p>
-                            <p><strong>Aadhar :</strong> </p>
-                            <p><strong>Landline Number</strong> <span class="">999999999</span></p>
-                            <p><strong>Mobile Number</strong> <span class="">999999999</span></p>
-                        </div>
-                        <div class="section-title">Additional Places of Business</div>
-                        <div class="info-text">
-                            <p><strong>Details Not Provided</strong></p>
+                        <!-- Enterprise Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-building"></i></div>
+                                <span class="rnr-section-title">Enterprise Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <div class="rnr-details-grid">
+                                    <div class="rnr-detail-cell rnr-full-width">
+                                        <div class="rnr-detail-label">Enterprise Name</div>
+                                        <div class="rnr-detail-value rnr-highlight"><span id="rnrSpnEnterpriseName"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell rnr-full-width">
+                                        <div class="rnr-detail-label">Address</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAddress"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Constitution of Business</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnConstitution"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">PAN</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnPAN"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Mobile</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnMobile"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Email</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnEmail"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">No. of Employees Earning below 15000 per Month</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnBelow15k"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">No. of Employees Earning between 15001 to 20000 per Month</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAbove15k"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">No. of Employees Earning above 20000 per Month</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAbove20k"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Total No. of Employees Working</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnTotalEmployees"></span></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="section-title">Bank Details</div>
-                        <div class="info-text">
-                            <p><strong>Account No:</strong> 222222222</p>
-                            <p><strong>Account Holder Name:</strong>Virat Kohli</p>
-                            <p><strong>Bank Name:</strong> BANK OF AMERICA</p>
-                            <p><strong>IFSC:</strong> AAAA1111A</p>
-                            <p><strong>Branch:</strong> HYDERABAD</p>
+                        <!-- Owner / MD / Managing Partner Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-user"></i></div>
+                                <span class="rnr-section-title">Owner / MD / Managing Partner Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <div class="rnr-owner-row">
+                                    <div>
+                                        <div class="rnr-owner-name"><span id="rnrSpnOwnerName"></span></div>
+                                        <div class="rnr-owner-sub"><span id="rnrSpnOwnerSub"></span></div>
+                                    </div>
+                                </div>
+                                <div class="rnr-details-grid">
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Father Name</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerFatherName"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Status of Individual</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerStatus"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">PAN</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerPAN"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Aadhar</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerAadhar"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Mobile</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerMobile"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Email</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerEmail"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Nominated by Authorised Person?</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerNomination"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell rnr-full-width">
+                                        <div class="rnr-detail-label">Address</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnOwnerAddress"></span></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="section-title">Checklist Documents</div>
-                        <table class="doc-table">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Document Name</th>
-                                    <th>Download</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Address proof of Principal place of Business</td>
-                                    <td><a href="#">Download</a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Copy of PAN card of Business</td>
-                                    <td><a href="#">Download</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <!-- Authorised Person Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-user-check"></i></div>
+                                <span class="rnr-section-title">Authorised Person Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <div class="rnr-owner-row">
+                                    <div>
+                                        <div class="rnr-owner-name"><span id="rnrSpnAuthPersonName"></span></div>
+                                    </div>
+                                </div>
+                                <div class="rnr-details-grid">
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Father Name</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthFatherName"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Email</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthEmail"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">PAN</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthPan"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Aadhar</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthAadhar"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Mobile</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthMobile"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell rnr-full-width">
+                                        <div class="rnr-detail-label">Address</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnAuthAddress"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Partners / Directors Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-users"></i></div>
+                                <span class="rnr-section-title">Partners / Directors Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <table class="rnr-bank-table">
+                                    <thead>
+                                        <tr><th>S No</th><th>Name</th><th>Type</th><th>Drawing Remuneration</th><th>PAN</th><th>Aadhaar</th><th>Email</th><th>Mobile</th><th>Address</th></tr>
+                                    </thead>
+                                    <tbody id="rnrPartnersbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Additional Places of Business Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <span class="rnr-section-title">Additional Places of Business Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <table class="rnr-bank-table">
+                                    <thead>
+                                        <tr><th>S No</th><th>Country</th><th>State</th><th>District</th><th>Mandal</th><th>Address</th></tr>
+                                    </thead>
+                                    <tbody id="rnrPlacesbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Bank Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-university"></i></div>
+                                <span class="rnr-section-title">Bank Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <table class="rnr-bank-table">
+                                    <thead>
+                                        <tr><th>S No</th><th>Bank Name</th><th>IFSC Code</th><th>Account Number</th><th>Account Holder Name</th><th>Branch Address</th></tr>
+                                    </thead>
+                                    <tbody id="rnrBankbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Check list Document Details -->
+                        <div class="rnr-section">
+                            <div class="rnr-section-header">
+                                <div class="rnr-section-icon"><i class="fas fa-file-alt"></i></div>
+                                <span class="rnr-section-title">Check list Document Details</span>
+                            </div>
+                            <div class="rnr-section-body">
+                                <table class="rnr-bank-table">
+                                    <thead>
+                                        <tr><th>S No</th><th>Document Name</th><th>Uploaded Date</th><th>View</th></tr>
+                                    </thead>
+                                    <tbody id="rnrDocbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
                             <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
                                 Previous
                             </button>
-                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="fnSave();">
+                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="SubmitApplication();">
                                 Submit
                             </button>
-
                         </div>
-
-                        <!--<div class="text-center" style="margin-top: 25px;">
-                            <button class="btn-print" onclick="window.print()">Print</button>
-                        </div>-->
-
                     </div>
-
-
-                </div>
-
             </div>
         </div>
 
-        <!-- </div> -->
-
-
-
     </div>
-
-
 
     <script src="/Scripts/jquery-3.4.1.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
+    <script src="~/ViewJs/RegSummary.js"></script>
 
     <script>
-
+        var AppId = '@Session["application_id"]';
+        var getFullSummaryUrl = '@Url.Action("GetFullSummary", "Registration")';
+        var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Registration")';
         $(document).ready(function () {
 
             var urlParams = new URLSearchParams(window.location.search);
             var type = urlParams.get('type');
 
-            loadDivisions();
             loaddistrict();
             Load_Banks();
-            showTab('0');
-
-
+            if (AppId != null && AppId != undefined && AppId != "") {
+                LoadApplicationDtls(AppId);
+            }
+            else {
+                showTab('0');
+                loadDivisions();
+            }
         });
-
 
         function loaddistrict() {
             $.ajax({
@@ -1863,7 +1996,7 @@
         }
 
 
-        function loadDivisions() {
+        function loadDivisions(division) {
             $.ajax({
                 url: '@Url.Action("GetDivisions","Registration")',
                 type: 'GET',
@@ -1875,11 +2008,16 @@
                     $.each(data, function (i, item) {
                         dropdown.append('<option value="' + item.division_code + '">' + item.division_name + '</option>');
                     });
+
+                    if (division != null && division != undefined && division != "") {
+                        $('#bz_division').val(division);
+                    }
                 },
                 error: function () {
                     alert('Failed to load divisions');
                 }
             });
+
         }
         $('#bz_division').change(function () {
 
@@ -1891,7 +2029,7 @@
                 $('#bz_circle').empty().append('<option value="">Select Circle</option>');
             }
         });
-        function loadCircles(divisionId) {
+        function loadCircles(divisionId,Circle) {
             $.ajax({
                 url:  '@Url.Action("GetCirclesByDivision", "Registration")',
                 type: 'GET',
@@ -1905,6 +2043,10 @@
                     $.each(data, function (i, item) {
                         dropdown.append('<option value="' + item.circle_code + '">' + item.circle_name + '</option>');
                     });
+
+                    if (Circle != null && Circle != undefined && Circle != "") {
+                        $('#bz_circle').val(Circle);
+                    }
                 },
                 error: function () {
                     alert('Failed to load circles');
@@ -2550,46 +2692,14 @@
          /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
         function validate_dirprtnr() {
 
-            var container = document.querySelector("#divPartnerDirector");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    // skip optional aadhaar
-                    if (input.id === "dir_prtnr_aadhaar" && input.value.trim() === "") {
-                        input.style.border = "";
-                        return;
-                    }
-
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                    }
-                    else {
-                        input.style.border = "";
-                    }
-                }
-
-            });
-
-            if (!valid) {
-                alert("please fill all required fields correctly.");
+            if ($('#PartnerBody tr').length == 0) {
+                alert("please add atleast one Partner/Director Details");
                 return false;
             }
-
-            if (!validate_dp_mobile()) valid = false;
-            if (!validate_dp_pincode()) valid = false;
-            if (!validate_dp_aadhaar()) valid = false;
-            //if (!validate_Auth_email()) valid = false;
-            var gonext = validate_dp_pan();
+            var gonext = true;
 
             if (gonext === true) {
-
                 var savedetails = save_prtnr_dir_Details();
-
                 if (savedetails) {
                     showTab("5");
                 }
@@ -2674,8 +2784,8 @@
             regpan.style.border = "";
             return true;
         }
+        var dataListdir = [];
       function save_prtnr_dir_Details() {
-          var dataListdir = [];
 
           $("#dirprtnrTable tbody tr").each(function () {
 
@@ -2735,34 +2845,17 @@
 
                 return true;
             }
-            var container = document.querySelector("#divAdditionalPlace");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
 
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                        return;
-                    }
-                    else {
-                        input.style.border = "";
-                    }
-                }
-
-            });
-            if (!valid) {
-                alert("please fill all required fields correctly.");
+            if ($('#AddlPlaceBody tr').length == 0) {
+                alert("Please add atleast one Additional Business Place Details.");
                 return false;
             }
+
             save_Addl_plce_Details();
         }
-
+        var dataListadl = [];
         function save_Addl_plce_Details() {
-            var dataListadl = [];
+            dataListadl = [];
             var is_addl_plce = $("input[name='addl_rdb']:checked").val();
            console.log(is_addl_plce);
             if (is_addl_plce === 'No') {
@@ -2818,34 +2911,14 @@
                 /*################## FOR SAVING THE  BANK DETAILS DATA #######################*/
         function validate_bnk() {
 
-            var container = document.querySelector("#divBankDtls");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                        return;
-                    }
-                    else {
-                        input.style.border = "";
-                    }
-                }
-
-            });
-            if (!valid) {
+            if ($('#BankDtlsBody tr').length == 0) {
                 alert("please fill all required fields correctly.");
                 return false;
             }
             save_bank_Details();
         }
-
+        var dataListb = [];
         function save_bank_Details() {
-            var dataListb = [];
 
             $("#bankdetailsTable tbody tr").each(function () {
 
@@ -2884,73 +2957,103 @@
         function validate_document() {
 
 
-    var formData = new FormData();
+            var formData = new FormData();
 
-    if (!documentList || documentList.length === 0) {
-        alert("Please upload at least one document");
-        return;
-    }
-
-    let i = 0;
-    let isValid = true;
-
-    documentList.forEach(function (item, index) {
-
-        if (item != null) {
-
-            if (!item.file) {
-                alert("File missing at row " + (index + 1));
-                isValid = false;
+            if ($('#FilesBody tr').length === 0) {
+                alert("Please upload at least one document");
                 return false;
             }
 
-            //formData.append("model[" + i + "].application_id", appId);
-            formData.append("model[" + i + "].master_doc_id", item.master_docid);
-            formData.append("model[" + i + "].document_type", item.document_type);
-            formData.append("files", item.file);
+            let i = 0;
+            let isValid = true;
 
-            i++;
-        }
-    });
+            documentList.forEach(function (item, index) {
 
-    if (!isValid) return;
+                if (item != null) {
 
-    if (i === 0) {
-        alert("No valid documents to upload");
-        return;
-    }
+                    if (!item.document_type) {
+                        alert("File missing at row " + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
 
-    $.ajax({
-        url: '@Url.Action("Save_documents", "Registration")',
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (res) {
-            if (res.success) {
-                //alert("Documents uploaded successfully");
-               ModernAlert.showSuccess('Your Refund has been Submitted successfully!', ' Submitted');
+                    //formData.append("model[" + i + "].application_id", appId);
+                    formData.append("model[" + i + "].master_doc_id", item.master_docid);
+                    formData.append("model[" + i + "].document_type", item.document_type);
+                    formData.append("files", item.file);
+
+                    i++;
+                }
+            });
+
+            if (!isValid) return;
+
+            if (i === 0) {
+                alert("No valid documents to upload");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Save_documents", "Registration")',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.success) {
+                        alert("Documents uploaded successfully");
+                        showTab("8");
+               @*ModernAlert.showSuccess('Your Refund has been Submitted successfully!', ' Submitted');
                 ModernAlert.showSuccess(
                     'Your Application has been Submitted successfully with ARN No: ' + res.message,
                     'Success',
                     '@Url.Action("Home", "PTHome")'
-                );
-            } else {
-                alert("Failed to upload documents");
-                showTab("7");
-            }
-        },
-        error: function () {
-            alert("Error while uploading documents");
+                );*@
+                    } else {
+                        alert("Failed to upload documents");
+                        showTab("7");
+                    }
+                },
+                error: function () {
+                    alert("Error while uploading documents");
+                }
+            });
         }
-    });
-}
 
-/*################## FOR SAVING THE documents DATA #######################*/
+        /*################## FOR SAVING THE documents DATA #######################*/
 
+        /*################## FINAL SUBMISSION #######################*/
 
+        function SubmitApplication() {
 
+            if (_AppId == "" || _AppId == null || _AppId == undefined) {
+                ModernAlert.showError(res.message || "Failed to Submit");
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("SubmitApplication", "Registration")',
+                    type: "POST",
+                    data: { AppId: _AppId },
+                    success: function (res) {
+                        if (res.success) {
+                            ModernAlert.showSuccess(
+                                'Your Application has been Submitted successfully with ARN No: ' + res.data,
+                                'Success',
+                                '@Url.Action("Home", "PTHome")'
+                            );
+                        } else {
+                            ModernAlert.showError(res.message || "Failed to Submit");
+                        }
+                    },
+                    error: function () {
+                        alert("Failed to Save");
+                    }
+                });
+            }
+        }
 
+        /*################## FINAL SUBMISSION #######################*/
 
 
 
@@ -3077,38 +3180,10 @@
             $('#divBankDtls').hide();
             $('#divDocuments').hide();
             $('#divPrint').show();
+
+            loadFullSummary(AppId);
         }
     }
-
-    $(document).on("click", "#addRow", function () {
-        let row = `
-                                                <tr>
-                                                    <td>
-                                                        <select class="form-control">
-                                                            <option value="">-- SELECT --</option>
-                                                            <option>BANK OF AMERICA</option>
-                                                            <option>SBI</option>
-                                                            <option>HDFC</option>
-                                                            <option>ICICI</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" placeholder="IFSC Code">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" placeholder="Branch Address">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" placeholder="Account Number">
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-danger btn-sm deleteRow">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>`;
-        $("#bankTable tbody").append(row);
-    });
 
     $(document).on("click", ".deleteRow", function () {
         if ($("#bankTable tbody tr").length > 1) {
@@ -3187,10 +3262,28 @@
             if (editRow) {
                 editRow.replaceWith(rowHtml);
                 editRow = null;
-            } else {
-                $("#dirprtnrTable tbody").append(rowHtml); // ✅ YOUR TABLE ID
+            }
+            else {
+                $("#dirprtnrTable tbody").append(rowHtml);
                 S_No++;
             }
+
+            $('#dir_prtnr_name').val("");
+            $('#dir_prtnr_type').val("0");
+            $('#dir_prtnr_remunrtn').val("0");
+            $('#dir_prtnr_door_no').val("");
+            $('#dir_prtnr_road_street').val("");
+            $('#dir_prtnr_locality').val("");
+            $('#dir_prtnr_city').val("");
+            $('#dir_prtnr_mandal').val("");
+            $('#dir_prtnr_district').val("");
+            /*$('#dir_prtnr_state').val("");*/
+            $('#dir_prtnr_pincode').val("");
+            $('#dir_prtnr_pan').val("");
+            $('#dir_prtnr_aadhaar').val("");
+            $('#dir_prtnr_email').val("");
+            $('#dir_prtnr_mobile').val("");
+
 
             $("form")[0].reset();
         });
@@ -3229,6 +3322,31 @@
     let editRow1 = null;
         let SNo = 1;
         $("#btnAddPlace").click(function () {
+
+            var container = document.querySelector("#divAdditionalPlace");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                alert("please fill all required fields correctly.");
+                return false;
+            }
+
             var is_addl_plce = $("input[name='addl_rdb']:checked").val();
             let obj = {
                 addl_plc_country: $('#addl_plc_country').val(),
@@ -3276,22 +3394,31 @@
                 SNo++;
             }
 
+            $('#addl_plc_door_no').val("");
+            $('#addl_plc_road_street').val("");
+            $('#addl_plc_locality').val("");
+            $('#addl_plc_city').val("");
+            $('#addl_plc_mandal').val("");
+            $('#addl_plc_district').val("");
+            $('#addl_plc_state').val("");
+            $('#addl_plc_country').val("");
+            $('#addl_plc_pincode').val("");
             $("form")[0].reset();
         });
 
-    function onPlaceDelete(res) {
-        $(this).closest("tr").remove();
-        updateSerialNumbersAddPlace();
+        function onPlaceDelete(res) {
+            $(this).closest("tr").remove();
+            updateSerialNumbersAddPlace();
 
-        if ($("#AdditionalPlaceTable tbody tr").length === 0) {
-            $("#AdditionalPlaceTable tbody").append(`
+            if ($("#AdditionalPlaceTable tbody tr").length === 0) {
+                $("#AdditionalPlaceTable tbody").append(`
                                                         <tr id="noDataRow1">
                                                             <td colspan="10" class="text-center text-muted">
                                                                 No Additional Place added
                                                             </td>
                                                         </tr>
                                                     `);
-        }
+            }
         }
         /*############addlplace add buton ###############*/
 
@@ -3474,7 +3601,7 @@
         <tr data-index="${documentList.length - 1}">
             <td>${rnrCounter}</td>
             <td>${docName}</td>
-            <td>${file.name}</td>
+
             <td class="text-center">
                 <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
                     View
@@ -3600,6 +3727,16 @@
             });
             if (!valid) {
                 alert("please fill all required fields correctly.");
+                return false;
+            }
+
+            if (!validate_dp_mobile()) valid = false;
+            if (!validate_dp_pincode()) valid = false;
+            if (!validate_dp_aadhaar()) valid = false;
+            //if (!validate_Auth_email()) valid = false;
+            if (!validate_dp_pan()) valid = false;
+
+            if (!valid) {
                 return false;
             }
 
