@@ -11,6 +11,8 @@
     <link href="~/Content/modern-alerts.css" rel="stylesheet" />
     <link href="~/assets/css/loader.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/assets/css/tgloader.css" rel="stylesheet" />
+    <script src="~/assets/js/tgloader.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @RenderSection("styles", required: false)
 
@@ -137,7 +139,7 @@
                         <span id="userDisplayName">Loading...</span>
                     </div>
 
-                    <a href="https://tgct.gov.in/tgportal/"><i class="fa fa-home"></i>Home</a>
+                    <a href="@Url.Action("PTOHome", "PTOfficer")"><i class="fa fa-home"></i>Home</a>
                     <div class="more-dropdown">
                         <a href="javascript:void(0)" class="more-btn">
                             <i class="fa fa-circle-info"></i>Actions <i class="fa fa-chevron-down"></i>
@@ -160,10 +162,10 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="menu-right">
                     <a href="@Url.Action("DeptLogout", "PTHome")"><i class="fa fa-sign-out-alt"></i>Logout</a>
-                    <button onclick="history.back()">
+                    <button onclick="history.back()" id="btnBack">
                         <i class="fa fa-backward-step"></i> Back
                     </button>
                 </div>
@@ -179,6 +181,49 @@
         <div class="loader-container">
             <div class="custom-loader"></div>
             <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+    <div id="tgLoader" class="tg-fullscreen-loader" style="display:none;">
+        <div class="tg-loader-container">
+            <div class="tg-premium-spinner">
+                <svg class="tg-spinner-svg" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="tgSpinnerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#600664" />
+                            <stop offset="50%" stop-color="#8a2b8e" />
+                            <stop offset="100%" stop-color="#600664" />
+                        </linearGradient>
+
+                        <mask id="tgMaskPattern" x="0" y="0" width="150" height="150">
+                            <rect x="0" y="0" width="150" height="150" fill="white" />
+                            <circle cx="75" cy="75" r="32" fill="black" />
+                            <path d="M75 25 L78 35 L72 35 Z" fill="black" />
+                            <path d="M125 75 L115 78 L115 72 Z" fill="black" />
+                            <path d="M75 125 L72 115 L78 115 Z" fill="black" />
+                            <path d="M25 75 L35 72 L35 78 Z" fill="black" />
+                        </mask>
+                    </defs>
+
+                    <circle class="tg-spinner-bg" cx="75" cy="75" r="66" stroke="rgba(255,255,255,0.2)" stroke-width="5" fill="none" />
+
+                    <circle cx="75" cy="75" r="56" stroke="url(#tgSpinnerGradient)" stroke-width="2" fill="none" stroke-dasharray="5 5" mask="url(#tgMaskPattern)" />
+
+                    <circle class="tg-gradient-ring" cx="75" cy="75" r="66" stroke="url(#tgSpinnerGradient)" stroke-width="6" fill="none" stroke-linecap="round" />
+
+                    <circle cx="75" cy="75" r="46" fill="none" stroke="rgba(138,43,142,0.25)" stroke-width="2.5" stroke-dasharray="4 6" />
+                </svg>
+
+                <div class="tg-center-core">
+                    <div class="tg-text">TGCT</div>
+                    @*<div class="tg-cst-text">CT</div>*@
+                </div>
+            </div>
+
+            <div class="tg-loading-text" id="tgLoadingText">Loading....</div>
+
+            <div class="tg-dept-name">
+                COMMERCIAL TAX DEPARTMENT • <span>GOVT OF TELANGANA</span>
+            </div>
         </div>
     </div>
 
@@ -197,7 +242,7 @@
     <script src="~/assets/js/Validations.js"></script>
     @RenderSection("scripts", required: false)
 
-<script>
+    <script>
         $(document).ajaxStart(function () {
             showloader();
         });
@@ -206,13 +251,14 @@
             hideloader();
         });
 
-        function hideloader() {
-            $('#pageLoader').hide();
-        }
-
-        function showloader() {
-            $('#pageLoader').css('display', 'flex');
-        }
+    function hideloader() {
+        //$('#pageLoader').hide();
+        $('#tgLoader').hide();
+    }
+    function showloader() {
+        //$('#pageLoader').css('display', 'flex');
+        $('#tgLoader').show();
+    }
 
         function updateUserInfo() {
             var UserId = '@Session["Userid"]';
@@ -256,12 +302,22 @@
             updateUserInfo();
         });
 
-        $('a[href*="Logout"]').click(function(e) {
+        $('a[href*="Logout"]').click(function (e) {
+
             e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = $(this).attr('href');
-            }
+
+            var link = $(this).attr('href');
+
+            ModernAlert.showConfirm(
+                'Are you sure you want to logout?',
+                'Confirm',
+                function (confirmed) {
+                    if (confirmed) {
+                        window.location.href = link;
+                    }
+                }
+            );
         });
-</script>
+    </script>
 </body>
 </html>

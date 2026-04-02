@@ -386,11 +386,11 @@ body {
 /* ===== Container ===== */
 .container {
     max-width: 1400px;
-    background: #ffffff;
+    /*background: #ffffff;*/
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    /*box-shadow: 0 10px 30px rgba(0,0,0,0.08);*/
     /*padding: 4px;*/
-    margin: -14px 0px 0px 0px;
+    /*margin: -14px 0px 0px 0px;*/
 }
 
 /* ===== Header ===== */

@@ -35,6 +35,8 @@ namespace TGCTDPT.Controllers
             {
                 ViewBag.Message = "Your session has expired. Please login again.";
             }
+            Session.Clear();
+            Session.Abandon();
             return View();
         }
         public ActionResult PaymentType()

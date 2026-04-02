@@ -1,0 +1,361 @@
+﻿@{ ViewBag.Title = "New_applicant_Login";
+                Layout = "~/Views/Shared/_OuterLayout.cshtml"; }
+
+@*<link href="~/assets/css/custom.css" rel="stylesheet" />*@
+<style>
+    .validation-summary-errors {
+        color: red;
+        font-weight: 600;
+        margin: 0px 0px 0px 136px;
+    }
+
+    .container1  {
+        max-width: 1400px !important;
+        border-radius: 10px;
+        margin: -14px 0px 0px 0px;
+    }
+
+    /* ── Card wrapper ── */
+    .pt-login-card {
+        max-width: 480px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 8px 40px rgba(96, 6, 100, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+        padding: 40px 44px 36px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* decorative top bar */
+        .pt-login-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #600664, #75339b, #590568);
+            border-radius: 18px 18px 0 0;
+        }
+
+    /* ── Title ── */
+    .pt-card-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #600664;
+        text-align: center;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .pt-card-subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 30px;
+    }
+
+    /* ── Field group ── */
+    .pt-field {
+        margin-bottom: 22px;
+    }
+
+    .pt-label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #4a4a4a;
+        margin-bottom: 7px;
+        letter-spacing: 0.2px;
+    }
+
+        .pt-label i {
+            color: #75339b;
+            font-size: 13px;
+        }
+
+    .required {
+        color: #d0021b;
+        font-weight: 700;
+    }
+
+    .pt-input {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 14px;
+        border: 1.5px solid #ddd;
+        border-radius: 10px;
+        background: #fafafa;
+        color: #333;
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+        .pt-input:focus {
+            border-color: #75339b;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(117, 51, 155, 0.1);
+        }
+
+        .pt-input::placeholder {
+            color: #bbb;
+            font-size: 13px;
+        }
+
+    /* ── OTP row ── */
+    .pt-otp-row {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+        .pt-otp-row .pt-input {
+            flex: 1;
+            border-radius: 10px;
+        }
+
+    /* ── Buttons ── */
+    .pt-btn-otp {
+        padding: 0 22px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #600664, #75339b, #590568);
+        color: white;
+        white-space: nowrap;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 14px rgba(96, 6, 100, 0.28);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 46px;
+    }
+
+        .pt-btn-otp:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(96, 6, 100, 0.38);
+        }
+
+        .pt-btn-otp:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+    .pt-btn-login {
+        width: 100%;
+        padding: 14px 32px;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #600664, #75339b, #590568);
+        color: white;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 20px rgba(96, 6, 100, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.5px;
+        margin-top: 6px;
+    }
+
+        .pt-btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(96, 6, 100, 0.38);
+        }
+
+        .pt-btn-login:active {
+            transform: translateY(0);
+        }
+
+    /* ── Error messages ── */
+    .pt-error {
+        font-size: 12px;
+        color: #d0021b;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+        .pt-error::before {
+            content: "⚠";
+            font-size: 11px;
+        }
+
+    /* ── Divider before login btn ── */
+    .pt-divider {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 24px 0 20px;
+    }
+</style>
+
+<body>
+    <div class="container1">
+        <div class="body-content">
+
+            <div class="pt-login-card">
+                <div class="pt-card-title">PT Registration Login</div>
+                <div class="pt-card-subtitle">Enter your credentials to Complete the Registration</div>
+
+                <div class="pt-field">
+                    <label class="pt-label">
+                        <i class="fas fa-id-badge"></i>
+                        Application ID <span class="required">*</span>
+                    </label>
+                    <input type="text" class="pt-input" id="ptAppId" placeholder="Enter Application ID" />
+                    <div class="text-danger pt-error" id="errAppId" style="display:none;">Application Id Required</div>
+                </div>
+
+                <div class="pt-field">
+                    <label class="pt-label">
+                        <i class="fas fa-mobile-alt"></i>
+                        Mobile Number <span class="required">*</span>
+                    </label>
+                    <input type="text" class="pt-input" id="ptMobile" placeholder="Enter 10-digit Mobile Number" maxlength="10" />
+                    <div class="text-danger pt-error" id="errMobile" style="display:none;">Enter Registered Mobile Number</div>
+                </div>
+                <div class="pt-field">
+                    
+                    <button class="pt-btn-login" id="btnGetOtp" style="display:block;">
+                        Send OTP
+                    </button>
+                </div>
+                <div class="pt-field" id="divOTP" style="display:none;">
+                    <label class="pt-label">
+                        <i class="fas fa-key"></i>
+                        OTP <span class="required">*</span>
+                    </label>
+                    <div class="pt-otp-row">
+                        <input type="text" class="pt-input" id="ptOtp" placeholder="Enter OTP" maxlength="6" />
+                        
+                    </div>
+                    <div class="text-danger pt-error" id="errOtp" style="display:none;">Enter OTP</div>
+                </div>
+
+                <hr class="pt-divider" />
+                <div>
+                    <button class="pt-btn-login" id="ptLoginBtn" style="display:block;">
+                        <i class="fas fa-sign-in-alt"></i> &nbsp;Login to Portal
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".text-danger").hide();
+            $("#ptLoginBtn").hide();
+
+            $("#btnGetOtp").click(function () {
+                $("#btnGetOtp").prop("disabled", true);
+                var appId = $("#ptAppId").val().trim();
+                var mobile = $("#ptMobile").val().trim();
+
+                $(".text-danger").hide();
+
+                if (appId === "") {
+                    $("#errAppId").show();
+                    ModernAlert.toast.warning('Please enter Application Id');
+                    $("#btnGetOtp").prop("disabled", false);
+                    return;
+                }
+
+                if (!/^\d{10}$/.test(mobile)) {
+                    $("#errMobile").show();
+                    ModernAlert.toast.warning('Please enter registered Mobile No. of Business');
+                    $("#btnGetOtp").prop("disabled", false);
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("PT_SendOtp", "Registration")',
+                    type: 'POST',
+                    data: {
+                        application_id: $("#ptAppId").val().trim(),
+                        Mobile_No: $("#ptMobile").val().trim()
+                    },
+                    success: function (response) {
+                        if (response) {
+                            if (response === "OTP sent successfully") {
+                                ModernAlert.toast.success('OTP Sent to registered Mobile Number');
+                                $("#ptLoginBtn").show();
+                                /*$("#btnGetOtp").prop("disabled", true).html('<i class="fas fa-check"></i> Sent');*/
+                                $("#btnGetOtp").hide();
+                                $('#divOTP').show();
+                            }
+                            else if (response === "OTP already sent. Please wait.") {
+                                ModernAlert.toast.success('OTP Sent to registered Mobile Number');
+                                $("#ptLoginBtn").show();
+                                /*$("#btnGetOtp").prop("disabled", true).html('<i class="fas fa-check"></i> Sent');*/
+                                $("#btnGetOtp").hide();
+                                $('#divOTP').show();
+                            }
+                            else {
+                                alert(response);
+                                ModernAlert.toast.warning('response');
+                                $("#ptLoginBtn").hide();
+                                $("#btnGetOtp").show();
+                                $("#btnGetOtp").prop("disabled", false);
+                            }
+                        }
+                        else {
+                            ModernAlert.toast.info(response || 'Failed to send ');
+                            $("#btnGetOtp").prop("disabled", false);
+                        }
+                    },
+                    error: function () {
+                        ModernAlert.toast.info('Error while sending OTP');
+                        $("#btnGetOtp").prop("disabled", false);
+                    }
+                });
+            });
+
+            $("#ptLoginBtn").click(function () {
+
+                var appId = $("#ptAppId").val().trim();
+                var mobile = $("#ptMobile").val().trim();
+                var otp = $("#ptOtp").val().trim();
+
+                $(".text-danger").hide();
+
+                if (otp === "") {
+                    $("#errOtp").show();
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("PT_Applicant_Login", "Registration")',
+                    type: 'POST',
+                    data: {
+                        application_id: $("#ptAppId").val().trim(),
+                        Mobile_No: $("#ptMobile").val().trim(),
+                        otp: $("#ptOtp").val().trim()
+                    },
+                    success: function (response) {
+                        if (response == "success") {
+                            window.location.href = '@Url.Action("Registration", "Registration")';
+                        }
+                        else {
+                            ModernAlert.toast.info(response);
+                        }
+                    },
+                    error: function () {
+                        alert(response);
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>

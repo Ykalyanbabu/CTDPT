@@ -5,6 +5,19 @@ using System.Web;
 
 namespace TGCTDPT.Models
 {
+    public class application_status
+    {
+        public string application_id { get; set; }
+        public string rnr_no { get; set; }
+        public string Mobile_No { get; set; }
+        public string otp { get; set; }
+        public string appr_status { get; set; }
+        public string Created_By { get; set; }
+        public string Created_Date { get; set; }
+        public string Modified_By { get; set; }
+        public string Modified_Date { get; set; }
+    }
+
     public class Registration
     {
         public string PAN { get; set; }
@@ -102,8 +115,7 @@ namespace TGCTDPT.Models
         public string auth_prsn_road_street { get; set; }
         public string auth_prsn_locality { get; set; }
         public string auth_prsn_city { get; set; }
-        public string auth_prsn_district_code { get; set; }
-        public string auth_prsn_district_name { get; set; }
+        public string auth_prsn_district { get; set; }
         public string auth_prsn_pincode { get; set; }
     }
     public class dir_prtnr_dtls
@@ -113,7 +125,7 @@ namespace TGCTDPT.Models
         public string dir_prtnr_remunrtn { get; set; }
         public string dir_prtnr_type { get; set; }
         public string dir_prtnr_mobile_no { get; set; }
-
+        public string dir_prtnr_email { get; set; }
         public string dir_prtnr_pan { get; set; }
         public string dir_prtnr_aadhaar { get; set; }
         public string dir_prtnr_door_no { get; set; }

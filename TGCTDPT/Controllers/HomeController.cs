@@ -37,8 +37,9 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
-        public ActionResult SearchARN()
+        public ActionResult SearchARN(string arn)
         {
+            ViewBag.txtARN = arn;
             return View();
         }
 

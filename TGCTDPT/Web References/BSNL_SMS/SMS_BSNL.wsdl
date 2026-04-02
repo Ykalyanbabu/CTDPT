@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Send_Transfers_SMS_bulk">
+        <s:complexType />
+      </s:element>
+      <s:element name="Send_Transfers_SMS_bulkResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Send_Transfers_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_Transfers_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_Transfers_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_Mbl_Defaulters_SMS_bulk">
+        <s:complexType />
+      </s:element>
+      <s:element name="Send_Mbl_Defaulters_SMS_bulkResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Send_MBL_Defaulter_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_MBL_Defaulter_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_MBL_Defaulter_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_Token">
+        <s:complexType />
+      </s:element>
+      <s:element name="Get_TokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_TokenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_Token_status">
+        <s:complexType />
+      </s:element>
+      <s:element name="Get_Token_statusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_Token_statusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_content_template">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_content_templateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_content_templateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_template_variables">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Entity_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_template_variablesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_template_variablesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Template_variables_name_change">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Template_variables_name_changeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Template_variables_name_changeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_format_req">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_format_reqResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_sms_format_reqResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_itc">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_itcResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_sms_itcResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_OTP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_sms_OTPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_sms_OTPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ARM_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ARM_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ARM_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VATIS_User_OTP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="otp" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VATIS_User_OTPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VATIS_User_OTPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_Login_credentials">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tin" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_Login_credentialsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WayBill_Login_credentialsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_regstration_sms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="otp" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_regstration_smsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WayBill_regstration_smsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_Reset_sms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="otp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WayBill_Reset_smsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WayBill_Reset_smsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_R3B_SMs">
+        <s:complexType />
+      </s:element>
+      <s:element name="Send_R3B_SMsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="R3B_Bulk_sms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="return_month" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="datee" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="R3B_Bulk_smsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="R3B_Bulk_smsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="R3B_Bulk_sms_2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="return_month" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="division" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="R3B_Bulk_sms_2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="R3B_Bulk_sms_2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_Empanelment_Msg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Empn_Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_Empanelment_MsgResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_Empanelment_MsgResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_C_Form_Login_OTP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="otp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="minutes" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_C_Form_Login_OTPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_C_Form_Login_OTPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Track_Reports_Dashboard_Login_OTP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="otp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="minutes" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Track_Reports_Dashboard_Login_OTPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Track_Reports_Dashboard_Login_OTPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Send_Transfers_SMS_bulkSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_Transfers_SMS_bulk" />
+  </wsdl:message>
+  <wsdl:message name="Send_Transfers_SMS_bulkSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_Transfers_SMS_bulkResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_Transfers_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_Transfers_SMS" />
+  </wsdl:message>
+  <wsdl:message name="Send_Transfers_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_Transfers_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_Mbl_Defaulters_SMS_bulkSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_Mbl_Defaulters_SMS_bulk" />
+  </wsdl:message>
+  <wsdl:message name="Send_Mbl_Defaulters_SMS_bulkSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_Mbl_Defaulters_SMS_bulkResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_MBL_Defaulter_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_MBL_Defaulter_SMS" />
+  </wsdl:message>
+  <wsdl:message name="Send_MBL_Defaulter_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_MBL_Defaulter_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_TokenSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_Token" />
+  </wsdl:message>
+  <wsdl:message name="Get_TokenSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_TokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_Token_statusSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_Token_status" />
+  </wsdl:message>
+  <wsdl:message name="Get_Token_statusSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_Token_statusResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_content_templateSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_content_template" />
+  </wsdl:message>
+  <wsdl:message name="Get_content_templateSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_content_templateResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_template_variablesSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_template_variables" />
+  </wsdl:message>
+  <wsdl:message name="Get_template_variablesSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_template_variablesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Template_variables_name_changeSoapIn">
+    <wsdl:part name="parameters" element="tns:Template_variables_name_change" />
+  </wsdl:message>
+  <wsdl:message name="Template_variables_name_changeSoapOut">
+    <wsdl:part name="parameters" element="tns:Template_variables_name_changeResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_format_reqSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_sms_format_req" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_format_reqSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_sms_format_reqResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_itcSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_sms_itc" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_itcSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_sms_itcResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_OTPSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_sms_OTP" />
+  </wsdl:message>
+  <wsdl:message name="Send_sms_OTPSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_sms_OTPResponse" />
+  </wsdl:message>
+  <wsdl:message name="ARM_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:ARM_SMS" />
+  </wsdl:message>
+  <wsdl:message name="ARM_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:ARM_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="VATIS_User_OTPSoapIn">
+    <wsdl:part name="parameters" element="tns:VATIS_User_OTP" />
+  </wsdl:message>
+  <wsdl:message name="VATIS_User_OTPSoapOut">
+    <wsdl:part name="parameters" element="tns:VATIS_User_OTPResponse" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_Login_credentialsSoapIn">
+    <wsdl:part name="parameters" element="tns:WayBill_Login_credentials" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_Login_credentialsSoapOut">
+    <wsdl:part name="parameters" element="tns:WayBill_Login_credentialsResponse" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_regstration_smsSoapIn">
+    <wsdl:part name="parameters" element="tns:WayBill_regstration_sms" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_regstration_smsSoapOut">
+    <wsdl:part name="parameters" element="tns:WayBill_regstration_smsResponse" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_Reset_smsSoapIn">
+    <wsdl:part name="parameters" element="tns:WayBill_Reset_sms" />
+  </wsdl:message>
+  <wsdl:message name="WayBill_Reset_smsSoapOut">
+    <wsdl:part name="parameters" element="tns:WayBill_Reset_smsResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_R3B_SMsSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_R3B_SMs" />
+  </wsdl:message>
+  <wsdl:message name="Send_R3B_SMsSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_R3B_SMsResponse" />
+  </wsdl:message>
+  <wsdl:message name="R3B_Bulk_smsSoapIn">
+    <wsdl:part name="parameters" element="tns:R3B_Bulk_sms" />
+  </wsdl:message>
+  <wsdl:message name="R3B_Bulk_smsSoapOut">
+    <wsdl:part name="parameters" element="tns:R3B_Bulk_smsResponse" />
+  </wsdl:message>
+  <wsdl:message name="R3B_Bulk_sms_2SoapIn">
+    <wsdl:part name="parameters" element="tns:R3B_Bulk_sms_2" />
+  </wsdl:message>
+  <wsdl:message name="R3B_Bulk_sms_2SoapOut">
+    <wsdl:part name="parameters" element="tns:R3B_Bulk_sms_2Response" />
+  </wsdl:message>
+  <wsdl:message name="Send_Empanelment_MsgSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_Empanelment_Msg" />
+  </wsdl:message>
+  <wsdl:message name="Send_Empanelment_MsgSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_Empanelment_MsgResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_C_Form_Login_OTPSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_C_Form_Login_OTP" />
+  </wsdl:message>
+  <wsdl:message name="Send_C_Form_Login_OTPSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_C_Form_Login_OTPResponse" />
+  </wsdl:message>
+  <wsdl:message name="Track_Reports_Dashboard_Login_OTPSoapIn">
+    <wsdl:part name="parameters" element="tns:Track_Reports_Dashboard_Login_OTP" />
+  </wsdl:message>
+  <wsdl:message name="Track_Reports_Dashboard_Login_OTPSoapOut">
+    <wsdl:part name="parameters" element="tns:Track_Reports_Dashboard_Login_OTPResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SMS_BSNLSoap">
+    <wsdl:operation name="Send_Transfers_SMS_bulk">
+      <wsdl:input message="tns:Send_Transfers_SMS_bulkSoapIn" />
+      <wsdl:output message="tns:Send_Transfers_SMS_bulkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_Transfers_SMS">
+      <wsdl:input message="tns:Send_Transfers_SMSSoapIn" />
+      <wsdl:output message="tns:Send_Transfers_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_Mbl_Defaulters_SMS_bulk">
+      <wsdl:input message="tns:Send_Mbl_Defaulters_SMS_bulkSoapIn" />
+      <wsdl:output message="tns:Send_Mbl_Defaulters_SMS_bulkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_MBL_Defaulter_SMS">
+      <wsdl:input message="tns:Send_MBL_Defaulter_SMSSoapIn" />
+      <wsdl:output message="tns:Send_MBL_Defaulter_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token">
+      <wsdl:input message="tns:Get_TokenSoapIn" />
+      <wsdl:output message="tns:Get_TokenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token_status">
+      <wsdl:input message="tns:Get_Token_statusSoapIn" />
+      <wsdl:output message="tns:Get_Token_statusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_content_template">
+      <wsdl:input message="tns:Get_content_templateSoapIn" />
+      <wsdl:output message="tns:Get_content_templateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_template_variables">
+      <wsdl:input message="tns:Get_template_variablesSoapIn" />
+      <wsdl:output message="tns:Get_template_variablesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Template_variables_name_change">
+      <wsdl:input message="tns:Template_variables_name_changeSoapIn" />
+      <wsdl:output message="tns:Template_variables_name_changeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_format_req">
+      <wsdl:input message="tns:Send_sms_format_reqSoapIn" />
+      <wsdl:output message="tns:Send_sms_format_reqSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_itc">
+      <wsdl:input message="tns:Send_sms_itcSoapIn" />
+      <wsdl:output message="tns:Send_sms_itcSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_OTP">
+      <wsdl:input message="tns:Send_sms_OTPSoapIn" />
+      <wsdl:output message="tns:Send_sms_OTPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ARM_SMS">
+      <wsdl:input message="tns:ARM_SMSSoapIn" />
+      <wsdl:output message="tns:ARM_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VATIS_User_OTP">
+      <wsdl:input message="tns:VATIS_User_OTPSoapIn" />
+      <wsdl:output message="tns:VATIS_User_OTPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Login_credentials">
+      <wsdl:input message="tns:WayBill_Login_credentialsSoapIn" />
+      <wsdl:output message="tns:WayBill_Login_credentialsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_regstration_sms">
+      <wsdl:input message="tns:WayBill_regstration_smsSoapIn" />
+      <wsdl:output message="tns:WayBill_regstration_smsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Reset_sms">
+      <wsdl:input message="tns:WayBill_Reset_smsSoapIn" />
+      <wsdl:output message="tns:WayBill_Reset_smsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_R3B_SMs">
+      <wsdl:input message="tns:Send_R3B_SMsSoapIn" />
+      <wsdl:output message="tns:Send_R3B_SMsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms">
+      <wsdl:input message="tns:R3B_Bulk_smsSoapIn" />
+      <wsdl:output message="tns:R3B_Bulk_smsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms_2">
+      <wsdl:input message="tns:R3B_Bulk_sms_2SoapIn" />
+      <wsdl:output message="tns:R3B_Bulk_sms_2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_Empanelment_Msg">
+      <wsdl:input message="tns:Send_Empanelment_MsgSoapIn" />
+      <wsdl:output message="tns:Send_Empanelment_MsgSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_C_Form_Login_OTP">
+      <wsdl:input message="tns:Send_C_Form_Login_OTPSoapIn" />
+      <wsdl:output message="tns:Send_C_Form_Login_OTPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Track_Reports_Dashboard_Login_OTP">
+      <wsdl:input message="tns:Track_Reports_Dashboard_Login_OTPSoapIn" />
+      <wsdl:output message="tns:Track_Reports_Dashboard_Login_OTPSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SMS_BSNLSoap" type="tns:SMS_BSNLSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Send_Transfers_SMS_bulk">
+      <soap:operation soapAction="http://tempuri.org/Send_Transfers_SMS_bulk" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Transfers_SMS">
+      <soap:operation soapAction="http://tempuri.org/Send_Transfers_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Mbl_Defaulters_SMS_bulk">
+      <soap:operation soapAction="http://tempuri.org/Send_Mbl_Defaulters_SMS_bulk" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MBL_Defaulter_SMS">
+      <soap:operation soapAction="http://tempuri.org/Send_MBL_Defaulter_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token">
+      <soap:operation soapAction="http://tempuri.org/Get_Token" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token_status">
+      <soap:operation soapAction="http://tempuri.org/Get_Token_status" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_content_template">
+      <soap:operation soapAction="http://tempuri.org/Get_content_template" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_template_variables">
+      <soap:operation soapAction="http://tempuri.org/Get_template_variables" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Template_variables_name_change">
+      <soap:operation soapAction="http://tempuri.org/Template_variables_name_change" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_format_req">
+      <soap:operation soapAction="http://tempuri.org/Send_sms_format_req" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_itc">
+      <soap:operation soapAction="http://tempuri.org/Send_sms_itc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_OTP">
+      <soap:operation soapAction="http://tempuri.org/Send_sms_OTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ARM_SMS">
+      <soap:operation soapAction="http://tempuri.org/ARM_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VATIS_User_OTP">
+      <soap:operation soapAction="http://tempuri.org/VATIS_User_OTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Login_credentials">
+      <soap:operation soapAction="http://tempuri.org/WayBill_Login_credentials" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_regstration_sms">
+      <soap:operation soapAction="http://tempuri.org/WayBill_regstration_sms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Reset_sms">
+      <soap:operation soapAction="http://tempuri.org/WayBill_Reset_sms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_R3B_SMs">
+      <soap:operation soapAction="http://tempuri.org/Send_R3B_SMs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms">
+      <soap:operation soapAction="http://tempuri.org/R3B_Bulk_sms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms_2">
+      <soap:operation soapAction="http://tempuri.org/R3B_Bulk_sms_2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Empanelment_Msg">
+      <soap:operation soapAction="http://tempuri.org/Send_Empanelment_Msg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_C_Form_Login_OTP">
+      <soap:operation soapAction="http://tempuri.org/Send_C_Form_Login_OTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Track_Reports_Dashboard_Login_OTP">
+      <soap:operation soapAction="http://tempuri.org/Track_Reports_Dashboard_Login_OTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SMS_BSNLSoap12" type="tns:SMS_BSNLSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Send_Transfers_SMS_bulk">
+      <soap12:operation soapAction="http://tempuri.org/Send_Transfers_SMS_bulk" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Transfers_SMS">
+      <soap12:operation soapAction="http://tempuri.org/Send_Transfers_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Mbl_Defaulters_SMS_bulk">
+      <soap12:operation soapAction="http://tempuri.org/Send_Mbl_Defaulters_SMS_bulk" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MBL_Defaulter_SMS">
+      <soap12:operation soapAction="http://tempuri.org/Send_MBL_Defaulter_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token">
+      <soap12:operation soapAction="http://tempuri.org/Get_Token" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Token_status">
+      <soap12:operation soapAction="http://tempuri.org/Get_Token_status" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_content_template">
+      <soap12:operation soapAction="http://tempuri.org/Get_content_template" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_template_variables">
+      <soap12:operation soapAction="http://tempuri.org/Get_template_variables" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Template_variables_name_change">
+      <soap12:operation soapAction="http://tempuri.org/Template_variables_name_change" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_format_req">
+      <soap12:operation soapAction="http://tempuri.org/Send_sms_format_req" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_itc">
+      <soap12:operation soapAction="http://tempuri.org/Send_sms_itc" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_sms_OTP">
+      <soap12:operation soapAction="http://tempuri.org/Send_sms_OTP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ARM_SMS">
+      <soap12:operation soapAction="http://tempuri.org/ARM_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VATIS_User_OTP">
+      <soap12:operation soapAction="http://tempuri.org/VATIS_User_OTP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Login_credentials">
+      <soap12:operation soapAction="http://tempuri.org/WayBill_Login_credentials" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_regstration_sms">
+      <soap12:operation soapAction="http://tempuri.org/WayBill_regstration_sms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WayBill_Reset_sms">
+      <soap12:operation soapAction="http://tempuri.org/WayBill_Reset_sms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_R3B_SMs">
+      <soap12:operation soapAction="http://tempuri.org/Send_R3B_SMs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms">
+      <soap12:operation soapAction="http://tempuri.org/R3B_Bulk_sms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="R3B_Bulk_sms_2">
+      <soap12:operation soapAction="http://tempuri.org/R3B_Bulk_sms_2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_Empanelment_Msg">
+      <soap12:operation soapAction="http://tempuri.org/Send_Empanelment_Msg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_C_Form_Login_OTP">
+      <soap12:operation soapAction="http://tempuri.org/Send_C_Form_Login_OTP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Track_Reports_Dashboard_Login_OTP">
+      <soap12:operation soapAction="http://tempuri.org/Track_Reports_Dashboard_Login_OTP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SMS_BSNL">
+    <wsdl:port name="SMS_BSNLSoap" binding="tns:SMS_BSNLSoap">
+      <soap:address location="http://localhost/SMSService/SMS_BSNL.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SMS_BSNLSoap12" binding="tns:SMS_BSNLSoap12">
+      <soap12:address location="http://localhost/SMSService/SMS_BSNL.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

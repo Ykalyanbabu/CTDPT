@@ -1,140 +1,184 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Mail_Registration";
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
 
 <link href="~/assets/css/custom.css" rel="stylesheet" />
- 
-<body>
 
+<style>
+    .confirm-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-    <!-- MAIN CONTENT - MODERNIZED -->
-    <div class="container payment">
-        <div class="body-content">
-            <div class="payment-wrapper">
-                <div class="section-title">PT Registration </div>
-                <!-- Header -->
-                <div class="payment-header" style="display:none;">
-                    <div class="payment-icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h2 class="payment-title">Profession Tax</h2>
+    .confirm-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 24px 60px rgba(0,0,0,.18);
+        padding: 40px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
 
-                </div>
+    .confirm-tabs {
+        display: flex;
+        gap: 10px;
+    }
 
-                <!-- Basic Information -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-envelope"></i>
-                            Email ID <span style="color:red">*</span>
-                        </label>
-                        <input type="text" class="form-input" placeholder="Enter Email ID" id="email_reg">
-                    </div>
+    .confirm-tab {
+        flex: 1;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+    }
 
+    .yes {
+        background: #2563eb;
+        color: #fff;
+    }
 
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-mobile"></i>
-                            Mobile Number<span style="color:red">*</span>
-                        </label>
-                        <input type="text" class="form-input" placeholder="Enter Mobile Number" id="mobile_reg">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-user-tie"></i>
-                            Contact Person Name<span style="color:red">*</span>
-                        </label>
-                        <input type="text" class="form-input" placeholder="Enter Contact Person Name" id="cperson_reg">
-                    </div>
-                </div>
-                @*<div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-user-tie"></i>
-                            Designation<span style="color:red">*</span>
-                        </label>
-                        <input type="text" class="form-input" placeholder="Designation" id="desig_reg">
-                    </div>
-                </div>*@
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-building"></i>
-                            Designation<span style="color:red">*</span>
-                        </label>
-                        <select class="form-select" id="desig_reg">
-                            <option>--Select--</option>
-                            <option value="Owner">Owner </option>
-                            <option value="CA/Accountant">CA/Accountant</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-                </div>
+    .no {
+        border: 1px solid #2563eb;
+        color: #2563eb;
+    }
+</style>
 
-                <button class="btn btn-primary" id="proceedBtn">
-                    <i class="fas fa-file-invoice"></i>
-                    Submit Details
-                </button>
-            </div>
+<!-- ✅ APPLICATION ID MODAL -->
+<div class="confirm-overlay" id="appIdConfirmModal">
+    <div class="confirm-card">
+
+        <h3>Do you have an Application ID?</h3>
+
+        <p>
+            If you already have an Application ID click Yes,
+            otherwise click No to register.
+        </p>
+
+        <div class="confirm-tabs">
+            <button class="confirm-tab yes" id="btnHasAppId">
+                Yes
+            </button>
+
+            <button class="confirm-tab no" id="btnNoAppId">
+                No
+            </button>
         </div>
     </div>
+</div>
 
-     
-    <script src="/Scripts/custom-alerts.js"></script>
-    <script src="/Scripts/modern-alerts.js"></script>
-    <script>
+<!-- ✅ REGISTRATION FORM -->
+<div class="container payment" id="registrationSection" style="display:none;">
+    <div class="body-content">
+        <div class="payment-wrapper">
 
-        $("#proceedBtn").click(function () {
+            <div class="section-title">PT Registration</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email ID *</label>
+                    <input type="text" class="form-input" id="email_reg">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="text" class="form-input" id="mobile_reg">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Contact Person *</label>
+                    <input type="text" class="form-input" id="cperson_reg">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Designation *</label>
+                    <select id="desig_reg" class="form-select">
+                        <option value="">--Select--</option>
+                        <option value="Owner">Owner</option>
+                        <option value="CA/Accountant">CA/Accountant</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="proceedBtn">
+                Submit Details
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnHasAppId").click(function () {
+            window.location.href = '@Url.Action("New_applicant_Login", "Registration")';
+        });
+
+       $("#btnNoAppId").click(function (e) {
+         e.preventDefault(); // important if button inside form
+         window.location.href = '@Url.Action("eRegistration", "Registration")';
+        });
+ 
+        $("#mobile_reg").on("input", function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+         
+        $("#cperson_reg").on("input", function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+ 
+        $("#proceedBtn").click(function (e) {
+
+            e.preventDefault();
 
             var email = $("#email_reg").val().trim();
             var mobile = $("#mobile_reg").val().trim();
             var contact = $("#cperson_reg").val().trim();
-            var designation = $("#desig_reg").val().trim();
-          /*  var type = $("#Type_reg").val().trim();*/
+            var designation = $("#desig_reg").val();
 
-            var emailPattern = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+            @*var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;*@
 
-            if (email == "") {
-                alert("Enter Email ID");
-                $("#email_reg").focus();
+            if (!email) {
+                alert("Enter Email");
                 return;
             }
 
             if (!emailPattern.test(email)) {
-                alert("Enter valid Email ID");
-                $("#email_reg").focus();
+                alert("Invalid Email");
                 return;
             }
 
-            if (mobile == "" || mobile.length != 10) {
-                alert("Enter valid 10 digit Mobile Number");
-                $("#mobile_reg").focus();
+            if (!/^\d{10}$/.test(mobile)) {
+                alert("Invalid Mobile");
                 return;
             }
 
-            if (contact == "") {
-                alert("Enter Contact Person Name");
-                $("#cperson_reg").focus();
+            if (!contact) {
+                alert("Enter Contact Name");
                 return;
             }
 
-            if (designation == "") {
-                alert("Enter Designation");
-                $("#desig_reg").focus();
+            if (!designation) {
+                alert("Select Designation");
                 return;
             }
-
-            //if (type == "") {
-            //    alert("Enter Type");
-            //    $("#Type_reg").focus();
-            //    return;
-            //}
 
             $.ajax({
                 url: '@Url.Action("SaveMailRegistration","Registration")',
@@ -145,15 +189,15 @@
                     ContactPerson: contact,
                     Designation: designation
                 },
-                success: function (res) {
-                    alert("Details Submitted Successfully");
+                success: function () {
+                    alert("Saved Successfully");
                 },
                 error: function () {
-                    alert("Error while saving");
+                    alert("Error");
                 }
             });
 
         });
 
-    </script>
-</body>
+    });
+</script>

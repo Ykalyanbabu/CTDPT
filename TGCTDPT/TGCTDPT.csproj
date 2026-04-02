@@ -172,7 +172,17 @@
     <Compile Include="Models\Returns.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Web References\BSNL_SMS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\ApprovalPending.css" />
@@ -184,9 +194,11 @@
     <Content Include="assets\css\Refunds.css" />
     <Content Include="assets\css\Retruns.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\tgloader.css" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\logo.png" />
     <Content Include="assets\images\RisingTelanganaLogo.jpeg" />
+    <Content Include="assets\js\tgloader.js" />
     <Content Include="assets\js\Validations.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -205,6 +217,10 @@
     <Content Include="Libraries\Mydll17032016.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom-alerts.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -222,6 +238,12 @@
     <Content Include="UploadedDocuments\36260317185057\2\PanCopy.png" />
     <Content Include="ViewJs\RegSummary.js" />
     <Content Include="Views\PTHome\PT_Certificate.html" />
+    <Content Include="Web References\BSNL_SMS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Registration\New_applicant_Login.cshtml" />
+    <None Include="Web References\BSNL_SMS\SMS_BSNL.disco" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -269,6 +291,7 @@
     <Content Include="Views\Registration\Amend_Registration.cshtml" />
     <Content Include="Views\Registration\Mail_Registration.cshtml" />
     <Content Include="Views\PTHome\checkRC.cshtml" />
+    <None Include="Web References\BSNL_SMS\SMS_BSNL.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -287,6 +310,25 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/SMSService/SMS_BSNL.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\BSNL_SMS\</RelPath>
+      <UpdateFromURL>http://localhost/SMSService/SMS_BSNL.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>TGCTDPT_BSNL_SMS_SMS_BSNL</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

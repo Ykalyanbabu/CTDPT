@@ -417,8 +417,8 @@
                         ARN Number
                     </div>
                     <div class="input-group">
-                        <i class="fas fa-user input-icon"></i>
-                        <input type="text" class="form-input" id="txtARN" placeholder="Enter ARN Number">
+                       
+                        @Html.TextBox("txtARN", ViewBag.txtARN as string, new { @class = "form-input", placeholder = "Enter ARN Number", id = "txtARN" })
                     </div>
                 </div>
 
@@ -489,6 +489,9 @@
                         tbody2.empty();
                         var tbody1 = $("#StatusBody1");
                         tbody1.append("<tr ><td colspan='7'>No Data Found<td></tr>");
+                        $('#tableContainer').show();
+                        $('#statustbl1').show();
+                        $('#StatusBody1').show();
                     }
                 },
                 error: function (error) {

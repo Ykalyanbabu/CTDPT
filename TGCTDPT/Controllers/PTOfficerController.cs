@@ -24,10 +24,18 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult PendingApprovals()
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
             return View();
         }
         public ActionResult ViewApplication(string rnr)
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
             ViewBag.rnr = rnr;
             return View();
         }
@@ -42,6 +50,10 @@ namespace TGCTDPT.Controllers
         [HttpGet]
         public ActionResult GetFullSummary(string rnr)
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
             if (string.IsNullOrWhiteSpace(rnr))
                 return JsonError("RNR is required.");
 

@@ -448,6 +448,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     height: 40px;
+    
 }
 
     .form-select:focus {
@@ -1148,11 +1149,12 @@ body {
 /* ===== Header ===== */
 .header {
     /*background: linear-gradient(90deg, #ffeb70, #ffe14d);*/
-    background: linear-gradient(135deg, #eba9ff, #86248f, #bd67c7, #db1bd9) !important;
+    background: linear-gradient(135deg, #3f0550, #86248f, #bd67c7, #000000) !important;
     padding: 18px 28px;
     font-size: 18px;
     font-weight: 600;
     border-radius: 10px 10px 0 0;
+    color: white;
 }
 
 /* ===== Steps ===== */
@@ -1160,6 +1162,7 @@ body {
     display: flex;
     background: #ffffff;
     border-bottom: 1px solid #e0e0e0;
+    border: 1px solid #d863df;
 }
 
 .step {
@@ -1171,6 +1174,7 @@ body {
     color: #6b7280;
     transition: all 0.3s ease;
     position: relative;
+    border: 1px solid #d863df;
 }
 
     .step i {
@@ -1180,9 +1184,9 @@ body {
     }
 
     .step.active {
-        color: #0d6efd;
+        color: black;
         font-weight: 600;
-        background: #ede2d9;
+        background: #ffdec4;
     }
 
         .step.active::after {
@@ -1195,9 +1199,13 @@ body {
             background: #0d6efd;
             border-radius: 5px;
         }
-
+    .step.completed {
+        color: black;
+        background-color: #9cebb8;
+        font-weight : 600;
+    }
     .step.completed i {
-        color: #28a745;
+        color: black;
     }
 
 /* ===== Content ===== */
@@ -1224,7 +1232,7 @@ body {
 .form-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px 24px;
+    gap: 0px 24px;
     margin-top: 20px;
 }
 
@@ -1242,9 +1250,10 @@ body {
 
 .form-control {
     border-radius: 6px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #7c828b;
     padding: 6px 12px;
     font-size: 14px;
+    appearance: auto;
 }
 
     .form-control:focus {
@@ -3452,12 +3461,16 @@ body {
     margin-top: 150px;
 }
 
-.wrapper.checkrc, .wrapper.Return{
+/*.wrapper.checkrc {
     padding: 146px 125px 30px;
 }
-.container.payment, .container.Reports {
+
+.wrapper.Return {
+    padding: 135px 125px 185px;
+}*/
+/*.container.payment, .container.Reports {
     padding: 160px 125px 30px;
-}
+*/}
 
 .container.Payment_Rates {
     *

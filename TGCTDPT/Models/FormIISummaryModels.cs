@@ -39,11 +39,15 @@ namespace TGCTDPT.Models
         public string EmpAbove_20000 { get; set; }
         public string TotalEmployees { get; set; }
         public string division_code { get; set; }
+        public string division_name { get; set; }
         public string circle_code { get; set; }
+        public string circle_name { get; set; }
         public string district_code { get; set; }
         public string progress_step { get; set; }
         public string Nominated_Auth_Person { get; set; }
-        
+        public string rnr_number { get; set; }
+        public string DataEntryDate { get; set; }
+
     }
 
     public class EmployeeDetail
@@ -117,12 +121,13 @@ namespace TGCTDPT.Models
         public string email_id { get; set; }
         public string mobile_no { get; set; }
         public string FullAddress { get; set; }
+        public string district_name { get; set; }
     }
 
     public class AddlPlaceOfBiz
     {
         public string application_id { get; set; }
-        public string is_Authorised_person { get; set; }
+        public string is_Additional_place { get; set; }
         public string door_no { get; set; }
         public string road_street { get; set; }
         public string locality { get; set; }
@@ -133,6 +138,7 @@ namespace TGCTDPT.Models
         public string country { get; set; }
         public string pincode { get; set; }
         public string FullAddress { get; set; }
+        public string district_name { get; set; }
     }
 
     public class BankDetail
@@ -143,6 +149,7 @@ namespace TGCTDPT.Models
         public string bank_name { get; set; }
         public string ifsc_code { get; set; }
         public string branch_address { get; set; }
+        public string bank_id { get; set; }
     }
 
     public class DocumentDetail

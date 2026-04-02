@@ -197,7 +197,7 @@
 }
 
 .modern-toast {
-    background-color: orangered;
+    background-color: white;
     color: white;
     border-radius: 12px;
     padding: 16px 24px;
@@ -213,7 +213,15 @@
         font-size: 24px;
         margin-right: 15px;
     }
-
+    .modern-toast.success {
+        background-color: green;
+    }
+    .modern-toast.warning {
+        background-color: coral;
+    }
+    .modern-toast.info {
+        background-color: blue;
+    }
     .modern-toast.success i {
         color: var(--success-color);
     }
@@ -227,7 +235,7 @@
     }
 
     .modern-toast.info i {
-        color: var(--info-color);
+        color: white;
     }
 
 .modern-toast-message {

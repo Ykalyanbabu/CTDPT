@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TGCTDPT.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TGCTDPT_BSNL_SMS_SMS_BSNL" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost/SMSService/SMS_BSNL.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

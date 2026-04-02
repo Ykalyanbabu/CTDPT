@@ -891,11 +891,14 @@
             <button class="btn btn-primary" id="btnApprove" onclick="onApprove();">
                 Approve
             </button>
-            <button class="btn btn-reset" id="btnQuery" style="background: cadetblue;color: white;display:none;">
+            <button class="btn btn-reset" id="btnQuery" style="background: cadetblue; color: white; display: none;">
                 Raise Query
             </button>
             <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;">
                 Reject
+            </button>
+            <button class="btn btn-reset" id="btnPrint" onclick="window.print();" style="background: cadetblue; color: white; font-weight: bolder;">
+                Print
             </button>
         </div>
         <input type="hidden" id="rnrValue" value="@ViewBag.rnr" />
@@ -949,14 +952,14 @@
 
         function renderBizDtls(d) {
             if (!d) return;
-            $('#spnrnr').text(d.ApplicationId);
+            $('#spnrnr').text(d.rnr_number);
             $('#spnApplicationDate').text(d.ApplicationDate);
             $('#spnRegType').text(d.appDate);
             $('#spnCategory').text();
-            $('#spnDataEntryDate').text();
-            $('#spnDivision').text();
-            $('#spnCircle').text();
-            $('#spnEDR').text();
+            $('#spnDataEntryDate').text(d.DataEntryDate);
+            $('#spnDivision').text(d.division_name);
+            $('#spnCircle').text(d.circle_name);
+            $('#spnEDR').text(d.ApplicationDate);
             $('#spnFormIIReg').text();
             $('#spnStatus').text();
 

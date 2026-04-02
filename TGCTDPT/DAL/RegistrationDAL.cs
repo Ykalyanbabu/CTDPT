@@ -298,5 +298,72 @@ namespace TGCTDPT.DAL
 
             return vm;
         }
+
+
+        public application_status Getapplicant(application_status a)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.QueryFirstOrDefault<application_status>(
+                    "pr_get_applicant",
+                    new
+                    {
+                        applicationid = a.application_id,
+                        mobile = a.Mobile_No
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
+        public DataSet GetLastOTPSpan(string a, string b)
+        {
+            using (var con = new SqlConnection(conStr))
+            using (var cmd = new SqlCommand("get_pt_applicant_last_otp", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@application_id", a);
+                cmd.Parameters.AddWithValue("@mobile", b);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+
+                da.Fill(ds);
+
+                return ds;
+            }
+        }
+        //public dynamic GetLastOTPSpan( string a,string b)
+        //{
+        //    using (var con = new SqlConnection(conStr))
+        //    {
+        //        return con.QueryFirstOrDefault<DataSet>(
+        //            "get_pt_applicant_last_otp",
+        //            new { application_id=a , mobile=b },
+        //            commandType: CommandType.StoredProcedure
+        //        );
+        //    }
+        //}
+
+        public int Save_PT_OTP(string appid, string mobile, string rnd_num)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                int rowsAffected = con.Execute(
+                                "pr_Save_OTP_For_PT_applicant_Login",
+                            new
+                            {
+                                application_id = appid,
+                                mobile = mobile,
+                                otp = rnd_num
+                            },
+                            commandType: CommandType.StoredProcedure
+                        );
+
+                return rowsAffected;
+            }
+        }
+
+
     }
 }

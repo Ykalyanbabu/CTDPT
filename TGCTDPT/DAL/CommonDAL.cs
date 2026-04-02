@@ -19,7 +19,7 @@ namespace TGCTDPT.DAL
             var dtls = new List<Common>();
             using (var con = new SqlConnection(conStr))
             {
-                SqlCommand cmd = new SqlCommand("proc_PTIN_Tracking", con);
+                SqlCommand cmd = new SqlCommand("proc_PTIN_Tracking_new", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@rnr", RNR);
                 con.Open();

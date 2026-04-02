@@ -4,316 +4,339 @@
     Layout = "~/Views/Shared/_OuterLayout.cshtml";
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
-<link href="/Content/bootstrap.css" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-        /* RESET - scoped to .rnr-registration-summary */
-        .rnr-registration-summary * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* RESET - scoped to .rnr-registration-summary */
+    .rnr-registration-summary * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        .rnr-registration-summary {
-            --rnr-primary: #1d4ed8;
-            --rnr-primary-light: #eff6ff;
-            --rnr-primary-mid: #bfdbfe;
-            --rnr-secondary: #6b7280;
-            --rnr-success: #059669;
-            --rnr-success-light: #d1fae5;
-            --rnr-dark: #111827;
-            --rnr-mid: #374151;
-            --rnr-light: #f9fafb;
-            --rnr-border: #e5e7eb;
-            --rnr-border-strong: #d1d5db;
-            --rnr-shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-            --rnr-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    .rnr-registration-summary {
+        --rnr-primary: #1d4ed8;
+        --rnr-primary-light: #eff6ff;
+        --rnr-primary-mid: #bfdbfe;
+        --rnr-secondary: #6b7280;
+        --rnr-success: #059669;
+        --rnr-success-light: #d1fae5;
+        --rnr-dark: #111827;
+        --rnr-mid: #374151;
+        --rnr-light: #f9fafb;
+        --rnr-border: #e5e7eb;
+        --rnr-border-strong: #d1d5db;
+        --rnr-shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+        --rnr-shadow: 0 4px 12px rgba(0,0,0,0.07);
+        /*font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;*/
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f3f4f6;
+        padding: 1.5rem;
+        color: var(--rnr-dark);
+        display: block;
+    }
 
-            /*font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;*/
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f3f4f6;
-            padding: 1.5rem;
-            color: var(--rnr-dark);
-            display: block;
-        }
+    .rnr-summary-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
 
-        .rnr-summary-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+    /* ── Page Header ── */
+    .rnr-page-header {
+        background: #8c08ad;
+        border-radius: 12px;
+        padding: 1rem 1.4rem;
+        margin-bottom: 1.2rem;
+        box-shadow: var(--rnr-shadow-sm);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        border: 1px solid var(--rnr-border);
+    }
 
-        /* ── Page Header ── */
-        .rnr-page-header {
-            background: #c94ae9;
-            border-radius: 12px;
-            padding: 1rem 1.4rem;
-            margin-bottom: 1.2rem;
-            box-shadow: var(--rnr-shadow-sm);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            border: 1px solid var(--rnr-border);
-        }
+    .rnr-header-center {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
 
-        .rnr-header-center {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
+    .rnr-page-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.2px;
+        margin: 0;
+    }
 
-        .rnr-page-header h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--rnr-dark);
-            letter-spacing: -0.2px;
-            margin: 0;
-        }
+    .rnr-badge {
+        background: var(--rnr-primary-light);
+        color: var(--rnr-primary);
+        border: 1px solid var(--rnr-primary-mid);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-family: 'IBM Plex Mono', monospace;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
 
-        .rnr-badge {
-            background: var(--rnr-primary-light);
-            color: var(--rnr-primary);
-            border: 1px solid var(--rnr-primary-mid);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            font-family: 'IBM Plex Mono', monospace;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
+    .rnr-status-badge {
+        background: var(--rnr-success-light);
+        color: var(--rnr-success);
+        border: 1px solid #a7f3d0;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
 
-        .rnr-status-badge {
-            background: var(--rnr-success-light);
-            color: var(--rnr-success);
-            border: 1px solid #a7f3d0;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
+    .rnr-action-buttons {
+        display: flex;
+        gap: 0.4rem;
+    }
 
-        .rnr-action-buttons {
-            display: flex;
-            gap: 0.4rem;
-        }
+    .rnr-btn {
+        padding: 0.35rem 0.85rem;
+        border-radius: 7px;
+        font-size: 1rem;
+        font-weight: 500;
+        font-family: inherit;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border: 1px solid var(--rnr-border-strong);
+        background: white;
+        color: var(--rnr-mid);
+    }
 
-        .rnr-btn {
-            padding: 0.35rem 0.85rem;
-            border-radius: 7px;
-            font-size: 1rem;
-            font-weight: 500;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            border: 1px solid var(--rnr-border-strong);
-            background: white;
-            color: var(--rnr-mid);
-        }
         .rnr-btn:hover {
             background: var(--rnr-light);
         }
-        .rnr-btn-primary {
-            background: var(--rnr-primary);
-            color: white;
-            border-color: var(--rnr-primary);
-        }
+
+    .rnr-btn-primary {
+        background: var(--rnr-primary);
+        color: white;
+        border-color: var(--rnr-primary);
+    }
+
         .rnr-btn-primary:hover {
             background: #1a45c2;
         }
 
-        /* ── Quick Stats ── */
-        .rnr-quick-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 0.6rem;
-            margin-bottom: 1.2rem;
-        }
-        .rnr-stat-item {
-            background: white;
-            border-radius: 9px;
-            padding: 0.65rem 1rem;
-            border: 1px solid var(--rnr-border);
-            box-shadow: var(--rnr-shadow-sm);
-        }
-        .rnr-stat-label {
-            font-size: 0.62rem;
-            color: var(--rnr-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        .rnr-stat-value {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--rnr-dark);
-            margin-top: 0.25rem;
-        }
+    /* ── Quick Stats ── */
+    .rnr-quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.6rem;
+        margin-bottom: 1.2rem;
+    }
 
-        /* ── Sections ── */
-        .rnr-section {
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--rnr-border);
-            box-shadow: var(--rnr-shadow-sm);
-            overflow: hidden;
-        }
-        .rnr-section-header {
-            padding: 0.5rem 1.2rem;
-            background: var(--rnr-light);
-            border-bottom: 2px solid var(--rnr-border);
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            background-color: rgb(146 183 255);
-        }
-        .rnr-section-icon {
-            width: 30px;
-            height: 30px;
-            background: var(--rnr-primary-light);
-            border: 1px solid var(--rnr-primary-mid);
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--rnr-primary);
-            font-size: 0.85rem;
-            flex-shrink: 0;
-        }
-        .rnr-section-title {
-            font-size: 1.5rem !important;
-            font-weight: 700;
-            color: black;
-            letter-spacing: -0.1px;
-        }
-        .rnr-section-body {
-            padding: 1.2rem;
-        }
+    .rnr-stat-item {
+        background: white;
+        border-radius: 9px;
+        padding: 0.65rem 1rem;
+        border: 1px solid var(--rnr-border);
+        box-shadow: var(--rnr-shadow-sm);
+    }
 
-        /* ── Details Grid ── */
-        .rnr-details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 0;
-            border: 1px solid var(--rnr-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .rnr-detail-cell {
-            padding: 0.7rem 1rem;
-            border-right: 1px solid var(--rnr-border);
-            border-bottom: 1px solid var(--rnr-border);
-            background: white;
-        }
+    .rnr-stat-label {
+        font-size: 0.62rem;
+        color: var(--rnr-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    .rnr-stat-value {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--rnr-dark);
+        margin-top: 0.25rem;
+    }
+
+    /* ── Sections ── */
+    .rnr-section {
+        background: white;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border: 1px solid var(--rnr-border);
+        box-shadow: var(--rnr-shadow-sm);
+        overflow: hidden;
+    }
+
+    .rnr-section-header {
+        padding: 0.5rem 1.2rem;
+        background: var(--rnr-light);
+        border-bottom: 2px solid var(--rnr-border);
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        background-color: rgb(146 183 255);
+    }
+
+    .rnr-section-icon {
+        width: 30px;
+        height: 30px;
+        background: var(--rnr-primary-light);
+        border: 1px solid var(--rnr-primary-mid);
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--rnr-primary);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .rnr-section-title {
+        font-size: 1.5rem !important;
+        font-weight: 700;
+        color: black;
+        letter-spacing: -0.1px;
+    }
+
+    .rnr-section-body {
+        padding: 1.2rem;
+    }
+
+    /* ── Details Grid ── */
+    .rnr-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 0;
+        border: 1px solid var(--rnr-border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .rnr-detail-cell {
+        padding: 0.7rem 1rem;
+        border-right: 1px solid var(--rnr-border);
+        border-bottom: 1px solid var(--rnr-border);
+        background: white;
+    }
+
         .rnr-detail-cell:nth-child(even) {
             background: #fafafa;
         }
+
         .rnr-detail-cell.rnr-full-width {
             grid-column: 1 / -1;
             background: white !important;
         }
-        .rnr-detail-label {
-            font-size: 1rem;
-            font-weight: 500;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.3rem;
-        }
-        .rnr-detail-value {
-            font-size: 1.2rem;
-            color: var(--rnr-dark);
-            font-weight: 700;
-            word-break: break-word;
-        }
+
+    .rnr-detail-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: black;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+    }
+
+    .rnr-detail-value {
+        font-size: 1.2rem;
+        color: var(--rnr-dark);
+        font-weight: 700;
+        word-break: break-word;
+    }
+
         .rnr-detail-value.rnr-highlight {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 1.5rem;
             color: var(--rnr-primary);
             font-weight: 600;
         }
+
         .rnr-detail-value.rnr-empty {
             color: #9ca3af;
             font-style: italic;
             font-size: 0.78rem;
         }
 
-        /* ── Badges ── */
-        .rnr-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.18rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .rnr-badge-green {
-            background: var(--rnr-success-light);
-            color: var(--rnr-success);
-            border: 1px solid #a7f3d0;
-        }
+    /* ── Badges ── */
+    .rnr-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.18rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
 
-        /* ── Owner Avatar ── */
-        .rnr-owner-row {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 1rem;
-            background: var(--rnr-primary-light);
-            border: 1px solid var(--rnr-primary-mid);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        .rnr-owner-avatar {
-            width: 38px;
-            height: 38px;
-            background: var(--rnr-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.82rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-        .rnr-owner-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--rnr-dark);
-        }
-        .rnr-owner-sub {
-            font-size: 0.72rem;
-            color: var(--rnr-secondary);
-            margin-top: 0.1rem;
-        }
+    .rnr-badge-green {
+        background: var(--rnr-success-light);
+        color: var(--rnr-success);
+        border: 1px solid #a7f3d0;
+    }
 
-        /* ── Bank Table (modern table) ── */
-        .rnr-bank-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid var(--rnr-border);
-            border-radius: 8px;
-            overflow: hidden;
-            font-size: 1.2rem;
-        }
+    /* ── Owner Avatar ── */
+    .rnr-owner-row {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+        background: var(--rnr-primary-light);
+        border: 1px solid var(--rnr-primary-mid);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .rnr-owner-avatar {
+        width: 38px;
+        height: 38px;
+        background: var(--rnr-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.82rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .rnr-owner-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--rnr-dark);
+    }
+
+    .rnr-owner-sub {
+        font-size: 0.72rem;
+        color: var(--rnr-secondary);
+        margin-top: 0.1rem;
+    }
+
+    /* ── Bank Table (modern table) ── */
+    .rnr-bank-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid var(--rnr-border);
+        border-radius: 8px;
+        overflow: hidden;
+        font-size: 1.2rem;
+    }
+
         .rnr-bank-table thead tr {
             background: var(--rnr-light);
             border-bottom: 2px solid var(--rnr-border);
         }
+
         .rnr-bank-table thead th {
             padding: 0.65rem 1rem;
             text-align: left;
@@ -326,22 +349,28 @@
             white-space: nowrap;
             background-color: #7a7a7a;
         }
-        .rnr-bank-table thead th:last-child {
-            border-right: none;
-        }
+
+            .rnr-bank-table thead th:last-child {
+                border-right: none;
+            }
+
         .rnr-bank-table tbody tr {
             border-bottom: 1px solid var(--rnr-border);
             transition: background 0.15s ease;
         }
-        .rnr-bank-table tbody tr:last-child {
-            border-bottom: none;
-        }
-        .rnr-bank-table tbody tr:nth-child(even) {
-            background: #fafafa;
-        }
-        .rnr-bank-table tbody tr:hover {
-            background: var(--rnr-primary-light);
-        }
+
+            .rnr-bank-table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            .rnr-bank-table tbody tr:nth-child(even) {
+                background: #fafafa;
+            }
+
+            .rnr-bank-table tbody tr:hover {
+                background: var(--rnr-primary-light);
+            }
+
         .rnr-bank-table tbody td {
             padding: 0.65rem 1rem;
             color: var(--rnr-dark);
@@ -349,132 +378,159 @@
             border-right: 1px solid var(--rnr-border);
             vertical-align: middle;
         }
-        .rnr-bank-table tbody td:last-child {
-            border-right: none;
-        }
-        .rnr-row-num {
-            color: var(--rnr-secondary) !important;
-            font-weight: 600 !important;
-            font-size: 1.2rem !important;
-            text-align: center;
-            width: 36px;
-        }
-        .rnr-mono-val {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--rnr-dark);
-        }
-        .rnr-badge-primary-acc {
-            background: var(--rnr-primary-light);
-            color: var(--rnr-primary);
-            border: 1px solid var(--rnr-primary-mid);
-            padding: 0.18rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 600;
-        }
-        .rnr-badge-secondary-acc {
-            background: #f3f4f6;
-            color: var(--rnr-secondary);
-            border: 1px solid var(--rnr-border-strong);
-            padding: 0.18rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 600;
-        }
-        .rnr-empty-row {
-            text-align: center !important;
-            color: #9ca3af !important;
-            font-style: italic;
-            font-size: 0.8rem !important;
-            padding: 1.5rem !important;
-            border-right: none !important;
-        }
+
+            .rnr-bank-table tbody td:last-child {
+                border-right: none;
+            }
+
+    .rnr-row-num {
+        color: var(--rnr-secondary) !important;
+        font-weight: 600 !important;
+        font-size: 1.2rem !important;
+        text-align: center;
+        width: 36px;
+    }
+
+    .rnr-mono-val {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.78rem;
+        color: var(--rnr-dark);
+    }
+
+    .rnr-badge-primary-acc {
+        background: var(--rnr-primary-light);
+        color: var(--rnr-primary);
+        border: 1px solid var(--rnr-primary-mid);
+        padding: 0.18rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.68rem;
+        font-weight: 600;
+    }
+
+    .rnr-badge-secondary-acc {
+        background: #f3f4f6;
+        color: var(--rnr-secondary);
+        border: 1px solid var(--rnr-border-strong);
+        padding: 0.18rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.68rem;
+        font-weight: 600;
+    }
+
+    .rnr-empty-row {
+        text-align: center !important;
+        color: #9ca3af !important;
+        font-style: italic;
+        font-size: 0.8rem !important;
+        padding: 1.5rem !important;
+        border-right: none !important;
+    }
+
         .rnr-empty-row i {
             margin-right: 0.3rem;
             color: #d1d5db;
         }
 
-        /* ── Footer Info / additional rows (bank grid) ── */
-        .rnr-info-table {
-            margin-top: 1rem;
-            border: 1px solid var(--rnr-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .rnr-info-row {
-            display: flex;
-            border-bottom: 1px solid var(--rnr-border);
-        }
+    /* ── Footer Info / additional rows (bank grid) ── */
+    .rnr-info-table {
+        margin-top: 1rem;
+        border: 1px solid var(--rnr-border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .rnr-info-row {
+        display: flex;
+        border-bottom: 1px solid var(--rnr-border);
+    }
+
         .rnr-info-row:last-child {
             border-bottom: none;
         }
-        .rnr-info-label {
-            min-width: 130px;
-            padding: 0.55rem 1rem;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--rnr-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            background: var(--rnr-light);
-            border-right: 1px solid var(--rnr-border);
-        }
-        .rnr-info-value {
-            padding: 0.55rem 1rem;
-            font-size: 0.82rem;
-            color: var(--rnr-dark);
-            font-weight: 500;
+
+    .rnr-info-label {
+        min-width: 130px;
+        padding: 0.55rem 1rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--rnr-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        background: var(--rnr-light);
+        border-right: 1px solid var(--rnr-border);
+    }
+
+    .rnr-info-value {
+        padding: 0.55rem 1rem;
+        font-size: 0.82rem;
+        color: var(--rnr-dark);
+        font-weight: 500;
+    }
+
+    /* ── Responsive ── */
+    @@media (max-width: 768px) {
+        .rnr-registration-summary {
+            padding: 0.6rem;
         }
 
-        /* ── Responsive ── */
-        @@media (max-width: 768px) {
-            .rnr-registration-summary {
-                padding: 0.6rem;
-            }
-            .rnr-page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .rnr-details-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .rnr-bank-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            .rnr-info-row {
-                flex-direction: column;
-            }
-            .rnr-info-label {
-                border-right: none;
-                border-bottom: 1px solid var(--rnr-border);
-                min-width: unset;
-            }
+        .rnr-page-header {
+            flex-direction: column;
+            align-items: flex-start;
         }
-        @@media (max-width: 480px) {
-            .rnr-details-grid {
-                grid-template-columns: 1fr;
-            }
+
+        .rnr-details-grid {
+            grid-template-columns: 1fr 1fr;
         }
-        @@media print {
-            body * {
-                visibility: hidden;
-            }
-            .rnr-registration-summary, .rnr-registration-summary * {
-                visibility: visible;
-            }
-            .rnr-registration-summary {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-            }
-            .rnr-action-buttons {
-                display: none;
-            }
+
+        .rnr-bank-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
         }
+
+        .rnr-info-row {
+            flex-direction: column;
+        }
+
+        .rnr-info-label {
+            border-right: none;
+            border-bottom: 1px solid var(--rnr-border);
+            min-width: unset;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .rnr-details-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .rnr-registration-summary, .rnr-registration-summary * {
+            visibility: visible;
+        }
+
+        .rnr-registration-summary {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        #btnPrevSum, #btnSubmitSum, #btnPrintSum {
+            display: none;
+        }
+    }
+
+    .appid {
+        color: #fffbff;
+        font-weight: 700;
+        font-family: monospace;
+    }
 </style>
 
 <body>
@@ -488,42 +544,45 @@
                 <div class="header">
                     Application Type<br>
                     <strong>New Registration</strong>
+                    <div style="float:right;">
+                        <label id="lblApplicationId" class="appid"></label>
+                    </div>
                 </div>
 
                 <div class="steps">
-                    <div class="step active" onclick="showTab(0)">
+                    <div class="step active">
                         <i class="fa-solid fa-briefcase"></i>
                         Business Details<br>(Principal Place of Business)
                     </div>
-                    <div class="step" onclick="showTab(1)">
+                    <div class="step">
                         <i class="fa-solid fa-user-group"></i>
                         Employee Details
                     </div>
-                    <div class="step" id="divOwnerTab" onclick="showTab(2)">
+                    <div class="step" id="divOwnerTab" ">
                         <i class="fa-solid fa-user-tie"></i>
                         Owner / Managing Director / Managing Partner
                     </div>
-                    <div class="step" id="divAuth" onclick="showTab(3)">
+                    <div class="step" id="divAuth">
                         <i class="fa-solid fa-user-check"></i>
                         Authorised Person
                     </div>
-                    <div class="step" id="divPartnerTab" onclick="showTab(4)">
+                    <div class="step" id="divPartnerTab">
                         <i class="fa-solid fa-users"></i>
                         Partners / Directors
                     </div>
-                    <div class="step" onclick="showTab(5)">
+                    <div class="step">
                         <i class="fa-solid fa-location-dot"></i>
                         Additional Places of Business
                     </div>
-                    <div class="step" onclick="showTab(6)">
+                    <div class="step">
                         <i class="fa-solid fa-building-columns"></i>
                         Bank Details
                     </div>
-                    <div class="step" onclick="showTab(7)">
+                    <div class="step">
                         <i class="fa-solid fa-upload"></i>
                         Check & Upload Documents
                     </div>
-                    <div class="step" onclick="showTab(8)" style="display:block;">
+                    <div class="step" style="display:block;">
                         <i class="fa-solid fa-circle-check"></i>
                         View Summary
                     </div>
@@ -621,7 +680,7 @@
                                     <label>
                                         PAN (Business) <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="business_pan" maxlength="10" class="form-control" onblur="validatePAN()" style="text-transform:uppercase;">
+                                    <input type="text" id="business_pan" maxlength="10" class="form-control" onblur="ValidatePAN(this), CheckPAN();" style="text-transform:uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -629,6 +688,7 @@
                                     </label>
 
                                     <select class="form-control" id="cobz">
+                                        <option value="">--Select--</option>
                                         <option value="Proprietorship">Proprietorship</option>
                                         <option value="Partnership">Partnership</option>
                                         <option value="PLC">Private Limited Company</option>
@@ -651,7 +711,7 @@
                                         Email <span class="text-danger">*</span>
                                     </label>
 
-                                    <input type="email" id="email_id" class="form-control">
+                                    <input type="email" id="email_id" class="form-control" style="text-transform: lowercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -768,7 +828,7 @@
                                     <label>
                                         Total Number Of Employees Working <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" min="10" max="10" id="tot_emp" class="form-control" style="width:50%;" onkeypress="return isNumber(event)">
+                                    <input type="text" min="10" max="10" id="tot_emp" class="form-control" style="width:50%;" onkeypress="return isNumber(event)" readonly>
                                 </div>
                                 <br />
                                 <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
@@ -852,7 +912,7 @@
                                     <label>
                                         Email <span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" id="O_email_id" class="form-control">
+                                    <input type="email" id="O_email_id" class="form-control" style="text-transform: lowercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -892,10 +952,9 @@
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="O_distict">
+                                    <select class="form-control select" id="O_distict">
                                         <option value="">--Select--</option>
                                         <option value="RANGAREDDY">RANGAREDDY</option>
-                                        <option value="SANGAREDDY">SANGAREDDY</option>
                                     </select>
                                 </div>
 
@@ -905,7 +964,7 @@
                                     </label>
                                     <select class="form-control" id="O_state_name">
                                         <option value="">--Select--</option>
-                                        <option value="Telangana">Telangana</option>
+                                        <option value="Telangana" selected>Telangana</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -914,7 +973,7 @@
                                     </label>
                                     <select class="form-control" id="O_country">
                                         <option value="">--Select--</option>
-                                        <option>India</option>
+                                        <option value="India" selected>India</option>
                                     </select>
                                 </div>
 
@@ -928,13 +987,13 @@
                                     <label>
                                         PAN(Owner) <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="10" minlength="10" id="O_pan">
+                                    <input type="text" class="form-control" maxlength="10" minlength="10" id="O_pan" onblur="ValidatePAN(this);" style="text-transform:uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" maxlength="12" id="O_aadhaar" class="form-control" maxlength="12" minlength="12" onkeypress="return isNumber(event)">
+                                    <input type="text" maxlength="12" id="O_aadhaar" class="form-control" minlength="12" onblur="ValidateAadhaar(this);" onkeypress="return isNumber(event)">
                                 </div>
 
                                 @*<div class="form-group">
@@ -986,22 +1045,11 @@
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
                             <hr />
-                            @*<div class="form-group" style="width:150%">
-                                    <label>
-                                        <strong>Have you Nominated any Authorised Person? <span class="text-danger">*</span></strong>
-                                    </label>
-                                    <div>
-                                        <label for="rdbYes">
-                                            <input type="radio" id="rdbYes" onchange="oncheckrdb('Y');" name="Nomination" value="Yes"> Yes
-                                        </label>
-                                        <label for="rdbNo" style="margin-left:15px;">
-                                            <input type="radio" id="rdbNo" name="Nomination" onchange="oncheckrdb('N');" value="No"> No
-                                        </label>
-                                    </div>
-                                </div>*@
                             <div class="form-group" style="width:150%">
                                 <label>
-                                    Have you Nominated any Authorised Person?  <span class="text-danger">*</span>
+                                    <b>
+                                        Have you Nominated any Authorised Person?
+                                    </b> <span class="text-danger">*</span>
                                 </label>
                                 <div>
                                     <label for="rdbYes">
@@ -1047,7 +1095,7 @@
                                     <label>
                                         Email <span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" id="auth_email" class="form-control">
+                                    <input type="email" id="auth_email" class="form-control" style="text-transform: lowercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1094,13 +1142,13 @@
                                     <label>
                                         PAN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="auth_pan" maxlength="10" minlength="10" class="form-control">
+                                    <input type="text" id="auth_pan" maxlength="10" minlength="10" onblur="ValidatePAN(this);" class="form-control" style="text-transform:uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" id="auth_aadhaar" maxlength="12" minlength="12" class="form-control" onkeypress="return isNumber(event)">
+                                    <input type="text" id="auth_aadhaar" maxlength="12" minlength="12" class="form-control" onblur="ValidateAadhaar(this);" onkeypress="return isNumber(event)">
                                 </div>
 
                                 @*<div class="form-group">
@@ -1265,20 +1313,20 @@
                                     <label>
                                         PAN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="dir_prtnr_pan" maxlength="10" minlength="10">
+                                    <input type="text" class="form-control" id="dir_prtnr_pan" onblur="ValidatePAN(this);" maxlength="10" minlength="10" style="text-transform:uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
                                         Aadhaar <span class="text-danger"></span>
                                     </label>
-                                    <input type="text" maxlength="12" minlength="12" id="dir_prtnr_aadhaar" class="form-control" onkeypress="return isNumber(event)">
+                                    <input type="text" maxlength="12" minlength="12" id="dir_prtnr_aadhaar" onblur="ValidateAadhaar(this);" class="form-control" onkeypress="return isNumber(event)">
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         Email Id
                                     </label>
-                                    <input type="email" class="form-control" id="dir_prtnr_email">
+                                    <input type="email" class="form-control" id="dir_prtnr_email" style="text-transform: lowercase;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1301,7 +1349,7 @@
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover align-middle" id="dirprtnrTable" style="font-size: small;">
-                                <thead class="table-light">
+                                <thead class="table-light" style="text-align: center;">
                                     <tr>
                                         <th>S No. </th>
                                         <th>Name</th>
@@ -1371,8 +1419,8 @@
                             <hr />
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label>
-                                        Do you have Additional Place of Business? <span class="text-danger">*</span>
+                                    <label style="width: 300px;">
+                                        <b> Do you have Additional Place of Business? </b><span class="text-danger">*</span>
                                     </label>
 
 
@@ -1469,7 +1517,7 @@
 
                         <div class="table-responsive" id="tblAddedPlaces">
                             <table class="table table-bordered table-hover align-middle" id="AdditionalPlaceTable" style="font-size: small;">
-                                <thead class="table-light">
+                                <thead class="table-light" style="text-align: center;">
                                     <tr>
                                         <th>S No. </th>
                                         <th>Country </th>
@@ -1576,7 +1624,7 @@
 
                             <div class="table-responsive" id="tblbnkdtls">
                                 <table class="table table-bordered table-hover align-middle" id="bankdetailsTable" style="font-size: small;">
-                                    <thead class="table-light">
+                                    <thead class="table-light" style="text-align: center;">
                                         <tr>
                                             <th>S No. </th>
                                             <th>Bank Name </th>
@@ -1660,7 +1708,7 @@
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover align-middle" id="DocumentsTable" style="font-size: small;">
-                                <thead class="table-light">
+                                <thead class="table-light" style="text-align: center;">
                                     <tr>
                                         <th>S No. </th>
 
@@ -1912,34 +1960,42 @@
                                 </table>
                             </div>
                         </div>
-                        <div style="grid-column: 1/-1; display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
-                            <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
+                        <div style="grid-column: 1/-1; display: flex; justify-content: center; margin: 15px 0px 0px 0px;">
+                            <button type="button" id="btnPrevSum" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
                                 Previous
                             </button>
-                            <button type="button" class="btn btn-primary px-4 w-auto" onclick="SubmitApplication();">
+                            <button type="button" id="btnSubmitSum" style="margin: 0px 5px 0px 0px;" class="btn btn-primary px-4 w-auto" onclick="SubmitApplication();">
                                 Submit
+                            </button>
+                            <button type="button" id="btnPrintSum" onclick="window.print();" class="btn btn-primary px-4 w-auto">
+                                Print
                             </button>
                         </div>
                     </div>
+                </div>
             </div>
+
         </div>
 
-    </div>
+        <script src="/Scripts/jquery-3.4.1.js"></script>
+        <script src="/Scripts/bootstrap.js"></script>
+        <script src="~/ViewJs/RegSummary.js"></script>
 
-    <script src="/Scripts/jquery-3.4.1.js"></script>
-    <script src="/Scripts/bootstrap.js"></script>
-    <script src="~/ViewJs/RegSummary.js"></script>
-
-    <script>
+        <script>
         var AppId = '@Session["application_id"]';
         var getFullSummaryUrl = '@Url.Action("GetFullSummary", "Registration")';
-        var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Registration")';
+            var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Registration")';
+            var landingUrl = '@Url.Action("SearchARN", "Home")';
+            var isPartnerData = "";
+            var isAddlPlaceData = "";
+            var isBankData = "";
+            var isDocData = "";
+
         $(document).ready(function () {
 
             var urlParams = new URLSearchParams(window.location.search);
             var type = urlParams.get('type');
 
-            loaddistrict();
             Load_Banks();
             if (AppId != null && AppId != undefined && AppId != "") {
                 LoadApplicationDtls(AppId);
@@ -1947,46 +2003,63 @@
             else {
                 showTab('0');
                 loadDivisions();
+                loaddistrict();
             }
         });
 
-        function loaddistrict() {
+        function loaddistrict(district,ddl) {
             $.ajax({
                 url: '@Url.Action("GetDistricts","Registration")',
                 type: 'GET',
                 success: function (data) {
-                    var dropdown = $('#district');
-                    var dropdown2 = $('#O_distict');
-                    var dropdown3 = $('#auth_district');
-                    var dropdown4 = $('#dir_prtnr_district');
-                    var dropdown5 = $('#addl_plc_district');
-                    dropdown.empty(); dropdown2.empty(); dropdown3.empty(); dropdown4.empty(); dropdown5.empty();
+                    if (ddl == null || ddl == undefined || ddl == "") {
+                        var dropdown = $('#district');
+                        var dropdown2 = $('#O_distict');
+                        var dropdown3 = $('#auth_district');
+                        var dropdown4 = $('#dir_prtnr_district');
+                        var dropdown5 = $('#addl_plc_district');
+                        dropdown.empty(); dropdown2.empty(); dropdown3.empty(); dropdown4.empty(); dropdown5.empty();
 
-                    dropdown.append('<option value="">--Select--</option>');
+                        dropdown.append('<option value="">--Select--</option>');
 
-                    $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
-                    });
-                    dropdown2.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            dropdown.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                        dropdown2.append('<option value="">--Select--</option>');
 
-                    $.each(data, function (i, item) {
-                        dropdown2.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
-                    });
-                    dropdown3.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            dropdown2.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                        dropdown3.append('<option value="">--Select--</option>');
 
-                    $.each(data, function (i, item) {
-                        dropdown3.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
-                    });
-                    dropdown4.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            dropdown3.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                        dropdown4.append('<option value="">--Select--</option>');
 
-                    $.each(data, function (i, item) {
-                        dropdown4.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
-                    });
-                    dropdown5.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            dropdown4.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                        dropdown5.append('<option value="">--Select--</option>');
 
-                    $.each(data, function (i, item) {
-                        dropdown5.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
-                    });
+                        $.each(data, function (i, item) {
+                            dropdown5.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                    }
+                    else {
+                        if (ddl != null && ddl != undefined && ddl != "") {
+                            var preloadddl = $('#' + ddl);
+                                preloadddl.empty();
+                                preloadddl.append('<option value="">--Select--</option>');
+                                $.each(data, function (i, item) {
+                                    preloadddl.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                                });
+                                if (district != null && district != undefined && district != "") {
+                                    $('#' + ddl).val(district);
+                                }
+                            }
+
+                    }
 
                 },
                 error: function () {
@@ -2056,60 +2129,50 @@
 
         /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
 
-        function validatePAN() {
+        function CheckPAN() {
 
-    var pan = $('#business_pan').val().trim().toUpperCase();
-    var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            var pan = $('#business_pan').val().toUpperCase();
 
-    $('#business_pan').val(pan);
+            if (pan === "") {
+                $('#panError').text("pan number is required");
+                return false;
+            }
+            $('#panError').text("");
 
-    if (pan === "") {
-        $('#panError').text("pan number is required");
-        return false;
-    }
+            $.ajax({
+                url: '@Url.Action("CheckPantoPT", "Registration")',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    pan: pan
+                },
+                success: function (response) {
 
-    if (!panPattern.test(pan)) {
-        $('#panError').text("invalid pan format (example: abcde1234f)");
-        return false;
-    }
+                    if (response && response.length > 0) {
 
-    $('#panError').text("");
+                        var _ptin = response[0].ptin;
 
-
-    $.ajax({
-        url: '@Url.Action("CheckPantoPT", "Registration")',
-        type: 'get',
-        dataType: 'json',
-        data: {
-            pan: pan
-        },
-        success: function (response) {
-
-            if (response && response.length > 0) {
-
-                var _ptin = response[0].ptin;
-
-                ModernAlert.showConfirm(
-                    'you already have a ptin. do you want to proceed?',
-                    'navigate',
-                    function (confirmed) {
-                        if (confirmed) {
-                            window.location.href =
-                                '@Url.Action("Login", "PTHome")?ptin=' + encodeURIComponent(_ptin);
-                        }
+                        ModernAlert.showConfirm(
+                            'you already have a ptin. do you want to proceed?',
+                            'navigate',
+                            function (confirmed) {
+                                if (confirmed) {
+                                    window.location.href =
+                                        '@Url.Action("Login", "PTHome")?ptin=' + encodeURIComponent(_ptin);
+                                }
+                            }
+                        );
                     }
-                );
-            }
-            else {
-                // optional: don't show error popup here (bad ux)
-                console.log("pan not found, continue registration");
-            }
-        },
-        error: function (error) {
-            console.error(error);
+                    else {
+                        // optional: don't show error popup here (bad ux)
+                        console.log("pan not found, continue registration");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
         }
-    });
-}
 
         function validateBusiness() {
 
@@ -2130,7 +2193,7 @@
 
             });
             if (!valid) {
-                alert("Please fill all required fields.");
+                ModernAlert.toast.info('Please fill all required fields');
                 return false;
             }
 
@@ -2182,42 +2245,22 @@
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'JSON',
                 success: function (response) {
-
                     if (response.success) {
-
-                        alert("Please Store this Application ID:" + response.data.application_id + " for Further Reference.");
+                        $('#lblApplicationId').html("Application Id: " + response.data.application_id);
+                        ModernAlert.showSuccess('Please Store this Application ID:' + response.data.application_id + ' for further Reference.', 'Saved');
                         showTab("1");
+                    }
+                    else {
 
-                    } else {
-
-                        alert("Error while saving");
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
                         showTab("0");
-
                     }
                 },
                 error: function () {
-
-                    alert("Server Error");
-
+                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
                 }
-
             });
 
-        }
-        function validate_pan() {
-
-            var regpan = document.getElementById("business_pan");
-            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-            var panInput = regpan.value.trim().toUpperCase();
-            console.log(panInput);
-            if (!panPattern.test(panInput)) {
-                regpan.style.border = "1px solid red";
-                alert("Invalid PAN Format");
-                return false;
-            }
-
-            regpan.style.border = "";
-            return true;
         }
 
         /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
@@ -2333,11 +2376,9 @@
 
             });
 
-            // additional validations
-
 
             if (!valid) {
-                alert("please fill all required fields correctly.");
+                ModernAlert.toast.info('please fill all required fields correctly');
                 return false;
             }
             if (!validate_mobile()) valid = false;
@@ -2475,11 +2516,12 @@
                 showTab("3");
             }
             else {
-
+                ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
                 showTab("2");
             }
         },
         error: function () {
+            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
             showTab("2");
         }
     });
@@ -2494,24 +2536,17 @@
 
         function validate_Authrsdprsn() {
             var nomination = $("input[name='rdb_auth_prsn']:checked").val();
-
-            // radio mandatory
             if (!nomination) {
-                alert("Please select Yes or No for Authorised Person.");
+                ModernAlert.toast.info('Please select Yes or No for Authorised Person');
                 return false;
             }
-
-            // ✅ if NO → skip everything
             if (nomination === 'No') {
-
                 var savedetails = save_Authrsed_Details();
-
                 if (savedetails) {
                     showTab("4");
                 } else {
                     showTab("3");
                 }
-
                 return true;
             }
 
@@ -2541,7 +2576,7 @@
             });
 
             if (!valid) {
-                alert("please fill all required fields correctly.");
+                ModernAlert.toast.info('please fill all required fields correctly.');
                 return false;
             }
 
@@ -2549,7 +2584,7 @@
             if (!validate_Auth_pincode()) valid = false;
             if (!validate_Auth_aadhaar()) valid = false;
             //if (!validate_Auth_email()) valid = false;
-            var gonext = validate_Auth_pan();
+            var gonext = true;
 
             if (gonext === true) {
 
@@ -2645,45 +2680,45 @@
             regpan.style.border = "";
             return true;
         }
-      function save_Authrsed_Details() {
+        function save_Authrsed_Details() {
 
-    var data = {
-        auth_prsn_name: $("#auth_name").val()||null,
-        auth_prsn_father_name: $("#auth_fname").val() || null,
-        email_id: $("#auth_email").val() || null,
-        auth_prsn_door_no: $("#auth_door_no").val() || null,
-        auth_prsn_road_street: $("#auth_road_street").val() || null,
-        auth_prsn_locality: $("#auth_locality").val() || null,
-        auth_prsn_city: $("#auth_city").val() || null,
-        auth_prsn_district: $("#auth_district").val() || null,
-        auth_prsn_pincode: $("#auth_pincode").val() || null,
-        auth_prsn_pan: $("#auth_pan").val() || null,
-        auth_prsn_aadhaar: $("#auth_aadhaar").val() || null,
-        auth_prsn_mobile_no: $("#auth_mobile_no").val() || null,
-        is_Authorised_person: $("input[name='rdb_auth_prsn']:checked").val(),
-    };
+            var data = {
+                auth_prsn_name: $("#auth_name").val() || null,
+                auth_prsn_father_name: $("#auth_fname").val() || null,
+                email_id: $("#auth_email").val() || null,
+                auth_prsn_door_no: $("#auth_door_no").val() || null,
+                auth_prsn_road_street: $("#auth_road_street").val() || null,
+                auth_prsn_locality: $("#auth_locality").val() || null,
+                auth_prsn_city: $("#auth_city").val() || null,
+                auth_prsn_district: $("#auth_district").val() || null,
+                auth_prsn_pincode: $("#auth_pincode").val() || null,
+                auth_prsn_pan: $("#auth_pan").val() || null,
+                auth_prsn_aadhaar: $("#auth_aadhaar").val() || null,
+                auth_prsn_mobile_no: $("#auth_mobile_no").val() || null,
+                is_Authorised_person: $("input[name='rdb_auth_prsn']:checked").val(),
+            };
 
-    $.ajax({
-        url: '@Url.Action("Save_AuthrsedPrsn_Details", "Registration")',
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(data),
-        dataType: "JSON",
-        success: function (response) {
-
-            if (response.success) {
-                showTab("4");
-            }
-            else {
-
-                showTab("3");
-            }
-        },
-        error: function () {
-            showTab("3");
+            $.ajax({
+                url: '@Url.Action("Save_AuthrsedPrsn_Details", "Registration")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success) {
+                        showTab("4");
+                    }
+                    else {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("3");
+                    }
+                },
+                error: function () {
+                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                    showTab("3");
+                }
+            });
         }
-    });
-}
 
         /*################## FOR SAVING THE Authorised Person DETAILS DATA #######################*/
 
@@ -2692,8 +2727,9 @@
          /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
         function validate_dirprtnr() {
 
-            if ($('#PartnerBody tr').length == 0) {
-                alert("please add atleast one Partner/Director Details");
+            let rowCount = $("#PartnerBody tr[data-item]").length;
+            if (rowCount === 0) {
+                ModernAlert.toast.info('Please add at least one row');
                 return false;
             }
             var gonext = true;
@@ -2785,40 +2821,39 @@
             return true;
         }
         var dataListdir = [];
-      function save_prtnr_dir_Details() {
+        function save_prtnr_dir_Details() {
+            dataListdir = [];
+            $("#dirprtnrTable tbody tr").each(function () {
 
-          $("#dirprtnrTable tbody tr").each(function () {
+                var item = $(this).attr("data-item");
 
-              var item = $(this).attr("data-item");
+                if (item) {
+                    dataListdir.push(JSON.parse(item));
+                }
+            });
 
-              if (item) {
-                  dataListdir.push(JSON.parse(item));
-              }
-          });
+            $.ajax({
+                url: '@Url.Action("Save_DirPrtnr_Details", "Registration")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ model: dataListdir }),
+                dataType: "JSON",
+                success: function (response) {
 
-
-
-    $.ajax({
-        url: '@Url.Action("Save_DirPrtnr_Details", "Registration")',
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ model: dataListdir }),
-        dataType: "JSON",
-        success: function (response) {
-
-            if (response.success) {
-                showTab("5");
-            }
-            else {
-
-                showTab("4");
-            }
-        },
-        error: function () {
-            showTab("4");
+                    if (response.success) {
+                        showTab("5");
+                    }
+                    else {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("4");
+                    }
+                },
+                error: function () {
+                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                    showTab("4");
+                }
+            });
         }
-    });
-}
 
         /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
 
@@ -2828,7 +2863,7 @@
             console.log(is_addl_place);
             // radio mandatory
             if (!is_addl_place) {
-                alert("Please select Yes or No Additional Place of Business.");
+                ModernAlert.toast.info('Please select Yes or No Additional Place of Business');
                 return false;
             }
 
@@ -2845,9 +2880,9 @@
 
                 return true;
             }
-
-            if ($('#AddlPlaceBody tr').length == 0) {
-                alert("Please add atleast one Additional Business Place Details.");
+            let rowCount = $("#AdditionalPlaceTable tr[data-item]").length;
+            if (rowCount === 0) {
+                ModernAlert.toast.info('Please add atleast one Additional Business Place Details');
                 return false;
             }
 
@@ -2862,7 +2897,7 @@
                 let obj = {
                     addl_plc_country: null,
                     addl_plc_state: null,
-                    addl_plc_district: null,
+                    addl_plc_district_code: null,
                     addl_plc_mandal: null,
                     addl_plc_door_no: null,
                     addl_plc_road_street: null,
@@ -2909,58 +2944,60 @@
 
 
                 /*################## FOR SAVING THE  BANK DETAILS DATA #######################*/
-        function validate_bnk() {
-
-            if ($('#BankDtlsBody tr').length == 0) {
-                alert("please fill all required fields correctly.");
-                return false;
-            }
-            save_bank_Details();
-        }
-        var dataListb = [];
-        function save_bank_Details() {
-
-            $("#bankdetailsTable tbody tr").each(function () {
-
-                var item = $(this).attr("data-item");
-
-                if (item) {
-                    dataListb.push(JSON.parse(item));
+            function validate_bnk() {
+                let rowCount = $("#BankDtlsBody tr[data-item]").length;
+                if (rowCount === 0) {
+                    ModernAlert.toast.info('Please add at one row of Bank Details.');
+                    return false;
                 }
-            });
-            $.ajax({
-                url: '@Url.Action("Save_bank_Details", "Registration")',
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ model: dataListb }),
-                dataType: "JSON",
-                success: function (response) {
+                else {
+                    save_bank_Details();
+                }
+            }
+        var dataListb = [];
+            function save_bank_Details() {
+                dataListb = [];
+                $("#bankdetailsTable tbody tr").each(function () {
 
-                    if (response.success) {
-                        showTab("7");
+                    var item = $(this).attr("data-item");
+
+                    if (item) {
+                        dataListb.push(JSON.parse(item));
                     }
-                    else {
+                });
+                $.ajax({
+                    url: '@Url.Action("Save_bank_Details", "Registration")',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ model: dataListb }),
+                    dataType: "JSON",
+                    success: function (response) {
 
+                        if (response.success) {
+                            showTab("7");
+                        }
+                        else {
+
+                            showTab("6");
+                        }
+                    },
+                    error: function () {
                         showTab("6");
                     }
-                },
-                error: function () {
-                    showTab("6");
-                }
-            });
-        }
+                });
+            }
 
         /*################## FOR SAVING THE BANK DETAILS DATA #######################*/
 
 
                 /*################## FOR SAVING THE  documents DATA #######################*/
-        function validate_document() {
 
+        function validate_document() {
 
             var formData = new FormData();
 
-            if ($('#FilesBody tr').length === 0) {
-                alert("Please upload at least one document");
+            if ($('#DocumentsTable tbody tr').length === 0) {
+                ModernAlert.toast.info('Please upload at least one document');
                 return false;
             }
 
@@ -2977,10 +3014,13 @@
                         return false;
                     }
 
-                    //formData.append("model[" + i + "].application_id", appId);
                     formData.append("model[" + i + "].master_doc_id", item.master_docid);
                     formData.append("model[" + i + "].document_type", item.document_type);
-                    formData.append("files", item.file);
+                    formData.append("model[" + i + "].document_path", item.document_path || "");
+
+                    if (item.file) {
+                        formData.append("files[" + i + "]", item.file);
+                    }
 
                     i++;
                 }
@@ -2989,33 +3029,27 @@
             if (!isValid) return;
 
             if (i === 0) {
-                alert("No valid documents to upload");
+                ModernAlert.toast.info('No valid documents to upload');
                 return;
             }
 
             $.ajax({
-                url: '@Url.Action("Save_documents", "Registration")',
+                url: '@Url.Action("Save_Documents", "Registration")',
                 type: "POST",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (res) {
                     if (res.success) {
-                        alert("Documents uploaded successfully");
+                        ModernAlert.toast.success('Documents saved successfully');
                         showTab("8");
-               @*ModernAlert.showSuccess('Your Refund has been Submitted successfully!', ' Submitted');
-                ModernAlert.showSuccess(
-                    'Your Application has been Submitted successfully with ARN No: ' + res.message,
-                    'Success',
-                    '@Url.Action("Home", "PTHome")'
-                );*@
                     } else {
-                        alert("Failed to upload documents");
+                        ModernAlert.toast.info(res.message || 'Failed to save documents');
                         showTab("7");
                     }
                 },
                 error: function () {
-                    alert("Error while uploading documents");
+                    ModernAlert.toast.info('Error while uploading documents');
                 }
             });
         }
@@ -3026,7 +3060,7 @@
 
         function SubmitApplication() {
 
-            if (_AppId == "" || _AppId == null || _AppId == undefined) {
+            if (AppId == "" || AppId == null || AppId == undefined) {
                 ModernAlert.showError(res.message || "Failed to Submit");
                 return false;
             }
@@ -3034,7 +3068,7 @@
                 $.ajax({
                     url: '@Url.Action("SubmitApplication", "Registration")',
                     type: "POST",
-                    data: { AppId: _AppId },
+                    data: { AppId: AppId },
                     success: function (res) {
                         if (res.success) {
                             ModernAlert.showSuccess(
@@ -3047,7 +3081,7 @@
                         }
                     },
                     error: function () {
-                        alert("Failed to Save");
+                        ModernAlert.showError(res.message || "Failed to Save");
                     }
                 });
             }
@@ -3058,9 +3092,7 @@
 
 
 
-    function gotoPrint() {
-        window.open('PrintPage.html');
-    }
+
     function showTab(index, res) {
         const steps = document.querySelectorAll(".step");
         const tabs = document.querySelectorAll(".tab-content");
@@ -3220,14 +3252,15 @@
                 dir_prtnr_locality: $('#dir_prtnr_locality').val(),
                 dir_prtnr_city: $('#dir_prtnr_city').val(),
                 dir_prtnr_mandal: $('#dir_prtnr_mandal').val(),
-                dir_prtnr_district: $('#dir_prtnr_district').val(),
+                dir_prtnr_district_code: $('#dir_prtnr_district').val(),
                 dir_prtnr_state: $('#dir_prtnr_state').val(),
                 dir_prtnr_country: $('#dir_prtnr_country').val(),
                 dir_prtnr_pincode: $('#dir_prtnr_pincode').val(),
                 dir_prtnr_pan: $('#dir_prtnr_pan').val(),
                 dir_prtnr_aadhaar: $('#dir_prtnr_aadhaar').val(),
                 dir_prtnr_email: $('#dir_prtnr_email').val(),
-                dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val()
+                dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val(),
+                dir_prtnr_district_name: $('#dir_prtnr_district option:selected').text()
             };
 
             $("#noDataRow").remove();
@@ -3243,7 +3276,7 @@
             <td>${obj.dir_prtnr_locality}</td>
             <td>${obj.dir_prtnr_city}</td>
             <td>${obj.dir_prtnr_mandal}</td>
-            <td>${obj.dir_prtnr_district}</td>
+            <td>${obj.dir_prtnr_district_name}</td>
             <td>${obj.dir_prtnr_state}</td>
             <td>${obj.dir_prtnr_country}</td>
             <td>${obj.dir_prtnr_pincode}</td>
@@ -3258,7 +3291,7 @@
             </td>
         </tr>
     `;
-
+            isPartnerData = "Y";
             if (editRow) {
                 editRow.replaceWith(rowHtml);
                 editRow = null;
@@ -3284,13 +3317,13 @@
             $('#dir_prtnr_email').val("");
             $('#dir_prtnr_mobile').val("");
 
-
+            updateSerialNumbers('dirprtnrTable');
             $("form")[0].reset();
         });
 
         $(document).on("click", ".deleteRow", function () {
             $(this).closest("tr").remove();
-
+            updateSerialNumbers('dirprtnrTable');
             // if no rows left, show no data row
             if ($("#dirprtnrTable tbody tr").length === 0) {
                 $("#dirprtnrTable tbody").append(`
@@ -3343,7 +3376,7 @@
 
             });
             if (!valid) {
-                alert("please fill all required fields correctly.");
+                ModernAlert.toast.info('Please fill all required fields correctly');
                 return false;
             }
 
@@ -3351,14 +3384,15 @@
             let obj = {
                 addl_plc_country: $('#addl_plc_country').val(),
                 addl_plc_state: $('#addl_plc_state').val(),
-                addl_plc_district: $('#addl_plc_district').val(),
+                addl_plc_district_code: $('#addl_plc_district').val(),
                 addl_plc_mandal: $('#addl_plc_mandal').val(),
                 addl_plc_door_no: $('#addl_plc_door_no').val(),
                 addl_plc_road_street: $('#addl_plc_road_street').val(),
                 addl_plc_locality: $('#addl_plc_locality').val(),
                 addl_plc_city: $('#addl_plc_city').val(),
                 addl_plc_pincode: $('#addl_plc_pincode').val(),
-                is_Additional_place: is_addl_plce
+                is_Additional_place: is_addl_plce,
+                addl_plc_district_name: $('#addl_plc_district option:selected').text()
             };
 
             $("#noDataRow1").remove();
@@ -3368,7 +3402,7 @@
             <td>${SNo}</td>
             <td>${obj.addl_plc_country}</td>
             <td>${obj.addl_plc_state}</td>
-            <td>${obj.addl_plc_district}</td>
+            <td>${obj.addl_plc_district_name}</td>
             <td>${obj.addl_plc_mandal}</td>
             <td>${obj.addl_plc_door_no}</td>
             <td>${obj.addl_plc_road_street}</td>
@@ -3404,11 +3438,12 @@
             $('#addl_plc_country').val("");
             $('#addl_plc_pincode').val("");
             $("form")[0].reset();
+            updateSerialNumbers('AdditionalPlaceTable');
         });
 
         function onPlaceDelete(res) {
             $(this).closest("tr").remove();
-            updateSerialNumbersAddPlace();
+            updateSerialNumbers('AdditionalPlaceTable');
 
             if ($("#AdditionalPlaceTable tbody tr").length === 0) {
                 $("#AdditionalPlaceTable tbody").append(`
@@ -3515,11 +3550,12 @@
             $('#ifsc_code').val("");
             $('#branch_address').val("");
             $("form")[0].reset();
+            updateSerialNumbers('bankdetailsTable');
         });
 
         function onPlaceDelete(res) {
             $(this).closest("tr").remove();
-            updateSerialNumbersPartner1();
+            updateSerialNumbers('bankdetailsTable');
 
             if ($("#bankdetailsTable tbody tr").length === 0) {
                 $("#bankdetailsTable tbody").append(`
@@ -3564,29 +3600,29 @@
 
             let docId = $('#doc_name').val();
             let docName = $('#doc_name option:selected').text();
-           /* let docName = $('#doc_name ').val();*/
+            /* let docName = $('#doc_name ').val();*/
             let fileInput = $('#doc_file')[0];
 
             if (docId === "0") {
-                alert("Please select document name");
+                ModernAlert.toast.info('Please select Document to Upload');
                 return;
             }
 
             if (fileInput.files.length === 0) {
-                alert("Please select a PDF file");
+                ModernAlert.toast.info('Please select a PDF file');
                 return;
             }
 
             let file = fileInput.files[0];
 
             if (file.type !== "application/pdf") {
-                alert("Only PDF files are allowed");
+                ModernAlert.toast.info('Only PDF files are allowed');
                 $('#doc_file').val('');
                 return;
             }
 
             let obj = {
-                master_docid:docId,
+                master_docid: docId,
                 document_type: docName,
                 file: file
             };
@@ -3597,58 +3633,74 @@
 
             let fileURL = URL.createObjectURL(file);
 
-            let row = `
-        <tr data-index="${documentList.length - 1}">
-            <td>${rnrCounter}</td>
-            <td>${docName}</td>
+            let index = documentList.length - 1;
 
-            <td class="text-center">
-                <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
-                    View
-                </button>
-                <button class="btn btn-sm btn-danger deleteFile">
-                    Delete
-                </button>
-            </td>
-        </tr>
-    `;
+            let row = `
+                      <tr data-index="${index}">
+                          <td>${rnrCounter}</td>
+                          <td>${docName}</td>
+                          <td class="text-center">
+                              <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
+                                  View
+                              </button>
+                              <button class="btn btn-sm btn-danger deleteFile">
+                                  Delete
+                              </button>
+                          </td>
+                      </tr>`;
 
             $('#DocumentsTable tbody').append(row);
-            rnrCounter++;
-
-            // reset
+            updateSerialNumbers('DocumentsTable');
+            $('#doc_name option[value="' + docId + '"]').prop('disabled', true);
             $('#doc_name').val('0');
             $('#doc_file').val('');
         });
-    $(document).on('click', '.viewFile', function () {
-        let url = $(this).data('url');
-        window.open(url, '_blank');
-    });
 
-    $(document).on('click', '.deleteFile', function () {
-        if (!confirm("Do you want to delete this file?")) {
-            return;
-        }
-        $(this).closest('tr').remove();
-
-        if ($('#DocumentsTable tbody tr').length === 0) {
-            $('#DocumentsTable tbody').append(`
-                                                        <tr id="noDataRowFiles">
-                                                            <td colspan="5" class="text-center text-muted">No Files added</td>
-                                                        </tr>
-                                                    `);
-        }
-    });
-
-    function updateSerialNumbersAddPlace() {
-        $("#AdditionalPlaceTable tbody tr").each(function (index) {
-            $(this).find("td:first").text(index + 1);
+        $(document).on('click', '.viewFile', function () {
+            let url = $(this).data('url');
+            window.open(url, '_blank');
         });
-    }
-    function updateSerialNumbersPartner() {
-        $("#partnerTable tbody tr").each(function (index) {
-            $(this).find("td:first").text(index + 1);
-        });
+        let deletedDocuments = [];
+            $(document).on('click', '.deleteFile', function () {
+
+                if (!confirm("Do you want to delete this file?")) {
+                    return;
+                }
+                let row = $(this).closest('tr');
+                let index = row.data('index');
+
+                let item = documentList[index];
+
+                if (item && item.document_path && !item.file) {
+                    deletedDocuments.push(item);
+                }
+
+                documentList[index] = null;
+
+                row.remove();
+                $('#doc_name option[value="' + item.master_docid + '"]').prop('disabled', false);
+                $('#DocumentsTable tbody tr').each(function (i) {
+                    $(this).find('td:first').text(i + 1);
+                });
+                updateSerialNumbers('DocumentsTable');
+                if ($('#DocumentsTable tbody tr').length === 0) {
+                    $('#DocumentsTable tbody').append(`
+            <tr id="noDataRowFiles">
+                <td colspan="5" class="text-center text-muted">No Files added</td>
+            </tr>
+        `);
+                }
+            });
+
+        function updateSerialNumbersAddPlace() {
+            $("#AdditionalPlaceTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
+        }
+        function updateSerialNumbersPartner() {
+            $("#partnerTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
         }
         function updateSerialNumbersPartner1() {
             $("#bankdetailsTable tbody tr").each(function (index) {
@@ -3713,7 +3765,10 @@
             inputs.forEach(function (input) {
 
                 if (input.offsetParent !== null) {
-
+                    if (input.id === "dir_prtnr_aadhaar" && input.value.trim() === "") {
+                        input.style.border = "";
+                        return;
+                    }
                     if (input.value.trim() === "") {
                         input.style.border = "1px solid red";
                         valid = false;
@@ -3726,7 +3781,7 @@
 
             });
             if (!valid) {
-                alert("please fill all required fields correctly.");
+                ModernAlert.toast.info('please fill all required fields correctly');
                 return false;
             }
 
@@ -3805,6 +3860,6 @@
                 }
             }
         }
-    </script>
+        </script>
 </body>
 

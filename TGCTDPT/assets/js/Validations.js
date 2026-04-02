@@ -8,3 +8,25 @@
 
     return false;
 }
+
+function ValidatePAN(res) {
+    if ($('#' + res.id).val() != "") {
+        var pan = $('#' + res.id).val().trim().toUpperCase();
+        var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+        if (!panPattern.test(pan)) {
+            ModernAlert.toast.info('Invalid PAN format (example: ABCDE1234F)');
+            $('#' + res.id).val("");
+            return false;
+        }
+    }
+}
+function ValidateAadhaar(res) {
+    var aadhaar = document.getElementById(res.id);
+    var value = aadhaar.value.trim();
+    if (value === "") return true; 
+    if (!/^[0-9]{12}$/.test(value)) {
+        ModernAlert.toast.info('Aadhaar must be 12 digits');
+        $('#' + res.id).val("");
+        return false;
+    }
+}

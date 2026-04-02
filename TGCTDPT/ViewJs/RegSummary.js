@@ -1,4 +1,5 @@
-﻿function LoadApplicationDtls(appid) {
+﻿
+function LoadApplicationDtls(appid) {
 
     $.ajax({
         url: getAppDtlsUrl,
@@ -6,16 +7,53 @@
         data: { ApplicationId: appid },
         success: function (res) {
             if (res.success) {
-                AssignEnterPriseControls(res.data.BusinessDetails);
-                AssignOwnerDtlsControls(res.data.OwnerDetails[0]);
-                AssignAuthPersonControls(res.data.AuthPersonDetails[0], res.data.BusinessDetails.Nominated_Auth_Person);
-                renderTable('PartnerBody', res.data.DirectorPartners, BindPartnerTable);
-
-                renderTable('AddlPlaceBody', res.data.AddlPlacesOfBiz, BindAddlPlaceTable);
-                renderTable('BankDtlsBody', res.data.BankDetails, BindBankTable);
-                renderTable('FilesBody', res.data.DocumentDetails, BindDocTable);
-                var step = parseInt(res.data.BusinessDetails.progress_step - 1);
-                showTab(step);
+                var rnrno = res.data.BusinessDetails.rnr_number;
+                if (rnrno !== "" && rnrno !== undefined && rnrno !== null) {
+                    ModernAlert.showConfirm(
+                        'You have already submitted your application with ARN No. ' + rnrno + '. Do you want to track your application?',
+                        'Navigate',
+                        function (confirmed) {
+                            if (confirmed) {
+                                window.location.href = landingUrl + '?arn=' + encodeURIComponent(rnrno);
+                            }
+                        }
+                    );
+                }
+                else {
+                    AssignEnterPriseControls(res.data.BusinessDetails);
+                    if (res.data.OwnerDetails.length > 0) {
+                        AssignOwnerDtlsControls(res.data.OwnerDetails[0]);
+                    }
+                    if (res.data.AuthPersonDetails.length > 0) {
+                        AssignAuthPersonControls(res.data.AuthPersonDetails[0], res.data.BusinessDetails.Nominated_Auth_Person);
+                    }
+                    if (res.data.DirectorPartners.length > 0) {
+                        isPartnerData = "Y";
+                        renderTable('PartnerBody', res.data.DirectorPartners, BindPartnerTable);
+                    }
+                    if (res.data.AddlPlacesOfBiz.length > 0) {
+                        isAddlPlaceData = "Y";
+                        $("input[name='addl_rdb'][value='Yes']").prop("checked", true);
+                        renderTable('AddlPlaceBody', res.data.AddlPlacesOfBiz, BindAddlPlaceTable);
+                    }
+                    else {
+                        $("input[name='addl_rdb'][value='No']").prop("checked", true);
+                    }
+                    if (res.data.BankDetails.length > 0) {
+                        isBankData = "Y";
+                        renderTable('BankDtlsBody', res.data.BankDetails, BindBankTable);
+                    }
+                    if (res.data.DocumentDetails.length > 0) {
+                        isDocData = "Y";
+                        renderTable('FilesBody', res.data.DocumentDetails, BindDocTable);
+                        updateSerialNumbers('DocumentsTable');
+                    }
+                    loaddistrict("", 'dir_prtnr_district');
+                    loaddistrict("", 'addl_plc_district');
+                    var step = parseInt(res.data.BusinessDetails.progress_step - 1);
+                    if (step == -1) { step = 0; }
+                    showTab(step);
+                }
             }
         },
         error: function (xhr) {
@@ -26,8 +64,10 @@
 }
 
 function AssignEnterPriseControls(d) {
+    $('#lblApplicationId').html("Application Id: " + d.ApplicationId);
     loadDivisions(d.division_code);
     loadCircles(d.division_code, d.circle_code);
+    loaddistrict(d.district_code,'district');
     $('#enterprise_name').val(d.EnterPriseName);
     $('#business_pan').val(d.BusinessPan);
     $('#cobz').val(d.BusinessConstitution);
@@ -38,7 +78,7 @@ function AssignEnterPriseControls(d) {
     $('#locality').val(d.Locality);
     $('#city').val(d.City);
     $('#mandal').val(d.Mandal);
-    $('#district').val(d.district_code);
+    //$('#district').val(d.district_code);
     $('#pincode').val(d.Pincode);
     $('#emp_below_15000').val(d.EmpBelow_15000);
     $('#emp_between_15001_20000').val(d.EmpBetween_15001_20000);
@@ -46,6 +86,7 @@ function AssignEnterPriseControls(d) {
     $('#tot_emp').val(d.TotalEmployees);
 }
 function AssignOwnerDtlsControls(d) {
+    loaddistrict(d.district, 'O_distict');
     $('#O_owner_name').val(d.owner_name);
     $('#O_father_name').val(d.father_name);
     $('#O_status_of_individual').val(d.status_of_individual);
@@ -58,7 +99,7 @@ function AssignOwnerDtlsControls(d) {
     $('#O_locality').val(d.locality);
     $('#O_city').val(d.city);
     $('#O_mandal').val(d.mandal);
-    $('#O_distict').val(d.district);
+    /*$('#O_distict').val(d.district);*/
     $('#O_state_name').val(d.state_name);
     $('#O_country').val(d.country);
     $('#O_pincode').val(d.pincode);
@@ -67,6 +108,7 @@ function AssignOwnerDtlsControls(d) {
 function AssignAuthPersonControls(d, res) {
     $("input[name='rdb_auth_prsn'][value='" + res + "']").prop("checked", true);
     if (res.toLowerCase() == "yes") {
+        loaddistrict(d.auth_prsn_district, 'auth_district');
         $('#auth_name').val(d.auth_prsn_name);
         $('#auth_fname').val(d.auth_prsn_father_name);
         $('#auth_email').val(d.email_id);
@@ -74,7 +116,7 @@ function AssignAuthPersonControls(d, res) {
         $('#auth_road_street').val(d.auth_prsn_road_street);
         $('#auth_locality').val(d.auth_prsn_locality);
         $('#auth_city').val(d.auth_prsn_city);
-        $('#auth_district').val(d.auth_prsn_district);
+        /*$('#auth_district').val(d.auth_prsn_district);*/
         $('#auth_pincode').val(d.auth_prsn_pincode);
         $('#auth_pan').val(d.auth_prsn_pan);
         $('#auth_aadhaar').val(d.auth_prsn_aadhaar);
@@ -86,7 +128,6 @@ function AssignAuthPersonControls(d, res) {
     }
 }
 function BindPartnerTable(r, i) {
-
     let obj = {
         dir_prtnr_name: r.dir_name,
         dir_prtnr_type: r.type_drp,
@@ -96,14 +137,15 @@ function BindPartnerTable(r, i) {
         dir_prtnr_locality: r.locality || '',
         dir_prtnr_city: r.city || '',
         dir_prtnr_mandal: r.mandal || '',
-        dir_prtnr_district: r.district || '',
-        dir_prtnr_state: r.state || '',
+        dir_prtnr_district_code: r.district || '',
+        dir_prtnr_state: r.state_name || '',
         dir_prtnr_country: r.country || '',
         dir_prtnr_pincode: r.pincode || '',
         dir_prtnr_pan: r.pan || '',
-        dir_prtnr_aadhaar: r.aadhar || '',
+        dir_prtnr_aadhaar: r.aadhaar || '',
         dir_prtnr_email: r.email_id || '',
-        dir_prtnr_mobile_no: r.mobile_no || ''
+        dir_prtnr_mobile_no: r.mobile_no || '',
+        dir_prtnr_district_name: r.district_name || ''
     };
     dataListdir.push(obj);
 
@@ -118,7 +160,7 @@ function BindPartnerTable(r, i) {
             <td>${obj.dir_prtnr_locality}</td>
             <td>${obj.dir_prtnr_city}</td>
             <td>${obj.dir_prtnr_mandal}</td>
-            <td>${obj.dir_prtnr_district}</td>
+            <td>${obj.dir_prtnr_district_name}</td>
             <td>${obj.dir_prtnr_state}</td>
             <td>${obj.dir_prtnr_country}</td>
             <td>${obj.dir_prtnr_pincode}</td>
@@ -133,20 +175,21 @@ function BindPartnerTable(r, i) {
             </td>
         </tr>
     `;
+    
 }
 function BindAddlPlaceTable(r, i) {
-
     let obj = {
         addl_plc_country: r.country || '',
         addl_plc_state: r.state_name || '',
-        addl_plc_district: r.district || '',
+        addl_plc_district_code: r.district || '',
         addl_plc_mandal: r.mandal || '',
         addl_plc_door_no: r.door_no || '',
         addl_plc_road_street: r.road_street || '',
         addl_plc_locality: r.locality || '',
         addl_plc_city: r.city || '',
         addl_plc_pincode: r.pincode || '',
-        is_Additional_place: r.is_Additional_place || ''
+        is_Additional_place: r.is_Additional_place || '',
+        addl_plc_district_name: r.district_name || ''
     };
     dataListadl.push(obj);
     return `
@@ -154,7 +197,7 @@ function BindAddlPlaceTable(r, i) {
             <td>${i}</td>
             <td>${obj.addl_plc_country}</td>
             <td>${obj.addl_plc_state}</td>
-            <td>${obj.addl_plc_district}</td>
+            <td>${obj.addl_plc_district_name}</td>
             <td>${obj.addl_plc_mandal}</td>
             <td>${obj.addl_plc_door_no}</td>
             <td>${obj.addl_plc_road_street}</td>
@@ -171,6 +214,7 @@ function BindAddlPlaceTable(r, i) {
             </td>
         </tr>
     `;
+    
 }
 function BindBankTable(r, i) {
 
@@ -205,13 +249,16 @@ function BindBankTable(r, i) {
 function BindDocTable(r, i) {
 
     let obj = {
-        master_docid: r.master_docid,
+        master_docid: r.master_doc_id,   
         document_type: r.document_type,
-        document_path: r.document_path
+        document_path: r.document_path,  
+        file: null                       
     };
+
     documentList.push(obj);
 
     let index = documentList.length - 1;
+    $('#doc_name option[value="' + r.master_doc_id + '"]').prop('disabled', true);
 
     return `
         <tr data-index="${index}">
@@ -219,10 +266,9 @@ function BindDocTable(r, i) {
             <td>${r.document_type}</td>
             <td class="text-center">
                 ${r.document_path
-            ? `<button class="btn btn-sm btn-primary viewFile" 
-                            data-url="${r.document_path}">
-                            View
-                       </button>`
+            ? `<button class="btn btn-sm btn-primary viewFile" data-url="${r.document_path}">
+                        View
+                   </button>`
             : ''
         }
                 <button class="btn btn-sm btn-danger deleteFile">
@@ -397,7 +443,7 @@ function renderDocRow(r, i) {
                         <td>${r.document_type}</td>
                         <td>${r.uploaded_date}</td>
                         <td>${r.document_path
-            ? `<a href="${r.document_path}" target="_blank" class="btn btn-sm" onclick="return openDocument('${r.document_path}');">
+        ? `<a href="${r.document_path}" target="_blank" class="btn btn-sm" onclick="return openDocument('${r.document_path}');" style="font-size: small;">
                                 <i class="fas fa-eye"></i> View
                                </a>`
             : empty()}</td>
@@ -414,4 +460,10 @@ function empty() { return '<span class="empty-val">Not provided</span>'; }
 function isExpired(dateStr) {
     if (!dateStr) return false;
     return new Date(dateStr.split('-').reverse().join('-')) < new Date();
+}
+
+function updateSerialNumbers(res) {
+    $('#' + res + ' tbody tr').each(function (index) {
+        $(this).find('td:first').text(index + 1);
+    });
 }
