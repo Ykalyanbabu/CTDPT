@@ -39,6 +39,7 @@ namespace TGCTDPT.Controllers
             ViewBag.rnr = rnr;
             return View();
         }
+        
         [HttpGet]
         public JsonResult GetPendingApplications(string Circle)
         {
@@ -108,14 +109,14 @@ namespace TGCTDPT.Controllers
                     message = "Invalid Data"
                 }, JsonRequestBehavior.AllowGet);
             }
-            var strPtin = _dal.GeneratePTIN("PT",Session["Userid"].ToString());
-            var response = "";
-            if (strPtin != "" && strPtin != null)
-            {
-                 //response = _dal.SavePTReturnYearlyDetails(rnr);
-            }
-
-            return Json(response, JsonRequestBehavior.AllowGet);
+            var response = _dal.GeneratePTIN("PT",Session["Userid"].ToString());
+            /* var response = "";
+             if (strPtin != "" && strPtin != null)
+             {
+                  response = _dal.SavePTReturnYearlyDetails(rnr);
+             }*/
+            return Json(new { success = true, data = response });
         }
     }
+    
 }

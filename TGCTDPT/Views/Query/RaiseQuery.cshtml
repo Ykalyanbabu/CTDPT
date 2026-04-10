@@ -1,0 +1,611 @@
+﻿@model TGCTDPT.Models.QueryViewModel
+
+@{
+    ViewBag.Title = "Raise Query";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .query-container {
+            max-width: 900px;
+            margin: 0px auto;
+            padding: 25px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            display: inline-block;
+        }
+
+        /* Info Cards Section */
+        .info-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .info-card {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #667eea;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            word-break: break-word;
+        }
+
+        .info-value small {
+            font-size: 12px;
+            font-weight: normal;
+            color: #666;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #28a745;
+            color: white;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @@keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .query-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 14px;
+        }
+
+        .query-table thead tr {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .query-table th {
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .query-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .query-table tbody tr:hover {
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .checkbox-custom {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .select-all {
+            accent-color: #667eea;
+        }
+
+        .reasons-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .reasons-label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .reasons-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .reasons-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .badge-count {
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .selected-count {
+            font-size: 13px;
+            color: #667eea;
+            margin-left: 15px;
+            font-weight: normal;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .char-count {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        @@media (max-width: 768px) {
+            .query-container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            .query-table th,
+            .query-table td {
+                padding: 8px 10px;
+            }
+
+            .info-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .info-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="query-container">
+        <h2 class="page-title">
+            Raise a Query
+            <span class="badge-count" id="totalCount">0</span>
+            <span class="selected-count" id="selectedCountText"></span>
+        </h2>
+
+        <!-- RNR and Firm Details Section -->
+        <div class="info-section">
+            <div class="info-card">
+                <span class="info-label">📋 RNR Number</span>
+                <div class="info-value" id="rnrNumber">
+                    <span id="rnrValue">Loading...</span>
+                    <small>(Registration Number)</small>
+                </div>
+            </div>
+            <div class="info-card">
+                <span class="info-label">🏢 Firm Name</span>
+                <div class="info-value" id="firmName">
+                    <span id="firmValue">Loading...</span>
+                    <small>(Legal Entity Name)</small>
+                </div>
+            </div>
+            <div class="info-card">
+                <span class="info-label">📅 Query Status</span>
+                <div class="info-value">
+                    <span id="queryStatus" class="badge-status">Active</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="alertMessage" class="alert"></div>
+
+        <div id="loadingSpinner" class="loading-spinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #666;">Loading queries...</p>
+        </div>
+
+        <div id="tableContainer" style="display: none;">
+            <div class="table-wrapper">
+                <table class="query-table" id="queryTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="selectAllCheckbox" class="select-all" />
+                            </th>
+                            <th style="width: 60px;">S.No</th>
+                            <th>Query Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <p>No queries available to display.</p>
+        </div>
+
+        <div class="reasons-section">
+            <label class="reasons-label">
+                Enter Reasons: <span style="color: red;">*</span>
+            </label>
+            <textarea id="reasonsText" class="reasons-textarea" rows="4"
+                      maxlength="500"
+                      placeholder="Please provide detailed reasons for raising this query..."></textarea>
+            <div class="char-count">
+                <span id="charCount">0</span>/500 characters
+            </div>
+            <span id="reasonsError" style="color: #e74c3c; font-size: 12px; display: none;">Reasons are required</span>
+        </div>
+
+        <div class="action-buttons">
+            <button id="submitBtn" class="submit-btn" onclick="submitQuery()">
+                📤 Submit Query
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let queriesData = [];
+
+        $(document).ready(function () {
+            GetRNRStatus();
+            loadQueries();
+
+            $('#selectAllCheckbox').change(function() {
+                $('.query-checkbox').prop('checked', $(this).prop('checked'));
+                updateSelectedCount();
+            });
+
+            $('#reasonsText').on('input', function() {
+                const charCount = $(this).val().length;
+                $('#charCount').text(charCount);
+
+                if ($(this).val().trim() !== '') {
+                    $('#reasonsError').hide();
+                }
+            });
+        });
+
+        function GetRNRStatus() {
+            var _rnr = '@ViewBag.rnr';
+            $.ajax({
+                url: '@Url.Action("GetRNRDetails", "Home")',
+                dataType: 'json',
+                data: {
+                    RNR: _rnr,
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        $('#rnrValue').html(response[0].Rnr);
+                        $('#firmValue').html(response[0].EnterpriseName);
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+
+                    console.error(error);
+                }
+            });
+        }
+        function loadQueries() {
+            $('#loadingSpinner').show();
+            $('#tableContainer').hide();
+            $('#emptyState').hide();
+            hideAlert();
+
+            $.ajax({
+                url: '@Url.Action("GetQueryList", "Query")',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('#loadingSpinner').hide();
+
+                    if (response.success) {
+                        queriesData = response.data;
+                        $('#totalCount').text(queriesData.length);
+
+                        if (queriesData.length > 0) {
+                            bindTableData(queriesData);
+                            $('#tableContainer').show();
+                        } else {
+                            $('#emptyState').show();
+                        }
+                    } else {
+                        showAlert('error', response.message || 'Failed to load queries');
+                        $('#emptyState').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#loadingSpinner').hide();
+                    showAlert('error', 'Error loading queries: ' + error);
+                    $('#emptyState').show();
+                }
+            });
+        }
+
+        function bindTableData(queries) {
+            let html = '';
+
+            $.each(queries, function(index, query) {
+                html += '<tr>';
+                html += '<td style="text-align: center;">';
+                html += '<input type="checkbox" class="checkbox-custom query-checkbox" ';
+                html += 'data-code="' + escapeHtml(query.query_code) + '" ';
+                html += 'data-name="' + escapeHtml(query.query_name) + '" ';
+                html += 'onchange="updateSelectedCount()" />';
+                html += '</td>';
+                html += '<td style="text-align: center;">' + (index + 1) + '</td>';
+                html += '<td>' + escapeHtml(query.query_name) + '</td>';
+                html += '</tr>';
+            });
+
+            $('#tableBody').html(html);
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const selectedCount = $('.query-checkbox:checked').length;
+            if (selectedCount > 0) {
+                $('#selectedCountText').text('(' + selectedCount + ' selected)');
+            } else {
+                $('#selectedCountText').text('');
+            }
+
+            const totalCheckboxes = $('.query-checkbox').length;
+            const checkedCheckboxes = $('.query-checkbox:checked').length;
+
+            if (totalCheckboxes === checkedCheckboxes && totalCheckboxes > 0) {
+                $('#selectAllCheckbox').prop('checked', true);
+            } else {
+                $('#selectAllCheckbox').prop('checked', false);
+            }
+        }
+
+        function submitQuery() {
+            const reasons = $('#reasonsText').val().trim();
+
+            if (reasons === '') {
+                $('#reasonsError').show();
+                $('#reasonsText').focus();
+                return;
+            } else {
+                $('#reasonsError').hide();
+            }
+
+            const selectedQueryCodes = [];
+            $('.query-checkbox:checked').each(function() {
+                selectedQueryCodes.push($(this).data('code'));
+            });
+
+            if (selectedQueryCodes.length === 0) {
+                showAlert('error', 'Please select at least one query');
+                return;
+            }
+
+            const $btn = $('#submitBtn');
+            $btn.prop('disabled', true).text('⏳ Submitting...');
+
+            $.ajax({
+                url: '@Url.Action("SubmitQuery", "Query")',
+                type: 'POST',
+                data: {
+                    selectedQueryCodes: selectedQueryCodes,
+                    reasons: reasons,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.Success) {
+                         ModernAlert.showSuccess(
+                         'Query Raised successfully',
+                         'Query Raised',
+                         '@Url.Action("PendingApprovals", "PTOfficer")'
+                         );
+                    }
+                    else {
+                        ModernAlert.showError(res.message, 'Failed to Submit');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    ModernAlert.showError(res.message, 'Failed to Submit');
+                },
+                complete: function() {
+                    $btn.prop('disabled', false).text('📤 Submit Query');
+                }
+            });
+        }
+
+        function resetForm() {
+            $('.query-checkbox').prop('checked', false);
+            $('#selectAllCheckbox').prop('checked', false);
+            updateSelectedCount();
+            $('#reasonsText').val('');
+            $('#charCount').text('0');
+            $('#reasonsError').hide();
+
+            setTimeout(function() {
+                loadQueries();
+            }, 2000);
+        }
+
+        function showAlert(type, message) {
+            const $alert = $('#alertMessage');
+            $alert.removeClass('alert-success alert-error')
+                  .addClass('alert-' + type)
+                  .html('<strong>' + (type === 'success' ? '✓ Success! ' : '✗ Error! ') + '</strong>' + message)
+                  .fadeIn();
+
+            setTimeout(function() {
+                $alert.fadeOut();
+            }, 5000);
+        }
+
+        function hideAlert() {
+            $('#alertMessage').fadeOut();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+
+    @Html.AntiForgeryToken()
+</body>
+</html>

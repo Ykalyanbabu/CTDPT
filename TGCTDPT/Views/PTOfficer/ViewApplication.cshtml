@@ -891,7 +891,7 @@
             <button class="btn btn-primary" id="btnApprove" onclick="onApprove();">
                 Approve
             </button>
-            <button class="btn btn-reset" id="btnQuery" style="background: cadetblue; color: white; display: none;">
+            <button class="btn btn-reset" id="btnQuery" onclick="onQuery();" style="background: cadetblue; color: white; display: block;">
                 Raise Query
             </button>
             <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;">
@@ -1125,32 +1125,32 @@
                 data: {
                     rnr: $('#spnrnr').text().trim()
                 },
-                contentType: 'application/json',
+
                 success: function (res) {
 
                     if (res.success) {
                         var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid;
-                        ModernAlert.showAlert('Your Return has been submitted Successfully!', 'You will be Redirecting to Payment Page','Return Submitted',
-                                             {
-                                                 autoClose: true,
-                                                 duration: 3000,
-                                                 redirectUrl: paymentUrl
-                                             }
-                        );
+                        ModernAlert.showSuccess('Application is Approved with PTIN :' + res.data, 'PTIN Generated');
                         $('.modern-close').hide();
-                        $('#btnProceed').attr('disabled', false);
-                        $('#btnSave').attr('disabled', false);
-                    } else {
-                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
-                        $('#btnSave').attr('disabled', false);
+                        $('#btnApprove').hide();
+                        $('#btnReject').hide();
+                    }
+                    else {
+                        ModernAlert.showError('Unable to Approve. Please try again.', 'Approve Failed');
+                        $('#btnApprove').attr('disabled', false);
                     }
                 },
                 error: function () {
                     alert("Error while saving.");
-                    $('#btnSave').attr('disabled', false);
+                    $('#btnApprove').attr('disabled', false);
                 }
             });
 
+        }
+
+        function onQuery() {
+            var rnr = $('#spnrnr').text().trim();
+            window.location = '@Url.Action("RaiseQuery", "Query")' + '?rnr=' + rnr;
         }
     </script>
 </body>

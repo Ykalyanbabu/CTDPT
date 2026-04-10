@@ -1,0 +1,497 @@
+﻿
+@{
+    ViewBag.Title = "RaiseQuery";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+
+<html>
+<head>
+    <style>
+        /* Modern Compact Design */
+        .query-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            display: inline-block;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @@keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modern Table Design */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .query-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 14px;
+        }
+
+        .query-table thead tr {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .query-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .query-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .query-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .query-table tbody tr:hover {
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        /* Checkbox Style */
+        .checkbox-custom {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        /* Select All Checkbox */
+        .select-all {
+            accent-color: #667eea;
+        }
+
+        /* Textarea Style */
+        .reasons-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .reasons-label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .reasons-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .reasons-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        /* Button Style */
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Error & Success Messages */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Badge */
+        .badge-count {
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* Selected Count */
+        .selected-count {
+            font-size: 13px;
+            color: #667eea;
+            margin-left: 15px;
+            font-weight: normal;
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .query-container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            .query-table th,
+            .query-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="query-container">
+        <h2 class="page-title">
+            Raise a Query
+            <span class="badge-count" id="totalCount">0</span>
+            <span class="selected-count" id="selectedCountText"></span>
+        </h2>
+
+        <!-- Table Wrapper -->
+        <div id="tableContainer" style="display: none;">
+            <div class="table-wrapper">
+                <table class="query-table" id="queryTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="selectAllCheckbox" class="select-all" />
+                            </th>
+                            <th style="width: 60px;">S.No</th>
+                            <th>Query Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Dynamic content will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <p>No queries available to display.</p>
+        </div>
+
+        <div class="reasons-section">
+            <label class="reasons-label">
+                Enter Reasons: <span style="color: red;">*</span>
+            </label>
+            <textarea id="reasonsText" class="reasons-textarea" rows="4"
+                      placeholder="Please provide detailed reasons for raising this query..."></textarea>
+            <span id="reasonsError" style="color: #e74c3c; font-size: 12px; display: none;">Reasons are required</span>
+        </div>
+
+        <div style="text-align: center;">
+            <button id="submitBtn" class="submit-btn" onclick="submitQuery()">
+                📤 Submit Query
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let queriesData = [];
+
+        // Load queries on page load
+        $(document).ready(function() {
+            loadQueries();
+
+            // Select All functionality
+            $('#selectAllCheckbox').change(function() {
+                const isChecked = $(this).prop('checked');
+                $('.query-checkbox').prop('checked', isChecked);
+                updateSelectedCount();
+            });
+
+            // Real-time validation for reasons
+            $('#reasonsText').on('input', function() {
+                if ($(this).val().trim() !== '') {
+                    $('#reasonsError').hide();
+                }
+            });
+        });
+
+        // Load queries via AJAX
+        function loadQueries() {
+            $('#loadingSpinner').show();
+            $('#tableContainer').hide();
+            $('#emptyState').hide();
+            hideAlert();
+
+            $.ajax({
+                url: '@Url.Action("GetQueryList", "RaiseQuery")',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('#loadingSpinner').hide();
+
+                    if (response.success) {
+                        queriesData = response.data;
+                        $('#totalCount').text(queriesData.length);
+
+                        if (queriesData.length > 0) {
+                            bindTableData(queriesData);
+                            $('#tableContainer').show();
+                        } else {
+                            $('#emptyState').show();
+                        }
+                    } else {
+                        showAlert('error', response.message || 'Failed to load queries');
+                        $('#emptyState').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#loadingSpinner').hide();
+                    showAlert('error', 'Error loading queries: ' + error);
+                    $('#emptyState').show();
+                }
+            });
+        }
+
+        // Bind data to table
+        function bindTableData(queries) {
+            let html = '';
+
+            $.each(queries, function(index, query) {
+                html += '<tr>';
+                html += '<td style="text-align: center;">';
+                html += '<input type="checkbox" class="checkbox-custom query-checkbox" ';
+                html += 'data-code="' + query.QueryCode + '" ';
+                html += 'data-name="' + escapeHtml(query.QueryName) + '" ';
+                html += 'onchange="updateSelectedCount()" />';
+                html += '</td>';
+                html += '<td style="text-align: center;">' + (index + 1) + '</td>';
+                html += '<td>' + escapeHtml(query.QueryName) + '</td>';
+                html += '</tr>';
+            });
+
+            $('#tableBody').html(html);
+            updateSelectedCount();
+        }
+
+        // Update selected count display
+        function updateSelectedCount() {
+            const selectedCount = $('.query-checkbox:checked').length;
+            if (selectedCount > 0) {
+                $('#selectedCountText').text('(' + selectedCount + ' selected)');
+            } else {
+                $('#selectedCountText').text('');
+            }
+
+            // Update select all checkbox state
+            const totalCheckboxes = $('.query-checkbox').length;
+            const checkedCheckboxes = $('.query-checkbox:checked').length;
+
+            if (totalCheckboxes === checkedCheckboxes && totalCheckboxes > 0) {
+                $('#selectAllCheckbox').prop('checked', true);
+            } else {
+                $('#selectAllCheckbox').prop('checked', false);
+            }
+        }
+
+        // Submit query via AJAX
+        function submitQuery() {
+            // Validate reasons
+            const reasons = $('#reasonsText').val().trim();
+            if (reasons === '') {
+                $('#reasonsError').show();
+                $('#reasonsText').focus();
+                return;
+            } else {
+                $('#reasonsError').hide();
+            }
+
+            // Get selected queries
+            const selectedQueries = [];
+            $('.query-checkbox:checked').each(function() {
+                selectedQueries.push({
+                    QueryCode: $(this).data('code'),
+                    QueryName: $(this).data('name'),
+                    IsSelected: true
+                });
+            });
+
+            if (selectedQueries.length === 0) {
+                showAlert('error', 'Please select at least one query');
+                return;
+            }
+
+            // Disable submit button
+            const $btn = $('#submitBtn');
+            $btn.prop('disabled', true).text('⏳ Submitting...');
+
+            // Send AJAX request
+            $.ajax({
+                url: '@Url.Action("SubmitQuery", "RaiseQuery")',
+                type: 'POST',
+                data: {
+                    selectedQueries: selectedQueries,
+                    reasons: reasons,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.Success) {
+                        showAlert('success', response.Message);
+                        // Reset form
+                        resetForm();
+                    } else {
+                        showAlert('error', response.Message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    showAlert('error', 'Error submitting query: ' + error);
+                },
+                complete: function() {
+                    $btn.prop('disabled', false).text('📤 Submit Query');
+                }
+            });
+        }
+
+        // Reset form after successful submission
+        function resetForm() {
+            // Uncheck all checkboxes
+            $('.query-checkbox').prop('checked', false);
+            $('#selectAllCheckbox').prop('checked', false);
+            updateSelectedCount();
+
+            // Clear reasons text
+            $('#reasonsText').val('');
+            $('#reasonsError').hide();
+
+            // Scroll to top
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+            // Reload table after 2 seconds (optional)
+            setTimeout(function() {
+                loadQueries();
+            }, 2000);
+        }
+
+        // Show alert message
+        function showAlert(type, message) {
+            const $alert = $('#alertMessage');
+            $alert.removeClass('alert-success alert-error alert-info')
+                  .addClass('alert-' + type)
+                  .html(message)
+                  .fadeIn();
+
+            setTimeout(function() {
+                $alert.fadeOut();
+            }, 5000);
+        }
+
+        // Hide alert
+        function hideAlert() {
+            $('#alertMessage').fadeOut();
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Add CSRF token to all AJAX requests
+        $(document).ajaxSend(function(event, jqxhr, settings) {
+            if (settings.type === 'POST') {
+                jqxhr.setRequestHeader('RequestVerificationToken',
+                    $('input[name="__RequestVerificationToken"]').val());
+            }
+        });
+    </script>
+
+    @Html.AntiForgeryToken()
+</body>
+</html>

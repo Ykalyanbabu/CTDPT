@@ -21,9 +21,11 @@ function LoadApplicationDtls(appid) {
                 }
                 else {
                     AssignEnterPriseControls(res.data.BusinessDetails);
+                    loaddistrict("", 'O_distict');
                     if (res.data.OwnerDetails.length > 0) {
                         AssignOwnerDtlsControls(res.data.OwnerDetails[0]);
                     }
+                    loaddistrict("", 'auth_district');
                     if (res.data.AuthPersonDetails.length > 0) {
                         AssignAuthPersonControls(res.data.AuthPersonDetails[0], res.data.BusinessDetails.Nominated_Auth_Person);
                     }

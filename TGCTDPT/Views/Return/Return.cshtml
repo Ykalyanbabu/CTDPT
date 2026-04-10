@@ -638,7 +638,7 @@
             }
             $('#btnSave').attr('disabled', true);
             $.ajax({
-                url: '/Return/SavePTReturn',
+                url: '@Url.Action("SavePTReturn", "Return")',
                 type: 'POST',
                 data: JSON.stringify(model),
                 contentType: 'application/json',
@@ -709,7 +709,7 @@
 
             $('#btnSave').attr('disabled', true);
             $.ajax({
-                url: '/Return/SavePTReturnYearly',
+                url: '@Url.Action("SavePTReturnYearly", "Return")',
                 type: 'POST',
                 data: JSON.stringify(model),
                 contentType: 'application/json',
