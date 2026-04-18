@@ -47,7 +47,11 @@ namespace TGCTDPT.Models
         public string Nominated_Auth_Person { get; set; }
         public string rnr_number { get; set; }
         public string DataEntryDate { get; set; }
-
+        public string query_status { get; set; }
+        public string application_entry_status { get; set; }
+        public string query_date { get; set; }
+        public string query_reason { get; set; }
+        public string query_closed_date { get; set; }
     }
 
     public class EmployeeDetail

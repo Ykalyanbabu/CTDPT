@@ -230,6 +230,22 @@ namespace TGCTDPT.DAL
                 return result;
             }
         }
+        public string ReSubmitApplication(string AppId)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                var result = con.QueryFirstOrDefault<string>(
+                    "usp_applicant_query_response",
+                    new
+                    {
+                        @ApplicationId = AppId
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
         public FormIISummaryViewModel GetFullSummary(string appid)
         {
             var vm = new FormIISummaryViewModel();
@@ -363,7 +379,39 @@ namespace TGCTDPT.DAL
                 return rowsAffected;
             }
         }
-
+        public List<ApplicationStatus> GetApplicationStatus(string AppId)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<ApplicationStatus>(
+                    "usp_get_application_status",
+                    new { ApplicationId = AppId },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
+        public List<QueryModel> GetQueryDetails(string rnr)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<QueryModel>(
+                    "Pr_pt_GetQueryDocuments",
+                    new { rnr = rnr },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
+        public RC_Details GetPTEntityDetails(string ptin)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.QueryFirstOrDefault<RC_Details>(
+                    "Proc_PT_GetTINDetails_1",
+                    new { StrTIN = ptin },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
 
     }
 }

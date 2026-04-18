@@ -558,9 +558,10 @@
                         <i class="fa-solid fa-user-group"></i>
                         Employee Details
                     </div>
-                    <div class="step" id="divOwnerTab" ">
+                    <div class="step" id="divOwnerTab">
                         <i class="fa-solid fa-user-tie"></i>
-                        Owner / Managing Director / Managing Partner
+                        @*Owner / Managing Director / Managing Partner*@
+                        Owner
                     </div>
                     <div class="step" id="divAuth">
                         <i class="fa-solid fa-user-check"></i>
@@ -863,7 +864,7 @@
                             </h6>
                         </div>
                         <form>
-                            <h5 class="mt-2 mb-2 text-primary">Details of Owner/Managing Director/Managing Partner </h5>
+                            <h5 class="mt-2 mb-2 text-primary">Details of Owner </h5>
                             <hr />
                             <div class="form-grid">
                                 <div class="form-group">
@@ -880,11 +881,11 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                        <label>
-                                            Date of Birth
-                                        </label>
-                                        <input type="date" class="form-control">
-                                    </div>*@
+            <label>
+                Date of Birth
+            </label>
+            <input type="date" class="form-control">
+        </div>*@
 
                                 <div class="form-group">
                                     <label>
@@ -892,21 +893,21 @@
                                     </label>
                                     <select class="form-control" id="O_status_of_individual">
                                         <option value="">--Select--</option>
-                                        <option value="Owner">Owner</option>
-                                        <option value="Director">Director</option>
-                                        <option value="Partner">Partner</option>
+                                        <option value="Owner" selected>Owner</option>
+                                        @*<option value="Director">Director</option>
+                <option value="Partner">Partner</option>*@
                                     </select>
                                 </div>
                                 @*<div class="form-group">
-                                        <label>
-                                            Gender <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-control">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Others</option>
-                                        </select>
-                                    </div>*@
+            <label>
+                Gender <span class="text-danger">*</span>
+            </label>
+            <select class="form-control">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Others</option>
+            </select>
+        </div>*@
 
                                 <div class="form-group">
                                     <label>
@@ -950,14 +951,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label>
-                                        District <span class="text-danger">*</span>
+                                        Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control select" id="O_distict">
+                                    <select class="form-control" id="O_country">
                                         <option value="">--Select--</option>
-                                        <option value="RANGAREDDY">RANGAREDDY</option>
+                                        <option value="India" selected>India</option>
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label>
                                         State <span class="text-danger">*</span>
@@ -969,14 +969,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>
-                                        Country <span class="text-danger"></span>
+                                        District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="O_country">
+                                    <select class="form-control select" id="O_distict">
                                         <option value="">--Select--</option>
-                                        <option value="India" selected>India</option>
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label>
                                         PIN <span class="text-danger">*</span>
@@ -997,11 +995,11 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                        <label>
-                                            Phone Number(Optional)
-                                        </label>
-                                        <input type="text" class="form-control">
-                                    </div>*@
+            <label>
+                Phone Number(Optional)
+            </label>
+            <input type="text" class="form-control">
+        </div>*@
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
@@ -1205,11 +1203,11 @@
                                     <input type="text" id="dir_prtnr_name" class="form-control" value="">
                                 </div>
                                 @*<div class="form-group">
-                                        <label>
-                                            Date of Birth
-                                        </label>
-                                        <input type="date" id="txtPartnerDirectorDOB" class="form-control">
-                                    </div>*@
+            <label>
+                Date of Birth
+            </label>
+            <input type="date" id="txtPartnerDirectorDOB" class="form-control">
+        </div>*@
                                 <div class="form-group">
                                     <label>
                                         Director/Partner <span class="text-danger">*</span>
@@ -1232,11 +1230,11 @@
                                     </select>
                                 </div>
                                 <!--<div class="form-group">
-                                    <label>
-                                        Is Housewife <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="checkbox" id="chkHouseWife" disabled>
-                                </div>-->
+        <label>
+            Is Housewife <span class="text-danger">*</span>
+        </label>
+        <input type="checkbox" id="chkHouseWife" disabled>
+    </div>-->
 
                                 <div class="form-group">
                                     <label>
@@ -1274,10 +1272,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>
-                                        District <span class="text-danger">*</span>
+                                        Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="dir_prtnr_district">
-                                        <option>RANGAREDDY</option>
+                                    <select class="form-control" id="dir_prtnr_country">
+                                        <option value="India">India</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -1292,17 +1290,14 @@
                                         <option>Kerala</option>
                                     </select>
                                 </div>
-
-
                                 <div class="form-group">
                                     <label>
-                                        Country <span class="text-danger"></span>
+                                        District <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="dir_prtnr_country">
-                                        <option value="India">India</option>
+                                    <select class="form-control" id="dir_prtnr_district">
+                                        <option>RANGAREDDY</option>
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label>
                                         PIN <span class="text-danger">*</span>
@@ -1471,23 +1466,7 @@
                                     </label>
                                     <input type="text" class="form-control" id="addl_plc_mandal">
                                 </div>
-                                <div class="form-group">
-                                    <label>
-                                        District <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control" id="addl_plc_district">
-                                        <option value="RANGAREDDY">RANGAREDDY</option>
-                                    </select>
-                                </div>
 
-                                <div class="form-group">
-                                    <label>
-                                        State <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control" id="addl_plc_state">
-                                        <option value="Telangana">Telangana</option>
-                                    </select>
-                                </div>
                                 <div class="form-group">
                                     <label>
                                         Country <span class="text-danger"></span>
@@ -1496,7 +1475,22 @@
                                         <option value="India">India</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>
+                                        State <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="addl_plc_state">
+                                        <option value="Telangana">Telangana</option>
+                                    </select>
+                                </div>
 
+                                <div class="form-group">
+                                    <label>
+                                        District <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="addl_plc_district">
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label>
                                         PIN <span class="text-danger">*</span>
@@ -1504,7 +1498,7 @@
                                     <input type="text" class="form-control" maxlength="6" minlength="6" id="addl_plc_pincode" onkeypress="return isNumber(event)">
                                 </div>
                                 <div style="align-content: flex-end;">
-                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 0px 0px;font-size: medium;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 15px 0px;font-size: medium;">
                                         <i class="fa fa-plus"></i> Add Place
                                     </button>
                                 </div>
@@ -1696,7 +1690,7 @@
                                     <input type="file" class="form-control" id="doc_file" accept="application/pdf">
                                 </div>
                                 <div style="align-content: flex-end;">
-                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 0px 0px;font-size: medium;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 15px 0px;font-size: medium;">
                                         <i class="fa fa-plus"></i> Upload File
                                     </button>
                                 </div>
@@ -1967,6 +1961,9 @@
                             <button type="button" id="btnSubmitSum" style="margin: 0px 5px 0px 0px;" class="btn btn-primary px-4 w-auto" onclick="SubmitApplication();">
                                 Submit
                             </button>
+                            <button type="button" id="btnSubmitQuery" style="margin: 0px 5px 0px 0px;display:none;" class="btn btn-primary px-4 w-auto" onclick="SubmitModifiedApp();">
+                                Submit
+                            </button>
                             <button type="button" id="btnPrintSum" onclick="window.print();" class="btn btn-primary px-4 w-auto">
                                 Print
                             </button>
@@ -1982,8 +1979,11 @@
         <script src="~/ViewJs/RegSummary.js"></script>
 
         <script>
-        var AppId = '@Session["application_id"]';
-        var getFullSummaryUrl = '@Url.Action("GetFullSummary", "Registration")';
+            var rnrno = '@Session["RNR"]';
+            var AppStatus = '@Session["AppStatus"]';
+            var QuerySts = '@Session["QuerySts"]';
+            var AppId = '@Session["application_id"]';
+            var getFullSummaryUrl = '@Url.Action("GetFullSummary", "Registration")';
             var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Registration")';
             var landingUrl = '@Url.Action("SearchARN", "Home")';
             var isPartnerData = "";
@@ -2005,6 +2005,12 @@
                 loadDivisions();
                 loaddistrict();
             }
+
+            if (QuerySts == "Y") {
+                $('#btnSubmitSum').hide();
+                $('#btnSubmitQuery').show();
+            }
+
         });
 
         function loaddistrict(district,ddl) {
@@ -2197,7 +2203,7 @@
                 return false;
             }
 
-            var gonext = validate_pan();
+            var gonext = true;
             console.log(gonext);
 
             if (gonext === true) {
@@ -3850,16 +3856,45 @@
                 selectedMax = 0;
             }
         });
-        function checkAcNumber() {
-            var acnolen = $("#account_number").val().length;
-            if (acnolen > 0 && selectedMin != 1) {
-                if (acnolen < selectedMin || acnolen > selectedMax) {
-                    ModernAlert.toast.info('Please enter valid Account Number');
-                    $("#account_number").focus();
-                    return false;
+            function checkAcNumber() {
+                var acnolen = $("#account_number").val().length;
+                if (acnolen > 0 && selectedMin != 1) {
+                    if (acnolen < selectedMin || acnolen > selectedMax) {
+                        ModernAlert.toast.info('Please enter valid Account Number');
+                        $("#account_number").focus();
+                        return false;
+                    }
                 }
             }
-        }
+            function SubmitModifiedApp() {
+
+                if (AppId == "" || AppId == null || AppId == undefined) {
+                    ModernAlert.showError(res.message || "Failed to Submit");
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        url: '@Url.Action("ReSubmitApplication", "Registration")',
+                        type: "POST",
+                        data: { AppId: AppId },
+                        success: function (res) {
+                            if (res.success) {
+                                ModernAlert.showSuccess(
+                                    'Your Application has been Resubmitted successfully.',
+                                    'Success',
+                                    '@Url.Action("Home", "PTHome")'
+                                );
+                            }
+                            else {
+                                ModernAlert.showError(res.message || "Failed to Submit");
+                            }
+                        },
+                        error: function () {
+                            ModernAlert.showError(res.message || "Failed to Save");
+                        }
+                    });
+                }
+            }
         </script>
 </body>
 

@@ -5,195 +5,987 @@
 }
 
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<style>
+    :root {
+        --primary-color: #0b8b80;
+        --primary-dark: #0a7269;
+        --primary-light: #e6f4f3;
+        --secondary-color: #2c3e50;
+        --accent-color: #0b5ed7;
+        --text-dark: #333;
+        --text-light: #666;
+        --border-color: #e1e5e9;
+        --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 12px;
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: Segoe UI,Arial;
+        background: #f4f6f9
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 25px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 25px rgba(0,0,0,.1)
+    }
+
+    .section {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #460846;
+        padding-bottom: 6px
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 15px
+    }
+
+    label {
+        font-weight: 600;
+        font-size: 14px
+    }
+
+    select, input {
+        padding: 10px;
+        border-radius: 6px;
+        border: 2px solid #ddd;
+        width: 100%
+    }
+
+        select:focus, input:focus {
+            border-color: #460846;
+            outline: none
+        }
+
+    .btn {
+        padding: 10px 22px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer
+    }
+
+    .btn-add {
+        background: #460846;
+        color: #fff
+    }
+
+    .btn-remove {
+        background: #dc3545;
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 5px
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center
+    }
+
+    th {
+        background: #f1f5f9
+    }
+
+    @@media(max-width:768px) {
+        .grid {
+            grid-template-columns: 1fr
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        color: var(--text-dark);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    /* RESPONSIVE */
+    @@media (max-width: 992px) {
+        .header-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+
+        .header-actions {
+            margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .menu {
+            justify-content: flex-start;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+            .menu a {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .tabs {
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            padding: 12px 18px;
+            font-size: 14px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .page-title {
+            font-size: 24px;
+        }
+
+        .total-value {
+            font-size: 20px;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .data-table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+
+    /* PRINT STYLES */
+    @@media print {
+        .menu-bar, .header-actions, .actions, footer {
+            display: none;
+        }
+
+        .main-card {
+            box-shadow: none;
+            border: 1px solid #ddd;
+        }
+
+        .tab-btn:not(.active) {
+            display: none;
+        }
+    }
+
+    /* MAIN CONTENT */
+    .container {
+        max-width: 1200px;
+        /*margin: 30px auto;*/
+        margin: 10px auto;
+        padding: 0 20px;
+    }
+
+    .body-content {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        min-height: 500px;
+        border: 1px solid rgba(11, 139, 128, 0.1);
+    }
+
+    /* MODERN FORM STYLING */
+    .registration-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .registration-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid rgba(11, 139, 128, 0.1);
+    }
+
+    .registration-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #e9f3f2 0%, #d4e8e6 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 28px;
+        color: #460846;
+        box-shadow: 0 4px 15px rgba(11, 139, 128, 0.2);
+    }
+
+    .registration-title {
+        font-size: 26px;
+        color: #460846;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .registration-subtitle {
+        color: #666;
+        font-size: 16px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* FORM LAYOUT */
+    .form-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        /*color: #0b8b80;*/
+        margin-bottom: 8px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .form-label i {
+            font-size: 14px;
+        }
+
+    .form-input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e1e5ea;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #460846;
+            box-shadow: 0 0 0 3px rgba(11, 139, 128, 0.1);
+        }
+
+    .form-select {
+        width: 50%;
+        padding: 14px 16px;
+        border: 2px solid #e1e5ea;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #460846;
+            box-shadow: 0 0 0 3px rgba(11, 139, 128, 0.1);
+        }
+
+    /* SECTIONS */
+    .form-section {
+        margin-top: -20px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(11, 139, 128, 0.1);
+    }
+
+    .section-title {
+        font-size: 20px;
+        color: black;
+        font-weight: 400;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .section-title i {
+            font-size: 18px;
+        }
+
+    /* RADIO GROUP */
+    .radio-group-inline {
+        display: flex;
+        gap: 25px;
+        margin-top: 10px;
+    }
+
+    .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 2px solid #e1e5ea;
+        transition: all 0.3s ease;
+    }
+
+        .radio-option:hover {
+            border-color: #0b378b;
+            background: rgba(11, 139, 128, 0.05);
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            background-color: #460846;
+            border-color: #460846;
+        }
+
+            .radio-option input[type="radio"]:checked + .radio-custom::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                background: white;
+                border-radius: 50%;
+            }
+
+        .radio-option input[type="radio"]:checked ~ .radio-label {
+            color: black;
+            font-weight: 600;
+        }
+
+    .radio-input {
+        display: none;
+    }
+
+    .radio-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #460846;
+        border-radius: 50%;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .radio-label {
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* EMPLOYEE SECTION */
+    .employee-section {
+        background: #f8f9fa;
+        border: 1px solid rgba(11, 139, 128, 0.15);
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 20px;
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* TAX PERIOD GRID */
+    .tax-period-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    /* WAGES BOX */
+    .wages-box {
+        background: white;
+        border: 1px solid rgba(11, 139, 128, 0.2);
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .wage-row {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 12px 15px;
+        background: #fafbfc;
+        border-radius: 8px;
+    }
+
+        .wage-row:last-child {
+            margin-bottom: 0;
+            background: #eaf1ff;
+            border: 1px solid black;
+        }
+
+    .wage-label {
+        font-weight: 600;
+        color: black;
+    }
+
+    .wage-input {
+        padding: 10px 12px;
+        border: 2px solid #e1e5ea;
+        border-radius: 6px;
+        font-size: 14px;
+        width: 120px;
+        text-align: center;
+    }
+
+        .wage-input:focus {
+            outline: none;
+            border-color: black;
+        }
+
+    .wage-total {
+        font-weight: 700;
+        color: black;
+        font-size: 16px;
+    }
+
+    /* FORM II SECTIONS */
+    .formii-section {
+        background: white;
+        border: 1px solid rgba(11, 139, 128, 0.15);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .entry-type-selector {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(11, 139, 128, 0.1);
+    }
+
+    .entry-row {
+        display: grid;
+        grid-template-columns: 120px 100px 1fr;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #fafbfc;
+        border-radius: 8px;
+    }
+
+    .slab-label {
+        font-weight: 600;
+        /*color: #0b8b80;*/
+        font-size: 15px;
+    }
+
+    .count-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e1e5ea;
+        border-radius: 6px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+        .count-input:focus {
+            outline: none;
+            border-color: #0b8b80;
+        }
+
+    .entries-select {
+        width: 100%;
+        height: 120px;
+        padding: 10px;
+        border: 2px solid #e1e5ea;
+        border-radius: 6px;
+        font-size: 14px;
+        background: white;
+    }
+
+        .entries-select:focus {
+            outline: none;
+            border-color: #460846;
+        }
+
+    /* MULTI SELECT SECTION */
+    .multi-select-section {
+        display: none;
+        margin-top: 10px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* BUTTONS */
+    .actions-section {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid rgba(11, 139, 128, 0.1);
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .btn {
+        padding: 14px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 150px;
+        justify-content: center;
+    }
+
+    .btn-reset {
+        background: #6c757d;
+        color: white;
+        box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+    }
+
+        .btn-reset:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #460846 0%, #460846 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(11, 139, 128, 0.3);
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #460846 0%, #460846 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(11, 139, 128, 0.4);
+        }
+
+
+    /* RESPONSIVE */
+    @@media (max-width: 992px) {
+        .header-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+
+        .header-actions {
+            margin-top: 10px;
+        }
+
+        .menu {
+            justify-content: flex-start;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 5px;
+        }
+
+            .menu a {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .body-content {
+            padding: 25px;
+        }
+
+        .button-group {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .registration-title {
+            font-size: 22px;
+        }
+
+        .registration-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
+
+        .entry-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .count-input {
+            width: 100%;
+        }
+
+        .entries-select {
+            width: 100%;
+        }
+
+        .logo-section img {
+            height: 60px;
+        }
+
+        .header-text .dept {
+            font-size: 20px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .body-content {
+            padding: 20px;
+        }
+
+        .radio-group-inline {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tax-period-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .wage-row {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .entry-type-selector {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, #f0f7f6 0%, #e0f0ee 100%);
+        border: 1px solid rgba(11, 139, 128, 0.2);
+        border-left: 4px solid #0b8b80;
+        padding: 25px;
+        border-radius: 10px;
+        margin: 30px 0;
+        position: relative;
+    }
+
+        .info-box::before {
+            content: 'ℹ️';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1281c5;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .info-box p {
+            margin-bottom: 0px;
+            line-height: 1.7;
+        }
+
+        .info-box b {
+            color: #460846;
+        }
+</style>
+
 <body>
-    
+
+    <div class="container">
+        <div class="body-content">
+            <div class="registration-wrapper">
+                <!-- Header -->
+                <div class="registration-header">
+                    <!--<div class="registration-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>-->
+                    <h2 class="registration-title">Know Your Schedule Rates for PT Payment</h2>
+                    <!--<p class="registration-subtitle">Complete your Professional Tax registration by filling in all required details</p>-->
+                </div>
+
+
+                <div class="section">
+                    <h3 class="section-title"><i class="fas fa-people-carry-box"></i> Choose Your Profession </h3>
+
+                    <div class="grid">
+                        <div><label>Profession</label><select id="se1Prof"></select></div>
+                        <div><label>Position</label><select id="se1Pos"></select></div>
+                        <div><label>Rate</label><select id="se1Rate"></select></div>
+
+                    </div>
+
+                    @*<div style="margin-top:15px;text-align:right">
+                            <button class="btn btn-add" onclick="addSE1()">Add</button>
+                        </div>*@
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <div id="footer-container"></div>
+
     <!-- CONTENT -->
-    <div class="container Payment_Rates">
+    <!--<div class="container Payment_Rates">-->
+    <!-- TOP BANNER -->
+    <!--<div class="pt-banner">
+        <div>
+            <h1>Know Your Schedule Rates for PT Payment</h1>
+            <p>
+                Select your profession category to fetch the officially notified
+                types, answer the follow-up questions, and instantly understand
+                your PT obligations.
+            </p>
+        </div>
 
-        <!-- TOP BANNER -->
-        <div class="pt-banner">
-            <div>
-                <h1>Know Your Schedule Rates for PT Payment</h1>
-                <p>
-                    Select your profession category to fetch the officially notified
-                    types, answer the follow-up questions, and instantly understand
-                    your PT obligations.
-                </p>
+        <a href="#" class="schedule-btn" style="display:none;">
+            📅 View Official PT Schedule
+        </a>
+    </div>
+
+    <div class="section">
+        <h3>Choose Profession</h3>
+
+    </div>-->
+    <!-- FORM -->
+    <!--<div class="form-card">
+        <div class="form-group">
+            <label>Profession Category(As Per Schedule-I of PT Act)</label>
+            <select id="ddlCategory" onchange="onCatChange();">
+                <option value="0">-- Select --</option>
+                <option value="1">Medical / Legal Practitioners / Agents / Consultants / Engineers etc.</option>
+                <option value="2">Contractors / Property Developers etc.</option>
+                <option>Film Industry / Broadcasting services</option>
+                <option>VAT/GST Act registered dealers (or) Liable to be register</option>
+                <option>Owners / Lessees of any immovable property</option>
+                <option>Banks / Co-operative Societies / Money lenders / Chit funds etc.</option>
+                <option>Educational & all Training Institutions</option>
+                <option>Companies / Agencies / Operators and Individual relation</option>
+                <option>Exempted</option>
+                <option>Others</option>
+                <option>Govt. Organizations</option>
+            </select>
+        </div>
+    </div>
+    <div class="section">
+        <h3>Choose Your Profession Type</h3>
+        <p>Options are rendered exactly as notified by the department.</p>
+    </div>-->
+    <!-- PROFESSION OPTIONS -->
+    <!--<div class="form-card" id="div1" style="display:none;">
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    Legal practitioners, Solicitors, Notaries, Tax Consultants, Chartered Accountants, Technical and Professional Consultants,
+                    Engineers, RCC Consultants, Architects, Management Consultants, Estate Agents, Chief Agents, Principal Agents, Special Agents,
+                    Insurance Agents, Surveyors or Loss assessors registered or licensed under the Insurance Act, 1938 (Central Act IV of 1938), Pigmy Agents,
+                    UTI agents, Authorized assistants and Sub brokers recognized by SEBI, Commission Agents, Dalals, Brokers, Auctioneers, Medical Practitioners,
+                    Journalists, Medical Consultants (Other than Practitioners of Ayurvedic, Homeopathic and Unani systems of Medicines), Dentists, Radiologists,
+                    Pathologists and persons engaged in other similar professions or callings of a Paramedical nature, whose standing in the profession is:
+                </div>
+                <div class="option-tax exempt">
+                    (i) Up to 5 years <br />Exempt from Profession Tax
+                </div>
+            </div>
+        </label>
+
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    (ii) More than 5 years
+                </div>
+                <div class="option-tax">
+                    Tax Per Year: ₹2,500
+                </div>
+            </div>
+        </label>
+    </div>
+    <div class="form-card" id="div2" style="display:none;">
+
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    Contractor earning small turnover and under
+                </div>
+                <div class="option-tax exempt">
+                    Exempted from Profession Tax <br />(a) Below Rs.10 lakhs
+                </div>
+            </div>
+        </label>
+
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('2');" name="profession" data-tax="1250">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    (b) From Rs.10 lakh to Rs.50 lakhs
+                </div>
+                <div class="option-tax">
+                    Tax Per Year: ₹1,250
+                </div>
+            </div>
+        </label>
+
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    (c) Above Rs 50 lakhs
+                </div>
+                <div class="option-tax">
+                    Tax Per Year: ₹2,500
+                </div>
+            </div>
+        </label>
+
+        <label class="option-card">
+            <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
+
+            <span class="radio-ui"></span>
+
+            <div class="option-content">
+                <div class="option-title">
+                    Property Developers including Land Developers and Building / Flat Developers.
+                </div>
+                <div class="option-tax">
+                    Tax Per Year: ₹2,500
+                </div>
+            </div>
+        </label>
+
+
+    </div>-->
+    <!-- COMMENCEMENT DATE -->
+    <!--<div class="section date-section" id="divDate" style="display:none;">
+        <div class="section-title">
+            Profession / Business Commencement Date
+        </div>
+
+        <input type="date" id="startDate" class="date-input mt-2">
+        <div class="date-note">
+            Select the date when profession or business was commenced
+        </div>
+    </div>-->
+    <!-- SUMMARY -->
+    <!--<div class="section summary-box" id="divSummary" style="display:none;">
+
+        <div class="summary-header">
+            <span>Total Profession Tax Payable</span>-->
+    <!--<span class="fy-badge" id="fyCount">0 FYs</span>-->
+    <!--</div>
+
+        <div class="summary-table">
+
+            <div id="summaryRows"></div>
+
+            <div class="summary-row summary-total">
+                <span>Grand Total</span>
+                <span id="grandTotal">₹0</span>
             </div>
 
-            <a href="#" class="schedule-btn" style="display:none;">
-                📅 View Official PT Schedule
-            </a>
         </div>
-
-        <div class="section">
-            <h3>Choose Profession</h3>
-
-        </div>
-
-        <!-- FORM -->
-        <div class="form-card">
-            <div class="form-group">
-                <label>Profession Category(As Per Schedule-I of PT Act)</label>
-                <select id="ddlCategory" onchange="onCatChange();">
-                    <option value="0">-- Select --</option>
-                    <option value="1">Medical / Legal Practitioners / Agents / Consultants / Engineers etc.</option>
-                    <option value="2">Contractors / Property Developers etc.</option>
-                    <option>Film Industry / Broadcasting services</option>
-                    <option>VAT/GST Act registered dealers (or) Liable to be register</option>
-                    <option>Owners / Lessees of any immovable property</option>
-                    <option>Banks / Co-operative Societies / Money lenders / Chit funds etc.</option>
-                    <option>Educational & all Training Institutions</option>
-                    <option>Companies / Agencies / Operators and Individual relation</option>
-                    <option>Exempted</option>
-                    <option>Others</option>
-                    <option>Govt. Organizations</option>
-                </select>
-            </div>
-        </div>
-        <div class="section">
-            <h3>Choose Your Profession Type</h3>
-            <p>Options are rendered exactly as notified by the department.</p>
-        </div>
-
-        <!-- PROFESSION OPTIONS -->
-        <div class="form-card" id="div1" style="display:none;">
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        Legal practitioners, Solicitors, Notaries, Tax Consultants, Chartered Accountants, Technical and Professional Consultants,
-                        Engineers, RCC Consultants, Architects, Management Consultants, Estate Agents, Chief Agents, Principal Agents, Special Agents,
-                        Insurance Agents, Surveyors or Loss assessors registered or licensed under the Insurance Act, 1938 (Central Act IV of 1938), Pigmy Agents,
-                        UTI agents, Authorized assistants and Sub brokers recognized by SEBI, Commission Agents, Dalals, Brokers, Auctioneers, Medical Practitioners,
-                        Journalists, Medical Consultants (Other than Practitioners of Ayurvedic, Homeopathic and Unani systems of Medicines), Dentists, Radiologists,
-                        Pathologists and persons engaged in other similar professions or callings of a Paramedical nature, whose standing in the profession is:
-                    </div>
-                    <div class="option-tax exempt">
-                        (i) Up to 5 years <br />Exempt from Profession Tax
-                    </div>
-                </div>
-            </label>
-
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        (ii) More than 5 years
-                    </div>
-                    <div class="option-tax">
-                        Tax Per Year: ₹2,500
-                    </div>
-                </div>
-            </label>
-        </div>
-        <div class="form-card" id="div2" style="display:none;">
-
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('1');" name="profession" data-tax="0">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        Contractor earning small turnover and under
-                    </div>
-                    <div class="option-tax exempt">
-                        Exempted from Profession Tax <br />(a) Below Rs.10 lakhs
-                    </div>
-                </div>
-            </label>
-
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="1250">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        (b) From Rs.10 lakh to Rs.50 lakhs
-                    </div>
-                    <div class="option-tax">
-                        Tax Per Year: ₹1,250
-                    </div>
-                </div>
-            </label>
-
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        (c) Above Rs 50 lakhs
-                    </div>
-                    <div class="option-tax">
-                        Tax Per Year: ₹2,500
-                    </div>
-                </div>
-            </label>
-
-            <label class="option-card">
-                <input type="radio" onchange="radioChange('2');" name="profession" data-tax="2500">
-
-                <span class="radio-ui"></span>
-
-                <div class="option-content">
-                    <div class="option-title">
-                        Property Developers including Land Developers and Building / Flat Developers.
-                    </div>
-                    <div class="option-tax">
-                        Tax Per Year: ₹2,500
-                    </div>
-                </div>
-            </label>
-
-
-        </div>
-
-        <!-- COMMENCEMENT DATE -->
-        <div class="section date-section" id="divDate" style="display:none;">
-            <div class="section-title">
-                Profession / Business Commencement Date
-            </div>
-
-            <input type="date" id="startDate" class="date-input mt-2">
-            <div class="date-note">
-                Select the date when profession or business was commenced
-            </div>
-        </div>
-
-
-        <!-- SUMMARY -->
-        <div class="section summary-box" id="divSummary" style="display:none;">
-
-            <div class="summary-header">
-                <span>Total Profession Tax Payable</span>
-                <!--<span class="fy-badge" id="fyCount">0 FYs</span>-->
-            </div>
-
-            <div class="summary-table">
-
-                <div id="summaryRows"></div>
-
-                <div class="summary-row summary-total">
-                    <span>Grand Total</span>
-                    <span id="grandTotal">₹0</span>
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- TIME BASED INFO -->
-        <div class="green-box" id="divSummaryPeriod" style="display:none;">
+    </div>-->
+    <!-- TIME BASED INFO -->
+    <!--<div class="green-box" id="divSummaryPeriod" style="display:none;">
             <div class="green-title">Time Elapsed Since Commencement</div>
 
             <div class="time-value" id="elapsedTime">
@@ -215,139 +1007,207 @@
 
 
 
-    </div>
- 
+    </div>-->
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
-    $(function () {
 
-        let selectedTax = null;
 
-        $('input[name="profession"]').on('change', function () {
-            selectedTax = parseInt($(this).data('tax')) || 0;
-            calculatePT();
+        /* ================= DATA ================= */
+        const PT_ENTRIES = {
+            nil: ["Agriculturist", "Religious Duty Performer", "Artisan (Goldsmith / Blacksmith / etc.)", "Exempted Category", "Legal Practitioner", "Solicitor", "Notary", "Tax Consultant", "Chartered Accountant", "Technical Consultant", "Professional Consultant", "Engineer", "RCC Consultant", "Architect", "Management Consultant", "Estate Agent", "Chief Agent", "Principal Agent", "Special Agent", "Insurance Agent", "Surveyor", "Loss Assessor", "Pigmy Agent", "UTI Agent", "Authorised Assistant", "SEBI Sub‑broker", "Commission Agent", "Dalal", "Broker", "Auctioneer", "Medical Practitioner", "Journalist", "Medical Consultant (excluding Ayurveda/Homeopathy/Unani)", "Dentist", "Radiologist", "Pathologist", "Paramedical Profession", "Contractor", "ISD/STD/PCO Operator", "Photocopying Unit", "ISD/STD/PCO Line Holder"],
+            1250: ["Contractor", "Jockey", "ISD/STD/PCO Operator", "Photocopying Unit", "ISD/STD/PCO Line Holder"],
+            2500: ["Legal Practitioner", "Solicitor", "Notary", "Tax Consultant", "Chartered Accountant", "Technical Consultant", "Professional Consultant", "Engineer", "RCC Consultant", "Architect", "Management Consultant", "Estate Agent", "Chief Agent", "Principal Agent", "Special Agent", "Insurance Agent", "Surveyor", "Loss Assessor", "Pigmy Agent", "UTI Agent", "Authorised Assistant", "SEBI Sub‑broker", "Commission Agent", "Dalal", "Broker", "Auctioneer", "Medical Practitioner", "Journalist", "Medical Consultant (excluding Ayurveda/Homeopathy/Unani)", "Dentist", "Radiologist", "Pathologist", "Paramedical Profession", "Member of recognised Stock Exchange", "Contractor", "Company Director (non‑Govt)", "Race Horse Owner / Trainer / Book Maker", "Film Producer", "Film Distributor", "Film Director", "Cinematograph Film Processor", "Director of Photography", "Music Director", "Choreographer", "Lyricist", "Actor / Actress", "Story Writer", "Playback Singer", "Recordist", "Editor", "Outdoor Film Unit Owner/Lessee", "Transport Company / Contractor / Forwarding & Clearing Agent", "Weigh Bridge Operator", "Courier Service Operator", "Broadcasting / Telecasting Service Provider", "Telecom / ISP / VSAT / Wireless Provider", "Call Centre / BPO / KPO Owner", "Cyber Cafe Owner", "Commercial Premises Lessor", "Company (turnover ≥ ₹10 lakhs)", "Partner drawing remuneration", "Travel Agency", "Advertising Agency", "Video / DVD Library", "Private Educational Institution Branch / HO", "Training Institute", "Property Developer", "Marriage / Convention Hall Owner", "Transport Vehicle Operator", "Weigh Bridge Owner", "Courier Agency", "Broadcasting Agency", "Telecom Service Provider", "Call Centre / BPO Centre", "Cyber Cafe", "Commercial Rent Owner", "Other professions income > ₹1,80,000"]
+        };
+        const PT_rates = ["nil", "1250", "2500", "Exempted"];
+        const PT_Conditionss = ["NA", "≤5Years ", ">5Years ", "<10Lakhs", "10-50Lakhs", ">50Lakhs", "≥ 3 machines", "< 3 machines"];
+
+        /* ================= COMMON ================= */
+        const professions = [...new Set(Object.values(PT_ENTRIES).flat())];
+        function bind(sel, arr) {
+            sel.innerHTML = '<option value="">-- Select --</option>';
+            arr.forEach(v => sel.add(new Option(v, v)));
+        }
+
+        /* ================= BIND ================= */
+
+        bind(se1Prof, professions);
+
+        bind(se1Pos, PT_Conditionss);
+
+        bind(se1Rate, PT_rates);
+
+
+        /* ================= SUB ENTRY 1 ================= */
+        //        function addSE1() {
+        //            if (!se1Prof.value || !se1Pos.value) return alert("Fill all fields");
+        //            se1Table.querySelector("tbody").innerHTML += `
+        //<tr>
+        //<td>${se1Prof.value}</td>
+        //<td>${se1Pos.value}</td>
+        //<td>${se1Rate.value}</td>
+
+        //<td><button class="btn-remove" onclick="this.closest('tr').remove()">X</button></td>
+        //</tr>`;
+        //            se1Prof.value = se1Pos.value = se1Rate.value = "";
+        //        }
+
+
+        function handleProfessionChange(profSel, condSel, rateSel) {
+            const prof = profSel.value;
+
+            condSel.innerHTML = '<option value="">-- Select --</option>';
+            rateSel.value = "";
+
+            if (!PROFESSION_RULES[prof]) return;
+
+            const conditions = PROFESSION_RULES[prof];
+
+            Object.keys(conditions).forEach(cond => {
+                condSel.add(new Option(cond, cond));
+            });
+
+            // Auto-select if only one condition
+            if (condSel.options.length === 2) {
+                condSel.selectedIndex = 1;
+                rateSel.value = conditions[condSel.value];
+            }
+        }
+
+        function handleConditionChange(profSel, condSel, rateSel) {
+            const prof = profSel.value;
+            const cond = condSel.value;
+
+            if (PROFESSION_RULES[prof]?.[cond]) {
+                rateSel.value = PROFESSION_RULES[prof][cond];
+            }
+        }
+
+        /* ================= PROFESSION RULES (OFFICIAL) ================= */
+        /* ================= PROFESSION RULES – CONSOLIDATED ================= */
+        const PROFESSION_RULES = {
+            /* ===== Standing ≤ / > 5 Years ===== */
+            "Legal Practitioner": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Solicitor": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Notary": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Tax Consultant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Chartered Accountant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Technical Consultant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Professional Consultant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Engineer": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "RCC Consultant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Architect": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Management Consultant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Estate Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Chief Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Principal Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Special Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Insurance Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Surveyor": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Loss Assessor": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Pigmy Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "UTI Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Authorised Assistant": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "SEBI Sub-broker": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Commission Agent": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Dalal": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Broker": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Auctioneer": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Medical Practitioner": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Journalist": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Medical Consultant (excluding Ayurveda/Homeopathy/Unani)": {
+                "Standing ≤ 5 years": "nil",
+                "Standing > 5 years": "2500"
+            },
+            "Dentist": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Radiologist": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Pathologist": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            "Paramedical Profession": { "Standing ≤ 5 years": "nil", "Standing > 5 years": "2500" },
+            /* ===== Contractor ===== */
+            "Contractor": {
+                "Turnover < ₹10 lakhs": "nil",
+                "Turnover ₹10–50 lakhs": "1250",
+                "Turnover > ₹50 lakhs": "2500"
+            },
+            /* ===== Line based ===== */
+            "ISD/STD/PCO Operator": {
+                "One line": "nil",
+                "More than one line": "1250"
+            },
+            "ISD/STD/PCO Line Holder": {
+                "One line": "nil",
+                "More than one line": "1250"
+            },
+            /* ===== Machine based ===== */
+            "Photocopying Unit": {
+                "< 3 machines": "nil",
+                "≥ 3 machines": "1250"
+            },
+            /* ===== Licensed ===== */
+            "Race Horse Owner / Trainer / Book Maker": { "Licensed": "2500" },
+            "Jockey": { "Licensed": "1250" },
+            /* ===== Fixed ₹2500 ===== */
+            "Member of recognised Stock Exchange": { "NA": "2500" },
+            "Company Director (non-Govt)": { "NA": "2500" },
+            "Film Producer": { "NA": "2500" },
+            "Film Distributor": { "NA": "2500" },
+            "Film Director": { "NA": "2500" },
+            "Cinematograph Film Processor": { "NA": "2500" },
+            "Director of Photography": { "NA": "2500" },
+            "Music Director": { "NA": "2500" },
+            "Choreographer": { "NA": "2500" },
+            "Lyricist": { "NA": "2500" },
+            "Actor / Actress": { "NA": "2500" },
+            "Story Writer": { "NA": "2500" },
+            "Playback Singer": { "NA": "2500" },
+            "Recordist": { "NA": "2500" },
+            "Editor": { "NA": "2500" },
+            "Outdoor Film Unit Owner/Lessee": { "NA": "2500" },
+            "Transport Company / Contractor / Forwarding & Clearing Agent": { "NA": "2500" },
+            "Weigh Bridge Operator": { "NA": "2500" },
+            "Courier Service Operator": { "NA": "2500" },
+            "Broadcasting / Telecasting Service Provider": { "NA": "2500" },
+            "Telecom / ISP / VSAT / Wireless Provider": { "NA": "2500" },
+            "Call Centre / BPO / KPO Owner": { "NA": "2500" },
+            "Cyber Cafe Owner": { "NA": "2500" },
+            "Commercial Premises Lessor": { "NA": "2500" },
+            "Company (turnover ≥ ₹10 lakhs)": { "NA": "2500" },
+            "Partner drawing remuneration": { "NA": "2500" },
+            "Travel Agency": { "NA": "2500" },
+            "Advertising Agency": { "NA": "2500" },
+            "Video / DVD Library": { "NA": "2500" },
+            "Private Educational Institution Branch / HO": { "NA": "2500" },
+            "Training Institute": { "NA": "2500" },
+            "Property Developer": { "NA": "2500" },
+            "Marriage / Convention Hall Owner": { "NA": "2500" },
+            "Transport Vehicle Operator": { "NA": "2500" },
+            "Weigh Bridge Owner": { "NA": "2500" },
+            "Courier Agency": { "NA": "2500" },
+            "Broadcasting Agency": { "NA": "2500" },
+            "Telecom Service Provider": { "NA": "2500" },
+            "Call Centre / BPO Centre": { "NA": "2500" },
+            "Cyber Cafe": { "NA": "2500" },
+            "Commercial Rent Owner": { "NA": "2500" },
+            "Other professions income > ₹1,80,000": { "NA": "2500" },
+            /* ===== EXEMPTED ===== */
+            "Agriculturist": { "NA": "Exempted" },
+            "Religious Duty Performer": { "NA": "Exempted" },
+            "Artisan (Goldsmith / Blacksmith / etc.)": { "NA": "Exempted" },
+            "Exempted Category": { "NA": "Exempted" }
+        };
+
+        /* ========= SUB ENTRY 1 ========= */
+        se1Prof.addEventListener("change", () => {
+            handleProfessionChange(se1Prof, se1Pos, se1Rate);
+        });
+        se1Pos.addEventListener("change", () => {
+            handleConditionChange(se1Prof, se1Pos, se1Rate);
         });
 
-        $('#startDate').on('change', calculatePT);
-
-        function calculatePT() {
-
-            $('#summaryRows').empty();
-            $('#grandTotal').text('₹0');
-            $('#timeInfo').text('—');
-
-            const startDateVal = $('#startDate').val();
-            if (!startDateVal || selectedTax === null) return;
-
-            // Exempted case
-            if (selectedTax === 0) {
-                $('#summaryRows').append(`
-                <div class="summary-row">
-                    <span>Exempted</span>
-                    <span>₹0</span>
-                </div>
-            `);
-                $('#timeInfo').text('Profession is exempted from Profession Tax');
-                $('#divSummaryPeriod').hide();
-                $('#divSummary').hide();
-                return;
-            }
-
-            const startDate = new Date(startDateVal);
-            const today = new Date();
-
-            // Determine starting FY
-            let fyYear = startDate.getMonth() >= 3
-                ? startDate.getFullYear()
-                : startDate.getFullYear() - 1;
-
-            let fyCount = 0;
-            let grandTotal = 0;
-
-            while (true) {
-
-                const fyStart = new Date(fyYear, 3, 1);
-                const fyEnd = new Date(fyYear + 1, 2, 31);
-
-                if (fyStart > today) break;
-
-                $('#summaryRows').append(`
-                <div class="summary-row">
-                    <span>FY ${fyYear}-${fyYear + 1}</span>
-                    <span>₹${selectedTax.toLocaleString()}</span>
-                </div>
-            `);
-
-                grandTotal += selectedTax;
-                fyCount++;
-                fyYear++;
-            }
-            updateElapsedTime(startDate);
-            $('#divSummaryPeriod').show();
-            $('#divSummary').show();
-            $('#grandTotal').text('₹' + grandTotal.toLocaleString());
-            $('#timeInfo').text(
-                `From ${startDate.toDateString()} covering ${fyCount} financial year(s)`
-            );
-
-        }
-
-
-    });
-    function updateElapsedTime(startDate) {
-
-        const today = new Date();
-
-        let years = today.getFullYear() - startDate.getFullYear();
-        let months = today.getMonth() - startDate.getMonth();
-
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-
-        $('#elapsedTime').text(
-            `${years} year(s) ${months} month(s)`
-        );
-
-        $('#timeRange').text(
-            `Calculated from ${startDate.toISOString().split('T')[0]} to today.`
-        );
-    }
-    function onCatChange() {
-        $('#divSummaryPeriod').hide();
-        $('#divSummary').hide();
-        $('#divNRR').hide();
-        $('#divDate').hide();
-        if ($('#ddlCategory').val() == "1") {
-            $('#div2').hide();
-            $('#div1').show();
-        }
-        else if ($('#ddlCategory').val() == "2") {
-            $('#div2').show();
-            $('#div1').hide();
-        }
-        else {
-            $('#div2').hide();
-            $('#div1').hide();
-        }
-    }
-    function radioChange(res) {
-        if (res == "1") {
-            $('#divSummaryPeriod').hide();
-            $('#divSummary').hide();
-            $('#divDate').hide();
-            $('#divNRR').show();
-        }
-        if (res == "2") {
-            $('#divSummaryPeriod').hide();
-            $('#divSummary').hide();
-            $('#divNRR').hide();
-            $('#divDate').show();
-        }
-    }
 
     </script>
+
+
 </body>
 

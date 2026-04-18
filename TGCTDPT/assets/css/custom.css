@@ -2363,6 +2363,7 @@ body {
     gap: 10px;
     justify-content: center;
     box-shadow: 0 3px 8px rgba(11, 139, 128, 0.2);
+    margin: 0px 7px -2px 236px;
 }
 
     .primary:hover {

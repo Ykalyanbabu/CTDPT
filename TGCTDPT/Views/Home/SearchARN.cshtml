@@ -471,6 +471,8 @@
 
 
         function GetRNRStatus() {
+            var tbody2 = $("#StatusBody2");
+            tbody2.empty();
             var _rnr = $('#txtARN').val();
             $.ajax({
                 url: '@Url.Action("GetRNRDetails", "Home")',

@@ -344,7 +344,8 @@
                     },
                     success: function (response) {
                         if (response == "success") {
-                            window.location.href = '@Url.Action("Registration", "Registration")';
+                            GetApplicationDtls(appId);
+                            
                         }
                         else {
                             ModernAlert.toast.info(response);
@@ -357,5 +358,26 @@
             });
 
         });
+
+        function GetApplicationDtls(appId) {
+             $.ajax({
+                    url: '@Url.Action("GetApplicationStatus", "Registration")',
+                    type: 'POST',
+                    data: {
+                        ApplicationId: appId
+                    },
+                    success: function (response) {
+                        if (response.length > 0) {
+                            window.location.href = '@Url.Action("RegistrationStatus", "Registration")';
+                        }
+                        else {
+                            ModernAlert.toast.info(response);
+                        }
+                    },
+                    error: function () {
+                        alert(response);
+                    }
+                });
+        }
     </script>
 </body>

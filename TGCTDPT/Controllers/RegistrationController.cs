@@ -31,9 +31,39 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
+        public ActionResult RegistrationStatus()
+        {
+            return View();
+        }
         public ActionResult eRegistration()
         {
             return View();
+        }
+        public ActionResult checkRC()
+        {
+            string StrTIN = Session["TIn"].ToString();
+            RC_Details rcd = dal.GetPTEntityDetails(StrTIN);
+            return View(rcd);
+        }
+        public ActionResult PrintCertificate()
+        {
+            string StrTIN = Session["TIn"]?.ToString();
+
+            if (string.IsNullOrEmpty(StrTIN))
+            {
+                return RedirectToAction("Login");
+            }
+
+            RC_Details model = dal.GetPTEntityDetails(StrTIN);
+
+            if (model == null)
+            {
+                return Content("No data found");
+            }
+
+            string fileName = "PT_Registration_Certificate_" + model.prof_tin + ".pdf";
+            return View("PrintCertificate", model);
+            
         }
 
         public JsonResult CheckPantoPT(string PAN)
@@ -427,6 +457,31 @@ namespace TGCTDPT.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult ReSubmitApplication(string AppId)
+        {
+            try
+            {
+
+                if (Session["application_id"] != null)
+                {
+                    AppId = Session["application_id"].ToString();
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to Submit the Application" });
+                }
+
+                var response = dal.ReSubmitApplication(AppId);
+
+                return Json(new { success = true, data = response });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
         [HttpGet]
         public ActionResult GetFullSummary(string ApplicationId)
         {
@@ -571,7 +626,21 @@ namespace TGCTDPT.Controllers
                 return 0;
             }
         }
-
+        public JsonResult GetApplicationStatus(string ApplicationId)
+        {
+            var response = dal.GetApplicationStatus(ApplicationId);
+            Session["Email"] = response[0].email_id;
+            Session["RNR"] = response[0].rnr_number;
+            Session["AppStatus"] = response[0].AppStatus;
+            Session["UserID"] = "Online";
+            Session["QuerySts"] = response[0].query_status;
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetQueryDetails(string rnr)
+        {
+            var response = dal.GetQueryDetails(rnr);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public string PT_Applicant_Login(application_status u)

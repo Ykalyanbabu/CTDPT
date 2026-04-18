@@ -72,6 +72,14 @@ namespace TGCTDPT.Models
         public decimal? TotPble4 { get; set; }
         public string Type4 { get; set; }
     }
+    public class ApplicationStatus
+    {
+        public string rnr_number { get; set; }
+        public string email_id { get; set; }
+        public string AppStatus { get; set; }
+        public string query_status { get; set; }
+        public string application_id { get; set; }
+    }
     public class SaveResponse
     {
         public bool success { get; set; }

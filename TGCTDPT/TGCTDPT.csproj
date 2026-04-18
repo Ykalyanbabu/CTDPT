@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Helpers\ClientHelpers.cs" />
     <Compile Include="Helpers\DB_context.cs" />
+    <Compile Include="Models\AppStatus.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\ePayment.cs" />
     <Compile Include="Models\FormIISummaryModels.cs" />
@@ -248,6 +249,9 @@
     <Content Include="Views\Registration\New_applicant_Login.cshtml" />
     <Content Include="Views\PTOfficer\RaiseQuery.cshtml" />
     <Content Include="Views\Query\RaiseQuery.cshtml" />
+    <Content Include="Views\Registration\RegistrationStatus.cshtml" />
+    <Content Include="Views\Registration\checkRC.cshtml" />
+    <Content Include="Views\Registration\PrintCertificate.cshtml" />
     <None Include="Web References\BSNL_SMS\SMS_BSNL.disco" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

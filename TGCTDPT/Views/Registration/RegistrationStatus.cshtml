@@ -1,0 +1,557 @@
+﻿@{
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+    ViewBag.Title = "Registration Status | Commercial Taxes Department";
+}
+
+
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&display=swap');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .rs-wrap {
+        font-family: 'DM Sans', sans-serif;
+        padding: 0rem;
+        background: #f0f4f8;
+        min-height: 100vh;
+    }
+
+    .rs-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        max-width: 860px;
+        margin: 0 auto;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(0,0,0,0.06);
+    }
+
+    /* ── Alert banner ── */
+    .rs-alert {
+        background: linear-gradient(90deg, #fffbf0 0%, #fff9ec 100%);
+        border-bottom: 1px solid #f5dfa0;
+        padding: 0.85rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .rs-alert-stripe {
+        width: 4px;
+        align-self: stretch;
+        background: #e8a224;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .rs-alert-icon {
+        width: 36px;
+        height: 36px;
+        background: #fde68a;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #92400e;
+    }
+
+    .rs-alert-title {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #7c3a00;
+        margin-bottom: 1px;
+    }
+
+    .rs-alert-sub {
+        font-size: 0.75rem;
+        color: #a05c1a;
+    }
+
+    /* ── Body ── */
+    .rs-body {
+        padding: 1.5rem;
+    }
+
+    /* ── Section label ── */
+    .rs-section-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #7a8fa6;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .rs-section-label::after {
+            content: '';
+            flex: 1;
+            height: 0.5px;
+            background: #e4eaf0;
+        }
+
+    /* ── Info box ── */
+    .rs-info-box {
+        background: #f7fafd;
+        border: 0.5px solid #dce8f2;
+        border-radius: 8px;
+        padding: 0.85rem 1rem;
+        font-size: 0.84rem;
+        color: #4a5e72;
+        line-height: 1.6;
+        margin-bottom: 1.4rem;
+    }
+
+        .rs-info-box strong {
+            color: #1a3048;
+            font-weight: 600;
+        }
+
+    /* ── QUERY GRID TABLE ── */
+    .rs-grid-wrap {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rs-grid-head-cell,
+    .rs-grid-cell {
+        text-align: left;
+        padding: 12px;
+    }
+    .rs-grid-head {
+        display: grid;
+        grid-template-columns: 64px 1fr 110px;
+        background: #0b2f45;
+    }
+
+    .rs-grid-head-cell {
+        padding: 0.65rem 1rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: #a8c5d8;
+        border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+        .rs-grid-head-cell:last-child {
+            border-right: none;
+        }
+
+    .rs-grid-row {
+        display: grid;
+        grid-template-columns: 64px 1fr 110px;
+        border-top: 1px solid #e0eaf3;
+        background: #fff;
+        transition: background 0.12s;
+    }
+
+        .rs-grid-row:hover {
+            background: #f7fbff;
+        }
+
+        .rs-grid-row:nth-child(even) {
+            background: #fafcff;
+        }
+
+            .rs-grid-row:nth-child(even):hover {
+                background: #f0f7ff;
+            }
+
+    .rs-grid-cell {
+        padding: 0.85rem 1rem;
+        border-right: 1px solid #e0eaf3;
+        display: flex;
+        align-items: center;
+        font-size: 0.84rem;
+        color: #1e3248;
+    }
+
+        .rs-grid-cell:last-child {
+            border-right: none;
+        }
+
+    .rs-sno {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        background: #e8f0f8;
+        border: 1px solid #c4d8ea;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #2c5278;
+    }
+
+    .rs-query-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #fff5eb;
+        border: 1px solid #fcd5a8;
+        color: #7c3412;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 5px 13px;
+        border-radius: 6px;
+    }
+
+    .rs-query-dot {
+        width: 7px;
+        height: 7px;
+        background: #ea580c;
+        border-radius: 50%;
+        flex-shrink: 0;
+        box-shadow: 0 0 0 2px #fcd5a8;
+    }
+
+    .rs-status-pending {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.72rem;
+        color: #854d0e;
+        font-weight: 600;
+        background: #fef3c7;
+        border: 1px solid #fde68a;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    .rs-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #d97706;
+        animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+
+    @@keyframes pulse-dot {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    /* ── Remarks ── */
+    .rs-remarks {
+        background: #f7fafd;
+        border: 1px solid #dce8f2;
+        border-left: 4px solid #2563eb;
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1.4rem;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .rs-remarks-icon {
+        width: 32px;
+        height: 32px;
+        background: #dbeafe;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1d4ed8;
+        flex-shrink: 0;
+    }
+
+    .rs-remarks-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #1d4ed8;
+        margin-bottom: 5px;
+    }
+
+    .rs-remarks-body {
+        font-size: 0.83rem;
+        color: #334e68;
+        line-height: 1.65;
+    }
+
+    /* ── Deadline ── */
+    .rs-deadline {
+        background: #fff5f5;
+        border: 1px solid #fecdd3;
+        border-left: 4px solid #dc2626;
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .rs-deadline-icon {
+        width: 32px;
+        height: 32px;
+        background: #fecdd3;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #b91c1c;
+        flex-shrink: 0;
+    }
+
+    .rs-deadline-title {
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: #b91c1c;
+        margin-bottom: 4px;
+    }
+
+    .rs-deadline-sub {
+        font-size: 0.78rem;
+        color: #7f1d1d;
+        line-height: 1.55;
+    }
+
+        .rs-deadline-sub strong {
+            font-weight: 600;
+        }
+
+    /* ── Action buttons ── */
+    .rs-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .rs-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0.55rem 1.2rem;
+        border-radius: 7px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        font-family: 'DM Sans', sans-serif;
+        cursor: pointer;
+        transition: all 0.15s;
+        border: 1px solid #c9d8e8;
+        background: #fff;
+        color: #2c4a64;
+    }
+
+        .rs-btn:hover {
+            background: #f0f6fb;
+            border-color: #a0b8cc;
+        }
+
+        .rs-btn.primary {
+            background: #15653a;
+            color: #fff;
+            border-color: #15653a;
+            box-shadow: 0 2px 8px rgba(21,101,58,0.18);
+        }
+
+            .rs-btn.primary:hover {
+                background: #0e4a2a;
+            }
+
+    /* ── Footer ── */
+    .rs-footer {
+        border-top: 1px solid #e8eff6;
+        padding: 0.7rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        background: #f7fafd;
+    }
+
+    .rs-footer-copy {
+        font-size: 0.68rem;
+        color: #8a9fb5;
+    }
+
+    .rs-footer-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .rs-badge {
+        background: #fff;
+        border: 0.5px solid #d4e2ef;
+        border-radius: 20px;
+        padding: 3px 10px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: #5a7a96;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+   
+</style>
+
+<div class="rs-wrap">
+    <div class="rs-card">
+
+        <!-- Alert -->
+        <div class="rs-alert">
+            <div class="rs-alert-stripe"></div>
+            <div class="rs-alert-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 1.5L14.5 13H1.5L8 1.5z" stroke="currentColor" stroke-width="1.3" fill="none" />
+                    <line x1="8" y1="6.5" x2="8" y2="10" stroke="currentColor" stroke-width="1.3" />
+                    <circle cx="8" cy="11.5" r="0.7" fill="currentColor" />
+                </svg>
+            </div>
+            <div>
+                <div class="rs-alert-title">Action required — query raised on your registration</div>
+                <div class="rs-alert-sub">Your application requires immediate attention to avoid rejection.</div>
+            </div>
+        </div>
+
+        <div class="rs-body">
+
+            <div class="rs-section-label">Application review</div>
+            <div class="rs-info-box">
+                Your registration application with <strong>RNR</strong> has been examined by the registering authority <strong>(Circle Division)</strong>. The following query has been raised and must be addressed within the stipulated time.
+            </div>
+
+            <div class="rs-section-label">Queries raised</div>
+            <table class="rs-grid-wrap">
+                <thead class="rs-grid-head">
+                    <tr>
+                        <th class="rs-grid-head-cell">S. No.</th>
+                        <th class="rs-grid-head-cell">Query </th>
+                    </tr>
+                </thead>
+                <tbody id="QueryBody">
+                </tbody>
+            </table>
+
+            <div class="rs-section-label">Official remarks</div>
+            <div class="rs-remarks">
+                <div class="rs-remarks-icon">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <rect x="1.5" y="1.5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.1" fill="none" />
+                        <line x1="4" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1.1" />
+                        <line x1="4" y1="7.5" x2="11" y2="7.5" stroke="currentColor" stroke-width="1.1" />
+                        <line x1="4" y1="10" x2="8" y2="10" stroke="currentColor" stroke-width="1.1" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="rs-remarks-label">Official remarks</div>
+                    <div class="rs-remarks-body">
+                        The bank statement submitted is invalid / does not meet the prescribed guidelines. Please upload a valid bank statement (last 6 months) with clear business entity name, complete transaction summary, and bank stamp / digital verification. Ensure that the statement reflects the latest 3 months of transactions and matches the registered business address.
+                    </div>
+                </div>
+            </div>
+
+            <div class="rs-deadline">
+                <div class="rs-deadline-icon">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.2" fill="none" />
+                        <line x1="7.5" y1="5.5" x2="7.5" y2="9" stroke="currentColor" stroke-width="1.3" />
+                        <line x1="7.5" y1="9" x2="10" y2="10.5" stroke="currentColor" stroke-width="1.3" />
+                        <line x1="7.5" y1="2" x2="7.5" y2="3.2" stroke="currentColor" stroke-width="1.2" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="rs-deadline-title">Rectify and resubmit within 7 days using the same RNR</div>
+                    <div class="rs-deadline-sub">
+                        If you fail to submit the application within 7 days from today, your application is <strong>deemed to be rejected</strong> and you will be required to file a new application from scratch.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="rs-actions">
+
+                <button class="rs-btn primary" onclick="gotoReg();">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <path d="M2 10.5L8 4.5L9.5 6L3.5 12L1.5 12L2 10.5z" stroke="currentColor" stroke-width="1" fill="none" />
+                        <path d="M8 4.5L9.5 3L11 4.5L9.5 6z" stroke="currentColor" stroke-width="1" fill="none" />
+                    </svg>
+                    Modify application
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var rnrno = '@Session["RNR"]';
+    var AppStatus='@Session["AppStatus"]';
+    var QuerySts='@Session["QuerySts"]';
+    $(document).ready(function () {
+        if (AppStatus == "I" && QuerySts == "Y") {
+            GetQueryDtls();
+        }
+        else {
+            window.location.href = '@Url.Action("Registration", "Registration")';
+        }
+    });
+
+    function GetQueryDtls() {
+             $.ajax({
+                    url: '@Url.Action("GetQueryDetails", "Registration")',
+                    type: 'POST',
+                    data: {
+                        rnr: rnrno
+                    },
+                    success: function (response) {
+                        if (response.length > 0) {
+                            renderQueries(response);
+                        }
+                        else {
+                            ModernAlert.toast.info(response);
+                        }
+                    },
+                    error: function () {
+                        alert(response);
+                    }
+                });
+        }
+    function renderQueries(queries) {
+        const $tbody = $('#QueryBody');
+        $tbody.empty();
+
+        if (!queries || queries.length === 0) {
+            $tbody.append('<tr><td colspan="3" style="text-align: center;">No data found</td></tr>');
+            return;
+        }
+
+        $.each(queries, function (index, query) {
+            const row = `
+            <tr class="rs-grid-row">
+                <td class="rs-grid-cell">
+                    <span class="rs-sno">${index + 1}</span>
+                </td>
+                <td class="rs-grid-cell">
+                    <span class="rs-query-tag">
+                        <span class="rs-query-dot"></span>
+                        ${query.query_name}
+                    </span>
+                </td>
+            </tr>
+        `;
+            $tbody.append(row);
+        });
+    }
+    function gotoReg() {
+        window.location.href = '@Url.Action("Registration", "Registration")';
+    }
+
+</script>

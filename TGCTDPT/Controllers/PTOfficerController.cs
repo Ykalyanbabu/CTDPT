@@ -100,7 +100,9 @@ namespace TGCTDPT.Controllers
 
         [HttpPost]
         public JsonResult ApprooveApplication(string rnr)
-        {   
+        {
+            string errorMsg;
+            string userId = Session["UserID"]?.ToString();
             if (rnr == null)
             {
                 return Json(new Response
@@ -109,13 +111,41 @@ namespace TGCTDPT.Controllers
                     message = "Invalid Data"
                 }, JsonRequestBehavior.AllowGet);
             }
-            var response = _dal.GeneratePTIN("PT",Session["Userid"].ToString());
-            /* var response = "";
-             if (strPtin != "" && strPtin != null)
-             {
-                  response = _dal.SavePTReturnYearlyDetails(rnr);
-             }*/
+            var strPtin = _dal.GeneratePTIN("PT", userId);
+            var response = "";
+            if (strPtin != "" && strPtin != null)
+            {
+                response = _dal.ApproveRNR(rnr, strPtin, userId, out errorMsg);
+                if (response == "Success") 
+                {
+                    response = strPtin; 
+                }
+            }
             return Json(new { success = true, data = response });
+        }
+
+        [HttpPost]
+        public JsonResult ChangeApplicationStatus(string rnr,string comments)
+        {
+            try
+            {
+                string LoginUser = Session["Userid"].ToString();
+
+                StatusResponse response = _dal.ChangeApplicationStatus(rnr,comments,"R",LoginUser);
+
+                if (response.Status == "Success")
+                {
+                    return Json(new { success = true, message = response.Message });
+                }
+                else
+                {
+                    return Json(new { success = false, message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
         }
     }
     

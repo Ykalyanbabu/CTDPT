@@ -374,6 +374,90 @@
             font-weight: 500;
         }
 
+        /* MODAL / REJECT DIALOG (modern overlay) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+ backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s ease;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .reject-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            animation: fadeSlideUp 0.2s ease-out;
+        }
+        @@keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            padding: 1rem 1.5rem;
+            background: #fef2f2;
+            border-bottom: 1px solid #fecaca;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+        .modal-body {
+            padding: 1.5rem;
+        }
+        .modal-body textarea {
+            width: 100%;
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+            margin-top: 0.5rem;
+        }
+        .modal-body label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            background: var(--light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
         /* ── Responsive ── */
         @@media (max-width: 768px) {
             body {
@@ -894,26 +978,43 @@
             <button class="btn btn-reset" id="btnQuery" onclick="onQuery();" style="background: cadetblue; color: white; display: block;">
                 Raise Query
             </button>
-            <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;">
+            <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;display:none;">
                 Reject
             </button>
-            <button class="btn btn-reset" id="btnPrint" onclick="window.print();" style="background: cadetblue; color: white; font-weight: bolder;">
+            <button class="btn btn-reset" id="btnPrint" onclick="window.print();" style="background: #1b7510; color: white; font-weight: bolder;">
                 Print
+            </button>
+            <button class="btn btn-reset" id="btngo" onclick="gotoApprovals();" style="background: #1b7510; color: white; font-weight: bolder;display:none;">
+                Pending Approvals
             </button>
         </div>
         <input type="hidden" id="rnrValue" value="@ViewBag.rnr" />
     </div>
-
+    <div id="rejectModalOverlay" class="modal-overlay">
+        <div class="reject-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Reject Application</h3>
+                <button class="modal-close" id="closeRejectModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="rejectComments">Rejection Reason <span style="color:#dc2626;">*</span></label>
+                <textarea id="rejectComments" rows="4" placeholder="Provide valid reason for rejection..."></textarea>
+                <small style="color: var(--secondary);">This action cannot be undone. Application will be marked as rejected.</small>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelRejectBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmRejectBtn"><i class="fas fa-trash-alt"></i> Confirm Reject</button>
+            </div>
+        </div>
+    </div>
     <script>
 
         $(document).ready(function () {
             loadFullSummary($('#rnrValue').val());
+            attachRejectModalEvents();
         });
 
         function loadFullSummary(rnr) {
-
-            // Show skeleton loaders
-            showSkeletons();
 
             $.ajax({
                 url: '@Url.Action("GetFullSummary", "PTOfficer")',
@@ -949,7 +1050,7 @@
             }
             rows.forEach((r, i) => tbody.append(rowFn(r, i + 1)));
         }
-
+        var querydate = "";
         function renderBizDtls(d) {
             if (!d) return;
             $('#spnrnr').text(d.rnr_number);
@@ -973,6 +1074,11 @@
             $('#spnAbove15k').text(d.EmpBetween_15001_20000);
             $('#spnAbove20k').text(d.EmpAbove_20000);
             $('#spnTotalEmployees').text(d.TotalEmployees);
+            querydate = d.query_date;
+            if (d.query_date != "" && d.query_date != null) {
+                $('#btnQuery').hide();
+                $('#btnReject').show();
+            }
 
         }
 
@@ -1127,13 +1233,13 @@
                 },
 
                 success: function (res) {
-
                     if (res.success) {
-                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid;
                         ModernAlert.showSuccess('Application is Approved with PTIN :' + res.data, 'PTIN Generated');
                         $('.modern-close').hide();
                         $('#btnApprove').hide();
+                        $('#btnQuery').hide();
                         $('#btnReject').hide();
+                        $('#btngo').show();
                     }
                     else {
                         ModernAlert.showError('Unable to Approve. Please try again.', 'Approve Failed');
@@ -1149,8 +1255,75 @@
         }
 
         function onQuery() {
-            var rnr = $('#spnrnr').text().trim();
-            window.location = '@Url.Action("RaiseQuery", "Query")' + '?rnr=' + rnr;
+            if (querydate == "") {
+                var rnr = $('#spnrnr').text().trim();
+                window.location = '@Url.Action("RaiseQuery", "Query")' + '?rnr=' + rnr;
+            }
+            else {
+                ModernAlert.toast.info('Unable to raise Query Again');
+            }
         }
+        function gotoApprovals() {
+            window.location = '@Url.Action("PendingApprovals", "PTOfficer")' + '?rnr=' + rnr;
+        }
+
+
+        $('#btnReject').on('click', function (e) {
+            e.preventDefault();
+            $('#rejectModalOverlay').addClass('active');
+        });
+        function attachRejectModalEvents() {
+            const modal = $('#rejectModalOverlay');
+            $('#closeRejectModalBtn, #cancelRejectBtn').on('click', function () {
+                modal.removeClass('active');
+                $('#rejectComments').val('');
+            });
+        }
+
+        $('#confirmRejectBtn').on('click', function () {
+            const comment = $('#rejectComments').val().trim();
+            if (!comment) {
+                ModernAlert.toast.info('Please provide rejection reason');
+                return;
+            }
+            const $confirmBtn = $(this);
+            $confirmBtn.prop('disabled', true).text('Processing...');
+
+            $.ajax({
+                url: '@Url.Action("ChangeApplicationStatus", "PTOfficer")',
+                type: 'POST',
+                data: {
+                    rnr: $('#spnrnr').text().trim(),
+                    comments: comment
+                },
+                success: function (res) {
+                    if (res && res.success) {
+                        ModernAlert.showSuccess(res.message || 'Application has been rejected successfully', 'Rejected');
+                        $('#rejectModalOverlay').removeClass('active');
+                        $('#btnApprove, #btnQuery, #btnReject').hide();
+                        /*setTimeout(function () {
+                            location.reload();
+                        }, 2000);*/
+                    } else {
+                        ModernAlert.toast.info('Unable to reject. Try again later.');
+                        $confirmBtn.prop('disabled', false).text('Confirm Reject');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    let errorMessage = 'Server error occurred. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    ModernAlert.toast.info('Unable to reject. Try again later.');
+                    $confirmBtn.prop('disabled', false).text('Confirm Reject');
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $confirmBtn.prop('disabled', false).text('Confirm Reject');
+                    }, 2000);
+                }
+            });
+        });
     </script>
 </body>

@@ -8,7 +8,9 @@ function LoadApplicationDtls(appid) {
         success: function (res) {
             if (res.success) {
                 var rnrno = res.data.BusinessDetails.rnr_number;
-                if (rnrno !== "" && rnrno !== undefined && rnrno !== null) {
+                var query_status = res.data.BusinessDetails.query_status;
+                var application_entry_status = res.data.BusinessDetails.application_entry_status;
+                if (rnrno !== "" && rnrno !== undefined && rnrno !== null && query_status != "Y" && application_entry_status != "I") {
                     ModernAlert.showConfirm(
                         'You have already submitted your application with ARN No. ' + rnrno + '. Do you want to track your application?',
                         'Navigate',
