@@ -60,7 +60,8 @@ namespace TGCTDPT.Controllers
 
             try
             {
-                var data = _dal.GetFullSummary(rnr);
+                string Circle = Session["CircleCode"].ToString();
+                var data = _dal.GetFullSummary(rnr, Circle);
 
                 if (data.BusinessDetails == null)
                     return JsonError($"No record found for RNR: {rnr}");
@@ -112,16 +113,21 @@ namespace TGCTDPT.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             var strPtin = _dal.GeneratePTIN("PT", userId);
-            var response = "";
+            var response = ""; bool res = false;
             if (strPtin != "" && strPtin != null)
             {
                 response = _dal.ApproveRNR(rnr, strPtin, userId, out errorMsg);
-                if (response == "Success") 
+                
+                if (response == "Success")
                 {
-                    response = strPtin; 
+                    response = strPtin;
+                    res = true;
+                }
+                else {
+                    res = false;
                 }
             }
-            return Json(new { success = true, data = response });
+            return Json(new { success = res, data = response });
         }
 
         [HttpPost]
@@ -146,6 +152,41 @@ namespace TGCTDPT.Controllers
             {
                 return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
+        }
+        [HttpPost]
+        public JsonResult TransferApplication(string rnr, string division,string circle)
+        {
+            try
+            {
+                string LoginUser = Session["Userid"].ToString();
+
+                StatusResponse response = _dal.TransferApplication(rnr, division, circle, LoginUser);
+
+                if (response.Status == "Success")
+                {
+                    return Json(new { success = true, message = response.Message });
+                }
+                else
+                {
+                    return Json(new { success = false, message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+        public ActionResult Pending_Cancel_Revoke_Requests()
+        {
+            string user_id = Session["UserID"]?.ToString();
+            var data = _dal.GetPendingRequests(user_id);
+            return View(data);
+        }
+
+        public ActionResult RequestDetails(int id)
+        {
+            var data = _dal.GetRequestDetails(id); 
+            return View(data);
         }
     }
     

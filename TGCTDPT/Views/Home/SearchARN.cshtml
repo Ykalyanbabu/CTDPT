@@ -437,6 +437,8 @@
                 <tr>
                     <th>ARN No</th>
                     <th>Enterprise Name</th>
+                    <th>Division</th>
+                    <th>Circle</th>
                     <th>Pending with</th>
                     <th>Status</th>
                     <th>Query</th>
@@ -453,6 +455,8 @@
                 <tr>
                     <th>ARN No</th>
                     <th>Enterprise Name</th>
+                    <th>Division</th>
+                    <th>Circle</th>
                     <th>Pending with</th>
                     <th>Assigned To</th>
                     <th>Status</th>
@@ -490,7 +494,7 @@
                         var tbody2 = $("#StatusBody2");
                         tbody2.empty();
                         var tbody1 = $("#StatusBody1");
-                        tbody1.append("<tr ><td colspan='7'>No Data Found<td></tr>");
+                        tbody1.append("<tr ><td colspan='9'>No Data Found<td></tr>");
                         $('#tableContainer').show();
                         $('#statustbl1').show();
                         $('#StatusBody1').show();
@@ -518,6 +522,8 @@
                 <tr >
                     <td >${item.Rnr}</td>
                     <td >${item.EnterpriseName}</td>
+                    <td >${item.division_name}</td>
+                    <td >${item.circle_name}</td>
                     <td >${item.PendingWith}</td>
                     <td >${item.AssignedTo}</td>
                     <td >${item.Status}</td>
@@ -537,6 +543,8 @@
                 <tr >
                     <td >${item.Rnr}</td>
                     <td >${item.EnterpriseName}</td>
+                    <td >${item.division_name}</td>
+                    <td >${item.circle_name}</td>
                     <td >${item.PendingWith}</td>
                     <td >${item.Status}</td>
                     <td >${item.Query}</td>

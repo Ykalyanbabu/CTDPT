@@ -1,0 +1,3451 @@
+﻿
+@{
+    ViewBag.Title = "Amendment Request";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+
+<head>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #eef2f5;
+            min-height: 100vh;
+        }
+
+        /* Main layout wrapper */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ========= MAIN CONTENT LAYOUT ========= */
+        .main-dashboard {
+            display: flex;
+            flex: 1;
+            /*padding: 0rem 2rem;*/
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* ========= MAIN CARD (CHECKBOX DYNAMIC PANEL) ========= */
+        .checkbox-panel {
+            flex: 3;
+            min-width: 320px;
+            background: white;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid #eef2f9;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 60%, #ab47bc 100%);
+            padding: 1.2rem 1.8rem;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+            .panel-header h2 {
+                font-size: 1.5rem;
+                color: white;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                justify-content: space-around;
+            }
+
+                .panel-header h2 span {
+                    background: #d4a11e20;
+                    padding: 0.2rem 0.6rem;
+                    font-size: 0.8rem;
+                    border-radius: 30px;
+                    color: #8b6b0e;
+                }
+
+        .instruction {
+            font-size: 0.8rem;
+            color: #4b6a78;
+            margin-top: 0.5rem;
+        }
+
+        /* summary bar - tax department style */
+        .summary-tax {
+            background: #fef7e0;
+            padding: 0.8rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border-bottom: 1px solid #f0e3c2;
+        }
+
+        .selected-counter {
+            background: #0b3b2f;
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .selected-items-text {
+            font-size: 0.8rem;
+            color: #2c4a2e;
+            font-weight: 500;
+            max-width: 65%;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        /* TWO COLUMN CHECKBOX GRID */
+        .dynamic-grid {
+            padding: 1.8rem;
+        }
+
+        .grid-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .checkbox-card {
+            flex: 1 1 calc(50% - 0.8rem);
+            background: #ffffff;
+            border: 1px solid #e4e9f0;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+            .checkbox-card:hover {
+                background: #fafeff;
+                border-color: #bbd4c9;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+            }
+
+            .checkbox-card input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 1.25rem;
+                height: 1.25rem;
+                border: 2px solid #b9c8d0;
+                border-radius: 0.35rem;
+                margin-right: 0.9rem;
+                position: relative;
+                cursor: pointer;
+                background: white;
+                transition: 0.1s;
+                flex-shrink: 0;
+            }
+
+                .checkbox-card input[type="checkbox"]:checked {
+                    background-color: #1f6e52;
+                    border-color: #1f6e52;
+                }
+
+                    .checkbox-card input[type="checkbox"]:checked::after {
+                        content: "✔";
+                        font-size: 0.75rem;
+                        font-weight: bold;
+                        color: white;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+
+            .checkbox-card label {
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: #1f2f3a;
+                cursor: pointer;
+                flex: 1;
+                letter-spacing: -0.2px;
+            }
+
+            .checkbox-card input:checked + label {
+                color: #0f5e48;
+                font-weight: 600;
+            }
+
+        /* action buttons */
+        .action-buttons {
+            padding: 0.2rem 1.8rem 1.8rem 1.8rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            /*border-top: 1px solid #ecf3e8;*/
+            margin-top: -1.5rem;
+            justify-content: space-around;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.55rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f1f4f9;
+            color: #1f3b44;
+        }
+
+        .btn-primary {
+            background: #0b3b2f;
+            color: white;
+            box-shadow: 0 2px 6px rgba(11,59,47,0.2);
+        }
+
+            .btn-primary:hover {
+                background: #1b5e4a;
+                transform: translateY(-1px);
+            }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #cbdde2;
+        }
+
+            .btn-outline:hover {
+                background: #eef3f6;
+            }
+
+        .btn-warning {
+            background: #fff1e0;
+            color: #aa6f20;
+        }
+
+            .btn-warning:hover {
+                background: #ffe2bf;
+            }
+
+        /* footer */
+        .dept-footer {
+            background: #132e27;
+            color: #cbd5d1;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.7rem;
+            margin-top: auto;
+        }
+
+        @@media (max-width: 750px) {
+            .main-dashboard {
+                padding: 1.2rem;
+            }
+
+            .selected-items-text {
+                white-space: normal;
+                max-width: 100%;
+            }
+
+            .checkbox-card {
+                flex: 1 1 100%;
+            }
+
+            .gov-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .datetime-area {
+                text-align: center;
+            }
+        }
+
+        .card {
+            max-width: 1100px !important;
+            margin: 0px auto;
+            padding: 25px;
+            /*border: 2px solid #374151;
+            border-radius: 6px;*/
+            background: #ffffff;
+        }
+
+            .card h5.text-primary {
+                font-weight: 600 !important;
+                border-left: 4px solid #690376;
+                padding-left: 10px;
+                color: blue;
+            }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-dashboard">
+            <div class="checkbox-panel">
+                <div class="panel-header">
+                    <h2>Registration Amendment Request</h2>
+                    @*<div class="instruction"></div>*@
+                </div>
+                @*<div class="summary-tax">
+                        <div class="selected-counter" id="counterDynamic">0 selected</div>
+                        <div class="selected-items-text" id="selectedListDynamic">📌 No tasks selected</div>
+                    </div>*@
+                <div class="dynamic-grid" id="checkboxGrid"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="btnProceed" onclick="OnProceed();">Proceed</button>
+                    <button class="btn btn-primary" id="btnBack" style="display: none; background-color: brown;" onclick="OnBack();">Back</button>
+                </div>
+                <div id="DivEntryPannel" style="display:none;">
+                    <div class="text-center mb-4" id="divRuleBanner" style="display:none;">
+                        <h5 class="fw-bold text-primary" style="color: blue;">Form I and Form II </h5>
+                        <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
+
+                        <h6>
+                            Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
+                            Under the Telangana Professions,Trades,Callings and Employement Act,1987
+                        </h6>
+                    </div>
+
+                    <div id="divBusiness" class="container mt-4" style="display: none;">
+                        <div class="card">
+                            <!-- Step -->
+                            <!--<span class="badge bg-secondary mb-3">Step 1</span>-->
+                            <!-- Title -->
+
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Enterprise Name and Details</h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>
+                                            Division <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="bz_division">
+                                            <option value="">--Select-- </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Circle <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="bz_circle">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Name of the Enterprise/Individual <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="enterprise_name" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            PAN (Business) <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="business_pan" maxlength="10" class="form-control" onblur="ValidatePAN(this), CheckPAN();" style="text-transform:uppercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Constitution of Business <span class="text-danger">*</span>
+                                        </label>
+
+                                        <select class="form-control" id="cobz" onclick="onChangeCobz();">
+                                            <option value="">--Select--</option>
+                                            <option value="Proprietorship">Proprietorship/Individual</option>
+                                            <option value="Partnership">Partnership</option>
+                                            <option value="PLC">Private Limited Company</option>
+                                            <option value="LLP">Limited Liability Partnership (LLP)</option>
+                                            <option value="PSU">Public Sector Undertaking</option>
+                                            <option value="Society">Society</option>
+                                            <option value="Trust">Trust</option>
+                                            <option value="Government">Government Department</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="display:none;">
+                                        <label>
+                                            TAN (Business)
+                                        </label>
+                                        <input type="text" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Email <span class="text-danger">*</span>
+                                        </label>
+
+                                        <input type="email" id="email_id" class="form-control" style="text-transform: lowercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="mobile_no" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="door_no" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="road_street" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="locality" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="city" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="mandal" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            District <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="district">
+                                            <option value=""> </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="pincode" class="form-control" min="6" max="6" onkeypress="return isNumber(event)">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divEmployee" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Employee Details</h5>
+                                <hr />
+                                <div class="form-group" style="width:150%">
+                                    <label style="margin-top: 15px;">
+                                        <b>
+                                            Do you have Employees?
+                                        </b> <span class="text-danger">*</span>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="chkisEmp" onchange="fn_chkisEmp(this.value);" name="rdb_isemp" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkisEmp" name="rdb_isemp" onchange="fn_chkisEmp(this.value);" value="No"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-grid" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" id="divIsEmp">
+                                    <div class="form-group">
+                                        <label>
+                                            Number Of Employees Earning Below 15000 per month <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" min="10" max="10" id="emp_below_15000" class="form-control" style="width:50%;" onkeypress="return isNumber(event)">
+                                        <br />
+                                        <label>
+                                            Number Of Employees Earning between 15001 to 20000 per month <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" min="10" max="10" id="emp_between_15001_20000" class="form-control" style="width:50%;" onkeypress="return isNumber(event)">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Number Of Employees Earning above 20000 per month <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" min="10" max="10" id="emp_above_20000" class="form-control" style="width:50%;" onkeypress="return isNumber(event)">
+                                        <br />
+                                        <label>
+                                            Total Number Of Employees Working <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" min="10" max="10" id="tot_emp" class="form-control" style="width:50%;" onkeypress="return isNumber(event)" readonly>
+                                    </div>
+                                    <br />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divKeyDetails" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Owner/Proprietor/Managing Director/Managing Partner/Chairman/Professional Details </h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>
+                                            Name  <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_owner_name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Father Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_father_name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Status of the Individual <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_status_of_individual" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Email <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" id="O_email_id" class="form-control" style="text-transform: lowercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_door_no" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_road_street" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Locality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_locality" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_city" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_mandal" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Country <span class="text-danger"></span>
+                                        </label>
+                                        <select class="form-control" id="O_country" onchange="onOwnerConutryChange();">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="divOwnerState">
+                                        <label>
+                                            State <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="O_state_name" onchange="onOwnerStateChange();">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="divOwnerDist">
+                                        <label>
+                                            District <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select" id="O_distict">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="txtOwnerDist" style="display:none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" maxlength="6" minlength="6" id="O_pincode" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PAN(Owner) <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" maxlength="10" minlength="10" id="O_pan" onblur="ValidatePAN(this);" style="text-transform:uppercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Aadhaar <span class="text-danger"></span>
+                                        </label>
+                                        <input type="text" maxlength="12" id="O_aadhaar" class="form-control" minlength="12" onblur="ValidateAadhaar(this);" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="O_mobile_no" maxlength="10" minlength="10" class="form-control" onkeypress="return isNumber(event)">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divAuthPerson" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
+                                <hr />
+                                <div class="form-group" style="width:150%">
+                                    <label style="margin-top: 15px;">
+                                        <b>
+                                            Have you Nominated any Authorised Person?
+                                        </b> <span class="text-danger">*</span>
+                                    </label>
+                                    <div>
+                                        <label for="rdbYes">
+                                            <input type="radio" id="chkAuthrisedprsn" onchange="fn_chkAuthorisedprsn(this.value);" name="rdb_auth_prsn" value="Yes"> Yes
+                                        </label>
+                                        <label for="rdbNo" style="margin-left:15px;">
+                                            <input type="radio" id="chkAuthrisedprsn" name="rdb_auth_prsn" onchange="fn_chkAuthorisedprsn(this.value);" value="No"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-grid" id="divAuthorised">
+                                    <div class="form-group">
+                                        <label>
+                                            Name  <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_name" class="form-control" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Father Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_fname" class="form-control" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Email <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" id="auth_email" class="form-control" style="text-transform: lowercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_door_no" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_road_street" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_locality" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_city" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            District <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="auth_district">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_pincode" maxlength="6" minlength="6" class="form-control" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PAN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_pan" maxlength="10" minlength="10" onblur="ValidatePAN(this);" class="form-control" style="text-transform:uppercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Aadhaar <span class="text-danger"></span>
+                                        </label>
+                                        <input type="text" id="auth_aadhaar" maxlength="12" minlength="12" class="form-control" onblur="ValidateAadhaar(this);" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="auth_mobile_no" maxlength="10" minlength="10" class="form-control" onkeypress="return isNumber(event)">
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <div id="divPartnerDirector" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Partner/Director Details</h5>
+                                <hr />
+                                <div class="form-grid" id="divYesPartners">
+                                    <div class="form-group">
+                                        <label>
+                                            Name  <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="dir_prtnr_name" class="form-control" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Director/Partner <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="dir_prtnr_type">
+                                            <option value="0">--Select--</option>
+                                            <option value="Director">Director</option>
+                                            <option value="Partner">Partner</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Drawing Remuneration in this Firm? <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="dir_prtnr_remunrtn">
+                                            <option value="0">--Select--</option>
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="dir_prtnr_door_no" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_road_street">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_locality">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_city">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_mandal">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Country <span class="text-danger"></span>
+                                        </label>
+                                        <select class="form-control" id="dir_prtnr_country" onchange="onDirectorCountryChange();">
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="divDirectorState">
+                                        <label>
+                                            State <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="dir_prtnr_state" onchange="onDirectorStateChange();">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="divDirectorDist">
+                                        <label>
+                                            District <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="dir_prtnr_district">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="dir_prtnr_txtDist" style="display:none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_pincode" maxlength="6" minlength="6" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PAN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="dir_prtnr_pan" onblur="ValidatePAN(this);" maxlength="10" minlength="10" style="text-transform:uppercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Aadhaar <span class="text-danger"></span>
+                                        </label>
+                                        <input type="text" maxlength="12" minlength="12" id="dir_prtnr_aadhaar" onblur="ValidateAadhaar(this);" class="form-control" onkeypress="return isNumber(event)">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Email Id
+                                        </label>
+                                        <input type="email" class="form-control" id="dir_prtnr_email" style="text-transform: lowercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" maxlength="10" minlength="10" class="form-control" id="dir_prtnr_mobile" onkeypress="return isNumber(event)">
+                                    </div>
+
+
+                                </div>
+                                <div id="divNoPartners" style="display:none;">
+                                    <h5>Partner/Director Details not Required for Proprietorship/Individual</h5>
+                                </div>
+                                <br />
+                                <div style="display: flex; justify-content: center; margin: 0px 0px 15px 0px;">
+                                    <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPartner" style="font-size: medium;background-color:forestgreen;color:white;">
+                                        <i class="fa fa-plus"></i> Add Director / Partner
+                                    </button>
+                                </div>
+                            </form>
+                            <hr class="mt-4" />
+
+                            <h6 class="text-primary mb-3" id="hdr1">Added Partner / Director Details</h6>
+
+                            <div class="table-responsive" id="divPartnerstable">
+                                <table class="table table-bordered table-hover align-middle" id="dirprtnrTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Name</th>
+                                            <th>Director/Partner</th>
+                                            <th>Drawing Remuneration</th>
+                                            <th>Door Number </th>
+                                            <th>Road / Street / <br />Building Name </th>
+                                            <th>Locality </th>
+                                            <th>City / Town / Village </th>
+                                            <th>Mandal / Municipality </th>
+                                            <th>District </th>
+                                            <th>State </th>
+                                            <th>Country </th>
+                                            <th>PIN  </th>
+                                            <th>PAN  </th>
+                                            <th>Aadhar </th>
+                                            <th> Email Id </th>
+                                            <th>Mobile No. </th>
+                                            <th style="width:120px;" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="PartnerBody">
+                                        <tr id="noDataRow">
+                                            <td colspan="7" class="text-center text-muted">
+                                                No Partner / Director added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divAdditionalPlace" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary"> Additional Places of Business Address</h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label style="width: 300px;">
+                                            <b> Do you have Additional Place of Business? </b><span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <label for="rdbAdlpYes">
+                                                <input type="radio" id="chkAdditionalPlace" onchange="fn_chkAdditionalPlace(this.value);" name="addl_rdb" value="Yes"> Yes
+                                            </label>
+                                            <label for="rdbAdlpNo" style="margin-left:15px;">
+                                                <input type="radio" id="chkAdditionalPlace" name="addl_rdb" onchange="fn_chkAdditionalPlace(this.value);" value="No"> No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-grid" id="divAddPlace">
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="addl_plc_door_no" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="addl_plc_road_street">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="addl_plc_locality">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="addl_plc_city">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="addl_plc_mandal">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Country <span class="text-danger"></span>
+                                        </label>
+                                        <select class="form-control" id="addl_plc_country" onchange="onAddlBzCountryChange();">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="divAddlPlaceState">
+                                        <label>
+                                            State <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="addl_plc_state" onchange="onAddlBzStateChange();">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="divAddlPlaceDist">
+                                        <label>
+                                            District <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="addl_plc_district">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="addl_plc_district_text" style="display:none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" maxlength="6" minlength="6" id="addl_plc_pincode" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div style="align-content: flex-end;">
+                                        <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 0px 0px;font-size: medium;background-color:forestgreen;color:white;">
+                                            <i class="fa fa-plus"></i> Add Place
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                            <hr class="mt-4" />
+
+                            <h6 class="text-primary mb-3" id="h6AddedPlaces">Added Additional Place Details</h6>
+
+                            <div class="table-responsive" id="tblAddedPlaces">
+                                <table class="table table-bordered table-hover align-middle" id="AdditionalPlaceTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Country </th>
+                                            <th>State </th>
+                                            <th>District </th>
+                                            <th>Mandal / Municipality </th>
+                                            <th>Door Number </th>
+                                            <th>City / Town / Village </th>
+                                            <th>Road / Street / <br />Building Name </th>
+                                            <th>Locality </th>
+                                            <th>PIN  </th>
+                                            <th style="width:120px;" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="AddlPlaceBody">
+                                        <tr id="noDataRow1">
+                                            <td colspan="10" class="text-center text-muted">
+                                                No Additional Place added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="divBankDtls" class="container mt-4" style="display:none;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-4 mb-2 text-primary">Bank Details</h5>
+                                <hr />
+                                <div class="table-responsive">
+                                    <table class="table table-bordered align-middle" id="bankTable" style="font-size: small;">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width:20%">Bank Name</th>
+                                                <th style="width:20%">Account Number</th>
+                                                <th style="width:20%">Account Holder Name</th>
+                                                <th style="width:15%">IFSC Code</th>
+                                                <th style="width:20%">Branch Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <select class="form-control" id="bank_name">
+                                                        <option value="">-- Select --</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="account_number" placeholder="Account Number" onblur="checkAcNumber();" onkeypress="return isNumber(event)">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="account_holder_name" placeholder="Account Holder Name">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code" style="text-transform:uppercase;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="branch_address" placeholder="Branch Address">
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div style="display: flex; justify-content: center; margin: 0px 0px 15px 0px;">
+                                        <button type="button" class="btn btn-success px-4 w-auto" id="btnAddbnk" style="font-size: medium;background-color:forestgreen;color:white;">
+                                            <i class="fa fa-plus"></i> Add Bank
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-4" />
+
+                                <h6 class="text-primary mb-3" id="h6Addedbank">Added Bank Details</h6>
+
+                                <div class="table-responsive" id="tblbnkdtls">
+                                    <table class="table table-bordered table-hover align-middle" id="bankdetailsTable" style="font-size: small;">
+                                        <thead class="table-light" style="text-align: center;">
+                                            <tr>
+                                                <th>S No. </th>
+                                                <th>Bank Name </th>
+                                                <th>Account Number </th>
+                                                <th>Account Holder Name </th>
+                                                <th>IFSC Code </th>
+                                                <th>Bank Address</th>
+                                                <th style="width:120px;" class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="BankDtlsBody">
+                                            <tr id="noDataRow2">
+                                                <td colspan="10" class="text-center text-muted">
+                                                    No Bank Details Added
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div id="divDocuments" class="container mt-4" style="display:block;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Upload Support Documents</h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>
+                                            Document Name <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" id="doc_name">
+                                            <option value="0">--Select--</option>
+                                            <option value="1">Address Proof of Principal place of Business [Sale Deed/Rental Agreement/Lease Deed/Sub Lease Deed(Upload along with Main Lease Deed)/No Objection Certoficate in case of Rent Free]</option>
+                                            <option value="2">Copy of PAN Card of Business</option>
+                                            <option value="3">Latest Bank Statement</option>
+                                            <option value="4">Deed of Partnership/Memorandum and Articles of Association along with Certificate from Registrar of Companies in  case of Private Limited Company/Public Limited Company</option>
+                                            <option value="5">Copy of PAN Card of Partners/Directors</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Select File <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="file" class="form-control" id="doc_file" accept="application/pdf">
+                                    </div>
+                                    <div style="align-content: flex-end;">
+                                        <button type="button" class="btn btn-success px-4 w-auto" id="btnUploadDoc" style="margin: 0px 0px 0px 0px; font-size: medium; background-color: forestgreen; color: white;">
+                                            <i class="fa fa-plus"></i> Upload File
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr class="mt-4" />
+
+                            <h6 class="text-primary mb-3">Uploaded Documents List</h6>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover align-middle" id="DocumentsTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Document Name </th>
+                                            <th style="width:120px;" class="text-center">View</th>
+                                            <th style="width:120px;" class="text-center">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FilesBody">
+                                        <tr id="noDataRowFiles">
+                                            <td colspan="5" class="text-center text-muted">
+                                                No Files added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="action-buttons" style="margin: 5px 0px 0px 0px;">
+                        <button class="btn btn-primary" id="btnSubmit" onclick="SubmitAmendment();" style="background-color: #8f0aa7; width: 15%;">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/ViewJs/AmendmentScript.js"></script>
+    <script>
+
+            var _Ptin = '@Session["Tin"]';
+            var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Amendments")';
+
+        let gridContainer = document.getElementById('checkboxGrid');
+        const counterSpan = document.getElementById('counterDynamic');
+        const selectedSpan = document.getElementById('selectedListDynamic');
+
+        function renderDynamicGrid() {
+            if (!gridContainer) return;
+            gridContainer.innerHTML = '';
+            const itemCount = Amendments.length;
+            const rows = Math.ceil(itemCount / 2);
+            let pointer = 0;
+
+            for (let i = 0; i < rows; i++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'grid-row';
+
+                // first checkbox of row
+                if (pointer < itemCount) {
+                    const item1 = Amendments[pointer];
+                    const chkDiv1 = createCheckboxCard(item1, pointer);
+                    rowDiv.appendChild(chkDiv1);
+                    pointer++;
+                }
+                // second checkbox of row
+                if (pointer < itemCount) {
+                    const item2 = Amendments[pointer];
+                    const chkDiv2 = createCheckboxCard(item2, pointer);
+                    rowDiv.appendChild(chkDiv2);
+                    pointer++;
+                }
+                gridContainer.appendChild(rowDiv);
+            }
+        }
+
+        function createCheckboxCard(item, idx) {
+            const card = document.createElement('div');
+            card.className = 'checkbox-card';
+
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.id = `amnd_chk_${item.amendment_type_id}`;
+            cb.checked = item.checked;
+
+            const label = document.createElement('label');
+            label.htmlFor = `amnd_chk_${item.amendment_type_id}`;
+            label.textContent = item.amendment_type_name;
+
+            card.appendChild(cb);
+            card.appendChild(label);
+
+            cb.addEventListener('change', (e) => {
+                item.checked = e.target.checked;
+                onCheckAmendment(item.amendment_type_id, item.checked);
+            });
+
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'INPUT') {
+                    const checkInput = card.querySelector('input');
+                    if (checkInput) {
+                        checkInput.checked = !checkInput.checked;
+                        const changeEvent = new Event('change', { bubbles: true });
+                        checkInput.dispatchEvent(changeEvent);
+                    }
+                }
+            });
+
+            return card;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDynamicGrid();
+
+            const selectBtn = document.getElementById('selectAllBtn');
+            const clearBtn = document.getElementById('clearAllBtn');
+            const resetBtn = document.getElementById('resetDefaultBtn');
+
+            if (selectBtn) selectBtn.addEventListener('click', selectAll);
+            if (clearBtn) clearBtn.addEventListener('click', clearAll);
+            if (resetBtn) resetBtn.addEventListener('click', resetDefault);
+
+        });
+
+
+        var Amendments = [];
+        $(document).ready(function () {
+            getAmendments();
+            LoadApplicationDtls(_Ptin);
+        });
+
+        function getAmendments() {
+            $.ajax({
+                url: '@Url.Action("GetAmendments", "Amendments")',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.length > 0) {
+                        Amendments = response;
+                        renderDynamicGrid();
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function onCheckAmendment(id, status) {
+            const checkedCount = $('.dynamic-grid input:checkbox:checked').length;
+            if (checkedCount > 0) {
+                $('#divRuleBanner').show();
+            }
+            else {
+                $('#divRuleBanner').hide();
+            }
+            if (id == "1") {
+                if (status) {
+                    $('#divBusiness').show();
+                }
+                else {
+                    $('#divBusiness').hide();
+                }
+            }
+            if (id == "2") {
+                if (status) {
+                    $('#divEmployee').show();
+                }
+                else {
+                    $('#divEmployee').hide();
+                }
+            }
+            if (id == "3") {
+                if (status) {
+                    $('#divKeyDetails').show();
+                }
+                else {
+                    $('#divKeyDetails').hide();
+                }
+            }
+            if (id == "4") {
+                if (status) {
+                    $('#divAuthPerson').show();
+                }
+                else {
+                    $('#divAuthPerson').hide();
+                }
+            }
+            if (id == "5") {
+                if (status) {
+                    $('#divPartnerDirector').show();
+                }
+                else {
+                    $('#divPartnerDirector').hide();
+                }
+            }
+            if (id == "6") {
+                if (status) {
+                    $('#divAdditionalPlace').show();
+                }
+                else {
+                    $('#divAdditionalPlace').hide();
+                }
+            }
+            if (id == "7") {
+                if (status) {
+                    $('#divBankDtls').show();
+                }
+                else {
+                    $('#divBankDtls').hide();
+                }
+            }
+        }
+        function fn_chkisEmp() {
+            if ($('#chkisEmp').is(':checked') == true) {
+                $('#divIsEmp').show();
+            }
+            else {
+                $('#divIsEmp').hide();
+            }
+        }
+        function fn_chkAuthorisedprsn() {
+            if ($('#chkAuthrisedprsn').is(':checked') == true) {
+                $('#divAuthorised').show();
+            }
+            else {
+                $('#divAuthorised').hide();
+            }
+        }
+        function fn_chkAdditionalPlace() {
+            if ($('#chkAdditionalPlace').is(':checked') == true) {
+                $('#divAddPlace').show();
+                $('#h6AddedPlaces').show();
+                $('#tblAddedPlaces').show();
+
+            }
+            else {
+                $('#divAddPlace').hide();
+                $('#h6AddedPlaces').hide();
+                $('#tblAddedPlaces').hide();
+            }
+        }
+        function OnProceed() {
+            const checkedCount = $('.dynamic-grid input:checkbox:checked').length;
+            if (checkedCount == 0) {
+                ModernAlert.toast.info('Please slect atleast one Amendment Type to Proceed');
+                return false;
+            }
+            $('#btnProceed').hide();
+            $('#checkboxGrid').hide();
+            $('#btnBack').show();
+            $('#DivEntryPannel').show();
+        }
+        function OnBack() {
+            $('#btnBack').hide();
+            $('#DivEntryPannel').hide();
+            $('#btnProceed').show();
+            $('#checkboxGrid').show();
+        }
+        function SubmitAmendment() {
+
+        }
+
+        function loadDivisions(division) {
+            $.ajax({
+                url: '@Url.Action("GetDivisions","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    var dropdown = $('#bz_division');
+                    dropdown.empty();
+                    dropdown.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.division_code + '">' + item.division_name + '</option>');
+                    });
+
+                    if (division != null && division != undefined && division != "") {
+                        $('#bz_division').val(division);
+                    }
+                },
+                error: function () {
+                    alert('Failed to load divisions');
+                }
+            });
+        }
+        $('#bz_division').change(function () {
+
+            var divisionId = $(this).val();
+
+            if (divisionId !== "") {
+                loadCircles(divisionId);
+            } else {
+                $('#bz_circle').empty().append('<option value="">Select Circle</option>');
+            }
+        });
+        function loadCircles(divisionId, Circle) {
+            $.ajax({
+                url: '@Url.Action("GetCirclesByDivision", "Registration")',
+                type: 'GET',
+                data: { divisionId: divisionId },
+                success: function (data) {
+
+                    var dropdown = $('#bz_circle');
+                    dropdown.empty();
+                    dropdown.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.circle_code + '">' + item.circle_name + '</option>');
+                    });
+
+                    if (Circle != null && Circle != undefined && Circle != "") {
+                        $('#bz_circle').val(Circle);
+                    }
+                },
+                error: function () {
+                    alert('Failed to load circles');
+                }
+            });
+        }
+        function LoadCountries(Country, ddl) {
+            $.ajax({
+                url: '@Url.Action("GetCountryStates", "Registration")',
+                type: 'GET',
+                data: { Type: "C" },
+                success: function (data) {
+                    if (ddl == null || ddl == undefined || ddl == "") {
+                        var dropdown1 = $('#O_country');
+                        var dropdown2 = $('#dir_prtnr_country');
+                        var dropdown3 = $('#addl_plc_country');
+
+                        dropdown1.empty(); dropdown2.empty(); dropdown3.empty();
+                        dropdown1.append('<option value="">--Select--</option>');
+                        dropdown2.append('<option value="">--Select--</option>');
+                        dropdown3.append('<option value="">--Select--</option>');
+
+                        $.each(data, function (i, item) {
+                            dropdown1.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                            dropdown2.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                            dropdown3.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                        });
+                    }
+                    else {
+                        if (ddl != null && ddl != undefined && ddl != "") {
+                            var preloadddl = $('#' + ddl);
+                            preloadddl.empty();
+                            preloadddl.append('<option value="">--Select--</option>');
+                            $.each(data, function (i, item) {
+                                preloadddl.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                            });
+                            if (Country != null && Country != undefined && Country != "") {
+                                $('#' + ddl).val(Country);
+                            }
+                        }
+                    }
+
+                },
+                error: function () {
+                    alert('Failed to load Countries');
+                }
+            });
+        }
+        function LoadStates(State, ddl) {
+            $.ajax({
+                url: '@Url.Action("GetCountryStates", "Registration")',
+                type: 'GET',
+                data: { Type: "S" },
+                success: function (data) {
+                    if (ddl != null && ddl != undefined && ddl != "") {
+                        var preloadddl = $('#' + ddl);
+                        preloadddl.empty();
+                        preloadddl.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            preloadddl.append('<option value="' + item.state_code + '">' + item.state_name + '</option>');
+                        });
+                        if (State != null && State != undefined && State != "") {
+                            $('#' + ddl).val(State);
+                        }
+                    }
+                },
+                error: function () {
+                    alert('Failed to load States');
+                }
+            });
+        }
+
+        function LoadDistricts(district, ddl) {
+            $.ajax({
+                url: '@Url.Action("GetDistricts", "Registration")',
+                type: 'GET',
+                success: function (data) {
+                    if (ddl != null && ddl != undefined && ddl != "") {
+                        var preloadddl = $('#' + ddl);
+                        preloadddl.empty();
+                        preloadddl.append('<option value="">--Select--</option>');
+                        $.each(data, function (i, item) {
+                            preloadddl.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                        });
+                        if (district != null && district != undefined && district != "") {
+                            $('#' + ddl).val(district);
+                        }
+                    }
+                },
+                error: function () {
+                    alert('Failed to load States');
+                }
+            });
+        }
+
+
+
+
+
+
+         function CheckPAN() {
+
+            var pan = $('#business_pan').val().toUpperCase();
+
+            if (pan === "") {
+                $('#panError').text("pan number is required");
+                return false;
+            }
+            $('#panError').text("");
+
+            $.ajax({
+                url: '@Url.Action("CheckPantoPT", "Registration")',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    pan: pan
+                },
+                success: function (response) {
+
+                    if (response && response.length > 0) {
+
+                        var _ptin = response[0].ptin;
+
+                        ModernAlert.showConfirm(
+                            'you already have a ptin. do you want to proceed?',
+                            'navigate',
+                            function (confirmed) {
+                                if (confirmed) {
+                                    window.location.href =
+                                        '@Url.Action("Login", "PTHome")?ptin=' + encodeURIComponent(_ptin);
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        // optional: don't show error popup here (bad ux)
+                        console.log("pan not found, continue registration");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+            function validateBusiness() {
+
+                var container = document.querySelector("#divBusiness");
+                var inputs = container.querySelectorAll("input, select");
+                var valid = true;
+
+                inputs.forEach(function (input) {
+
+                    if (input.offsetParent !== null) {
+                        if (input.value.trim() === "") {
+                            input.style.border = "1px solid red";
+                            valid = false;
+                        } else {
+                            input.style.border = "";
+                        }
+                    }
+
+                });
+                if (!valid) {
+                    ModernAlert.toast.info('Please fill all required fields');
+                    return false;
+                }
+
+                var gonext = true;
+                console.log(gonext);
+
+                if (gonext === true) {
+                    var savedetails = fn_savedetails();
+
+                    if (savedetails) {
+
+                        showTab("1");
+                    }
+                    else {
+                        showTab("0");
+                    }
+
+                }
+                else {
+                    showTab("0");
+                }
+
+            }
+            var FirstTabHist = "";
+            function fn_savedetails() {
+
+                var data = {
+                    enterprise_name: $("#enterprise_name").val(),
+                    business_pan: $("#business_pan").val(),
+                    cobz: $("#cobz").val(),
+                    email_id: $("#email_id").val(),
+                    mobile_no: $("#mobile_no").val(),
+                    door_no: $("#door_no").val(),
+                    road_street: $("#road_street").val(),
+                    locality: $("#locality").val(),
+                    city: $("#city").val(),
+                    mandal: $("#mandal").val(),
+                    district_code: $("#district").val(),
+                    district_name: $('#district option:selected').text(),
+                    pincode: $("#pincode").val(),
+                    division_code: $("#bz_division").val(),
+                    circle_code: $("#bz_circle").val()
+                };
+                console.log()
+
+                $.ajax({
+                    url: '@Url.Action("SaveBusinessDetails", "Registration")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if (response.success) {
+                            $('#lblApplicationId').html("Application Id: " + response.data.application_id);
+                            AppId = response.data.application_id;
+                            if (FirstTabHist != "Y") {
+                                ModernAlert.showSuccess(
+                                    'Please note this Application ID: ' + response.data.application_id +
+                                    ' for future reference. These details have also been sent to your registered email address: ' + $('#email_id').val(),
+                                    'Saved'
+                                );
+                            }
+                            FirstTabHist = "Y";
+                            showTab("1");
+                        }
+                        else {
+                            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                            showTab("0");
+                        }
+                    },
+                    error: function () {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                    }
+                });
+
+            }
+
+        /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
+
+        /*##################FOR SAVING THE EMPLOYEE DETAILS DATA#######################*/
+        function calculateTotalEmployees() {
+
+            let below = parseInt($('#emp_below_15000').val()) || 0;
+            let between = parseInt($('#emp_between_15001_20000').val()) || 0;
+            let above = parseInt($('#emp_above_20000').val()) || 0;
+
+            let total = below + between + above;
+
+            $('#tot_emp').val(total);
+        }
+
+        // auto trigger when user types
+        $('#emp_below_15000, #emp_between_15001_20000, #emp_above_20000')
+            .on('input', function () {
+                calculateTotalEmployees();
+            });
+
+
+            function validate_emp() {
+
+                var isemp = $("input[name='rdb_isemp']:checked").val();
+                if (!isemp) {
+                    ModernAlert.toast.info('Please select Yes or No for Employee Status');
+                    return false;
+                }
+
+            if ($('#chkisEmp').is(":checked") == true) {
+                var container = document.querySelector("#divEmployee");
+                var inputs = container.querySelectorAll("input");
+                var valid = true;
+
+                inputs.forEach(function (input) {
+
+                    if (input.offsetParent !== null) {
+
+                        if (input.value.trim() === "") {
+                            input.style.border = "1px solid red";
+                            valid = false;
+                        }
+                        else {
+                            input.style.border = "";
+                        }
+                    }
+
+                });
+
+                if (!valid) {
+                    alert("Please fill all required fields.");
+                    return false;
+                }
+
+                saveEmployeeDetails(); // call ajax
+            }
+            else {
+                $("#emp_below_15000").val("");
+                $("#emp_between_15001_20000").val("");
+                $("#emp_above_20000").val("");
+                $("#tot_emp").val("");
+                saveEmployeeDetails();
+            }
+        }
+            function saveEmployeeDetails() {
+                var _isemp = "";
+                if ($('#chkisEmp').is(":checked") == true) { _isemp = "1" } else { _isemp="0"}
+                var data = {
+                emp_below_15000: $("#emp_below_15000").val()|| 0,
+                emp_between_15001_20000: $("#emp_between_15001_20000").val() || 0,
+                emp_above_20000: $("#emp_above_20000").val() || 0,
+                tot_emp: $("#tot_emp").val() || 0,
+                isemp: _isemp
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveEmployeeDetails","Registration")' ,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                success: function (response) {
+                             if (response.success) {
+                                     showTab("2");
+                             }
+                             else {
+                                    alert("Please Enter the Details Correctly.");
+                                    showTab("1");
+                             }
+                },
+                error: function (xhr) {
+
+                        alert("Error Saving Employee Details");
+                    }
+                });
+
+        }
+
+        /*##################FOR SAVING THE EMPLOYEE DETAILS DATA#######################*/
+
+        /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
+
+            function validate_ownr_md() {
+                if ($('#O_owner_name').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Name');
+                    $('#O_owner_name').focus();
+                    return false;
+                }
+                if ($('#O_father_name').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Father Name');
+                    $('#O_father_name').focus();
+                    return false;
+                }
+                if ($('#O_status_of_individual').val() == "") {
+                    ModernAlert.toast.info('Please select Status of the Individual ');
+                    $('#O_status_of_individual').focus();
+                    return false;
+                }
+                if ($('#O_email_id').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Email Id');
+                    $('#O_email_id').focus();
+                    return false;
+                }
+                if ($('#O_door_no').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Door Number');
+                    $('#O_door_no').focus();
+                    return false;
+                }
+                if ($('#O_road_street').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Road / Street / Building Name');
+                    $('#O_road_street').focus();
+                    return false;
+                }
+                if ($('#O_locality').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Locality ');
+                    $('#O_locality').focus();
+                    return false;
+                }
+                if ($('#O_city').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner City / Town / Village ');
+                    $('#O_city').focus();
+                    return false;
+                }
+                if ($('#O_mandal').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Madal');
+                    $('#O_mandal').focus();
+                    return false;
+                }
+                if ($('#O_country').val() == "") {
+                    ModernAlert.toast.info('Please select Owner Country');
+                    $('#O_country').focus();
+                    return false;
+                }
+                if ($('#O_country').val() == "1") {
+                    if ($('#O_state_name').val() == "") {
+                        ModernAlert.toast.info('Please select Owner State');
+                        $('#O_state_name').focus();
+                        return false;
+                    }
+
+                    if ($('#O_state_name').val() == "36") {
+                        if ($('#O_distict').val() == "") {
+                            ModernAlert.toast.info('Please select Owner District');
+                            $('#O_distict').focus();
+                            return false;
+                        }
+                    }
+                    if ($('#O_state_name').val() != "36") {
+                        if ($('#txtOwnerDist').val() == "") {
+                            ModernAlert.toast.info('Please enter Owner District');
+                            $('#txtOwnerDist').focus();
+                            return false;
+                        }
+                    }
+                }
+                if ($('#O_pincode').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Pincode');
+                    $('#O_pincode').focus();
+                    return false;
+                }
+                if ($('#O_pan').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner PAN');
+                    $('#O_pan').focus();
+                    return false;
+                }
+                if ($('#O_mobile_no').val() == "" || $('#O_mobile_no').val().length > 10 || $('#O_mobile_no').val().length != 10) {
+                    ModernAlert.toast.info('Please enter valid Owner Mobile Number');
+                    $('#O_mobile_no').focus();
+                    return false;
+                }
+
+                if (!validate_mobile()) valid = false;
+                if (!validate_pincode()) valid = false;
+                if (!validate_aadhaar()) valid = false;
+                var gonext = validate_O_pan();
+                if (gonext === true) {
+                    var savedetails = save_Ownr_Details();
+                    if (savedetails) {
+                        showTab("3");
+                    }
+                    else {
+                        showTab("2");
+                    }
+                }
+                else {
+                    showTab("2");
+                }
+            }
+        function validate_mobile() {
+
+            var mob = document.getElementById("O_mobile_no");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+            function validate_pincode() {
+
+                var pin = document.getElementById("O_pincode");
+                var value = pin.value.trim();
+
+                if (!/^[0-9]{6}$/.test(value)) {
+                    pin.style.border = "1px solid red";
+                    alert("pincode must be 6 digits");
+                    return false;
+                }
+
+                pin.style.border = "";
+                return true;
+            }
+            function validate_aadhaar() {
+
+                var aadhaar = document.getElementById("O_aadhaar");
+                var value = aadhaar.value.trim();
+
+                if (value === "") return true; // optional field
+
+                if (!/^[0-9]{12}$/.test(value)) {
+                    aadhaar.style.border = "1px solid red";
+                    alert("aadhaar must be 12 digits");
+                    return false;
+                }
+
+                aadhaar.style.border = "";
+                return true;
+            }
+
+
+
+            function validate_O_pan() {
+
+                var regpan = document.getElementById("O_pan");
+                var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+                var panInput = regpan.value.trim().toUpperCase();
+                regpan.value = panInput; // force uppercase
+
+                if (!panPattern.test(panInput)) {
+                    regpan.style.border = "1px solid red";
+                    alert("invalid pan format");
+                    return false;
+                }
+
+                regpan.style.border = "";
+                return true;
+            }
+            function save_Ownr_Details() {
+                var DistirctName = "";
+                if ($('#O_state_name').val() == "36") {
+                    DistirctName = $('#O_state_name option:selected').text();
+                }
+                else {
+                    DistirctName = $('#O_distict').val();
+                }
+
+                var data = {
+                    O_owner_name: $("#O_owner_name").val(),
+                    O_father_name: $("#O_father_name").val(),
+                    O_status_of_individual: $("#O_status_of_individual").val(),
+                    O_email_id: $("#O_email_id").val(),
+                    O_door_no: $("#O_door_no").val(),
+                    O_road_street: $("#O_road_street").val(),
+                    O_locality: $("#O_locality").val(),
+                    O_city: $("#O_city").val(),
+                    O_mandal: $("#O_mandal").val(),
+                    O_district: $("#O_distict").val(),
+                    O_district_name: DistirctName,
+                    O_state_name: $("#O_state_name").val(),
+                    O_country: $("#O_country").val(),
+                    O_pincode: $("#O_pincode").val(),
+                    O_pan: $("#O_pan").val(),
+                    O_aadhaar: $("#O_aadhaar").val(),
+                    O_mobile_no: $("#O_mobile_no").val(),
+                    O_nomination: $("input[name='Nomination']:checked").val(),
+                    application_id: $("#application_id").val() // if available
+                };
+
+                $.ajax({
+                    url: '@Url.Action("Saveownr_mdDetails", "Registration")',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    success: function (response) {
+
+                        if (response.success) {
+                            showTab("3");
+                        }
+                        else {
+                            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                            showTab("2");
+                        }
+                    },
+                    error: function () {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("2");
+                    }
+                });
+
+            }
+
+        /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
+
+
+
+         /*##################FOR SAVING THE  Authorised Person DETAILS DATA#######################*/
+
+        function validate_Authrsdprsn() {
+            var nomination = $("input[name='rdb_auth_prsn']:checked").val();
+            if (!nomination) {
+                ModernAlert.toast.info('Please select Yes or No for Authorised Person');
+                return false;
+            }
+            if (nomination === 'No') {
+                var savedetails = save_Authrsed_Details();
+                if (savedetails) {
+                    showTab("4");
+                } else {
+                    showTab("3");
+                }
+                return true;
+            }
+
+            var container = document.querySelector("#divAuthPerson");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    // skip optional aadhaar
+                    if (input.id === "auth_aadhaar" && input.value.trim() === "") {
+                        input.style.border = "";
+                        return;
+                    }
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+
+            if (!valid) {
+                ModernAlert.toast.info('please fill all required fields correctly.');
+                return false;
+            }
+
+            if (!validate_Auth_mobile()) valid = false;
+            if (!validate_Auth_pincode()) valid = false;
+            if (!validate_Auth_aadhaar()) valid = false;
+            //if (!validate_Auth_email()) valid = false;
+            var gonext = true;
+
+            if (gonext === true) {
+
+                var savedetails = save_Authrsed_Details();
+
+                if (savedetails) {
+                    showTab("4");
+                }
+                else {
+                    showTab("3");
+                }
+            }
+            else {
+                showTab("3");
+            }
+        }
+        function validate_Auth_mobile() {
+
+            var mob = document.getElementById("auth_mobile_no");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+        function validate_Auth_pincode() {
+
+            var pin = document.getElementById("auth_pincode");
+            var value = pin.value.trim();
+
+            if (!/^[0-9]{6}$/.test(value)) {
+                pin.style.border = "1px solid red";
+                alert("pincode must be 6 digits");
+                return false;
+            }
+
+            pin.style.border = "";
+            return true;
+        }
+        function validate_Auth_aadhaar() {
+
+            var aadhaar = document.getElementById("auth_aadhaar");
+            var value = aadhaar.value.trim();
+
+            if (value === "") return true; // optional field
+
+            if (!/^[0-9]{12}$/.test(value)) {
+                aadhaar.style.border = "1px solid red";
+                alert("aadhaar must be 12 digits");
+                return false;
+            }
+
+            aadhaar.style.border = "";
+            return true;
+        }
+       @*function validate_Auth_email() {
+
+    var email = document.getElementById("O_email_id");
+    var value = email.value.trim();
+
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!pattern.test(value)) {
+        email.style.border = "1px solid red";
+        alert("invalid email format");
+        return false;
+    }
+
+    email.style.border = "";
+    return true;
+}*@
+
+
+        function validate_Auth_pan() {
+
+            var regpan = document.getElementById("auth_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+            var panInput = regpan.value.trim().toUpperCase();
+            regpan.value = panInput; // force uppercase
+
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("invalid pan format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+        function save_Authrsed_Details() {
+
+            var data = {
+                auth_prsn_name: $("#auth_name").val() || null,
+                auth_prsn_father_name: $("#auth_fname").val() || null,
+                email_id: $("#auth_email").val() || null,
+                auth_prsn_door_no: $("#auth_door_no").val() || null,
+                auth_prsn_road_street: $("#auth_road_street").val() || null,
+                auth_prsn_locality: $("#auth_locality").val() || null,
+                auth_prsn_city: $("#auth_city").val() || null,
+                auth_prsn_district: $("#auth_district").val() || null,
+                auth_prsn_pincode: $("#auth_pincode").val() || null,
+                auth_prsn_pan: $("#auth_pan").val() || null,
+                auth_prsn_aadhaar: $("#auth_aadhaar").val() || null,
+                auth_prsn_mobile_no: $("#auth_mobile_no").val() || null,
+                is_Authorised_person: $("input[name='rdb_auth_prsn']:checked").val(),
+            };
+
+            $.ajax({
+                url: '@Url.Action("Save_AuthrsedPrsn_Details", "Registration")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success) {
+                        showTab("4");
+                    }
+                    else {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("3");
+                    }
+                },
+                error: function () {
+                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                    showTab("3");
+                }
+            });
+        }
+
+        /*################## FOR SAVING THE Authorised Person DETAILS DATA #######################*/
+
+
+
+         /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
+            function validate_dirprtnr() {
+                if (IsPartnerShow != "Y") {
+                    var savedetails = save_prtnr_dir_Details();
+                    /*if (savedetails) {
+                        showTab("5");
+                    }
+                    else {
+                        showTab("4");
+                    }*/
+                }
+                else {
+                    let rowCount = $("#PartnerBody tr[data-item]").length;
+                    if (rowCount === 0) {
+                        ModernAlert.toast.info('Please add at least one Partner/Director Details');
+                        return false;
+                    }
+                    var gonext = true;
+
+                    if (gonext === true) {
+                        var savedetails = save_prtnr_dir_Details();
+                        if (savedetails) {
+                            showTab("5");
+                        }
+                        else {
+                            showTab("4");
+                        }
+                    }
+                    else {
+                        showTab("4");
+                    }
+                }
+            }
+        function validate_dp_mobile() {
+
+            var mob = document.getElementById("dir_prtnr_mobile");
+            var value = mob.value.trim();
+
+            if (!/^[0-9]{10}$/.test(value)) {
+                mob.style.border = "1px solid red";
+                alert("mobile number must be 10 digits");
+                return false;
+            }
+
+            mob.style.border = "";
+            return true;
+        }
+        function validate_dp_pincode() {
+
+            var pin = document.getElementById("dir_prtnr_pincode");
+            var value = pin.value.trim();
+
+            if (!/^[0-9]{6}$/.test(value)) {
+                pin.style.border = "1px solid red";
+                alert("pincode must be 6 digits");
+                return false;
+            }
+
+            pin.style.border = "";
+            return true;
+        }
+        function validate_dp_aadhaar() {
+
+            var aadhaar = document.getElementById("dir_prtnr_aadhaar");
+            var value = aadhaar.value.trim();
+
+            if (value === "") return true; // optional field
+
+            if (!/^[0-9]{12}$/.test(value)) {
+                aadhaar.style.border = "1px solid red";
+                alert("aadhaar must be 12 digits");
+                return false;
+            }
+
+            aadhaar.style.border = "";
+            return true;
+        }
+    @*function validate_dp_email() {
+    var email = document.getElementById("O_email_id");
+    var value = email.value.trim();
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!pattern.test(value)) {
+        email.style.border = "1px solid red";
+        alert("invalid email format");
+        return false;
+    }
+    email.style.border = "";
+    return true;
+}*@
+        function validate_dp_pan() {
+
+            var regpan = document.getElementById("dir_prtnr_pan");
+            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+            var panInput = regpan.value.trim().toUpperCase();
+            regpan.value = panInput; // force uppercase
+
+            if (!panPattern.test(panInput)) {
+                regpan.style.border = "1px solid red";
+                alert("invalid pan format");
+                return false;
+            }
+
+            regpan.style.border = "";
+            return true;
+        }
+        var dataListdir = [];
+        function save_prtnr_dir_Details() {
+            dataListdir = [];
+            if (IsPartnerShow != "Y") {
+                let obj = {
+                    dir_prtnr_name: null,
+                    dir_prtnr_type: null,
+                    dir_prtnr_remunrtn: null,
+                    dir_prtnr_door_no: null,
+                    dir_prtnr_road_street: null,
+                    dir_prtnr_locality: null,
+                    dir_prtnr_city: null,
+                    dir_prtnr_mandal: null,
+                    dir_prtnr_district_code: null,
+                    dir_prtnr_state: null,
+                    dir_prtnr_country: null,
+                    dir_prtnr_pincode: null,
+                    dir_prtnr_pan: null,
+                    dir_prtnr_aadhaar: null,
+                    dir_prtnr_email: null,
+                    dir_prtnr_mobile_no: null,
+                    dir_prtnr_district_name: null
+                };
+                dataListdir.push(obj);
+            }
+            else {
+                $("#dirprtnrTable tbody tr").each(function () {
+                    var item = $(this).attr("data-item");
+                    if (item) {
+                        dataListdir.push(JSON.parse(item));
+                    }
+                });
+            }
+
+            $.ajax({
+                url: '@Url.Action("Save_DirPrtnr_Details", "Registration")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ model: dataListdir }),
+                dataType: "JSON",
+                success: function (response) {
+
+                    if (response.success) {
+                        showTab("5");
+                    }
+                    else {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("4");
+                    }
+                },
+                error: function () {
+                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                    showTab("4");
+                }
+            });
+        }
+
+        /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
+
+                /*################## FOR SAVING THE  Additional Place of businessDETAILS DATA #######################*/
+        function validate_addlpalce() {
+            var is_addl_place = $("input[name='addl_rdb']:checked").val();
+            console.log(is_addl_place);
+            if (!is_addl_place) {
+                ModernAlert.toast.info('Please select Yes or No Additional Place of Business');
+                return false;
+            }
+
+            if (is_addl_place === 'No') {
+                var savedetails = save_Addl_plce_Details();
+                if (savedetails) {
+                    showTab("6");
+                } else {
+                    showTab("5");
+                }
+                return true;
+            }
+            let rowCount = $("#AdditionalPlaceTable tr[data-item]").length;
+            if (rowCount === 0) {
+                ModernAlert.toast.info('Please add atleast one Additional Business Place Details');
+                return false;
+            }
+
+            save_Addl_plce_Details();
+        }
+        var dataListadl = [];
+        function save_Addl_plce_Details() {
+            dataListadl = [];
+            var is_addl_plce = $("input[name='addl_rdb']:checked").val();
+           console.log(is_addl_plce);
+            if (is_addl_plce === 'No') {
+                let obj = {
+                    addl_plc_country: null,
+                    addl_plc_state: null,
+                    addl_plc_district_code: null,
+                    addl_plc_mandal: null,
+                    addl_plc_door_no: null,
+                    addl_plc_road_street: null,
+                    addl_plc_locality: null,
+                    addl_plc_city: null,
+                    addl_plc_pincode: null,
+                    is_Additional_place: is_addl_plce
+                };
+                dataListadl.push(obj);
+            }
+            else {
+                $("#AdditionalPlaceTable tbody tr").each(function () {
+
+                    var item = $(this).attr("data-item");
+
+                    if (item) {
+                        dataListadl.push(JSON.parse(item));
+                    }
+                });
+            }
+    $.ajax({
+        url: '@Url.Action("Save_Addl_Place_Details", "Registration")',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ model: dataListadl }),
+        dataType: "JSON",
+        success: function (response) {
+
+            if (response.success) {
+                showTab("6");
+            }
+            else {
+
+                showTab("5");
+            }
+        },
+        error: function () {
+            showTab("5");
+        }
+    });
+}
+
+        /*################## FOR SAVING THE Additional Place of business DETAILS DATA #######################*/
+
+
+                /*################## FOR SAVING THE  BANK DETAILS DATA #######################*/
+            function validate_bnk() {
+                let rowCount = $("#BankDtlsBody tr[data-item]").length;
+                if (rowCount === 0) {
+                    ModernAlert.toast.info('Please add at one row of Bank Details.');
+                    return false;
+                }
+                else {
+                    save_bank_Details();
+                }
+            }
+        var dataListb = [];
+            function save_bank_Details() {
+                dataListb = [];
+                $("#bankdetailsTable tbody tr").each(function () {
+
+                    var item = $(this).attr("data-item");
+
+                    if (item) {
+                        dataListb.push(JSON.parse(item));
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("Save_bank_Details", "Registration")',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ model: dataListb }),
+                    dataType: "JSON",
+                    success: function (response) {
+
+                        if (response.success) {
+                            showTab("7");
+                        }
+                        else {
+
+                            showTab("6");
+                        }
+                    },
+                    error: function () {
+                        showTab("6");
+                    }
+                });
+            }
+
+        /*################## FOR SAVING THE BANK DETAILS DATA #######################*/
+
+
+                /*################## FOR SAVING THE  documents DATA #######################*/
+
+        function validate_document() {
+
+            var formData = new FormData();
+
+            if ($('#DocumentsTable tbody tr').length === 0) {
+                ModernAlert.toast.info('Please upload at least one document');
+                return false;
+            }
+
+            let i = 0;
+            let isValid = true;
+
+            documentList.forEach(function (item, index) {
+
+                if (item != null) {
+
+                    if (!item.document_type) {
+                        alert("File missing at row " + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
+
+                    formData.append("model[" + i + "].master_doc_id", item.master_docid);
+                    formData.append("model[" + i + "].document_type", item.document_type);
+                    formData.append("model[" + i + "].document_path", item.document_path || "");
+
+                    if (item.file) {
+                        formData.append("files[" + i + "]", item.file);
+                    }
+
+                    i++;
+                }
+            });
+
+            if (!isValid) return;
+
+            if (i === 0) {
+                ModernAlert.toast.info('No valid documents to upload');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Save_Documents", "Registration")',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.success) {
+                        ModernAlert.toast.success('Documents saved successfully');
+                        showTab("8");
+                    } else {
+                        ModernAlert.toast.info(res.message || 'Failed to save documents');
+                        showTab("7");
+                    }
+                },
+                error: function () {
+                    ModernAlert.toast.info('Error while uploading documents');
+                }
+            });
+        }
+
+        /*################## FOR SAVING THE documents DATA #######################*/
+
+        /*################## FINAL SUBMISSION #######################*/
+
+        function SubmitApplication() {
+
+            if (AppId == "" || AppId == null || AppId == undefined) {
+                ModernAlert.showError(res.message || "Failed to Submit");
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("SubmitApplication", "Registration")',
+                    type: "POST",
+                    data: { AppId: AppId },
+                    success: function (res) {
+                        if (res.success) {
+                            ModernAlert.showSuccess(
+                                'Your Application has been Submitted successfully with ARN No: ' + res.data +
+								' .These details have also been sent to your registered email address: ' + $('#email_id').val(),
+                                'Success',
+                                '@Url.Action("Home", "PTHome")'
+                            );
+                        }
+                        else {
+                            ModernAlert.showError(res.message || "Failed to Submit");
+                        }
+                    },
+                    error: function () {
+                        ModernAlert.showError(res.message || "Failed to Save");
+                    }
+                });
+            }
+        }
+
+
+
+
+        let editRow = null;
+        let S_No = 1;
+
+
+        $("#btnAddPartner").click(function () {
+
+            if (validate_Partners() == false) {
+                return false;
+            }
+            var DistrictName = ""; var DistCode = "";
+            if ($('#dir_prtnr_state').val() == "36") {
+                DistCode = $('#dir_prtnr_district').val();
+                DistrictName = $('#dir_prtnr_district option:selected').text();
+            }
+            else {
+                DistCode = "0";
+                DistrictName = $('#dir_prtnr_txtDist').val();
+            }
+            let obj = {
+                dir_prtnr_name: $('#dir_prtnr_name').val(),
+                dir_prtnr_type: $('#dir_prtnr_type').val(),
+                dir_prtnr_remunrtn: $('#dir_prtnr_remunrtn').val(),
+                dir_prtnr_door_no: $('#dir_prtnr_door_no').val(),
+                dir_prtnr_road_street: $('#dir_prtnr_road_street').val(),
+                dir_prtnr_locality: $('#dir_prtnr_locality').val(),
+                dir_prtnr_city: $('#dir_prtnr_city').val(),
+                dir_prtnr_mandal: $('#dir_prtnr_mandal').val(),
+                dir_prtnr_district_code: DistCode,
+                dir_prtnr_state: $('#dir_prtnr_state').val(),
+                dir_prtnr_country: $('#dir_prtnr_country').val(),
+                dir_prtnr_pincode: $('#dir_prtnr_pincode').val(),
+                dir_prtnr_pan: $('#dir_prtnr_pan').val(),
+                dir_prtnr_aadhaar: $('#dir_prtnr_aadhaar').val(),
+                dir_prtnr_email: $('#dir_prtnr_email').val(),
+                dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val(),
+                dir_prtnr_district_name: DistrictName
+            };
+
+            $("#noDataRow").remove();
+
+            let rowHtml = `
+        <tr data-item='${JSON.stringify(obj)}'>
+            <td>${S_No}</td>
+            <td>${obj.dir_prtnr_name}</td>
+            <td>${obj.dir_prtnr_type}</td>
+            <td>${obj.dir_prtnr_remunrtn}</td>
+            <td>${obj.dir_prtnr_door_no}</td>
+            <td>${obj.dir_prtnr_road_street}</td>
+            <td>${obj.dir_prtnr_locality}</td>
+            <td>${obj.dir_prtnr_city}</td>
+            <td>${obj.dir_prtnr_mandal}</td>
+            <td>${obj.dir_prtnr_district_name}</td>
+            <td>${obj.dir_prtnr_state}</td>
+            <td>${obj.dir_prtnr_country}</td>
+            <td>${obj.dir_prtnr_pincode}</td>
+            <td>${obj.dir_prtnr_pan}</td>
+            <td>${obj.dir_prtnr_aadhaar}</td>
+            <td>${obj.dir_prtnr_email}</td>
+            <td>${obj.dir_prtnr_mobile_no}</td>
+            <td class="text-center">
+                <button type="button"  class="btn btn-sm btn-danger deleteRow">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
+            isPartnerData = "Y";
+            if (editRow) {
+                editRow.replaceWith(rowHtml);
+                editRow = null;
+            }
+            else {
+                $("#dirprtnrTable tbody").append(rowHtml);
+                S_No++;
+            }
+
+            $('#dir_prtnr_name').val("");
+            $('#dir_prtnr_type').val("0");
+            $('#dir_prtnr_remunrtn').val("0");
+            $('#dir_prtnr_door_no').val("");
+            $('#dir_prtnr_road_street').val("");
+            $('#dir_prtnr_locality').val("");
+            $('#dir_prtnr_city').val("");
+            $('#dir_prtnr_mandal').val("");
+            $('#dir_prtnr_district').val("");
+            /*$('#dir_prtnr_state').val("");*/
+            $('#dir_prtnr_pincode').val("");
+            $('#dir_prtnr_pan').val("");
+            $('#dir_prtnr_aadhaar').val("");
+            $('#dir_prtnr_email').val("");
+            $('#dir_prtnr_mobile').val("");
+
+            updateSerialNumbers('dirprtnrTable');
+            $("form")[0].reset();
+        });
+
+        $(document).on("click", ".deleteRow", function () {
+            $(this).closest("tr").remove();
+            updateSerialNumbers('dirprtnrTable');
+            // if no rows left, show no data row
+            if ($("#dirprtnrTable tbody tr").length === 0) {
+                $("#dirprtnrTable tbody").append(`
+            <tr id="noDataRow">
+                <td colspan="18" class="text-center text-muted">
+                    No Partner / Director added
+                </td>
+            </tr>
+        `);
+            }
+        });
+
+
+
+        $(document).on("click", ".editRow", function () {
+            editRow = $(this).closest("tr");
+
+            let tds = editRow.find("td");
+
+            $("input[type='text']").eq(0).val(tds.eq(0).text());
+            $("input[type='date']").val(tds.eq(1).text());
+            $("select").eq(0).val(tds.eq(2).text());
+            $("#ddlGender").val(tds.eq(3).text());
+            $("input[maxlength='10']").val(tds.eq(4).text());
+        });
+
+
+
+        /*################### addl place adding butoon ##############*/
+        let editRow1 = null;
+        let SNo = 1;
+        $("#btnAddPlace").click(function () {
+
+            if ($('#addl_plc_door_no').val() == "") {
+                ModernAlert.toast.info('Please enter Door Number');
+                $('#addl_plc_door_no').focus();
+                return false;
+            }
+            if ($('#addl_plc_road_street').val() == "") {
+                ModernAlert.toast.info('Please enter Road / Street / Building Name');
+                $('#addl_plc_road_street').focus();
+                return false;
+            }
+            if ($('#addl_plc_locality').val() == "") {
+                ModernAlert.toast.info('Please enter Locality');
+                $('#addl_plc_locality').focus();
+                return false;
+            }
+            if ($('#addl_plc_city').val() == "") {
+                ModernAlert.toast.info('Please enter City / Town / Village');
+                $('#addl_plc_city').focus();
+                return false;
+            }
+            if ($('#addl_plc_mandal').val() == "") {
+                ModernAlert.toast.info('Please enter Mandal / Municipality');
+                $('#addl_plc_mandal').focus();
+                return false;
+            }
+            if ($('#addl_plc_country').val() == "") {
+                ModernAlert.toast.info('Please select Country');
+                $('#addl_plc_country').focus();
+                return false;
+            }
+            if ($('#addl_plc_country').val() == "1") {
+                if ($('#addl_plc_state').val() == "") {
+                    ModernAlert.toast.info('Please select State');
+                    $('#addl_plc_state').focus();
+                    return false;
+                }
+                if ($('#addl_plc_state').val() == "36") {
+                    if ($('#addl_plc_district').val() == "") {
+                        ModernAlert.toast.info('Please select District');
+                        $('#addl_plc_district').focus();
+                        return false;
+                    }
+                }
+                else {
+                    if ($('#addl_plc_district_text').val() == "") {
+                        ModernAlert.toast.info('Please enter District');
+                        $('#addl_plc_district_text').focus();
+                        return false;
+                    }
+                }
+            }
+            if ($('#addl_plc_pincode').val() == "" || $('#addl_plc_pincode').val().length != 6) {
+                ModernAlert.toast.info('Please enter Pin Code');
+                $('#addl_plc_pincode').focus();
+                return false;
+            }
+
+            var is_addl_plce = $("input[name='addl_rdb']:checked").val();
+            var DistCode = ""; var DistName = "";
+            if ($('#addl_plc_state').val() == "36") {
+                DistCode = $('#addl_plc_district').val();
+                DistName = $('#addl_plc_district option:selected').text();
+            }
+            else {
+                DistCode = "0";
+                DistName = $('#addl_plc_district_text').val();
+            }
+            let obj = {
+                addl_plc_country: $('#addl_plc_country').val(),
+                addl_plc_state: $('#addl_plc_state').val(),
+                addl_plc_district_code: DistCode,
+                addl_plc_mandal: $('#addl_plc_mandal').val(),
+                addl_plc_door_no: $('#addl_plc_door_no').val(),
+                addl_plc_road_street: $('#addl_plc_road_street').val(),
+                addl_plc_locality: $('#addl_plc_locality').val(),
+                addl_plc_city: $('#addl_plc_city').val(),
+                addl_plc_pincode: $('#addl_plc_pincode').val(),
+                is_Additional_place: is_addl_plce,
+                addl_plc_district_name: DistName
+            };
+
+            $("#noDataRow1").remove();
+
+            let rowHtml = `
+                            <tr data-item='${JSON.stringify(obj)}'>
+                                <td>${SNo}</td>
+                                <td>${obj.addl_plc_country}</td>
+                                <td>${obj.addl_plc_state}</td>
+                                <td>${obj.addl_plc_district_name}</td>
+                                <td>${obj.addl_plc_mandal}</td>
+                                <td>${obj.addl_plc_door_no}</td>
+                                <td>${obj.addl_plc_road_street}</td>
+                                <td>${obj.addl_plc_locality}</td>
+                                <td>${obj.addl_plc_city}</td>
+                                <td>${obj.addl_plc_pincode}</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+    `;
+
+            if (editRow1) {
+                editRow1.replaceWith(rowHtml);
+                editRow1 = null;
+            } else {
+                $("#AdditionalPlaceTable tbody").append(rowHtml);
+                SNo++;
+            }
+
+            $('#addl_plc_door_no').val("");
+            $('#addl_plc_road_street').val("");
+            $('#addl_plc_locality').val("");
+            $('#addl_plc_city').val("");
+            $('#addl_plc_mandal').val("");
+            $('#addl_plc_district').val("");
+            $('#addl_plc_state').val("");
+            $('#addl_plc_country').val("");
+            $('#addl_plc_pincode').val("");
+            $("form")[0].reset();
+            updateSerialNumbers('AdditionalPlaceTable');
+        });
+
+        function onPlaceDelete(res) {
+            $(this).closest("tr").remove();
+            updateSerialNumbers('AdditionalPlaceTable');
+
+            if ($("#AdditionalPlaceTable tbody tr").length === 0) {
+                $("#AdditionalPlaceTable tbody").append(`
+                                                        <tr id="noDataRow1">
+                                                            <td colspan="10" class="text-center text-muted">
+                                                                No Additional Place added
+                                                            </td>
+                                                        </tr>
+                                                    `);
+            }
+        }
+        /*############addlplace add buton ###############*/
+
+        /*############bnk dtls add buton ###############*/
+        let editRow2 = null;
+        let SNob = 1;
+        $("#btnAddbnk").click(function () {
+
+            var container = document.querySelector("#divBankDtls");
+            var inputs = container.querySelectorAll("input, select");
+            var valid = true;
+
+            inputs.forEach(function (input) {
+
+                if (input.offsetParent !== null) {
+
+                    if (input.value.trim() === "") {
+                        input.style.border = "1px solid red";
+                        valid = false;
+                        return;
+                    }
+                    else {
+                        input.style.border = "";
+                    }
+                }
+
+            });
+            if (!valid) {
+                ModernAlert.toast.info('Please fill all required fields correctly');
+                return false;
+            }
+            let obj = {
+                account_number: $('#account_number').val(),
+                account_holder_name: $('#account_holder_name').val(),
+                bank_id: $('#bank_name').val(),
+                ifsc_code: $('#ifsc_code').val(),
+                branch_address: $('#branch_address').val(),
+                bank_name: $('#bank_name option:selected').text(),
+            };
+
+
+            let isDuplicate = false;
+
+            $("#bankdetailsTable tbody tr").each(function () {
+                let rowData = $(this).data("item");
+                if (rowData != undefined && rowData != "") {
+                    if (
+                        rowData.account_number === obj.account_number &&
+                        rowData.bank_name === obj.bank_name &&
+                        rowData.ifsc_code === obj.ifsc_code
+                    ) {
+                        isDuplicate = true;
+                        return false;
+                    }
+                }
+            });
+
+            if (isDuplicate) {
+                ModernAlert.toast.info('This bank detail already exists!');
+                return;
+            }
+
+
+            $("#noDataRow2").remove();
+
+            let rowHtml = `
+        <tr data-item='${JSON.stringify(obj)}'>
+            <td>${SNob}</td>
+            <td>${obj.bank_name}</td>
+            <td>${obj.account_number}</td>
+            <td>${obj.account_holder_name}</td>
+            <td>${obj.ifsc_code}</td>
+            <td>${obj.branch_address}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" onclick="onBankDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `;
+
+            if (editRow2) {
+                editRow2.replaceWith(rowHtml);
+                editRow2 = null;
+            } else {
+                $("#bankdetailsTable tbody").append(rowHtml);
+                SNob++;
+            }
+            $('#account_number').val("");
+            $('#account_holder_name').val("");
+            $('#ifsc_code').val("");
+            $('#branch_address').val("");
+            $("form")[0].reset();
+            updateSerialNumbers('bankdetailsTable');
+        });
+
+        function onBankDelete(res) {
+            $(this).closest("tr").remove();
+            updateSerialNumbers('bankdetailsTable');
+
+            if ($("#bankdetailsTable tbody tr").length === 0) {
+                $("#bankdetailsTable tbody").append(`
+                                                        <tr id="noDataRow2">
+                                                            <td colspan="10" class="text-center text-muted">
+                                                                No Bank Details added
+                                                            </td>
+                                                        </tr>
+                                                    `);
+            }
+        }
+
+        /*####################bnkdtls add btn ######################*/
+
+
+        /*############ documents dtls add buton ###############*/
+
+        /*####################documents add btn ######################*/
+
+
+
+
+
+
+        $(document).on("click", ".editRow", function () {
+            editRow = $(this).closest("tr");
+
+            let tds = editRow.find("td");
+
+            $("input[type='text']").eq(0).val(tds.eq(0).text());
+            $("input[type='date']").val(tds.eq(1).text());
+            $("select").eq(0).val(tds.eq(2).text());
+            $("#ddlGender").val(tds.eq(3).text());
+            $("input[maxlength='10']").val(tds.eq(4).text());
+        });
+
+        let rnrCounter = 1;
+        var documentList = [];
+
+
+        $('#btnUploadDoc').on('click', function () {
+
+            let docId = $('#doc_name').val();
+            let docName = $('#doc_name option:selected').text();
+            /* let docName = $('#doc_name ').val();*/
+            let fileInput = $('#doc_file')[0];
+
+            if (docId === "0") {
+                ModernAlert.toast.info('Please select Document to Upload');
+                return;
+            }
+
+            if (fileInput.files.length === 0) {
+                ModernAlert.toast.info('Please select a PDF file');
+                return;
+            }
+
+            let file = fileInput.files[0];
+
+            if (file.type !== "application/pdf") {
+                ModernAlert.toast.info('Only PDF files are allowed');
+                $('#doc_file').val('');
+                return;
+            }
+
+            let obj = {
+                master_docid: docId,
+                document_type: docName,
+                file: file
+            };
+
+            documentList.push(obj);
+
+            $('#noDataRowFiles').remove();
+
+            let fileURL = URL.createObjectURL(file);
+
+            let index = documentList.length - 1;
+
+            let row = `
+                      <tr data-index="${index}">
+                          <td>${rnrCounter}</td>
+                          <td>${docName}</td>
+                          <td class="text-center">
+                           <button class="btn btn-sm btn-primary viewFile same-size-btn" data-url="${fileURL}">
+                               View
+                           </button>
+                         </td>
+                         <td class="text-center">
+                             <button class="btn btn-sm btn-primary deleteFile same-size-btn" style="background: red;">
+                                 Delete
+                             </button>
+                         </td>
+                      </tr>`;
+
+            $('#DocumentsTable tbody').append(row);
+            updateSerialNumbers('DocumentsTable');
+            $('#doc_name option[value="' + docId + '"]').prop('disabled', true);
+            $('#doc_name').val('0');
+            $('#doc_file').val('');
+        });
+
+        $(document).on('click', '.viewFile', function () {
+            let url = $(this).data('url');
+            window.open(url, '_blank');
+        });
+        let deletedDocuments = [];
+        $(document).on('click', '.deleteFile', function () {
+
+            if (!confirm("Do you want to delete this file?")) {
+                return;
+            }
+            let row = $(this).closest('tr');
+            let index = row.data('index');
+
+            let item = documentList[index];
+
+            if (item && item.document_path && !item.file) {
+                deletedDocuments.push(item);
+            }
+
+            documentList[index] = null;
+
+            row.remove();
+            $('#doc_name option[value="' + item.master_docid + '"]').prop('disabled', false);
+            $('#DocumentsTable tbody tr').each(function (i) {
+                $(this).find('td:first').text(i + 1);
+            });
+            updateSerialNumbers('DocumentsTable');
+            if ($('#DocumentsTable tbody tr').length === 0) {
+                $('#DocumentsTable tbody').append(`
+            <tr id="noDataRowFiles">
+                <td colspan="5" class="text-center text-muted">No Files added</td>
+            </tr>
+        `);
+            }
+        });
+
+        function updateSerialNumbersAddPlace() {
+            $("#AdditionalPlaceTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
+        }
+        function updateSerialNumbersPartner() {
+            $("#partnerTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
+        }
+        function updateSerialNumbersPartner1() {
+            $("#bankdetailsTable tbody tr").each(function (index) {
+                $(this).find("td:first").text(index + 1);
+            });
+        }
+        function oncheckrdb(res) {
+            if (res == "Y") {
+                //$('#divAuth').show();
+                $('#divAuthorised').show();
+            }
+            else {
+                //$('#divAuth').hide();
+                $('#divAuthorised').hide();
+            }
+        }
+
+
+        function validate_Partners() {
+                if ($('#dir_prtnr_name').val() == "") {
+                    ModernAlert.toast.info('Please Enter Partner/Director Name');
+                    $('#dir_prtnr_name').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_type').val() == "0") {
+                    ModernAlert.toast.info('Please Select Partner or Director');
+                    $('#dir_prtnr_type').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_remunrtn').val() == "0") {
+                    ModernAlert.toast.info('Please Select Drawing Remuneration or not');
+                    $('#dir_prtnr_remunrtn').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_door_no').val() == "") {
+                    ModernAlert.toast.info('Please enter Door Number');
+                    $('#dir_prtnr_door_no').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_road_street').val() == "") {
+                    ModernAlert.toast.info('Please enter Road / Street / Building Name');
+                    $('#dir_prtnr_road_street').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_locality').val() == "") {
+                    ModernAlert.toast.info('Please enter Locality');
+                    $('#dir_prtnr_locality').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_city').val() == "") {
+                    ModernAlert.toast.info('Please enter City / Town / Village');
+                    $('#dir_prtnr_city').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_mandal').val() == "") {
+                    ModernAlert.toast.info('Please enter Mandal / Municipality');
+                    $('#dir_prtnr_mandal').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_country').val() == "") {
+                    ModernAlert.toast.info('Please select Country');
+                    $('#dir_prtnr_country').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_country').val() == "1") {
+                    if ($('#dir_prtnr_state').val() == "") {
+                        ModernAlert.toast.info('Please select State');
+                        $('#dir_prtnr_state').focus()
+                        return false;
+                    }
+                    if ($('#dir_prtnr_state').val() == "") {
+                        ModernAlert.toast.info('Please select State');
+                        $('#dir_prtnr_state').focus()
+                        return false;
+                    }
+                    if ($('#dir_prtnr_state').val() == "36") {
+                        if ($('#dir_prtnr_district').val() == "") {
+                            ModernAlert.toast.info('Please select District');
+                            $('#dir_prtnr_district').focus()
+                            return false;
+                        }
+                    }
+                    else {
+                        if ($('#dir_prtnr_txtDist').val() == "") {
+                            ModernAlert.toast.info('Please enter District');
+                            $('#dir_prtnr_txtDist').focus()
+                            return false;
+                        }
+                    }
+                }
+                if ($('#dir_prtnr_pincode').val() == "") {
+                    ModernAlert.toast.info('Please enter Pincode');
+                    $('#dir_prtnr_pincode').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_pan').val() == "") {
+                    ModernAlert.toast.info('Please enter PAN');
+                    $('#dir_prtnr_pan').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_email').val() == "") {
+                    ModernAlert.toast.info('Please enter Email Id');
+                    $('#dir_prtnr_email').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_mobile').val() == "" || $('#dir_prtnr_mobile').val().length != 10) {
+                    ModernAlert.toast.info('Please enter Mobile Number');
+                    $('#dir_prtnr_mobile').focus()
+                    return false;
+                }
+            }
+        let bankList = [];
+        function Load_Banks() {
+            $.ajax({
+                url: '@Url.Action("GetBanks","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    bankList = data;
+                    var dropdown = $('#bank_name');
+
+                    dropdown.empty();
+
+                    dropdown.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.bank_id + '">' + item.bank_name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to Load Banks');
+                }
+            });
+        }
+        let selectedMin = 0;
+        let selectedMax = 0;
+
+        $("#bank_name").change(function () {
+            let selectedBankId = $(this).val();
+            let bank = bankList.find(x => x.bank_id == selectedBankId);
+            if (bank) {
+                selectedMin = bank.min_digits;
+                selectedMax = bank.max_digits;
+                if (selectedMax != 1) {
+                    $("#account_number").attr("maxlength", selectedMax);
+                }
+                if (selectedMin == 1) {
+                    $("#account_number").attr("placeholder",
+                        `Enter account number`);
+                }
+                else {
+                    if (selectedMin == selectedMax) {
+                        $("#account_number").attr("placeholder",
+                            `Enter ${selectedMin}  digit account number`);
+                    }
+                    else {
+                        $("#account_number").attr("placeholder",
+                            `Enter ${selectedMin}-${selectedMax} digit account number`);
+                    }
+                }
+            }
+            else {
+                selectedMin = 0;
+                selectedMax = 0;
+            }
+        });
+            function checkAcNumber() {
+                var acnolen = $("#account_number").val().length;
+                if (acnolen > 0 && selectedMin != 1) {
+                    if (acnolen < selectedMin || acnolen > selectedMax) {
+                        ModernAlert.toast.info('Please enter valid Account Number');
+                        $("#account_number").focus();
+                        return false;
+                    }
+                }
+            }
+            function SubmitModifiedApp() {
+
+                if (AppId == "" || AppId == null || AppId == undefined) {
+                    ModernAlert.showError(res.message || "Failed to Submit");
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        url: '@Url.Action("ReSubmitApplication", "Registration")',
+                        type: "POST",
+                        data: { AppId: AppId },
+                        success: function (res) {
+                            if (res.success) {
+                                ModernAlert.showSuccess(
+                                    'Your Application has been Resubmitted successfully.',
+                                    'Success',
+                                    '@Url.Action("Home", "PTHome")'
+                                );
+                            }
+                            else {
+                                ModernAlert.showError(res.message || "Failed to Submit");
+                            }
+                        },
+                        error: function () {
+                            ModernAlert.showError(res.message || "Failed to Save");
+                        }
+                    });
+                }
+            }
+
+            function onOwnerConutryChange() {
+                if ($('#O_country').val() != "1") {
+                    $('#divOwnerState').hide();
+                    $('#divOwnerDist').hide();
+                }
+                else {
+                    LoadStates("", "O_state_name");
+                    $('#divOwnerState').show();
+                    $('#divOwnerDist').show();
+                }
+            }
+
+            function onDirectorCountryChange() {
+                if ($('#dir_prtnr_country').val() != "1") {
+                    $('#divDirectorState').hide();
+                    $('#divDirectorDist').hide();
+                }
+                else {
+                    LoadStates("", "dir_prtnr_state");
+                    $('#divDirectorState').show();
+                    $('#divDirectorDist').show();
+                }
+            }
+            function onAddlBzCountryChange() {
+                if ($('#addl_plc_country').val() != "1") {
+                    $('#divAddlPlaceState').hide();
+                    $('#divAddlPlaceDist').hide();
+                }
+                else {
+                    LoadStates("", "addl_plc_state");
+                    $('#divAddlPlaceState').show();
+                    $('#divAddlPlaceDist').show();
+                }
+            }
+
+            function onOwnerStateChange() {
+                if ($('#O_state_name').val() != "36") {
+                    $('#O_distict').hide();
+                    $('#txtOwnerDist').show();
+                }
+                else {
+                    $('#O_distict').show();
+                    $('#txtOwnerDist').hide();
+                    LoadDistricts("", "O_distict");
+                }
+            }
+            function onDirectorStateChange() {
+                if ($('#dir_prtnr_state').val() != "36") {
+                    $('#dir_prtnr_district').hide();
+                    $('#dir_prtnr_txtDist').show();
+                }
+                else {
+                    $('#dir_prtnr_district').show();
+                    $('#dir_prtnr_txtDist').hide();
+                    LoadDistricts("", "dir_prtnr_district");
+                }
+            }
+
+            function onAddlBzStateChange() {
+                if ($('#addl_plc_state').val() != "36") {
+                    $('#addl_plc_district').hide();
+                    $('#addl_plc_district_text').show();
+                }
+                else {
+                    $('#addl_plc_district').show();
+                    $('#addl_plc_district_text').hide();
+                    LoadDistricts("", "addl_plc_district");
+                }
+            }
+            var IsPartnerShow = "";
+            function onChangeCobz() {
+                var CobzType = $('#cobz').val();
+                var StausOfIndiviual = "";
+
+                switch (CobzType) {
+                    case "Proprietorship":
+                        StausOfIndiviual = "Proprietor / Individual";
+                        break;
+                    case "Partnership":
+                        StausOfIndiviual = "Managing Partner";
+                        break;
+                    case "PLC":
+                        StausOfIndiviual = "Managing Director";
+                        break;
+                    case "LLP":
+                        StausOfIndiviual = "Managing Director";
+                        break;
+                    case "PSU":
+                        StausOfIndiviual = "Managing Director / Chairman";
+                        break;
+                    case "Society":
+                        StausOfIndiviual = "Chairman";
+                        break;
+                    case "Trust":
+                        StausOfIndiviual = "Chairman";
+                        break;
+                    case "Government":
+                        StausOfIndiviual = "HOD of the Office / DDO";
+                        break;
+                    default:
+                        StausOfIndiviual = "";
+                        break;
+                }
+                $('#O_status_of_individual').val(StausOfIndiviual);
+                if (CobzType == "Proprietorship") {
+                    IsPartnerShow = "N";
+                    $('#divYesPartners').hide();
+                    $('#divNoPartners').show();
+                    $('#btnAddPartner').hide();
+                    $('#divPartnerstable').hide();
+                    $('#hdr1').hide();
+                }
+                else {
+                    IsPartnerShow = "Y";
+                    $('#divYesPartners').show();
+                    $('#divNoPartners').hide();
+                    $('#btnAddPartner').show();
+                    $('#divPartnerstable').show();
+                    $('#hdr1').show();
+                }
+            }
+
+
+    </script>
+</body>

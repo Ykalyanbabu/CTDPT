@@ -132,8 +132,8 @@
         });
 
        $("#btnNoAppId").click(function (e) {
-         e.preventDefault(); // important if button inside form
-         window.location.href = '@Url.Action("eRegistration", "Registration")';
+         e.preventDefault(); 
+         window.location.href = '@Url.Action("Registration", "Registration")';
         });
  
         $("#mobile_reg").on("input", function () {

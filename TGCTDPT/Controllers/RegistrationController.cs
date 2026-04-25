@@ -19,6 +19,7 @@ namespace TGCTDPT.Controllers
     {
         // GET: Registration
         private RegistrationDAL dal = new RegistrationDAL();
+        private CommonDAL cdal = new CommonDAL();
         public ActionResult Index()
         {
             return View();
@@ -94,7 +95,13 @@ namespace TGCTDPT.Controllers
             var response = dal.LoadCircles(divisionId);
             return Json(response, JsonRequestBehavior.AllowGet);
 
-        } 
+        }
+        [HttpGet]
+        public JsonResult GetCountryStates(string Type)
+        {
+            var response = cdal.GetCountryState(Type);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult GetBanks()
         {

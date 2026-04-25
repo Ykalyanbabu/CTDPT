@@ -38,10 +38,22 @@ namespace TGCTDPT.DAL
                         Query = dr["Query"].ToString(),
                         AppliedOn = dr["Applied on"].ToString(),
                         Delay = dr["Delay (Days)"].ToString(),
-                        PTIN = dr["PTIN"].ToString()
+                        PTIN = dr["PTIN"].ToString(),
+                        division_name = dr["division_name"].ToString(),
+                        circle_name = dr["circle_name"].ToString()
                     });
             }
             return dtls;
+        }
+        public List<Masters> GetCountryState(string Type)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<Masters>(
+                    "usp_get_country_state_master", new { type = Type },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
         }
     }
 }

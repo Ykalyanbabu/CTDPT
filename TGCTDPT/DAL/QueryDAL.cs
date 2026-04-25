@@ -20,7 +20,7 @@ namespace TGCTDPT.DAL
             using (var con = new SqlConnection(conStr))
             {
                 return con.Query<QueryItem>(
-                    "Pr_Reg_QueryMst",
+                    "usp_get_pt_query_master",
                     commandType: CommandType.StoredProcedure
                 ).ToList();
             }

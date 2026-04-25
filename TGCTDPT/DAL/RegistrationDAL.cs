@@ -390,15 +390,23 @@ namespace TGCTDPT.DAL
                 ).ToList();
             }
         }
-        public List<QueryModel> GetQueryDetails(string rnr)
+        public QueryDetailsResult GetQueryDetails(string rnr)
         {
             using (var con = new SqlConnection(conStr))
             {
-                return con.Query<QueryModel>(
-                    "Pr_pt_GetQueryDocuments",
+                using (var multi = con.QueryMultiple(
+                    "Pr_pt_GetQueryDocuments_new",
                     new { rnr = rnr },
-                    commandType: CommandType.StoredProcedure
-                ).ToList();
+                    commandType: CommandType.StoredProcedure))
+                {
+                    var result = new QueryDetailsResult
+                    {
+                        Queries = multi.Read<QueryModel>().ToList(),
+                        MetaData = multi.Read<QueryMetaDataModel>().ToList()
+                    };
+
+                    return result;
+                }
             }
         }
         public RC_Details GetPTEntityDetails(string ptin)
@@ -408,6 +416,29 @@ namespace TGCTDPT.DAL
                 return con.QueryFirstOrDefault<RC_Details>(
                     "Proc_PT_GetTINDetails_1",
                     new { StrTIN = ptin },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
+
+        public RC_Cancel_ReActivate_Details CanPTEntityDetails(string ptin)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.QueryFirstOrDefault<RC_Cancel_ReActivate_Details>(
+                    "Proc_PT_GetTINDetails_1",
+                    new { StrTIN = ptin },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
+        public int SaveCancelReactivateDetails(string mjsonData)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.QueryFirstOrDefault<int>(
+                    "Save_PTIN_Cancel_Request",
+                    new { @json = mjsonData },
                     commandType: CommandType.StoredProcedure
                 );
             }

@@ -20,7 +20,7 @@
                 <div class="search-input-wrapper">
                     <i class="fas fa-hashtag search-icon"></i>
                     <input type="text" class="search-input" id="registrationNumber"
-                           placeholder="Enter Registration Number (RNR)">
+                           placeholder="Enter Application Reference Number (ARN NO.)">
                 </div>
                 <button class="search-btn" onclick="searchRegistrations()">
                     <i class="fas fa-search"></i>
@@ -56,14 +56,14 @@
             <table class="data-table" id="registrationTable">
                 <thead>
                     <tr>
-                        <th title="Serial No">S No.</th>
-                        <th title="Application Number (RNR)">App No.</th>
+                        <th title="Serial No" align="center">S No.</th>
+                        <th title="Application Reference Number">ARN No.</th>
                         <th title="Enterprise Name">Enterprise Name</th>
                         <th title="Circle">Circle</th>
                         <th title="Address">Address</th>
-                        <th title="Mode of Submission">Mode</th>
+                        @*<th title="Mode of Submission">Mode</th>*@
                         <th title="Type of Submission">Type</th>
-                        <th title="Application Date">App Date</th>
+                        <th title="Application Date"> Submitted Date</th>
                         <th title="Delay in Days">Delay</th>
                         <th title="Actions">Actions</th>
                     </tr>
@@ -96,58 +96,7 @@
     </div>
 
     <script>
-        const sampleData = [
-            {
-                applicationNumber: "36260313483838",
-                enterpriseName: "C8Y SOLUTIONS PRIVATE LIMITED",
-                circle: "MADHAPUR",
-                address: "06A 114, Vlework Krishe Emerald Whitefields, Kondapur, Hyderabad, 36, RANGAREDDY, Cyberabad, 500081",
-                modeOfSubmission: "Online",
-                typeOfSubmission: "Original",
-                applicationDate: "13-03-2026",
-                delayInDays: 3
-            },
-            {
-                applicationNumber: "36260313483839",
-                enterpriseName: "TECH MAHINDRA LIMITED INFORMATION TECHNOLOGY SERVICES",
-                circle: "HI-TECH CITY",
-                address: "Plot No 1, Hitech City, Madhapur, Hyderabad, 500081",
-                modeOfSubmission: "Online",
-                typeOfSubmission: "Renewal",
-                applicationDate: "12-03-2026",
-                delayInDays: 0
-            },
-            {
-                applicationNumber: "36260313483840",
-                enterpriseName: "AMAZON INDIA PVT LTD E-COMMERCE SERVICES",
-                circle: "GACHIBOWLI",
-                address: "Tower 4, RMZ Spire, Gachibowli, Hyderabad, 500032",
-                modeOfSubmission: "Offline",
-                typeOfSubmission: "Amendment",
-                applicationDate: "10-03-2026",
-                delayInDays: 5
-            },
-            {
-                applicationNumber: "36260313483841",
-                enterpriseName: "MICROSOFT CORPORATION INDIA PVT LTD",
-                circle: "GACHIBOWLI",
-                address: "Building 3, Mindspace, Gachibowli, Hyderabad, 500032",
-                modeOfSubmission: "Online",
-                typeOfSubmission: "Original",
-                applicationDate: "11-03-2026",
-                delayInDays: 2
-            },
-            {
-                applicationNumber: "36260313483842",
-                enterpriseName: "GOOGLE INDIA DIGITAL SERVICES PRIVATE LIMITED",
-                circle: "HI-TECH CITY",
-                address: "Salarpuria Sattva Knowledge City, Hitech City, Hyderabad, 500081",
-                modeOfSubmission: "Online",
-                typeOfSubmission: "Renewal",
-                applicationDate: "09-03-2026",
-                delayInDays: 4
-            }
-        ];
+        
         var PendingData = [];
         $(document).ready(function () {
             getPendingApprovals();
@@ -216,7 +165,6 @@
                 <td><span class="enterprise-name" title="${item.EnterpriseName}">${item.EnterpriseName}</span></td>
                 <td><span class="circle-cell" title="${item.Circle}">${item.Circle}</span></td>
                 <td><span class="address-cell" title="${item.Address}">${item.Address}</span></td>
-                <td><span class="badge ${modeClass}" title="${item.ModeOfSubmission}">${item.ModeOfSubmission}</span></td>
                 <td><span class="badge ${typeClass}" title="${item.TypeOfSubmission}">${item.TypeOfSubmission}</span></td>
                 <td title="${item.ApplicationDate}">${item.ApplicationDate}</td>
                 <td class="delay-cell"><span class="${delayClass}" title="${item.DelayInDays} days delay">${item.DelayInDays}</span></td>
@@ -232,6 +180,7 @@
             });
 
             tbody.innerHTML = html;
+            /*<td><span class="badge ${modeClass}" title="${item.ModeOfSubmission}">${item.ModeOfSubmission}</span></td>*/
         }
 
         function searchRegistrations() {

@@ -52,6 +52,7 @@ namespace TGCTDPT.Models
         public string query_date { get; set; }
         public string query_reason { get; set; }
         public string query_closed_date { get; set; }
+        public string isemp { get; set; }
     }
 
     public class EmployeeDetail
@@ -61,6 +62,7 @@ namespace TGCTDPT.Models
         public string emp_between_15001_20000 { get; set; }
         public string emp_above_20000 { get; set; }
         public string total_emp { get; set; }
+        public string isemp { get; set; }
     }
 
     public class OwnerDetail
@@ -80,6 +82,7 @@ namespace TGCTDPT.Models
         public string city { get; set; }
         public string mandal { get; set; }
         public string district { get; set; }
+        public string district_name { get; set; }
         public string state_name { get; set; }
         public string country { get; set; }
         public string pincode { get; set; }

@@ -418,8 +418,8 @@
                 </svg>
             </div>
             <div>
-                <div class="rs-alert-title">Action required — query raised on your registration</div>
-                <div class="rs-alert-sub">Your application requires immediate attention to avoid rejection.</div>
+                <div class="rs-alert-title">Action required — Query raised on your Registration on <strong id="lblQueryDate"></strong></div>
+                <div class="rs-alert-sub">Your application requires immediate attention to avoid Rejection.</div>
             </div>
         </div>
 
@@ -427,7 +427,7 @@
 
             <div class="rs-section-label">Application review</div>
             <div class="rs-info-box">
-                Your registration application with <strong>RNR</strong> has been examined by the registering authority <strong>(Circle Division)</strong>. The following query has been raised and must be addressed within the stipulated time.
+                Your registration application with <strong id="lblARN"></strong> has been examined by the registering authority <strong id="lblDivisionCircle"></strong>. The following query has been raised and must be addressed within the stipulated time.
             </div>
 
             <div class="rs-section-label">Queries raised</div>
@@ -442,7 +442,7 @@
                 </tbody>
             </table>
 
-            <div class="rs-section-label">Official remarks</div>
+            <div class="rs-section-label">Query remarks</div>
             <div class="rs-remarks">
                 <div class="rs-remarks-icon">
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -453,9 +453,8 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="rs-remarks-label">Official remarks</div>
-                    <div class="rs-remarks-body">
-                        The bank statement submitted is invalid / does not meet the prescribed guidelines. Please upload a valid bank statement (last 6 months) with clear business entity name, complete transaction summary, and bank stamp / digital verification. Ensure that the statement reflects the latest 3 months of transactions and matches the registered business address.
+                    <div class="rs-remarks-label">Query remarks</div>
+                    <div class="rs-remarks-body" id="lblQueryRemarks">
                     </div>
                 </div>
             </div>
@@ -512,8 +511,13 @@
                         rnr: rnrno
                     },
                     success: function (response) {
-                        if (response.length > 0) {
-                            renderQueries(response);
+                        if (response.Queries.length > 0) {
+                            var data = response.MetaData[0];
+                            $('#lblARN').text(response.MetaData[0].rnr);
+                            $('#lblDivisionCircle').text('Division : ' + data.division_name + ' , Circle : ' + data.circle_name);
+                            $('#lblQueryRemarks').text(data.query_reason);
+                            $('#lblQueryDate').text(data.query_DATE);
+                            renderQueries(response.Queries);
                         }
                         else {
                             ModernAlert.toast.info(response);

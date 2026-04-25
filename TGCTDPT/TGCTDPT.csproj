@@ -138,9 +138,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CheckSession.cs" />
+    <Compile Include="Controllers\AmendmentsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ePaymentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Modify_PTIN_StatusController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PTHomeController.cs" />
     <Compile Include="Controllers\PTOfficerController.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReturnController.cs" />
+    <Compile Include="DAL\AmendmentsDAL.cs" />
     <Compile Include="DAL\CommonDAL.cs" />
     <Compile Include="DAL\ePaymentDAL.cs" />
     <Compile Include="DAL\FormIISummaryDAL.cs" />
@@ -164,6 +167,7 @@
     </Compile>
     <Compile Include="Helpers\ClientHelpers.cs" />
     <Compile Include="Helpers\DB_context.cs" />
+    <Compile Include="Models\Amendments.cs" />
     <Compile Include="Models\AppStatus.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\ePayment.cs" />
@@ -194,6 +198,7 @@
     <Content Include="assets\css\forms.css" />
     <Content Include="assets\css\home.css" />
     <Content Include="assets\css\loader.css" />
+    <Content Include="assets\css\Modifyrcstatus.css" />
     <Content Include="assets\css\passwordchange.css" />
     <Content Include="assets\css\Refunds.css" />
     <Content Include="assets\css\Retruns.css" />
@@ -201,6 +206,7 @@
     <Content Include="assets\css\tgloader.css" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\logo.png" />
+    <Content Include="assets\images\map.jpg" />
     <Content Include="assets\images\RisingTelanganaLogo.jpeg" />
     <Content Include="assets\js\tgloader.js" />
     <Content Include="assets\js\Validations.js" />
@@ -240,6 +246,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="UploadedDocuments\36260317185057\1\AadharCopy.png" />
     <Content Include="UploadedDocuments\36260317185057\2\PanCopy.png" />
+    <Content Include="ViewJs\AmendmentScript.js" />
     <Content Include="ViewJs\RegSummary.js" />
     <Content Include="Views\PTHome\PT_Certificate.html" />
     <Content Include="Web References\BSNL_SMS\Reference.map">
@@ -252,6 +259,10 @@
     <Content Include="Views\Registration\RegistrationStatus.cshtml" />
     <Content Include="Views\Registration\checkRC.cshtml" />
     <Content Include="Views\Registration\PrintCertificate.cshtml" />
+    <Content Include="Views\Amendments\AmendmentRequest.cshtml" />
+    <Content Include="Views\Modify_PTIN_Status\Cancel_PTIN.cshtml" />
+    <Content Include="Views\PTOfficer\RequestDetails.cshtml" />
+    <Content Include="Views\PTOfficer\Pending_Cancel_Revoke_Requests.cshtml" />
     <None Include="Web References\BSNL_SMS\SMS_BSNL.disco" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

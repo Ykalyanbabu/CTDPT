@@ -1027,6 +1027,9 @@
         const professions = [...new Set(Object.values(PT_ENTRIES).flat())];
         function bind(sel, arr) {
             sel.innerHTML = '<option value="">-- Select --</option>';
+
+            arr.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
             arr.forEach(v => sel.add(new Option(v, v)));
         }
 

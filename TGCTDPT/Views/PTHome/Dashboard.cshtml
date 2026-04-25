@@ -219,45 +219,12 @@
                 </div>
 
             </div>
-            <div class="dashboard-card" onclick="location.href='@Url.Action("Amend_Registration","Registration")'" >
-                <div class="card-icon">
-                    <i class="fas fa-edit"></i>
-                </div>
-                <div style="flex: 1;">
-                    <h3>Amend Registration Details</h3>
-                </div>
-                @*<div class="card-footer" style="display:none;">
-                <span><i class="fas fa-shield-alt"></i> High</span>
-                <span><i class="fas fa-history"></i> 15d</span>
-            </div>*@
-            </div>
-            <div class="dashboard-card" onclick="location.href='@Url.Action("ChangePassword","PTHome")'" >
-                <div class="card-icon">
-                    <i class="fas fa-key"></i>
-                </div>
-                <div style="flex: 1;">
-                    <h3>Change Password</h3>
-                </div>
-                @*<div class="card-footer" style="display:none;">
-                <span><i class="fas fa-shield-alt"></i> High</span>
-                <span><i class="fas fa-history"></i> 15d</span>
-            </div>*@
-            </div>
             <div class="dashboard-card" onclick="location.href='@Url.Action("Return", "Return")'">
                 <div class="card-icon">
                     <i class="fas fa-file-alt"></i>
                 </div>
                 <div style="flex: 1;">
                     <h3>Returns</h3>
-                </div>
-
-            </div>
-            <div class="dashboard-card" onclick="location.href='@Url.Action("Refunds","Refunds")'" >
-                <div class="card-icon">
-                    <i class="fas fa-undo"></i>
-                </div>
-                <div style="flex: 1;">
-                    <h3>Refunds</h3>
                 </div>
 
             </div>
@@ -270,8 +237,6 @@
                 </div>
 
             </div>
-
-            <!-- E-Payment Card -->
             <div class="dashboard-card" onclick="location.href='@Url.Action("PaymentType","PTHome")'">
                 <div class="card-icon">
                     <i class="fas fa-credit-card"></i>
@@ -281,18 +246,48 @@
                 </div>
 
             </div>
-            <div class="dashboard-card" onclick="goTo('PT_Payment.html')">
+            <div class="dashboard-card" onclick="location.href='@Url.Action("AmendmentRequest","Amendments")'">
+                <div class="card-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Amend Registration Details</h3>
+                </div>
+                @*<div class="card-footer" style="display:none;">
+                <span><i class="fas fa-shield-alt"></i> High</span>
+                <span><i class="fas fa-history"></i> 15d</span>
+            </div>*@
+            </div>
+            <div class="dashboard-card" onclick="location.href='@Url.Action("ChangePassword","PTHome")'">
+                <div class="card-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Change Password</h3>
+                </div>
+                @*<div class="card-footer" style="display:none;">
+                <span><i class="fas fa-shield-alt"></i> High</span>
+                <span><i class="fas fa-history"></i> 15d</span>
+            </div>*@
+            </div>
+
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Refunds","Refunds")'">
+                <div class="card-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Refunds</h3>
+                </div>
+
+            </div>
+            <div class="dashboard-card" onclick="location.href='@Url.Action("Cancel_PTIN","Modify_PTIN_Status")'">
                 <div class="card-icon">
                     <i class="fas fa-ban"></i>
                 </div>
                 <div style="flex: 1;">
                     <h3>Request for PTIN Cancellation </h3>
                 </div>
-
             </div>
-
-
-
         </div>
     </div>
 

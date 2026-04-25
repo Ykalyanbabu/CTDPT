@@ -25,6 +25,18 @@ namespace TGCTDPT.Models
         public string query_code { get; set; }
         public string rnr { get; set; }
     }
+    public class QueryDetailsResult
+    {
+        public List<QueryModel> Queries { get; set; }
+        public List<QueryMetaDataModel> MetaData { get; set; }
+    }
+    public class QueryMetaDataModel 
+    {
+        public string division_name { get; set; }
+        public string circle_name { get; set; }
+        public string query_DATE { get; set; }
+        public string query_reason { get; set; }
+    }
     public class StatusResponse
     {
         public string Status { get; set; }

@@ -208,38 +208,47 @@ body {
 /* Serial No */
 .data-table th:nth-child(2) {
     width: 10%;
+    text-align:center;
 }
 /* Application Number */
 .data-table th:nth-child(3) {
     width: 15%;
+    text-align: center;
 }
 /* Enterprise Name */
 .data-table th:nth-child(4) {
-    width: 7%;
+    width: 10%;
+    text-align: center;
 }
 /* Circle */
 .data-table th:nth-child(5) {
     width: 18%;
+    text-align: center;
 }
 /* Address */
 .data-table th:nth-child(6) {
-    width: 7%;
+    width: 10%;
+    text-align: center;
 }
 /* Mode */
 .data-table th:nth-child(7) {
     width: 7%;
+    text-align: center;
 }
 /* Type */
 .data-table th:nth-child(8) {
-    width: 7%;
+    width: 8%;
+    text-align: center;
 }
 /* Date */
 .data-table th:nth-child(9) {
     width: 6%;
+    text-align: center;
 }
 /* Delay */
 .data-table th:nth-child(10) {
     width: 8%;
+    text-align: center;
 }
 /* Actions */
 
@@ -366,6 +375,7 @@ body {
     background: #dbeafe;
     color: #1e40af;
     border: 1px solid #3b82f6;
+    text-align: center;
 }
 
 .badge-renewal {

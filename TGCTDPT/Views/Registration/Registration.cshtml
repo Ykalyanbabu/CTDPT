@@ -11,6 +11,9 @@
 
 <style>
     /* RESET - scoped to .rnr-registration-summary */
+    .same-size-btn {
+        width: 90px;
+    }
     .rnr-registration-summary * {
         margin: 0;
         padding: 0;
@@ -224,8 +227,9 @@
 
     .rnr-detail-cell {
         padding: 0.7rem 1rem;
-        border-right: 1px solid var(--rnr-border);
-        border-bottom: 1px solid var(--rnr-border);
+        border: 1px solid #0e010196;
+        /*border-right: 1px solid black;
+        border-bottom: 1px solid black;*/
         background: white;
     }
 
@@ -561,7 +565,7 @@
                     <div class="step" id="divOwnerTab">
                         <i class="fa-solid fa-user-tie"></i>
                         @*Owner / Managing Director / Managing Partner*@
-                        Owner
+                        Key Person Details<br />(Owner/Proprietor/ <br />MD/MP/Chairman/<br>Professional)
                     </div>
                     <div class="step" id="divAuth">
                         <i class="fa-solid fa-user-check"></i>
@@ -643,7 +647,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -688,9 +692,9 @@
                                         Constitution of Business <span class="text-danger">*</span>
                                     </label>
 
-                                    <select class="form-control" id="cobz">
+                                    <select class="form-control" id="cobz" onclick="onChangeCobz();">
                                         <option value="">--Select--</option>
-                                        <option value="Proprietorship">Proprietorship</option>
+                                        <option value="Proprietorship">Proprietorship/Individual</option>
                                         <option value="Partnership">Partnership</option>
                                         <option value="PLC">Private Limited Company</option>
                                         <option value="LLP">Limited Liability Partnership (LLP)</option>
@@ -797,7 +801,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -807,7 +811,22 @@
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Employee Details</h5>
                             <hr />
-                            <div class="form-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                            <div class="form-group" style="width:150%">
+                                <label>
+                                    <b>
+                                        Do you have Employees?
+                                    </b> <span class="text-danger">*</span>
+                                </label>
+                                <div>
+                                    <label for="rdbYes">
+                                        <input type="radio" id="chkisEmp" onchange="fn_chkisEmp(this.value);" name="rdb_isemp" value="Yes"> Yes
+                                    </label>
+                                    <label for="rdbNo" style="margin-left:15px;">
+                                        <input type="radio" id="chkisEmp" name="rdb_isemp" onchange="fn_chkisEmp(this.value);" value="No"> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-grid" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" id="divIsEmp">
                                 <div class="form-group">
                                     <label>
                                         Number Of Employees Earning Below 15000 per month <span class="text-danger">*</span>
@@ -832,16 +851,16 @@
                                     <input type="text" min="10" max="10" id="tot_emp" class="form-control" style="width:50%;" onkeypress="return isNumber(event)" readonly>
                                 </div>
                                 <br />
-                                <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
-                                    <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(0);">
-                                        Previous
-                                    </button>
-                                    <button type="button" onclick="validate_emp()" class="btn btn-primary px-4 w-auto">
-                                        Next
-                                    </button>
-                                </div>
-                            </div>
 
+                            </div>
+                            <div style="grid-column:1/-1; display:flex; justify-content:flex-end;">
+                                <button type="button" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(0);">
+                                    Previous
+                                </button>
+                                <button type="button" onclick="validate_emp()" class="btn btn-primary px-4 w-auto">
+                                    Next
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -856,7 +875,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<%-- <h6>Profession Tax Application</h6>--%>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -864,7 +883,7 @@
                             </h6>
                         </div>
                         <form>
-                            <h5 class="mt-2 mb-2 text-primary">Details of Owner </h5>
+                            <h5 class="mt-2 mb-2 text-primary">Owner/Proprietor/Managing Director/Managing Partner/Chairman/Professional Details </h5>
                             <hr />
                             <div class="form-grid">
                                 <div class="form-group">
@@ -881,34 +900,18 @@
                                 </div>
 
                                 @*<div class="form-group">
-            <label>
-                Date of Birth
-            </label>
-            <input type="date" class="form-control">
-        </div>*@
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" class="form-control">
+                                    </div>*@
 
                                 <div class="form-group">
                                     <label>
                                         Status of the Individual <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="O_status_of_individual">
-                                        <option value="">--Select--</option>
-                                        <option value="Owner" selected>Owner</option>
-                                        @*<option value="Director">Director</option>
-                <option value="Partner">Partner</option>*@
-                                    </select>
+                                    <input type="text" id="O_status_of_individual" class="form-control" readonly>
                                 </div>
-                                @*<div class="form-group">
-            <label>
-                Gender <span class="text-danger">*</span>
-            </label>
-            <select class="form-control">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Others</option>
-            </select>
-        </div>*@
-
                                 <div class="form-group">
                                     <label>
                                         Email <span class="text-danger">*</span>
@@ -953,27 +956,26 @@
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="O_country">
+                                    <select class="form-control" id="O_country" onchange="onOwnerConutryChange();">
                                         <option value="">--Select--</option>
-                                        <option value="India" selected>India</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="divOwnerState">
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="O_state_name">
+                                    <select class="form-control" id="O_state_name" onchange="onOwnerStateChange();">
                                         <option value="">--Select--</option>
-                                        <option value="Telangana" selected>Telangana</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="divOwnerDist">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select" id="O_distict">
                                         <option value="">--Select--</option>
                                     </select>
+                                    <input type="text" class="form-control" id="txtOwnerDist" style="display:none;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -995,11 +997,11 @@
                                 </div>
 
                                 @*<div class="form-group">
-            <label>
-                Phone Number(Optional)
-            </label>
-            <input type="text" class="form-control">
-        </div>*@
+                                        <label>
+                                            Phone Number(Optional)
+                                        </label>
+                                        <input type="text" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Mobile Number <span class="text-danger">*</span>
@@ -1032,7 +1034,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II</h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -1127,7 +1129,6 @@
                                         District <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="auth_district">
-                                        <option value="Rangareddy">RANGAREDDY</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -1185,7 +1186,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -1195,7 +1196,7 @@
                         <form>
                             <h5 class="mt-2 mb-2 text-primary">Partner/Director Details</h5>
                             <hr />
-                            <div class="form-grid">
+                            <div class="form-grid" id="divYesPartners">
                                 <div class="form-group">
                                     <label>
                                         Name  <span class="text-danger">*</span>
@@ -1203,11 +1204,11 @@
                                     <input type="text" id="dir_prtnr_name" class="form-control" value="">
                                 </div>
                                 @*<div class="form-group">
-            <label>
-                Date of Birth
-            </label>
-            <input type="date" id="txtPartnerDirectorDOB" class="form-control">
-        </div>*@
+                                        <label>
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" id="txtPartnerDirectorDOB" class="form-control">
+                                    </div>*@
                                 <div class="form-group">
                                     <label>
                                         Director/Partner <span class="text-danger">*</span>
@@ -1220,21 +1221,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label>
-                                        Drawing Remuneration <span class="text-danger">*</span>
+                                        Drawing Remuneration in this Firm? <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="dir_prtnr_remunrtn">
                                         <option value="0">--Select--</option>
                                         <option value="Y">Yes</option>
                                         <option value="N">No</option>
-                                        <!-- <option value="Others">Others</option> -->
                                     </select>
                                 </div>
                                 <!--<div class="form-group">
-        <label>
-            Is Housewife <span class="text-danger">*</span>
-        </label>
-        <input type="checkbox" id="chkHouseWife" disabled>
-    </div>-->
+                                    <label>
+                                        Is Housewife <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="checkbox" id="chkHouseWife" disabled>
+                                </div>-->
 
                                 <div class="form-group">
                                     <label>
@@ -1274,29 +1274,25 @@
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="dir_prtnr_country">
-                                        <option value="India">India</option>
+                                    <select class="form-control" id="dir_prtnr_country" onchange="onDirectorCountryChange();">
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="divDirectorState">
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="dir_prtnr_state">
-                                        <option>Telangana</option>
-                                        <option>Andhra Pradesh</option>
-                                        <option>Tamilnadu</option>
-                                        <option>Karnataka</option>
-                                        <option>Kerala</option>
+                                    <select class="form-control" id="dir_prtnr_state" onchange="onDirectorStateChange();">
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="divDirectorDist">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="dir_prtnr_district">
-                                        <option>RANGAREDDY</option>
+                                        <option value="">--Select--</option>
                                     </select>
+                                    <input type="text" class="form-control" id="dir_prtnr_txtDist" style="display:none;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1331,7 +1327,11 @@
                                 </div>
 
 
-                            </div><br />
+                            </div>
+                            <div id="divNoPartners" style="display:none;">
+                                <h5>Partner/Director Details not Required for Proprietorship/Individual</h5>
+                            </div>
+                            <br />
                             <div style="display: flex; justify-content: center; margin: 0px 0px 15px 0px;">
                                 <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPartner" style="font-size: medium;">
                                     <i class="fa fa-plus"></i> Add Director / Partner
@@ -1340,9 +1340,9 @@
                         </form>
                         <hr class="mt-4" />
 
-                        <h6 class="text-primary mb-3">Added Partner / Director Details</h6>
+                        <h6 class="text-primary mb-3" id="hdr1">Added Partner / Director Details</h6>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="divPartnerstable">
                             <table class="table table-bordered table-hover align-middle" id="dirprtnrTable" style="font-size: small;">
                                 <thead class="table-light" style="text-align: center;">
                                     <tr>
@@ -1402,7 +1402,7 @@
                             <h5 class="fw-bold text-primary">Form I and Form II</h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -1471,25 +1471,27 @@
                                     <label>
                                         Country <span class="text-danger"></span>
                                     </label>
-                                    <select class="form-control" id="addl_plc_country">
-                                        <option value="India">India</option>
+                                    <select class="form-control" id="addl_plc_country" onchange="onAddlBzCountryChange();">
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="divAddlPlaceState">
                                     <label>
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control" id="addl_plc_state">
-                                        <option value="Telangana">Telangana</option>
+                                    <select class="form-control" id="addl_plc_state" onchange="onAddlBzStateChange();">
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" id="divAddlPlaceDist">
                                     <label>
                                         District <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control" id="addl_plc_district">
+                                        <option value="">--Select--</option>
                                     </select>
+                                    <input type="text" class="form-control" id="addl_plc_district_text" style="display:none;">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1557,7 +1559,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II </h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -1594,7 +1596,7 @@
                                                 <input type="text" class="form-control" id="account_holder_name" placeholder="Account Holder Name">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code">
+                                                <input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code" style="text-transform:uppercase;">
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" id="branch_address" placeholder="Branch Address">
@@ -1659,7 +1661,7 @@
                             <h5 class="fw-bold text-primary" id="employee">Form I and Form II</h5>
                             <!-- <h5 class="fw-bold text-primary" id="entity">Form II </h5> -->
                             @*<h6>Profession Tax Application</h6>*@
-                            <h6>See Rule 3(1) and Rule 4(1) and Rule 6(2)</h6>
+                            <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
 
                             <h6>
                                 Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
@@ -1708,7 +1710,8 @@
 
                                         <th>Document Name </th>
                                         @*<th>File Name </th>*@
-                                        <th style="width:120px;" class="text-center">Action</th>
+                                        <th style="width:120px;" class="text-center">View</th>
+                                        <th style="width:120px;" class="text-center">Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody id="FilesBody">
@@ -1777,18 +1780,22 @@
                                         <div class="rnr-detail-value"><span id="rnrSpnEmail"></span></div>
                                     </div>
                                     <div class="rnr-detail-cell">
+                                        <div class="rnr-detail-label">Employees Status</div>
+                                        <div class="rnr-detail-value"><span id="rnrSpnEmpStatus"></span></div>
+                                    </div>
+                                    <div class="rnr-detail-cell" id="emp1">
                                         <div class="rnr-detail-label">No. of Employees Earning below 15000 per Month</div>
                                         <div class="rnr-detail-value"><span id="rnrSpnBelow15k"></span></div>
                                     </div>
-                                    <div class="rnr-detail-cell">
+                                    <div class="rnr-detail-cell" id="emp2">
                                         <div class="rnr-detail-label">No. of Employees Earning between 15001 to 20000 per Month</div>
                                         <div class="rnr-detail-value"><span id="rnrSpnAbove15k"></span></div>
                                     </div>
-                                    <div class="rnr-detail-cell">
+                                    <div class="rnr-detail-cell" id="emp3">
                                         <div class="rnr-detail-label">No. of Employees Earning above 20000 per Month</div>
                                         <div class="rnr-detail-value"><span id="rnrSpnAbove20k"></span></div>
                                     </div>
-                                    <div class="rnr-detail-cell">
+                                    <div class="rnr-detail-cell" id="emp4">
                                         <div class="rnr-detail-label">Total No. of Employees Working</div>
                                         <div class="rnr-detail-value"><span id="rnrSpnTotalEmployees"></span></div>
                                     </div>
@@ -1800,7 +1807,7 @@
                         <div class="rnr-section">
                             <div class="rnr-section-header">
                                 <div class="rnr-section-icon"><i class="fas fa-user"></i></div>
-                                <span class="rnr-section-title">Owner / MD / Managing Partner Details</span>
+                                <span class="rnr-section-title">Owner/Proprietor/Managing Director/Managing Partner/Chairman/Professional Details</span>
                             </div>
                             <div class="rnr-section-body">
                                 <div class="rnr-owner-row">
@@ -1852,7 +1859,10 @@
                                 <div class="rnr-section-icon"><i class="fas fa-user-check"></i></div>
                                 <span class="rnr-section-title">Authorised Person Details</span>
                             </div>
-                            <div class="rnr-section-body">
+                            <div class="section-body" style="display:none;" id="divNoAuthPerson">
+                                <h6>Details Not Provided</h6>
+                            </div>
+                            <div class="rnr-section-body" id="divYesAuthPerson">
                                 <div class="rnr-owner-row">
                                     <div>
                                         <div class="rnr-owner-name"><span id="rnrSpnAuthPersonName"></span></div>
@@ -1955,7 +1965,7 @@
                             </div>
                         </div>
                         <div style="grid-column: 1/-1; display: flex; justify-content: center; margin: 15px 0px 0px 0px;">
-                            <button type="button" id="btnPrevSum" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(6);">
+                            <button type="button" id="btnPrevSum" class="btn btn-primary px-4 w-auto" style="margin: 0px 5px 0px 0px;" onclick="showTab(7);">
                                 Previous
                             </button>
                             <button type="button" id="btnSubmitSum" style="margin: 0px 5px 0px 0px;" class="btn btn-primary px-4 w-auto" onclick="SubmitApplication();">
@@ -1995,7 +2005,7 @@
 
             var urlParams = new URLSearchParams(window.location.search);
             var type = urlParams.get('type');
-
+            LoadCountries();
             Load_Banks();
             if (AppId != null && AppId != undefined && AppId != "") {
                 LoadApplicationDtls(AppId);
@@ -2003,7 +2013,8 @@
             else {
                 showTab('0');
                 loadDivisions();
-                loaddistrict();
+                loaddistrict("", "auth_district");
+                loaddistrict("", "district");
             }
 
             if (QuerySts == "Y") {
@@ -2012,6 +2023,29 @@
             }
 
         });
+
+            function LoadDistricts(district, ddl) {
+                $.ajax({
+                    url: '@Url.Action("GetDistricts", "Registration")',
+                    type: 'GET',
+                    success: function (data) {
+                        if (ddl != null && ddl != undefined && ddl != "") {
+                            var preloadddl = $('#' + ddl);
+                            preloadddl.empty();
+                            preloadddl.append('<option value="">--Select--</option>');
+                            $.each(data, function (i, item) {
+                                preloadddl.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                            });
+                            if (district != null && district != undefined && district != "") {
+                                $('#' + ddl).val(district);
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to load States');
+                    }
+                });
+            }
 
         function loaddistrict(district,ddl) {
             $.ajax({
@@ -2029,27 +2063,27 @@
                         dropdown.append('<option value="">--Select--</option>');
 
                         $.each(data, function (i, item) {
-                            dropdown.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                            dropdown.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                         });
                         dropdown2.append('<option value="">--Select--</option>');
 
                         $.each(data, function (i, item) {
-                            dropdown2.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                            dropdown2.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                         });
                         dropdown3.append('<option value="">--Select--</option>');
 
                         $.each(data, function (i, item) {
-                            dropdown3.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                            dropdown3.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                         });
                         dropdown4.append('<option value="">--Select--</option>');
 
                         $.each(data, function (i, item) {
-                            dropdown4.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                            dropdown4.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                         });
                         dropdown5.append('<option value="">--Select--</option>');
 
                         $.each(data, function (i, item) {
-                            dropdown5.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                            dropdown5.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                         });
                     }
                     else {
@@ -2058,7 +2092,7 @@
                                 preloadddl.empty();
                                 preloadddl.append('<option value="">--Select--</option>');
                                 $.each(data, function (i, item) {
-                                    preloadddl.append('<option value="' + item.district_code + '">' + item.district_name + '</option>');
+                                    preloadddl.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
                                 });
                                 if (district != null && district != undefined && district != "") {
                                     $('#' + ddl).val(district);
@@ -2085,7 +2119,7 @@
                     dropdown.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.division_code + '">' + item.division_name + '</option>');
+                        dropdown.append('<option value="' + item.division_code + '">' + toProperCase(item.division_name) + '</option>');
                     });
 
                     if (division != null && division != undefined && division != "") {
@@ -2098,16 +2132,16 @@
             });
 
         }
-        $('#bz_division').change(function () {
+            $('#bz_division').change(function () {
 
-            var divisionId = $(this).val();
+                var divisionId = $(this).val();
 
-            if (divisionId !== "") {
-                loadCircles(divisionId);
-            } else {
-                $('#bz_circle').empty().append('<option value="">Select Circle</option>');
-            }
-        });
+                if (divisionId !== "") {
+                    loadCircles(divisionId);
+                } else {
+                    $('#bz_circle').empty().append('<option value="">Select Circle</option>');
+                }
+            });
         function loadCircles(divisionId,Circle) {
             $.ajax({
                 url:  '@Url.Action("GetCirclesByDivision", "Registration")',
@@ -2120,7 +2154,7 @@
                     dropdown.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.circle_code + '">' + item.circle_name + '</option>');
+                        dropdown.append('<option value="' + item.circle_code + '">' + toProperCase(item.circle_name) + '</option>');
                     });
 
                     if (Circle != null && Circle != undefined && Circle != "") {
@@ -2131,7 +2165,73 @@
                     alert('Failed to load circles');
                 }
             });
-        }
+            }
+
+            function LoadCountries(Country, ddl) {
+                $.ajax({
+                    url: '@Url.Action("GetCountryStates", "Registration")',
+                    type: 'GET',
+                    data: { Type: "C" },
+                    success: function (data) {
+                        if (ddl == null || ddl == undefined || ddl == "") {
+                            var dropdown1 = $('#O_country');
+                            var dropdown2 = $('#dir_prtnr_country');
+                            var dropdown3 = $('#addl_plc_country');
+
+                            dropdown1.empty(); dropdown2.empty(); dropdown3.empty();
+                            dropdown1.append('<option value="">--Select--</option>');
+                            dropdown2.append('<option value="">--Select--</option>');
+                            dropdown3.append('<option value="">--Select--</option>');
+
+                            $.each(data, function (i, item) {
+                                dropdown1.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                                dropdown2.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                                dropdown3.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                            });
+                        }
+                        else {
+                            if (ddl != null && ddl != undefined && ddl != "") {
+                                var preloadddl = $('#' + ddl);
+                                preloadddl.empty();
+                                preloadddl.append('<option value="">--Select--</option>');
+                                $.each(data, function (i, item) {
+                                    preloadddl.append('<option value="' + item.country_code + '">' + item.country_name + '</option>');
+                                });
+                                if (Country != null && Country != undefined && Country != "") {
+                                    $('#' + ddl).val(Country);
+                                }
+                            }
+                        }
+
+                    },
+                    error: function () {
+                        alert('Failed to load Countries');
+                    }
+                });
+            }
+            function LoadStates(State,ddl) {
+                $.ajax({
+                    url: '@Url.Action("GetCountryStates", "Registration")',
+                    type: 'GET',
+                    data: { Type: "S" },
+                    success: function (data) {
+                            if (ddl != null && ddl != undefined && ddl != "") {
+                                var preloadddl = $('#' + ddl);
+                                preloadddl.empty();
+                                preloadddl.append('<option value="">--Select--</option>');
+                                $.each(data, function (i, item) {
+                                    preloadddl.append('<option value="' + item.state_code + '">' + toProperCase(item.state_name) + '</option>');
+                                });
+                                if (State != null && State != undefined && State != "") {
+                                    $('#' + ddl).val(State);
+                                }
+                            }
+                    },
+                    error: function () {
+                        alert('Failed to load States');
+                    }
+                });
+            }
 
         /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
 
@@ -2180,94 +2280,102 @@
             });
         }
 
-        function validateBusiness() {
+            function validateBusiness() {
 
-            var container = document.querySelector("#divBusiness");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
+                var container = document.querySelector("#divBusiness");
+                var inputs = container.querySelectorAll("input, select");
+                var valid = true;
 
-            inputs.forEach(function (input) {
+                inputs.forEach(function (input) {
 
-                if (input.offsetParent !== null) {
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                    } else {
-                        input.style.border = "";
+                    if (input.offsetParent !== null) {
+                        if (input.value.trim() === "") {
+                            input.style.border = "1px solid red";
+                            valid = false;
+                        } else {
+                            input.style.border = "";
+                        }
                     }
+
+                });
+                if (!valid) {
+                    ModernAlert.toast.info('Please fill all required fields');
+                    return false;
                 }
 
-            });
-            if (!valid) {
-                ModernAlert.toast.info('Please fill all required fields');
-                return false;
-            }
+                var gonext = true;
+                console.log(gonext);
 
-            var gonext = true;
-            console.log(gonext);
+                if (gonext === true) {
+                    var savedetails = fn_savedetails();
 
-            if (gonext === true) {
-                var savedetails = fn_savedetails();
+                    if (savedetails) {
 
-                if (savedetails) {
+                        showTab("1");
+                    }
+                    else {
+                        showTab("0");
+                    }
 
-                    showTab("1");
                 }
                 else {
                     showTab("0");
                 }
 
             }
-            else {
-                showTab("0");
-            }
+            var FirstTabHist = "";
+            function fn_savedetails() {
 
-        }
-        function fn_savedetails() {
+                var data = {
+                    enterprise_name: $("#enterprise_name").val(),
+                    business_pan: $("#business_pan").val(),
+                    cobz: $("#cobz").val(),
+                    email_id: $("#email_id").val(),
+                    mobile_no: $("#mobile_no").val(),
+                    door_no: $("#door_no").val(),
+                    road_street: $("#road_street").val(),
+                    locality: $("#locality").val(),
+                    city: $("#city").val(),
+                    mandal: $("#mandal").val(),
+                    district_code: $("#district").val(),
+                    district_name: $('#district option:selected').text(),
+                    pincode: $("#pincode").val(),
+                    division_code: $("#bz_division").val(),
+                    circle_code: $("#bz_circle").val()
+                };
+                console.log()
 
-            var data = {
-                enterprise_name: $("#enterprise_name").val(),
-                business_pan: $("#business_pan").val(),
-                cobz: $("#cobz").val(),
-                email_id: $("#email_id").val(),
-                mobile_no: $("#mobile_no").val(),
-                door_no: $("#door_no").val(),
-                road_street: $("#road_street").val(),
-                locality: $("#locality").val(),
-                city: $("#city").val(),
-                mandal: $("#mandal").val(),
-                district_code: $("#district").val(),
-                district_name: $('#district option:selected').text(),
-                pincode: $("#pincode").val(),
-                division_code: $("#bz_division").val(),
-                circle_code: $("#bz_circle").val()
-            };
-            console.log()
-
-            $.ajax({
-                url: '@Url.Action("SaveBusinessDetails", "Registration")',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'JSON',
-                success: function (response) {
-                    if (response.success) {
-                        $('#lblApplicationId').html("Application Id: " + response.data.application_id);
-                        ModernAlert.showSuccess('Please Store this Application ID:' + response.data.application_id + ' for further Reference.', 'Saved');
-                        showTab("1");
-                    }
-                    else {
-
+                $.ajax({
+                    url: '@Url.Action("SaveBusinessDetails", "Registration")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if (response.success) {
+                            $('#lblApplicationId').html("Application Id: " + response.data.application_id);
+                            AppId = response.data.application_id;
+                            if (FirstTabHist != "Y") {
+                                ModernAlert.showSuccess(
+                                    'Please note this Application ID: ' + response.data.application_id +
+                                    ' for future reference. These details have also been sent to your registered email address: ' + $('#email_id').val(),
+                                    'Saved'
+                                );
+                            }
+                            FirstTabHist = "Y";
+                            showTab("1");
+                        }
+                        else {
+                            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                            showTab("0");
+                        }
+                    },
+                    error: function () {
                         ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
-                        showTab("0");
                     }
-                },
-                error: function () {
-                    ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
-                }
-            });
+                });
 
-        }
+            }
 
         /*##################FOR SAVING THE BUSINESS DETAILS DATA#######################*/
 
@@ -2290,42 +2398,58 @@
             });
 
 
-        function validate_emp() {
+            function validate_emp() {
 
-            var container = document.querySelector("#divEmployee");
-            var inputs = container.querySelectorAll("input");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                    }
-                    else {
-                        input.style.border = "";
-                    }
+                var isemp = $("input[name='rdb_isemp']:checked").val();
+                if (!isemp) {
+                    ModernAlert.toast.info('Please select Yes or No for Employee Status');
+                    return false;
                 }
 
-            });
+            if ($('#chkisEmp').is(":checked") == true) {
+                var container = document.querySelector("#divEmployee");
+                var inputs = container.querySelectorAll("input");
+                var valid = true;
 
-            if (!valid) {
-                alert("Please fill all required fields.");
-                return false;
+                inputs.forEach(function (input) {
+
+                    if (input.offsetParent !== null) {
+
+                        if (input.value.trim() === "") {
+                            input.style.border = "1px solid red";
+                            valid = false;
+                        }
+                        else {
+                            input.style.border = "";
+                        }
+                    }
+
+                });
+
+                if (!valid) {
+                    alert("Please fill all required fields.");
+                    return false;
+                }
+
+                saveEmployeeDetails(); // call ajax
             }
-
-            saveEmployeeDetails(); // call ajax
+            else {
+                $("#emp_below_15000").val("");
+                $("#emp_between_15001_20000").val("");
+                $("#emp_above_20000").val("");
+                $("#tot_emp").val("");
+                saveEmployeeDetails();
+            }
         }
-        function saveEmployeeDetails() {
-
-            var data = {
-                emp_below_15000: $("#emp_below_15000").val()||0,
+            function saveEmployeeDetails() {
+                var _isemp = "";
+                if ($('#chkisEmp').is(":checked") == true) { _isemp = "1" } else { _isemp="0"}
+                var data = {
+                emp_below_15000: $("#emp_below_15000").val()|| 0,
                 emp_between_15001_20000: $("#emp_between_15001_20000").val() || 0,
                 emp_above_20000: $("#emp_above_20000").val() || 0,
                 tot_emp: $("#tot_emp").val() || 0,
-
+                isemp: _isemp
             };
 
             $.ajax({
@@ -2355,59 +2479,112 @@
 
         /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
 
-        function validate_ownr_md() {
-
-            var container = document.querySelector("#divPartner");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    // skip optional aadhaar
-                    if (input.id === "O_aadhaar" && input.value.trim() === "") {
-                        input.style.border = "";
-                        return;
+            function validate_ownr_md() {
+                if ($('#O_owner_name').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Name');
+                    $('#O_owner_name').focus();
+                    return false;
+                }
+                if ($('#O_father_name').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Father Name');
+                    $('#O_father_name').focus();
+                    return false;
+                }
+                if ($('#O_status_of_individual').val() == "") {
+                    ModernAlert.toast.info('Please select Status of the Individual ');
+                    $('#O_status_of_individual').focus();
+                    return false;
+                }
+                if ($('#O_email_id').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Email Id');
+                    $('#O_email_id').focus();
+                    return false;
+                }
+                if ($('#O_door_no').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Door Number');
+                    $('#O_door_no').focus();
+                    return false;
+                }
+                if ($('#O_road_street').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Road / Street / Building Name');
+                    $('#O_road_street').focus();
+                    return false;
+                }
+                if ($('#O_locality').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Locality ');
+                    $('#O_locality').focus();
+                    return false;
+                }
+                if ($('#O_city').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner City / Town / Village ');
+                    $('#O_city').focus();
+                    return false;
+                }
+                if ($('#O_mandal').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Madal');
+                    $('#O_mandal').focus();
+                    return false;
+                }
+                if ($('#O_country').val() == "") {
+                    ModernAlert.toast.info('Please select Owner Country');
+                    $('#O_country').focus();
+                    return false;
+                }
+                if ($('#O_country').val() == "1") {
+                    if ($('#O_state_name').val() == "") {
+                        ModernAlert.toast.info('Please select Owner State');
+                        $('#O_state_name').focus();
+                        return false;
                     }
 
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
+                    if ($('#O_state_name').val() == "36") {
+                        if ($('#O_distict').val() == "") {
+                            ModernAlert.toast.info('Please select Owner District');
+                            $('#O_distict').focus();
+                            return false;
+                        }
                     }
-                    else {
-                        input.style.border = "";
+                    if ($('#O_state_name').val() != "36") {
+                        if ($('#txtOwnerDist').val() == "") {
+                            ModernAlert.toast.info('Please enter Owner District');
+                            $('#txtOwnerDist').focus();
+                            return false;
+                        }
                     }
                 }
+                if ($('#O_pincode').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner Pincode');
+                    $('#O_pincode').focus();
+                    return false;
+                }
+                if ($('#O_pan').val() == "") {
+                    ModernAlert.toast.info('Please enter Owner PAN');
+                    $('#O_pan').focus();
+                    return false;
+                }
+                if ($('#O_mobile_no').val() == "" || $('#O_mobile_no').val().length > 10 || $('#O_mobile_no').val().length != 10) {
+                    ModernAlert.toast.info('Please enter valid Owner Mobile Number');
+                    $('#O_mobile_no').focus();
+                    return false;
+                }
 
-            });
-
-
-            if (!valid) {
-                ModernAlert.toast.info('please fill all required fields correctly');
-                return false;
-            }
-            if (!validate_mobile()) valid = false;
-            if (!validate_pincode()) valid = false;
-            if (!validate_aadhaar()) valid = false;
-            //if (!validate_email()) valid = false;
-            var gonext = validate_O_pan();
-
-            if (gonext === true) {
-
-                var savedetails = save_Ownr_Details();
-
-                if (savedetails) {
-                    showTab("3");
+                if (!validate_mobile()) valid = false;
+                if (!validate_pincode()) valid = false;
+                if (!validate_aadhaar()) valid = false;
+                var gonext = validate_O_pan();
+                if (gonext === true) {
+                    var savedetails = save_Ownr_Details();
+                    if (savedetails) {
+                        showTab("3");
+                    }
+                    else {
+                        showTab("2");
+                    }
                 }
                 else {
                     showTab("2");
                 }
             }
-            else {
-                showTab("2");
-            }
-        }
         function validate_mobile() {
 
             var mob = document.getElementById("O_mobile_no");
@@ -2422,117 +2599,110 @@
             mob.style.border = "";
             return true;
         }
-        function validate_pincode() {
+            function validate_pincode() {
 
-            var pin = document.getElementById("O_pincode");
-            var value = pin.value.trim();
+                var pin = document.getElementById("O_pincode");
+                var value = pin.value.trim();
 
-            if (!/^[0-9]{6}$/.test(value)) {
-                pin.style.border = "1px solid red";
-                alert("pincode must be 6 digits");
-                return false;
+                if (!/^[0-9]{6}$/.test(value)) {
+                    pin.style.border = "1px solid red";
+                    alert("pincode must be 6 digits");
+                    return false;
+                }
+
+                pin.style.border = "";
+                return true;
+            }
+            function validate_aadhaar() {
+
+                var aadhaar = document.getElementById("O_aadhaar");
+                var value = aadhaar.value.trim();
+
+                if (value === "") return true; // optional field
+
+                if (!/^[0-9]{12}$/.test(value)) {
+                    aadhaar.style.border = "1px solid red";
+                    alert("aadhaar must be 12 digits");
+                    return false;
+                }
+
+                aadhaar.style.border = "";
+                return true;
             }
 
-            pin.style.border = "";
-            return true;
-        }
-        function validate_aadhaar() {
 
-            var aadhaar = document.getElementById("O_aadhaar");
-            var value = aadhaar.value.trim();
 
-            if (value === "") return true; // optional field
+            function validate_O_pan() {
 
-            if (!/^[0-9]{12}$/.test(value)) {
-                aadhaar.style.border = "1px solid red";
-                alert("aadhaar must be 12 digits");
-                return false;
+                var regpan = document.getElementById("O_pan");
+                var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+                var panInput = regpan.value.trim().toUpperCase();
+                regpan.value = panInput; // force uppercase
+
+                if (!panPattern.test(panInput)) {
+                    regpan.style.border = "1px solid red";
+                    alert("invalid pan format");
+                    return false;
+                }
+
+                regpan.style.border = "";
+                return true;
             }
+            function save_Ownr_Details() {
+                var DistirctName = "";
+                if ($('#O_state_name').val() == "36") {
+                    DistirctName = $('#O_state_name option:selected').text();
+                }
+                else {
+                    DistirctName = $('#O_distict').val();
+                }
 
-            aadhaar.style.border = "";
-            return true;
-        }
-       @*function validate_email() {
+                var data = {
+                    O_owner_name: $("#O_owner_name").val(),
+                    O_father_name: $("#O_father_name").val(),
+                    O_status_of_individual: $("#O_status_of_individual").val(),
+                    O_email_id: $("#O_email_id").val(),
+                    O_door_no: $("#O_door_no").val(),
+                    O_road_street: $("#O_road_street").val(),
+                    O_locality: $("#O_locality").val(),
+                    O_city: $("#O_city").val(),
+                    O_mandal: $("#O_mandal").val(),
+                    O_district: $("#O_distict").val(),
+                    O_district_name: DistirctName,
+                    O_state_name: $("#O_state_name").val(),
+                    O_country: $("#O_country").val(),
+                    O_pincode: $("#O_pincode").val(),
+                    O_pan: $("#O_pan").val(),
+                    O_aadhaar: $("#O_aadhaar").val(),
+                    O_mobile_no: $("#O_mobile_no").val(),
+                    O_nomination: $("input[name='Nomination']:checked").val(),
+                    application_id: $("#application_id").val() // if available
+                };
 
-    var email = document.getElementById("O_email_id");
-    var value = email.value.trim();
+                $.ajax({
+                    url: '@Url.Action("Saveownr_mdDetails", "Registration")',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    success: function (response) {
 
-    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                        if (response.success) {
+                            showTab("3");
+                        }
+                        else {
+                            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                            showTab("2");
+                        }
+                    },
+                    error: function () {
+                        ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
+                        showTab("2");
+                    }
+                });
 
-    if (!pattern.test(value)) {
-        email.style.border = "1px solid red";
-        alert("invalid email format");
-        return false;
-    }
-
-    email.style.border = "";
-    return true;
-}*@
-
-
-        function validate_O_pan() {
-
-            var regpan = document.getElementById("O_pan");
-            var panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-
-            var panInput = regpan.value.trim().toUpperCase();
-            regpan.value = panInput; // force uppercase
-
-            if (!panPattern.test(panInput)) {
-                regpan.style.border = "1px solid red";
-                alert("invalid pan format");
-                return false;
             }
-
-            regpan.style.border = "";
-            return true;
-        }
-      function save_Ownr_Details() {
-
-    var data = {
-        O_owner_name: $("#O_owner_name").val(),
-        O_father_name: $("#O_father_name").val(),
-        O_status_of_individual: $("#O_status_of_individual").val(),
-        O_email_id: $("#O_email_id").val(),
-        O_door_no: $("#O_door_no").val(),
-        O_road_street: $("#O_road_street").val(),
-        O_locality: $("#O_locality").val(),
-        O_city: $("#O_city").val(),
-        O_mandal: $("#O_mandal").val(),
-        O_district: $("#O_distict").val(),
-        O_state_name: $("#O_state_name").val(),
-        O_country: $("#O_country").val(),
-        O_pincode: $("#O_pincode").val(),
-        O_pan: $("#O_pan").val(),
-        O_aadhaar: $("#O_aadhaar").val(),
-        O_mobile_no: $("#O_mobile_no").val(),
-        O_nomination: $("input[name='Nomination']:checked").val(),
-        application_id: $("#application_id").val() // if available
-    };
-
-    $.ajax({
-        url: '@Url.Action("Saveownr_mdDetails", "Registration")',
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(data),
-        dataType: "JSON",
-        success: function (response) {
-
-            if (response.success) {
-                showTab("3");
-            }
-            else {
-                ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
-                showTab("2");
-            }
-        },
-        error: function () {
-            ModernAlert.toast.info('Unable to Save Data due to Session Expired or Uncaught error');
-            showTab("2");
-        }
-    });
-
-}
 
         /*##################FOR SAVING THE owner/md DETAILS DATA#######################*/
 
@@ -2731,28 +2901,38 @@
 
 
          /*################## FOR SAVING THE Partners/Directors DETAILS DATA #######################*/
-        function validate_dirprtnr() {
-
-            let rowCount = $("#PartnerBody tr[data-item]").length;
-            if (rowCount === 0) {
-                ModernAlert.toast.info('Please add at least one row');
-                return false;
-            }
-            var gonext = true;
-
-            if (gonext === true) {
-                var savedetails = save_prtnr_dir_Details();
-                if (savedetails) {
-                    showTab("5");
+            function validate_dirprtnr() {
+                if (IsPartnerShow != "Y") {
+                    var savedetails = save_prtnr_dir_Details();
+                    /*if (savedetails) {
+                        showTab("5");
+                    }
+                    else {
+                        showTab("4");
+                    }*/
                 }
                 else {
-                    showTab("4");
+                    let rowCount = $("#PartnerBody tr[data-item]").length;
+                    if (rowCount === 0) {
+                        ModernAlert.toast.info('Please add at least one Partner/Director Details');
+                        return false;
+                    }
+                    var gonext = true;
+
+                    if (gonext === true) {
+                        var savedetails = save_prtnr_dir_Details();
+                        if (savedetails) {
+                            showTab("5");
+                        }
+                        else {
+                            showTab("4");
+                        }
+                    }
+                    else {
+                        showTab("4");
+                    }
                 }
             }
-            else {
-                showTab("4");
-            }
-        }
         function validate_dp_mobile() {
 
             var mob = document.getElementById("dir_prtnr_mobile");
@@ -2829,14 +3009,36 @@
         var dataListdir = [];
         function save_prtnr_dir_Details() {
             dataListdir = [];
-            $("#dirprtnrTable tbody tr").each(function () {
-
-                var item = $(this).attr("data-item");
-
-                if (item) {
-                    dataListdir.push(JSON.parse(item));
-                }
-            });
+            if (IsPartnerShow != "Y") {
+                let obj = {
+                    dir_prtnr_name: null,
+                    dir_prtnr_type: null,
+                    dir_prtnr_remunrtn: null,
+                    dir_prtnr_door_no: null,
+                    dir_prtnr_road_street: null,
+                    dir_prtnr_locality: null,
+                    dir_prtnr_city: null,
+                    dir_prtnr_mandal: null,
+                    dir_prtnr_district_code: null,
+                    dir_prtnr_state: null,
+                    dir_prtnr_country: null,
+                    dir_prtnr_pincode: null,
+                    dir_prtnr_pan: null,
+                    dir_prtnr_aadhaar: null,
+                    dir_prtnr_email: null,
+                    dir_prtnr_mobile_no: null,
+                    dir_prtnr_district_name: null
+                };
+                dataListdir.push(obj);
+            }
+            else {
+                $("#dirprtnrTable tbody tr").each(function () {
+                    var item = $(this).attr("data-item");
+                    if (item) {
+                        dataListdir.push(JSON.parse(item));
+                    }
+                });
+            }
 
             $.ajax({
                 url: '@Url.Action("Save_DirPrtnr_Details", "Registration")',
@@ -2867,23 +3069,18 @@
         function validate_addlpalce() {
             var is_addl_place = $("input[name='addl_rdb']:checked").val();
             console.log(is_addl_place);
-            // radio mandatory
             if (!is_addl_place) {
                 ModernAlert.toast.info('Please select Yes or No Additional Place of Business');
                 return false;
             }
 
-            // ✅ if NO → skip everything
             if (is_addl_place === 'No') {
-
                 var savedetails = save_Addl_plce_Details();
-
                 if (savedetails) {
                     showTab("6");
                 } else {
                     showTab("5");
                 }
-
                 return true;
             }
             let rowCount = $("#AdditionalPlaceTable tr[data-item]").length;
@@ -3078,11 +3275,13 @@
                     success: function (res) {
                         if (res.success) {
                             ModernAlert.showSuccess(
-                                'Your Application has been Submitted successfully with ARN No: ' + res.data,
+                                'Your Application has been Submitted successfully with ARN No: ' + res.data +
+								' .These details have also been sent to your registered email address: ' + $('#email_id').val(),
                                 'Success',
                                 '@Url.Action("Home", "PTHome")'
                             );
-                        } else {
+                        }
+                        else {
                             ModernAlert.showError(res.message || "Failed to Submit");
                         }
                     },
@@ -3226,8 +3425,9 @@
     $(document).on("click", ".deleteRow", function () {
         if ($("#bankTable tbody tr").length > 1) {
             $(this).closest("tr").remove();
-        } else {
-            alert("At least one bank detail is required.");
+        }
+        else {
+
         }
     });
     function onGenderChange() {
@@ -3243,35 +3443,43 @@
         let S_No = 1;
 
 
-        $("#btnAddPartner").click(function () {
+            $("#btnAddPartner").click(function () {
 
-            if (validate_Partners() == false) {
-                return false;
-            }
+                if (validate_Partners() == false) {
+                    return false;
+                }
+                var DistrictName = ""; var DistCode = "";
+                if ($('#dir_prtnr_state').val() == "36") {
+                    DistCode = $('#dir_prtnr_district').val();
+                    DistrictName = $('#dir_prtnr_district option:selected').text();
+                }
+                else {
+                    DistCode = "0";
+                    DistrictName = $('#dir_prtnr_txtDist').val();
+                }
+                let obj = {
+                    dir_prtnr_name: $('#dir_prtnr_name').val(),
+                    dir_prtnr_type: $('#dir_prtnr_type').val(),
+                    dir_prtnr_remunrtn: $('#dir_prtnr_remunrtn').val(),
+                    dir_prtnr_door_no: $('#dir_prtnr_door_no').val(),
+                    dir_prtnr_road_street: $('#dir_prtnr_road_street').val(),
+                    dir_prtnr_locality: $('#dir_prtnr_locality').val(),
+                    dir_prtnr_city: $('#dir_prtnr_city').val(),
+                    dir_prtnr_mandal: $('#dir_prtnr_mandal').val(),
+                    dir_prtnr_district_code: DistCode,
+                    dir_prtnr_state: $('#dir_prtnr_state').val(),
+                    dir_prtnr_country: $('#dir_prtnr_country').val(),
+                    dir_prtnr_pincode: $('#dir_prtnr_pincode').val(),
+                    dir_prtnr_pan: $('#dir_prtnr_pan').val(),
+                    dir_prtnr_aadhaar: $('#dir_prtnr_aadhaar').val(),
+                    dir_prtnr_email: $('#dir_prtnr_email').val(),
+                    dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val(),
+                    dir_prtnr_district_name: DistrictName
+                };
 
-            let obj = {
-                dir_prtnr_name: $('#dir_prtnr_name').val(),
-                dir_prtnr_type: $('#dir_prtnr_type').val(),
-                dir_prtnr_remunrtn: $('#dir_prtnr_remunrtn').val(),
-                dir_prtnr_door_no: $('#dir_prtnr_door_no').val(),
-                dir_prtnr_road_street: $('#dir_prtnr_road_street').val(),
-                dir_prtnr_locality: $('#dir_prtnr_locality').val(),
-                dir_prtnr_city: $('#dir_prtnr_city').val(),
-                dir_prtnr_mandal: $('#dir_prtnr_mandal').val(),
-                dir_prtnr_district_code: $('#dir_prtnr_district').val(),
-                dir_prtnr_state: $('#dir_prtnr_state').val(),
-                dir_prtnr_country: $('#dir_prtnr_country').val(),
-                dir_prtnr_pincode: $('#dir_prtnr_pincode').val(),
-                dir_prtnr_pan: $('#dir_prtnr_pan').val(),
-                dir_prtnr_aadhaar: $('#dir_prtnr_aadhaar').val(),
-                dir_prtnr_email: $('#dir_prtnr_email').val(),
-                dir_prtnr_mobile_no: $('#dir_prtnr_mobile').val(),
-                dir_prtnr_district_name: $('#dir_prtnr_district option:selected').text()
-            };
+                $("#noDataRow").remove();
 
-            $("#noDataRow").remove();
-
-            let rowHtml = `
+                let rowHtml = `
         <tr data-item='${JSON.stringify(obj)}'>
             <td>${S_No}</td>
             <td>${obj.dir_prtnr_name}</td>
@@ -3291,56 +3499,57 @@
             <td>${obj.dir_prtnr_email}</td>
             <td>${obj.dir_prtnr_mobile_no}</td>
             <td class="text-center">
-                <button type="button" class="btn btn-sm btn-danger deleteRow">
+                <button type="button"  class="btn btn-sm btn-danger deleteRow">
                     <i class="fa fa-trash"></i>
                 </button>
             </td>
         </tr>
     `;
-            isPartnerData = "Y";
-            if (editRow) {
-                editRow.replaceWith(rowHtml);
-                editRow = null;
-            }
-            else {
-                $("#dirprtnrTable tbody").append(rowHtml);
-                S_No++;
-            }
+                isPartnerData = "Y";
+                if (editRow) {
+                    editRow.replaceWith(rowHtml);
+                    editRow = null;
+                }
+                else {
+                    $("#dirprtnrTable tbody").append(rowHtml);
+                    S_No++;
+                }
 
-            $('#dir_prtnr_name').val("");
-            $('#dir_prtnr_type').val("0");
-            $('#dir_prtnr_remunrtn').val("0");
-            $('#dir_prtnr_door_no').val("");
-            $('#dir_prtnr_road_street').val("");
-            $('#dir_prtnr_locality').val("");
-            $('#dir_prtnr_city').val("");
-            $('#dir_prtnr_mandal').val("");
-            $('#dir_prtnr_district').val("");
-            /*$('#dir_prtnr_state').val("");*/
-            $('#dir_prtnr_pincode').val("");
-            $('#dir_prtnr_pan').val("");
-            $('#dir_prtnr_aadhaar').val("");
-            $('#dir_prtnr_email').val("");
-            $('#dir_prtnr_mobile').val("");
+                $('#dir_prtnr_name').val("");
+                $('#dir_prtnr_type').val("0");
+                $('#dir_prtnr_remunrtn').val("0");
+                $('#dir_prtnr_door_no').val("");
+                $('#dir_prtnr_road_street').val("");
+                $('#dir_prtnr_locality').val("");
+                $('#dir_prtnr_city').val("");
+                $('#dir_prtnr_mandal').val("");
+                $('#dir_prtnr_district').val("");
+                /*$('#dir_prtnr_state').val("");*/
+                $('#dir_prtnr_pincode').val("");
+                $('#dir_prtnr_pan').val("");
+                $('#dir_prtnr_aadhaar').val("");
+                $('#dir_prtnr_email').val("");
+                $('#dir_prtnr_mobile').val("");
 
-            updateSerialNumbers('dirprtnrTable');
-            $("form")[0].reset();
-        });
+                updateSerialNumbers('dirprtnrTable');
+                $("form")[0].reset();
+            });
 
-        $(document).on("click", ".deleteRow", function () {
-            $(this).closest("tr").remove();
-            updateSerialNumbers('dirprtnrTable');
-            // if no rows left, show no data row
-            if ($("#dirprtnrTable tbody tr").length === 0) {
-                $("#dirprtnrTable tbody").append(`
+            $(document).on("click", ".deleteRow", function () {
+                $(this).closest("tr").remove();
+                updateSerialNumbers('dirprtnrTable');
+                // if no rows left, show no data row
+                if ($("#dirprtnrTable tbody tr").length === 0) {
+                    $("#dirprtnrTable tbody").append(`
             <tr id="noDataRow">
                 <td colspan="18" class="text-center text-muted">
                     No Partner / Director added
                 </td>
             </tr>
         `);
-            }
-        });
+                }
+            });
+
 
 
     $(document).on("click", ".editRow", function () {
@@ -3360,107 +3569,149 @@
         /*################### addl place adding butoon ##############*/
     let editRow1 = null;
         let SNo = 1;
-        $("#btnAddPlace").click(function () {
+            $("#btnAddPlace").click(function () {
 
-            var container = document.querySelector("#divAdditionalPlace");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                        return;
+                if ($('#addl_plc_door_no').val() == "") {
+                    ModernAlert.toast.info('Please enter Door Number');
+                    $('#addl_plc_door_no').focus();
+                    return false;
+                }
+                if ($('#addl_plc_road_street').val() == "") {
+                    ModernAlert.toast.info('Please enter Road / Street / Building Name');
+                    $('#addl_plc_road_street').focus();
+                    return false;
+                }
+                if ($('#addl_plc_locality').val() == "") {
+                    ModernAlert.toast.info('Please enter Locality');
+                    $('#addl_plc_locality').focus();
+                    return false;
+                }
+                if ($('#addl_plc_city').val() == "") {
+                    ModernAlert.toast.info('Please enter City / Town / Village');
+                    $('#addl_plc_city').focus();
+                    return false;
+                }
+                if ($('#addl_plc_mandal').val() == "") {
+                    ModernAlert.toast.info('Please enter Mandal / Municipality');
+                    $('#addl_plc_mandal').focus();
+                    return false;
+                }
+                if ($('#addl_plc_country').val() == "") {
+                    ModernAlert.toast.info('Please select Country');
+                    $('#addl_plc_country').focus();
+                    return false;
+                }
+                if ($('#addl_plc_country').val() == "1") {
+                    if ($('#addl_plc_state').val() == "") {
+                        ModernAlert.toast.info('Please select State');
+                        $('#addl_plc_state').focus();
+                        return false;
+                    }
+                    if ($('#addl_plc_state').val() == "36") {
+                        if ($('#addl_plc_district').val() == "") {
+                            ModernAlert.toast.info('Please select District');
+                            $('#addl_plc_district').focus();
+                            return false;
+                        }
                     }
                     else {
-                        input.style.border = "";
+                        if ($('#addl_plc_district_text').val() == "") {
+                            ModernAlert.toast.info('Please enter District');
+                            $('#addl_plc_district_text').focus();
+                            return false;
+                        }
                     }
                 }
+                if ($('#addl_plc_pincode').val() == "" || $('#addl_plc_pincode').val().length != 6) {
+                    ModernAlert.toast.info('Please enter Pin Code');
+                    $('#addl_plc_pincode').focus();
+                    return false;
+                }
 
-            });
-            if (!valid) {
-                ModernAlert.toast.info('Please fill all required fields correctly');
-                return false;
-            }
+                var is_addl_plce = $("input[name='addl_rdb']:checked").val();
+                var DistCode = ""; var DistName = "";
+                if ($('#addl_plc_state').val() == "36") {
+                    DistCode = $('#addl_plc_district').val();
+                    DistName = $('#addl_plc_district option:selected').text();
+                }
+                else {
+                    DistCode = "0";
+                    DistName = $('#addl_plc_district_text').val();
+                }
+                let obj = {
+                    addl_plc_country: $('#addl_plc_country').val(),
+                    addl_plc_state: $('#addl_plc_state').val(),
+                    addl_plc_district_code: DistCode,
+                    addl_plc_mandal: $('#addl_plc_mandal').val(),
+                    addl_plc_door_no: $('#addl_plc_door_no').val(),
+                    addl_plc_road_street: $('#addl_plc_road_street').val(),
+                    addl_plc_locality: $('#addl_plc_locality').val(),
+                    addl_plc_city: $('#addl_plc_city').val(),
+                    addl_plc_pincode: $('#addl_plc_pincode').val(),
+                    is_Additional_place: is_addl_plce,
+                    addl_plc_district_name: DistName
+                };
 
-            var is_addl_plce = $("input[name='addl_rdb']:checked").val();
-            let obj = {
-                addl_plc_country: $('#addl_plc_country').val(),
-                addl_plc_state: $('#addl_plc_state').val(),
-                addl_plc_district_code: $('#addl_plc_district').val(),
-                addl_plc_mandal: $('#addl_plc_mandal').val(),
-                addl_plc_door_no: $('#addl_plc_door_no').val(),
-                addl_plc_road_street: $('#addl_plc_road_street').val(),
-                addl_plc_locality: $('#addl_plc_locality').val(),
-                addl_plc_city: $('#addl_plc_city').val(),
-                addl_plc_pincode: $('#addl_plc_pincode').val(),
-                is_Additional_place: is_addl_plce,
-                addl_plc_district_name: $('#addl_plc_district option:selected').text()
-            };
+                $("#noDataRow1").remove();
 
-            $("#noDataRow1").remove();
-
-            let rowHtml = `
-        <tr data-item='${JSON.stringify(obj)}'>
-            <td>${SNo}</td>
-            <td>${obj.addl_plc_country}</td>
-            <td>${obj.addl_plc_state}</td>
-            <td>${obj.addl_plc_district_name}</td>
-            <td>${obj.addl_plc_mandal}</td>
-            <td>${obj.addl_plc_door_no}</td>
-            <td>${obj.addl_plc_road_street}</td>
-            <td>${obj.addl_plc_locality}</td>
-            <td>${obj.addl_plc_city}</td>
-            <td>${obj.addl_plc_pincode}</td>
-            <td class="text-center">
-                <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
-                    <i class="fa fa-edit"></i>
-                </button>
-                <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </td>
-        </tr>
+                let rowHtml = `
+                            <tr data-item='${JSON.stringify(obj)}'>
+                                <td>${SNo}</td>
+                                <td>${obj.addl_plc_country}</td>
+                                <td>${obj.addl_plc_state}</td>
+                                <td>${obj.addl_plc_district_name}</td>
+                                <td>${obj.addl_plc_mandal}</td>
+                                <td>${obj.addl_plc_door_no}</td>
+                                <td>${obj.addl_plc_road_street}</td>
+                                <td>${obj.addl_plc_locality}</td>
+                                <td>${obj.addl_plc_city}</td>
+                                <td>${obj.addl_plc_pincode}</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
     `;
 
-            if (editRow1) {
-                editRow1.replaceWith(rowHtml);
-                editRow1 = null;
-            } else {
-                $("#AdditionalPlaceTable tbody").append(rowHtml);
-                SNo++;
-            }
+                if (editRow1) {
+                    editRow1.replaceWith(rowHtml);
+                    editRow1 = null;
+                } else {
+                    $("#AdditionalPlaceTable tbody").append(rowHtml);
+                    SNo++;
+                }
 
-            $('#addl_plc_door_no').val("");
-            $('#addl_plc_road_street').val("");
-            $('#addl_plc_locality').val("");
-            $('#addl_plc_city').val("");
-            $('#addl_plc_mandal').val("");
-            $('#addl_plc_district').val("");
-            $('#addl_plc_state').val("");
-            $('#addl_plc_country').val("");
-            $('#addl_plc_pincode').val("");
-            $("form")[0].reset();
-            updateSerialNumbers('AdditionalPlaceTable');
-        });
+                $('#addl_plc_door_no').val("");
+                $('#addl_plc_road_street').val("");
+                $('#addl_plc_locality').val("");
+                $('#addl_plc_city').val("");
+                $('#addl_plc_mandal').val("");
+                $('#addl_plc_district').val("");
+                $('#addl_plc_state').val("");
+                $('#addl_plc_country').val("");
+                $('#addl_plc_pincode').val("");
+                $("form")[0].reset();
+                updateSerialNumbers('AdditionalPlaceTable');
+            });
 
-        function onPlaceDelete(res) {
-            $(this).closest("tr").remove();
-            updateSerialNumbers('AdditionalPlaceTable');
+            function onPlaceDelete(res) {
+                $(this).closest("tr").remove();
+                updateSerialNumbers('AdditionalPlaceTable');
 
-            if ($("#AdditionalPlaceTable tbody tr").length === 0) {
-                $("#AdditionalPlaceTable tbody").append(`
+                if ($("#AdditionalPlaceTable tbody tr").length === 0) {
+                    $("#AdditionalPlaceTable tbody").append(`
                                                         <tr id="noDataRow1">
                                                             <td colspan="10" class="text-center text-muted">
                                                                 No Additional Place added
                                                             </td>
                                                         </tr>
                                                     `);
+                }
             }
-        }
         /*############addlplace add buton ###############*/
 
         /*############bnk dtls add buton ###############*/
@@ -3537,7 +3788,7 @@
                 <button type="button" class="btn btn-sm btn-warning editRow" style="display:none;">
                     <i class="fa fa-edit"></i>
                 </button>
-                <button type="button" onclick="onPlaceDelete(this);" class="btn btn-sm btn-danger deleteRow">
+                <button type="button" onclick="onBankDelete(this);" class="btn btn-sm btn-danger deleteRow">
                     <i class="fa fa-trash"></i>
                 </button>
             </td>
@@ -3559,7 +3810,7 @@
             updateSerialNumbers('bankdetailsTable');
         });
 
-        function onPlaceDelete(res) {
+            function onBankDelete(res) {
             $(this).closest("tr").remove();
             updateSerialNumbers('bankdetailsTable');
 
@@ -3646,13 +3897,15 @@
                           <td>${rnrCounter}</td>
                           <td>${docName}</td>
                           <td class="text-center">
-                              <button class="btn btn-sm btn-primary viewFile" data-url="${fileURL}">
-                                  View
-                              </button>
-                              <button class="btn btn-sm btn-danger deleteFile">
-                                  Delete
-                              </button>
-                          </td>
+                           <button class="btn btn-sm btn-primary viewFile same-size-btn" data-url="${fileURL}">
+                               View
+                           </button>
+                         </td>
+                         <td class="text-center">
+                             <button class="btn btn-sm btn-primary deleteFile same-size-btn" style="background: red;">
+                                 Delete
+                             </button>
+                         </td>
                       </tr>`;
 
             $('#DocumentsTable tbody').append(row);
@@ -3723,85 +3976,133 @@
             $('#divAuthorised').hide();
         }
     }
-    function fn_chkAdditionalPlace() {
-        if ($('#chkAdditionalPlace').is(':checked') == true) {
-            $('#divAddPlace').show();
-            $('#h6AddedPlaces').show();
-            $('#tblAddedPlaces').show();
+            function fn_chkAdditionalPlace() {
+                if ($('#chkAdditionalPlace').is(':checked') == true) {
+                    $('#divAddPlace').show();
+                    $('#h6AddedPlaces').show();
+                    $('#tblAddedPlaces').show();
 
-        }
-        else {
-            $('#divAddPlace').hide();
-            $('#h6AddedPlaces').hide();
-            $('#tblAddedPlaces').hide();
-        }
-        }
-        function fn_chkAuthorisedprsn() {
-            if ($('#chkAuthrisedprsn').is(':checked') == true) {
-                $('#divAuthorised').show();
+                }
+                else {
+                    $('#divAddPlace').hide();
+                    $('#h6AddedPlaces').hide();
+                    $('#tblAddedPlaces').hide();
+                }
             }
-        else {
-                $('#divAuthorised').hide();
-             }
-    }
-    function fnSave() {
-        Swal.fire({
-            title: 'Success',
-            // text: 'Submitted succesfully with ARN No.:XXXX on dd-MMM-yyyy to PTO for Approval.After Approval Your PTIN LoginID & Password will be sent to your Registered Email.',
-            text: 'Registration Application submitted successfully with ARN:XXXXXX on dd-mm-yyyy to the PTO for Approval,The Registration summary sheet with ARN is shared to your registered email.After approval of the PT registration your PTIN,Login Id & Password will be sent to your registered Email.',
-
-            icon: 'success',
-            confirmButtonText: 'Ok'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'PT_Home.html';
+            function fn_chkAuthorisedprsn() {
+                if ($('#chkAuthrisedprsn').is(':checked') == true) {
+                    $('#divAuthorised').show();
+                }
+                else {
+                    $('#divAuthorised').hide();
+                }
             }
-        });
+            function fn_chkisEmp() {
+                if ($('#chkisEmp').is(':checked') == true) {
+                    $('#divIsEmp').show();
+                }
+                else {
+                    $('#divIsEmp').hide();
+                }
+            }
 
-        }
+
+    
 
 
-
-        function validate_Partners() {
-
-            var container = document.querySelector("#divPartnerDirector");
-            var inputs = container.querySelectorAll("input, select");
-            var valid = true;
-
-            inputs.forEach(function (input) {
-
-                if (input.offsetParent !== null) {
-                    if (input.id === "dir_prtnr_aadhaar" && input.value.trim() === "") {
-                        input.style.border = "";
-                        return;
+            function validate_Partners() {
+                if ($('#dir_prtnr_name').val() == "") {
+                    ModernAlert.toast.info('Please Enter Partner/Director Name');
+                    $('#dir_prtnr_name').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_type').val() == "0") {
+                    ModernAlert.toast.info('Please Select Partner or Director');
+                    $('#dir_prtnr_type').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_remunrtn').val() == "0") {
+                    ModernAlert.toast.info('Please Select Drawing Remuneration or not');
+                    $('#dir_prtnr_remunrtn').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_door_no').val() == "") {
+                    ModernAlert.toast.info('Please enter Door Number');
+                    $('#dir_prtnr_door_no').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_road_street').val() == "") {
+                    ModernAlert.toast.info('Please enter Road / Street / Building Name');
+                    $('#dir_prtnr_road_street').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_locality').val() == "") {
+                    ModernAlert.toast.info('Please enter Locality');
+                    $('#dir_prtnr_locality').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_city').val() == "") {
+                    ModernAlert.toast.info('Please enter City / Town / Village');
+                    $('#dir_prtnr_city').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_mandal').val() == "") {
+                    ModernAlert.toast.info('Please enter Mandal / Municipality');
+                    $('#dir_prtnr_mandal').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_country').val() == "") {
+                    ModernAlert.toast.info('Please select Country');
+                    $('#dir_prtnr_country').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_country').val() == "1") {
+                    if ($('#dir_prtnr_state').val() == "") {
+                        ModernAlert.toast.info('Please select State');
+                        $('#dir_prtnr_state').focus()
+                        return false;
                     }
-                    if (input.value.trim() === "") {
-                        input.style.border = "1px solid red";
-                        valid = false;
-                        return valid;
+                    if ($('#dir_prtnr_state').val() == "") {
+                        ModernAlert.toast.info('Please select State');
+                        $('#dir_prtnr_state').focus()
+                        return false;
+                    }
+                    if ($('#dir_prtnr_state').val() == "36") {
+                        if ($('#dir_prtnr_district').val() == "") {
+                            ModernAlert.toast.info('Please select District');
+                            $('#dir_prtnr_district').focus()
+                            return false;
+                        }
                     }
                     else {
-                        input.style.border = "";
+                        if ($('#dir_prtnr_txtDist').val() == "") {
+                            ModernAlert.toast.info('Please enter District');
+                            $('#dir_prtnr_txtDist').focus()
+                            return false;
+                        }
                     }
                 }
-
-            });
-            if (!valid) {
-                ModernAlert.toast.info('please fill all required fields correctly');
-                return false;
+                if ($('#dir_prtnr_pincode').val() == "") {
+                    ModernAlert.toast.info('Please enter Pincode');
+                    $('#dir_prtnr_pincode').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_pan').val() == "") {
+                    ModernAlert.toast.info('Please enter PAN');
+                    $('#dir_prtnr_pan').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_email').val() == "") {
+                    ModernAlert.toast.info('Please enter Email Id');
+                    $('#dir_prtnr_email').focus()
+                    return false;
+                }
+                if ($('#dir_prtnr_mobile').val() == "" || $('#dir_prtnr_mobile').val().length != 10) {
+                    ModernAlert.toast.info('Please enter Mobile Number');
+                    $('#dir_prtnr_mobile').focus()
+                    return false;
+                }
             }
-
-            if (!validate_dp_mobile()) valid = false;
-            if (!validate_dp_pincode()) valid = false;
-            if (!validate_dp_aadhaar()) valid = false;
-            //if (!validate_Auth_email()) valid = false;
-            if (!validate_dp_pan()) valid = false;
-
-            if (!valid) {
-                return false;
-            }
-
-        }
         let bankList = [];
         function Load_Banks() {
             $.ajax({
@@ -3895,6 +4196,130 @@
                     });
                 }
             }
+
+            function onOwnerConutryChange() {
+                if ($('#O_country').val() != "1") {
+                    $('#divOwnerState').hide();
+                    $('#divOwnerDist').hide();
+                }
+                else {
+                    LoadStates("", "O_state_name");
+                    $('#divOwnerState').show();
+                    $('#divOwnerDist').show();
+                }
+            }
+
+            function onDirectorCountryChange() {
+                if ($('#dir_prtnr_country').val() != "1") {
+                    $('#divDirectorState').hide();
+                    $('#divDirectorDist').hide();
+                }
+                else {
+                    LoadStates("", "dir_prtnr_state");
+                    $('#divDirectorState').show();
+                    $('#divDirectorDist').show();
+                }
+            }
+            function onAddlBzCountryChange() {
+                if ($('#addl_plc_country').val() != "1") {
+                    $('#divAddlPlaceState').hide();
+                    $('#divAddlPlaceDist').hide();
+                }
+                else {
+                    LoadStates("", "addl_plc_state");
+                    $('#divAddlPlaceState').show();
+                    $('#divAddlPlaceDist').show();
+                }
+            }
+
+            function onOwnerStateChange() {
+                if ($('#O_state_name').val() != "36") {
+                    $('#O_distict').hide();
+                    $('#txtOwnerDist').show();
+                }
+                else {
+                    $('#O_distict').show();
+                    $('#txtOwnerDist').hide();
+                    LoadDistricts("", "O_distict");
+                }
+            }
+            function onDirectorStateChange() {
+                if ($('#dir_prtnr_state').val() != "36") {
+                    $('#dir_prtnr_district').hide();
+                    $('#dir_prtnr_txtDist').show();
+                }
+                else {
+                    $('#dir_prtnr_district').show();
+                    $('#dir_prtnr_txtDist').hide();
+                    LoadDistricts("", "dir_prtnr_district");
+                }
+            }
+
+            function onAddlBzStateChange() {
+                if ($('#addl_plc_state').val() != "36") {
+                    $('#addl_plc_district').hide();
+                    $('#addl_plc_district_text').show();
+                }
+                else {
+                    $('#addl_plc_district').show();
+                    $('#addl_plc_district_text').hide();
+                    LoadDistricts("", "addl_plc_district");
+                }
+            }
+            var IsPartnerShow = "";
+            function onChangeCobz() {
+                var CobzType = $('#cobz').val();
+                var StausOfIndiviual = "";
+
+                switch (CobzType) {
+                    case "Proprietorship":
+                        StausOfIndiviual = "Proprietor / Individual";
+                        break;
+                    case "Partnership":
+                        StausOfIndiviual = "Managing Partner";
+                        break;
+                    case "PLC":
+                        StausOfIndiviual = "Managing Director";
+                        break;
+                    case "LLP":
+                        StausOfIndiviual = "Managing Director";
+                        break;
+                    case "PSU":
+                        StausOfIndiviual = "Managing Director / Chairman";
+                        break;
+                    case "Society":
+                        StausOfIndiviual = "Chairman";
+                        break;
+                    case "Trust":
+                        StausOfIndiviual = "Chairman";
+                        break;
+                    case "Government":
+                        StausOfIndiviual = "HOD of the Office / DDO";
+                        break;
+                    default:
+                        StausOfIndiviual = "";
+                        break;
+                }
+                $('#O_status_of_individual').val(StausOfIndiviual);
+                if (CobzType == "Proprietorship") {
+                    IsPartnerShow = "N";
+                    $('#divYesPartners').hide();
+                    $('#divNoPartners').show();
+                    $('#btnAddPartner').hide();
+                    $('#divPartnerstable').hide();
+                    $('#hdr1').hide();
+                }
+                else {
+                    IsPartnerShow = "Y";
+                    $('#divYesPartners').show();
+                    $('#divNoPartners').hide();
+                    $('#btnAddPartner').show();
+                    $('#divPartnerstable').show();
+                    $('#hdr1').show();
+                }
+            }
+            
+
         </script>
 </body>
 

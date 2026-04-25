@@ -77,6 +77,7 @@ namespace TGCTDPT.Models
         public string emp_between_15001_20000 { get; set; }
         public string emp_above_20000 { get; set; }
         public string tot_emp { get; set; }
+        public string isemp { get; set; }
 
     }
     public class ownr_md_dtls

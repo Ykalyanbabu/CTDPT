@@ -1,38 +1,21 @@
 ﻿
-function LoadApplicationDtls(appid) {
+
+function LoadApplicationDtls(_Ptin) {
 
     $.ajax({
         url: getAppDtlsUrl,
         type: 'GET',
-        data: { ApplicationId: appid },
+        data: { ptin: _Ptin },
         success: function (res) {
             if (res.success) {
-                var rnrno = res.data.BusinessDetails.rnr_number;
-                var query_status = res.data.BusinessDetails.query_status;
-                var application_entry_status = res.data.BusinessDetails.application_entry_status;
-                if (rnrno !== "" && rnrno !== undefined && rnrno !== null && query_status != "Y" && application_entry_status != "I") {
-                    ModernAlert.showConfirm(
-                        'You have already submitted your application with ARN No. ' + rnrno + '. Do you want to track your application?',
-                        'Navigate',
-                        function (confirmed) {
-                            if (confirmed) {
-                                window.location.href = landingUrl + '?arn=' + encodeURIComponent(rnrno);
-                            }
-                        }
-                    );
-                }
-                else {
-                    FirstTabHist = "Y";
                     AssignEnterPriseControls(res.data.BusinessDetails);
                     if (res.data.OwnerDetails.length > 0) {
                         AssignOwnerDtlsControls(res.data.OwnerDetails[0]);
                     }
                     else {
-                        loaddistrict("", 'O_distict');
+                        LoadDistricts("", 'O_distict');
                     }
-                    onChangeCobz();
-                    loaddistrict("", 'auth_district');
-
+                        LoadDistricts("", 'auth_district');
                     if (res.data.AuthPersonDetails.length > 0) {
                         AssignAuthPersonControls(res.data.AuthPersonDetails[0], res.data.BusinessDetails.Nominated_Auth_Person);
                     }
@@ -52,24 +35,19 @@ function LoadApplicationDtls(appid) {
                         isBankData = "Y";
                         renderTable('BankDtlsBody', res.data.BankDetails, BindBankTable);
                     }
-                    if (res.data.DocumentDetails.length > 0) {
+                    /*if (res.data.DocumentDetails.length > 0) {
                         isDocData = "Y";
                         renderTable('FilesBody', res.data.DocumentDetails, BindDocTable);
                         updateSerialNumbers('DocumentsTable');
-                    }
-                    loaddistrict("", 'dir_prtnr_district');
-                    loaddistrict("", 'addl_plc_district');
-                    var step = parseInt(res.data.BusinessDetails.progress_step - 1);
-                    if (step == -1) { step = 0; }
-                    showTab(step);
-                }
+                    }*/
+                    LoadDistricts("", 'dir_prtnr_district');
+                    LoadDistricts("", 'addl_plc_district');
             }
         },
         error: function (xhr) {
             showError('Server error: ' + xhr.statusText);
         }
     });
-
 }
 function IsPartnerDiv(res) {
     if (res == "Y") {
@@ -91,7 +69,7 @@ function AssignEnterPriseControls(d) {
     $('#lblApplicationId').html("Application Id: " + d.ApplicationId);
     loadDivisions(d.division_code);
     loadCircles(d.division_code, d.circle_code);
-    loaddistrict(d.district_code,'district');
+    LoadDistricts(d.district_code, 'district');
     $('#enterprise_name').val(d.EnterPriseName);
     $('#business_pan').val(d.BusinessPan);
     $('#cobz').val(d.BusinessConstitution);
@@ -105,7 +83,7 @@ function AssignEnterPriseControls(d) {
     //$('#district').val(d.district_code);
     $('#pincode').val(d.Pincode);
     if (d.isemp == "1") {
-        var res ="Yes"
+        var res = "Yes"
         $("input[name='rdb_isemp'][value='" + res + "']").prop("checked", true);
         $('#emp_below_15000').val(d.EmpBelow_15000);
         $('#emp_between_15001_20000').val(d.EmpBetween_15001_20000);
@@ -149,7 +127,7 @@ function AssignOwnerDtlsControls(d) {
         $('#divOwnerDist').hide();
     }
     if (d.state_name == "36") {
-        loaddistrict(d.district, 'O_distict');
+        LoadDistricts(d.district, 'O_distict');
         $('#O_distict').show();
         $('#txtOwnerDist').hide();
     }
@@ -163,7 +141,7 @@ function AssignOwnerDtlsControls(d) {
 function AssignAuthPersonControls(d, res) {
     $("input[name='rdb_auth_prsn'][value='" + res + "']").prop("checked", true);
     if (res.toLowerCase() == "yes") {
-        loaddistrict(d.auth_prsn_district, 'auth_district');
+        LoadDistricts(d.auth_prsn_district, 'auth_district');
         $('#auth_name').val(d.auth_prsn_name);
         $('#auth_fname').val(d.auth_prsn_father_name);
         $('#auth_email').val(d.email_id);
@@ -230,7 +208,7 @@ function BindPartnerTable(r, i) {
             </td>
         </tr>
     `;
-    
+
 }
 function BindAddlPlaceTable(r, i) {
     let obj = {
@@ -269,7 +247,7 @@ function BindAddlPlaceTable(r, i) {
             </td>
         </tr>
     `;
-    
+
 }
 function BindBankTable(r, i) {
 
@@ -304,10 +282,10 @@ function BindBankTable(r, i) {
 function BindDocTable(r, i) {
 
     let obj = {
-        master_docid: r.master_doc_id,   
+        master_docid: r.master_doc_id,
         document_type: r.document_type,
-        document_path: r.document_path,  
-        file: null                       
+        document_path: r.document_path,
+        file: null
     };
 
     documentList.push(obj);
@@ -321,7 +299,7 @@ function BindDocTable(r, i) {
             <td>${r.document_type}</td>
             <td class="text-center">
                 ${r.document_path
-        ? `<button class="btn btn-sm btn-primary viewFile same-size-btn" data-url="${r.document_path}">
+            ? `<button class="btn btn-sm btn-primary viewFile same-size-btn" data-url="${r.document_path}">
                         View
                    </button>`
             : ''
@@ -335,30 +313,6 @@ function BindDocTable(r, i) {
             </td>
         </tr>
     `;
-}
-function loadFullSummary(AppId) {
-
-    $.ajax({
-        url: getFullSummaryUrl,
-        type: 'GET',
-        data: { ApplicationId: AppId },
-        success: function (res) {
-            if (!res.success) {
-                //showError(res.message);
-                return;
-            }
-            renderBizDtls(res.data.BusinessDetails);
-            renderOwnerDtls(res.data.OwnerDetails[0]);
-            renderAuthPersonDtls(res.data.AuthPersonDetails[0]);
-            renderTable('rnrPartnersbody', res.data.DirectorPartners, renderPartnerRow);
-            renderTable('rnrPlacesbody', res.data.AddlPlacesOfBiz, renderAddlPlaceRow);
-            renderTable('rnrBankbody', res.data.BankDetails, renderBankRow);
-            renderTable('rnrDocbody', res.data.DocumentDetails, renderDocRow);
-        },
-        error: function (xhr) {
-            //showError('Server error: ' + xhr.statusText);
-        }
-    });
 }
 
 function renderTable(tbodyId, rows, rowFn) {
@@ -380,168 +334,6 @@ function renderTable(tbodyId, rows, rowFn) {
     }
     rows.forEach((r, i) => tbody.append(rowFn(r, i + 1)));
 }
-
-function renderBizDtls(d) {
-    if (!d) return;
-  
-    $('#rnrSpnEnterpriseName').text(d.EnterPriseName);
-    $('#rnrSpnAddress').text(d.FullAddress);
-    $('#rnrSpnConstitution').text(d.BusinessConstitution);
-    $('#rnrSpnPAN').text(d.BusinessPan);
-    $('#rnrSpnMobile').text(d.MobileNo);
-    $('#rnrSpnEmail').text(d.EmailId);
-    if (d.isemp == "1") {
-        $('#rnrSpnEmpStatus').html("Yes");
-        $('#divemployees').show();
-        $('#rnrSpnBelow15k').text(d.EmpBelow_15000);
-        $('#rnrSpnAbove15k').text(d.EmpBetween_15001_20000);
-        $('#rnrSpnAbove20k').text(d.EmpAbove_20000);
-        $('#rnrSpnTotalEmployees').text(d.TotalEmployees);
-    }
-    else {
-        $('#rnrSpnEmpStatus').html("No");
-        $('#emp1').hide();
-        $('#emp2').hide();
-        $('#emp3').hide();
-        $('#emp4').hide();
-    }
-}
-
-function renderOwnerDtls(d) {
-    if (!d) return;
-    $('#rnrSpnOwnerName').text(d.owner_name);
-    $('#rnrSpnOwnerFatherName').text(d.father_name);
-    $('#rnrSpnOwnerStatus').text(d.status_of_individual);
-    $('#rnrSpnOwnerPAN').text(d.pan);
-    $('#rnrSpnOwnerAadhar').text(d.aadhaar);
-    $('#rnrSpnOwnerMobile').text(d.mobile_no);
-    $('#rnrSpnOwnerEmail').text(d.email_id);
-    $('#rnrSpnOwnerNomination').text("Yes");
-    $('#rnrSpnOwnerAddress').text(d.FullAddress);
-
-}
-function renderAuthPersonDtls(d) {
-    if (!d) {
-        $('#divNoAuthPerson').show();
-        $('#divYesAuthPerson').hide();
-        return;
-    }
-    else {
-        $('#rnrSpnAuthPersonName').text(d.auth_prsn_name);
-        $('#rnrSpnAuthFatherName').text(d.auth_prsn_father_name);
-        $('#rnrSpnAuthEmail').text(d.email_id);
-        $('#rnrSpnAuthPan').text(d.auth_prsn_pan);
-        $('#rnrSpnAuthAadhar').text(d.auth_prsn_aadhaar);
-        $('#rnrSpnAuthMobile').text(d.auth_prsn_mobile_no);
-        $('#rnrSpnAuthAddress').text(d.FullAddress);
-        $('#divYesAuthPerson').show();
-        $('#divNoAuthPerson').hide();
-    }
-
-}
-
-function renderEmpRow(r, i) {
-    return `<tr>
-                               <td class="row-num">${i}</td>
-                               <td>${r.empName}</td>
-                               <td>${r.designation}</td>
-                               <td>${r.empType}</td>
-                               <td>${r.gender}</td>
-                               <td>${r.doj}</td>
-                               <td>₹${Number(r.salary).toLocaleString('en-IN')}</td>
-                               <td>${r.mobile || empty()}</td>
-                           </tr>`;
-}
-
-
-function renderPartnerRow(r, i) {
-    return `<tr>
-                                <td class="row-num">${i}</td>
-                                <td>${r.dir_name}</td>
-                                <td>${r.type_drp}</td>
-                                <td>${r.drawing_remuneration}</td>
-                                <td><span class="mono-val">${r.pan || 'N/A'}</span></td>
-                                <td><span class="mono-val">${r.aadhar || 'N/A'}</span></td>
-                                <td>${r.email_id}</td>
-                                <td>${r.mobile_no || empty()}</td>
-                                <td>${r.FullAddress}</td>
-                            </tr>`;
-}
-
-function renderAddlPlaceRow(r, i) {
-    return `<tr>
-                            <td class="row-num">${i}</td>
-                            <td>${r.country}</td>
-                            <td>${r.state_name}</td>
-                            <td>${r.district}</td>
-                            <td>${r.mandal}</td>
-                            <td>${r.FullAddress}</td>
-                        </tr>`;
-}
-
-function renderAuthRow(r, i) {
-    const expired = isExpired(r.validTo);
-    return `<tr>
-                            <td class="row-num">${i}</td>
-                            <td>${r.authName}</td>
-                            <td>${r.designation}</td>
-                            <td>${r.mobile}</td>
-                            <td>${r.validFrom}</td>
-                            <td>${r.validTo}</td>
-                            <td><span class="badge ${expired ? 'badge-expired' : 'badge-green'}">${expired ? 'Expired' : 'Active'}</span></td>
-                        </tr>`;
-}
-
-
-
-
-function renderPbzRow(r, i) {
-    const isActive = r.status?.toLowerCase() === 'active';
-    return `<tr>
-                            <td class="row-num">${i}</td>
-                            <td>${r.bzName}</td>
-                            <td>${r.address}</td>
-                            <td>${r.natureOfBz}</td>
-                            <td>${r.fromDate}${r.toDate ? ' → ' + r.toDate : ''}</td>
-                            <td><span class="badge ${isActive ? 'badge-green' : 'badge-secondary-acc'}">${r.status}</span></td>
-                        </tr>`;
-}
-
-function renderBankRow(r, i) {
-    return `<tr>
-                            <td class="row-num">${i}</td>
-                            <td>${r.bank_name}</td>
-                            <td>${r.ifsc_code}</td>
-                            <td>${r.account_number}</td>
-                            <td>${r.account_holder_name}</td>
-                            <td>${r.branch_address}</td>
-                        </tr>`;
-    /*<td><span class="badge ${r.isPrimary ? 'badge-primary-acc' : 'badge-secondary-acc'}">${r.isPrimary ? 'Primary' : 'Secondary'}</span></td>*/
-}
-
-function renderDocRow(r, i) {
-    //const viewUrl = r.web_url || `/Documents/View/${r.master_doc_id}`;
-
-    return `<tr>
-                        <td class="row-num">${i}</td>
-                        <td>${r.document_type}</td>
-                        <td>${r.uploaded_date}</td>
-                        <td>${r.document_path
-        ? `<a href="${r.document_path}" target="_blank" class="btn btn-sm" onclick="return openDocument('${r.document_path}');" style="font-size: small;">
-                                <i class="fas fa-eye"></i> View
-                               </a>`
-            : empty()}</td>
-                    </tr>`;
-}
-
-
-function openDocument(path) {
-    const basePath = "/PTDemo";
-    window.open(basePath + path, "_blank");
-    return false;
-}
-
-
 function empty() { return '<span class="empty-val">Not provided</span>'; }
 function isExpired(dateStr) {
     if (!dateStr) return false;
