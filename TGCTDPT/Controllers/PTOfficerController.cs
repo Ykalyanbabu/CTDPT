@@ -188,6 +188,28 @@ namespace TGCTDPT.Controllers
             var data = _dal.GetRequestDetails(id); 
             return View(data);
         }
+        [HttpPost]
+        public JsonResult ApprovePTINCancelRequest(int id, string r_status)
+        {
+            try
+            {
+                string user_id = Session["UserID"]?.ToString();
+                var result = _dal.ApproveCancellation(id, r_status, user_id);
+                if (result.result == 1)
+                {
+                    return Json(new { success = true, message = result.message });
+                }
+                else
+                {
+                    return Json(new { success = false, message = result.message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
     }
-    
+
 }

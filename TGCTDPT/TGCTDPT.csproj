@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Helpers\ClientHelpers.cs" />
     <Compile Include="Helpers\DB_context.cs" />
+    <Compile Include="Helpers\PGHelpers.cs" />
     <Compile Include="Models\Amendments.cs" />
     <Compile Include="Models\AppStatus.cs" />
     <Compile Include="Models\Common.cs" />
@@ -210,6 +211,7 @@
     <Content Include="assets\images\RisingTelanganaLogo.jpeg" />
     <Content Include="assets\js\tgloader.js" />
     <Content Include="assets\js\Validations.js" />
+    <Content Include="BaseUrl\baseUrl.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

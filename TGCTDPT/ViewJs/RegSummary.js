@@ -536,8 +536,7 @@ function renderDocRow(r, i) {
 
 
 function openDocument(path) {
-    const basePath = "/PTDemo";
-    window.open(basePath + path, "_blank");
+    window.open(baseUrl + path, "_blank");
     return false;
 }
 

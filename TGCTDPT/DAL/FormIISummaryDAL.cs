@@ -260,11 +260,26 @@ namespace TGCTDPT.DAL
             using (IDbConnection db = new SqlConnection(_connStr))
             {
                 return db.QueryFirstOrDefault<RC_Cancel_ReActivate_Details>(
-                    @"select a.prof_tin,a.request_status,a.From_date as edr,a.To_date as effective_date,a.reasons as reason,
+                    @"select a.request_id,a.prof_tin,a.request_status,a.From_date as edr,a.To_date as effective_date,a.reasons as reason,
                 a.doc_path  from pt_enterprise_regd_status_temp a
               inner join   Fn_PT_Division_circle_link() b on a.prof_tin = b.prof_tin  where a.request_id = @id",
                     new { id });
             }
         }
+        public dynamic ApproveCancellation(int id, string r_status, string user_id)
+        {
+            using (IDbConnection db = new SqlConnection(_connStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@id", id);
+                parameters.Add("@r_status", r_status);
+                parameters.Add("@user_id", user_id);
+                return db.QueryFirstOrDefault<dynamic>(
+                    "pr_ptin_cancel_revoke",
+                     parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
     }
 }

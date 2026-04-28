@@ -207,6 +207,7 @@
                 <input type="hidden" id="hdnDealerId" />
                 <input type="hidden" id="hdnOwnerType" />
                 <input type="hidden" id="hdnForm1Reg" />
+                <input type="hidden" id="hdnsavetype" />
             </div>
         </div>
     </div>
@@ -500,8 +501,9 @@
                 }
             });
         }
-
+        
         function OnRadioChange(res) {
+            $('#hdnsavetype').val(res);
             if (res == "M") {
                 $('#divYearly').hide();
                 $('#divMonthly').show();
@@ -564,7 +566,7 @@
                 'Confirm Submit',
                 function (confirmed) {
                     if (confirmed) {
-                        if ($('#hdnOwnerType').val() == "M") {
+                        if (($('#hdnOwnerType').val() == "M") || ($('#hdnsavetype').val() == "M") && $('#hdnOwnerType').val() == "Y") {
                             saveMonthlyReturn();
                         }
                         else if ($('#hdnOwnerType').val() == "Y") {

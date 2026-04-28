@@ -108,7 +108,7 @@ else
                                 <h3><i class="fas fa-calendar-alt"></i> Yearly Demand Information</h3>
                             </div>
                             <div style="padding: 18px;">
-                                <div >
+                                <div>
                                     <label>
                                         <i class="fas fa-calendar"></i>
                                         For The Financial Year
@@ -153,7 +153,7 @@ else
                                                 <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="text" class="input-amount yearly-amount" id="txtFirmAmount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtFirmAmountVal" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                         </tr>
 
@@ -165,13 +165,13 @@ else
                                                 </div>
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                                <input type="number" class="input-qty yearly-qty" id="txtAdplQty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" onchange="calculateAll()">
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-rate" readonly value="2500" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtAdplAmt" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                         </tr>
 
@@ -183,13 +183,13 @@ else
                                                 </div>
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                                <input type="number" class="input-qty yearly-qty" id="txtDirQty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" onchange="calculateAll()">
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-rate" readonly value="2500" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                             <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtDirAmt" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                         </tr>
 
@@ -201,13 +201,13 @@ else
                                                 </div>
                                             </td>
                                             <td style="padding: 8px 15px;">
-                                                <input type="number" class="input-qty yearly-qty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                                <input type="number" class="input-qty yearly-qty" id="txtPartQty" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" onchange="calculateAll()">
                                             </td>
                                             <td style="padding: 8px 15px;">
-                                                <input type="text" class="input-rate" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-rate" readonly value="1250" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                             <td style="padding: 8px 15px;">
-                                                <input type="text" class="input-amount yearly-amount" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
+                                                <input type="text" class="input-amount yearly-amount" id="txtPartAmt" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; background-color: #e9ecef;">
                                             </td>
                                         </tr>
                                     </tbody>
@@ -235,15 +235,16 @@ else
                             <i class="fas fa-redo"></i>
                             Reset Form
                         </button>
-                        <button class="btn btn-primary" id="btnProceed" disabled>
+                        <button class="btn btn-primary" id="btnProceed" onclick="SubmitData();" disabled>
                             <i class="fas fa-file-alt"></i>
-                            Proceed to Pay
+                            Submit & Pay
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         <input type="hidden" id="hdnReturnId" />
+        <input type="hidden" id="hdnDealerId" />
     </div>
 
 
@@ -251,10 +252,10 @@ else
         var PTIN = '@Session["Tin"]';
 
         $(document).ready(function () {
-            $('#tblYear :input').prop('disabled', true);
+            /*$('#tblYear :input').prop('disabled', true);*/
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
                 $('#ptinInput').val(PTIN);
-                $('#ptinInput').attr('disabled', true);
+                /*$('#ptinInput').attr('disabled', true);*/
                 GetEnterpriseDeatils();
             }
         });
@@ -281,6 +282,7 @@ else
                     if (response.length > 0) {
                         var data = response[0];
                         $('#firmNameInput').val(data.EnterPriseName);
+                        $('#hdnDealerId').val(data.DealerId);
                         getPtinDetails(PTIN);
                     }
                     else {
@@ -302,13 +304,14 @@ else
                     ptin: ptin
                 },
                 success: function (response) {
-                    if ((response[0].OwnerType == "Y" && response[0].Form1Reg == "N") || (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y")) {
+                    GetPaymentPendingReturns(ptin,"Y");
+                   /* if ((response[0].OwnerType == "Y" && response[0].Form1Reg == "N") || (response[0].OwnerType == "Y" && response[0].Form1Reg == "Y")) {
                         GetPaymentPendingReturns(ptin);
                     }
                     else {
                         ModernAlert.toast.info('You are not eligible');
                         return false;
-                    }
+                    }*/
                 },
                 error: function (error) {
                     console.error(error);
@@ -377,6 +380,7 @@ else
         }
 
         // Calculation function
+        var TotalAmount = "0";
         function calculateAll() {
             let yearlyTotal = 0;
 
@@ -385,35 +389,21 @@ else
                 const qty = parseInt(row.querySelector('.yearly-qty').value) || 0;
                 const rate = parseInt(row.dataset.rate) || 0;
                 const amt = qty * rate;
-
-                row.querySelector('.yearly-amount').value = amt.toLocaleString('en-IN');
+                /*row.querySelector('.yearly-amount').value = amt.toLocaleString('en-IN');*/
+                row.querySelector('.yearly-amount').value = amt;
                 yearlyTotal += amt;
             });
 
 
             document.getElementById('yearlyTotal').textContent = formatCurrency(yearlyTotal);
 
-            const proceedBtn = document.getElementById('proceedBtn');
-            const proceedBtn1 = document.getElementById('proceedBtn1');
-
-            proceedBtn.disabled = true;
-            proceedBtn1.disabled = true;
-
-            const totalAmount = yearlyTotal + monthlyTotal;
+            const proceedBtn = document.getElementById('btnProceed');
+            const totalAmount = yearlyTotal;
+            TotalAmount = yearlyTotal;
             if (yearlyTotal > 0) {
-                if (totalEmployees === 0) {
-                    proceedBtn.disabled = false;
-                } else {
-                    proceedBtn1.disabled = true;
-                }
+                proceedBtn.disabled = false;
             }
-            if (totalAmount > 0) {
-                if (totalEmployees === 0) {
-                    proceedBtn.disabled = false;
-                } else {
-                    proceedBtn1.disabled = false;
-                }
-            }
+
         }
 
 
@@ -421,6 +411,8 @@ else
         function toggleFirm(cb) {
             const qty = cb.closest('.yearly-row').querySelector('.yearly-qty');
             qty.value = cb.checked ? 1 : 0;
+            const amt = cb.checked ? "2500" : "0";
+            $('#txtFirmAmountVal').val(amt);
             calculateAll();
             if ($('#chkFirmCompany').is(':checked') == true) {
                 $('#txtFirmQuantity').attr('disabled', true);
@@ -441,7 +433,7 @@ else
         window.validateDates = validateDates;
         window.resetForm = resetForm;
 
-      
+
         function BindYearsDropdown(response) {
             var $ddl = $('#ddlYear');
             $ddl.empty();
@@ -450,16 +442,16 @@ else
                 text: '-- Select --'
             }));
             $.each(response, function (i, item) {
-                if (item.MonthYear) {
+                if (item.mon_yr) {
                     $ddl.append($('<option>', {
-                        value: item.MonthYear,
-                        text: item.MonthYear
+                        value: item.mon_yr,
+                        text: item.mon_yr
                     }));
                 }
             });
 
         }
-        
+
           function GetPaymentPendingReturns(ptin) {
             $.ajax({
                 url: '@Url.Action("GetPaymentPendingReturns", "ePayment")',
@@ -520,23 +512,33 @@ else
             var rate = $('#ddlFirmRate').val();
             var value = parseInt(qty) * parseInt(rate);
             $('#txtFirmAmount').val(value);
-
             calculateAll();
         }
 
         function onYearChange() {
             var selectedYear = $('#ddlYear').val();
-            var record = PendingReturns.find(x => x.MonthYear == selectedYear);
+            var record = PendingReturns.find(x => x.mon_yr == selectedYear);
             var returnId = record ? record.ReturnId : null;
             if (returnId != null && returnId != undefined) {
                 $('#hdnReturnId').val(returnId.trim());
+                BuildTable();
             }
-            BuildTable();
+            else {
+                $('#chkFirmCompany').attr('checked', false);
+                $('#txtFirmQuantity').val("");
+                $('#txtFirmAmountVal').val("");
+                $('#txtAdplQty').val("");
+                $('#txtAdplAmt').val("");
+                $('#txtDirQty').val("");
+                $('#txtDirAmt').val("");
+                $('#txtPartQty').val("");
+                $('#txtPartAmt').val("");
+                calculateAll();
+            }
         }
         function BuildTable() {
             var returnid = $('#hdnReturnId').val();
             var totalamount = "";
-            $('#taxTableBody').empty();
             $.ajax({
                url: '@Url.Action("GetReturnDetailsByReturnId", "ePayment")',
                 dataType: 'json',
@@ -544,35 +546,33 @@ else
                     ReturnId: returnid
                 },
                 success: function (data) {
+
                      totalamount = data[0].TotalAmount;
-                    var html = '';
 
                     $.each(data, function (i, item) {
-
-                        html += '<tr class="yearly-row">' +
-                            '<td style="padding:12px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<span>' + item.Type + '</span>' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="number" class="input-qty yearly-qty" value="' + item.Quantity + '" id="txtRate' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="text" class="input-rate"  value="' + item.TaxAmount + '" id="txtEmployees' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;;">' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="text" class="input-amount yearly-amount"  value="' + item.PayableTaxAmount + '" id="txtTaxAmount' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
-                            '</td>' +
-
-                            '</tr>';
-
+                        if (item.Type == "Entity") {
+                            $('#txtFirmQuantity').val(item.Quantity);
+                            $('#txtFirmAmount').val('2500');
+                            $('#txtFirmAmountVal').val('2500');
+                            $('#chkFirmCompany').attr('checked', true);
+                        }
+                        if (item.Type == "directors") {
+                            $('#txtDirQty').val(item.Quantity);
+                            $('#txtDirAmt').val(item.TaxAmount);
+                        }
+                        if (item.Type == "partners") {
+                            $('#txtPartQty').val(item.Quantity);
+                            $('#txtPartAmt').val(item.TaxAmount);
+                        }
+                        if (item.Type == "branch") {
+                            $('#txtAdplQty').val(item.Quantity);
+                            $('#txtAdplAmt').val(item.TaxAmount);
+                        }
                     });
 
-                    $('#taxTableBody').html(html);
-                    $('#yearlyTotal').text("₹ " + totalamount);
-                    $('#tblYear :input').prop('disabled', true);
+                    calculateAll();
+
+                    /*$('#tblYear :input').prop('disabled', true);*/
                     $('#btnProceed').attr('disabled', false);
 
                 },
@@ -582,6 +582,94 @@ else
 
             });
 
+        }
+
+        function SubmitData() {
+            ModernAlert.showConfirm(
+                'Are you sure you want to Submit and Pay?',
+                'Confirm Submit',
+                function (confirmed) {
+                    if (confirmed) {
+                        saveYearlyPayment();
+                    }
+                    else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
+        }
+        function saveYearlyPayment() {
+            $('#btnProceed').attr('disabled', true);
+            var _ptin = $('#ptinInput').val();
+            if ($("#ddlYear").val() == "0" || $('#ddlYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Tax Period');
+                return false;
+            }
+            if ($("#ddlEntity").val() == "0" || $('#ddlYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Entity');
+                return false;
+            }
+            var model = {
+                ReturnId: $('#hdnReturnId').val() || 0,
+                Ptin: $('#ptinInput').val(),
+                ReturnMonth: $("#ddlYear").val(),
+                TotalPayable: TotalAmount,
+                FiledBy: $('#ptinInput').val(),
+                DealerId: $("#hdnDealerId").val(),
+                FormType: "Y",
+
+                SalSlabCode1: "1",
+                NoEmp1: "1",
+                TotPble1: $('#txtFirmAmountVal').val() || 0,
+                Type1: "Entity",
+
+                SalSlabCode2: "1",
+                NoEmp2: $('#txtDirQty').val() || 0,
+                TotPble2: $('#txtDirAmt').val() || 0,
+                Type2: "directors",
+
+                SalSlabCode3: "1",
+                NoEmp3: $('#txtPartQty').val() || 0,
+                TotPble3: $('#txtPartAmt').val() || 0,
+                Type3: "partners",
+
+                SalSlabCode4: "1",
+                NoEmp4: $('#txtAdplQty').val() || 0,
+                TotPble4: $('#txtAdplAmt').val() || 0,
+                Type4: "branch"
+            };
+
+
+            $.ajax({
+                url: '@Url.Action("SavePTYearlyPmt", "ePayment")',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid + '&tin=' + _ptin;
+                        ModernAlert.showAlert('Your Payment Details has been submitted Successfully!', 'You will be Redirecting to Payment Page', 'Submitted',
+                            {
+                                autoClose: true,
+                                duration: 500,
+                            }
+                        );
+                        setTimeout(() => {
+                            window.location.href = paymentUrl;
+                        }, 2000);
+                        $('.modern-close').hide();
+
+                    } else {
+                        ModernAlert.showError('Unable to submit the Yearly Payment Details. Please try again.', 'Submit Failed');
+                        $('#btnProceed').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
         }
     </script>
 </body>

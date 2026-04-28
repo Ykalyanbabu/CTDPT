@@ -41,6 +41,26 @@ namespace TGCTDPT.Controllers
             }
             return View(data);
         }
+        public ActionResult OtherPaymentConfirmation(string returnId, string tin)
+        {
+            if (tin != null && tin != "")
+            {
+                Session["Tin"] = tin;
+            }
+            if (Session["Tin"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
+            var data = dal.GetReturnById(returnId);
+            Session["ReturnId"] = data.ReturnId; ;
+            if (data != null)
+            {
+                var rnrno = dal.GetNextRnr();
+                Session["CTDTId"] = rnrno;
+                data.CTDTransactionId = rnrno;
+            }
+            return View(data);
+        }
 
         [HttpPost]
         public ActionResult ProcessPayment(string returnId)

@@ -16,6 +16,7 @@ namespace TGCTDPT.Models
         public string PayableTaxAmount { get; set; }
         public string Type { get; set; }
         public string TotalAmount { get; set; }
+        public string mon_yr { get; set; }
 
     }
 }

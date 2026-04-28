@@ -6,6 +6,186 @@
 
 
 <link href="~/assets/css/custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    /* MODAL / REJECT DIALOG (modern overlay) */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.2s, opacity 0.2s ease;
+    }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .reject-modal {
+        background: white;
+        border-radius: 20px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        animation: fadeSlideUp 0.2s ease-out;
+    }
+
+    @@keyframes fadeSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+        background: #fef2f2;
+        border-bottom: 1px solid #fecaca;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--secondary);
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+        .modal-body textarea {
+            width: 100%;
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+            margin-top: 0.5rem;
+        }
+
+        .modal-body label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+
+    .modal-footer {
+        padding: 1rem 1.5rem;
+        background: var(--light);
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .others-fields-container {
+        padding: 1.5rem 1.8rem;
+        background: #ffffff;
+    }
+
+    .others-card {
+        background: #fefcf5;
+        border-radius: 24px;
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        border: 1px solid #f0e7d6;
+    }
+
+    .field-group {
+        margin-bottom: 1.2rem;
+      /*  display: flex;*/
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+    }
+
+        .field-group label {
+            width: 200px;
+            font-weight: 600;
+            color: #2c1a42;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field-group .field-input, .field-group .field-select {
+            /*flex: 1;*/
+            min-width: 240px;
+            padding: 0.7rem 1rem;
+            border-radius: 16px;
+            border: 1px solid #cfddee;
+            background: white;
+        }
+
+    .date-hint {
+        font-size: 0.7rem;
+        color: #64748b;
+        margin-left: 8px;
+    }
+
+    .separator-light {
+        height: 1px;
+        background: #ede6f5;
+        margin: 1rem 0;
+    }
+
+    .amount-block {
+        background: #f1edfc;
+        border-radius: 20px;
+        padding: 1rem 1.5rem;
+        margin-top: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .payment-tab {
+        margin-top: 28px;
+        background: #ffffff;
+        border-radius: 24px;
+        border: 1px solid #e9eef3;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .payment-section {
+        padding: 0 0 0.5rem 0;
+    }
+
+</style>
 
 @if (Session["Tin"] != null)
 {
@@ -71,7 +251,7 @@ else
                             <span class="radio-label">Other than Return Tax</span>
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="purpose" id="oth_radio"  onchange="onPurposeChange('3');" class="radio-input">
+                            <input type="radio" name="purpose" id="oth_radio" onchange="onPurposeChange('3');" class="radio-input">
                             <span class="radio-label">Amount Payable by Others</span>
                         </label>
                         <div class="purpose-box" id="oth_ret_box">
@@ -101,9 +281,9 @@ else
                         <div class="section-header">
                             <h3><i class="fas fa-calendar-week"></i> Monthly Tax (For Employees)</h3>
                             @*<div>
-                                <input type="checkbox" id="monthlyReturns" value="submit" />
-                                <label for="monthlyReturns">Click Here to Submit Monthly Returns</label>
-                            </div>*@
+                        <input type="checkbox" id="monthlyReturns" value="submit" />
+                        <label for="monthlyReturns">Click Here to Submit Monthly Returns</label>
+                    </div>*@
                         </div>
                         <div style="padding: 18px;">
                             <div>
@@ -127,54 +307,54 @@ else
                                     </tr>
                                 </thead>
                                 <tbody id="taxTableBody">
-                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                    <tr class="monthly-row" data-rate="0" style="background-color: #ffffff;">
                                         <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
                                             <div style="display: flex; align-items: center; gap: 8px;">
                                                 <span style="color: #495057;">Below 15000</span>
                                             </div>
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="number" class="input-qty yearly-qty" id="txtRate1" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="text" readonly class="input-rate" id="txtRate1" value="0" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-rate" readonly id="txtEmployees1" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                            <input type="number" class="input-qty monthly-qty" id="txtEmployees1" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; " onchange="calculateAll()">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount1" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="text" class="input-amount monthly-amount" id="txtTaxAmount1" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
                                         </td>
                                     </tr>
 
-                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                    <tr class="monthly-row" data-rate="150" style="background-color: #ffffff;">
                                         <td style="padding: 12px 15px; border-bottom: 1px solid #e0e0e0;">
                                             <div style="display: flex; align-items: center; gap: 8px;">
                                                 <span style="color: #495057;">15001-20000</span>
                                             </div>
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="number" class="input-qty yearly-qty" id="txtRate2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="text" readonly class="input-rate" value="150" id="txtRate2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-rate" readonly id="txtEmployees2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="number" class="input-qty monthly-qty" id="txtEmployees2" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" onchange="calculateAll()">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount2" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                            <input type="text" class="input-amount monthly-amount" id="txtTaxAmount2" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
                                         </td>
                                     </tr>
 
-                                    <tr class="yearly-row" style="background-color: #ffffff;">
+                                    <tr class="monthly-row" data-rate="200" style="background-color: #ffffff;">
                                         <td style="padding: 12px 15px;">
                                             <div style="display: flex; align-items: center; gap: 8px;">
                                                 <span style="color: #495057;">20001 & Above</span>
                                             </div>
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="number" class="input-qty yearly-qty" id="txtRate3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="text" readonly class="input-rate" id="txtRate3" value="200" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-rate" readonly id="txtEmployees3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; ">
+                                            <input type="number" class="input-qty monthly-qty" id="txtEmployees3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; " onchange="calculateAll()">
                                         </td>
                                         <td style="padding: 8px 15px; border-bottom: 1px solid #e0e0e0;">
-                                            <input type="text" class="input-amount yearly-amount" id="txtTaxAmount3" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                            <input type="text" class="input-amount monthly-amount" id="txtTaxAmount3" readonly style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -189,30 +369,109 @@ else
                         </div>
                     </div>
                 </div>
-
-                <div class="date-display">
-                    <i class="fas fa-calendar-check"></i>
-                    <div>
-                        <strong>Current Date:</strong>
-                        <span id="todayDate"></span>
+                <div id="othersTab" class="payment-tab" style="display: none;">
+                    <div class="others-fields-container" style="padding: 1.2rem 0.5rem;">
+                        <div class="others-card" style="padding: 1.2rem 1.5rem;margin-bottom: 3.2rem;">
+                            <div class="field-group">
+                                <label><i class="far fa-calendar-alt"></i> Tax Period From - To <span style="color:red">*</span></label>
+                                <div style="display: flex; flex-wrap: wrap; gap: 12px; flex:1; align-items: center;">
+                                    <input type="date" id="taxPeriodFrom" class="field-input" placeholder="DD-MM-yyyy" style="width:140px;">
+                                    <span>-</span>
+                                    <input type="date" id="taxPeriodTo" class="field-input" placeholder="DD-MM-yyyy" style="width:140px;">
+                                    <span class="date-hint">(DD-MM-yyyy)</span>
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label><i class="fas fa-rupee-sign"></i> Amount (in Rupees) <span style="color:red">*</span></label>
+                                <input type="number" id="txtAmountRupees" class="field-input" placeholder="Enter amount" step="1" value="0" min="0" onblur="onAmount();">
+                                <span class="date-hint">(Minimum payment ₹1)</span>
+                            </div>
+                            <div class="field-group">
+                                <label><i class="fas fa-comment-dots"></i> Remarks/Comments</label>
+                                <textarea id="remarksComments" class="field-input"
+                                          placeholder="Optional remarks / comments"
+                                          rows="4"
+                                          cols="50"
+                                          style="width: 60%; resize: vertical; padding: 8px; font-family: inherit;"></textarea>
+                            </div>
+                            @*<div class="separator-light"></div>*@
+                        </div>
                     </div>
+                    <!-- additional hidden input to store dynamic total for validation -->
+                    <input type="hidden" id="othersTotalAmount">
                 </div>
+                    <div class="date-display">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <strong>Current Date:</strong>
+                            <span id="todayDate"></span>
+                        </div>
+                    </div>
 
-                <div class="actions-section">
-                    <div class="button-group">
-                        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
-                            <i class="fas fa-redo"></i>
-                            Reset Form
-                        </button>
-                        <button class="btn btn-primary" id="btnProceed" onclick="ProceedPayment();" disabled>
-                            <i class="fas fa-file-alt"></i>
-                            Proceed to Pay
-                        </button>
+                    <div class="actions-section">
+                        <div class="button-group">
+                            <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
+                                <i class="fas fa-redo"></i>
+                                Reset Form
+                            </button>
+                            <button class="btn btn-primary" id="btnProceed" onclick="SubmitReturns();" disabled>
+                                <i class="fas fa-file-alt"></i>
+                                Submit & Proceed to Pay
+                            </button>
+                            <button class="btn btn-primary" id="btnProceedOthers" style="display:none;" onclick="GoandPay();" disabled>
+                                <i class="fas fa-file-alt"></i>
+                                Proceed to Pay
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <input type="hidden" id="hdnReturnId" />
+    </div>
+    <div id="EmpModalOverlay" class="modal-overlay">
+        <div class="reject-modal">
+            <div class="modal-header" style="background-color: #a32bc1;">
+                <h3 style="color: white;"><i class="fa fa note"></i> Employees Updation</h3>
+                <button class="modal-close" id="closeModalBtn" style="color: white;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                @*<label for="TransferComments" style="color: blue;">
+
+                    </label>*@
+                <div class="form-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>
+                            Number Of Employees Earning Below 15000 per month <span style="color:red;">*</span>
+                        </label>
+                        <input type="text" id="emp_below_15000" class="form-control" onkeypress="return isNumber(event)">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Number Of Employees Earning between 15001 to 20000 per month <span style="color:red;">*</span>
+                        </label>
+
+                        <input type="text" id="emp_between_15001_20000" class="form-control" onkeypress="return isNumber(event)">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Number Of Employees Earning above 20000 per month <span style="color:red;">*</span>
+                        </label>
+                        <input type="text" id="emp_above_20000" class="form-control" onkeypress="return isNumber(event)">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Total Number Of Employees Working<span style="color:red;">*</span>
+                        </label><br />
+                        <input type="text" id="tot_emp" class="form-control" onkeypress="return isNumber(event)" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="confirmBtn" style="background: #43957a;color: white;">Update</button>
+                <button class="btn" id="cancelBtn" style="background-color: #d50d0d;color: white;">Cancel</button>
+            </div>
+
+        </div>
     </div>
 
 
@@ -221,19 +480,25 @@ else
        var PTIN = '@Session["Tin"]';
 
         $(document).ready(function () {
-            $('#tblMonth :input').prop('disabled', true);
+
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
                 $('#ptinInput').val(PTIN);
-                $('#ptinInput').attr('disabled', true);
                 GetEnterpriseDeatils();
+                attachModalEvents();
             }
         });
         function onPurposeChange(res) {
             if (res == "1") {
+                $('#othersTab').hide();
+                $('#btnProceedOthers').hide();
+                $('#btnProceed').show();
                 $('#monthlyTab').show();
             }
             else {
                 $('#monthlyTab').hide();
+                $('#btnProceed').hide();
+                $('#othersTab').show();
+                $('#btnProceedOthers').show();
             }
         }
 
@@ -278,6 +543,21 @@ else
                         GetPaymentPendingReturns(ptin);
                     }
                     else {
+                        ModernAlert.showConfirm(
+                            'You are not eligible, as you stated during registration that you do not have employees. Would you like to update your employee details?',
+                            'Confirm',
+                            function (confirmed) {
+                                if (confirmed) {
+                                    if (PTIN != "" && PTIN != undefined && PTIN != null) {
+                                        $('#EmpModalOverlay').addClass('active');
+                                    }
+                                    else {
+                                        ModernAlert.toast.info('Please Login to Update to Employee Details');
+                                        return false;
+                                    }
+                                }
+                            }
+                        );
                         ModernAlert.toast.info('You are not eligible');
                         return false;
                     }
@@ -344,9 +624,11 @@ else
         }
 
         // Calculation function
+        var totalEmployees = 0;
+        var monthlyTotal = 0;
         function calculateAll() {
-            let monthlyTotal = 0;
-            let totalEmployees = 0;
+             monthlyTotal = 0;
+             totalEmployees = 0;
 
             document.querySelectorAll('.monthly-row').forEach(row => {
                 const qty = parseInt(row.querySelector('.monthly-qty').value) || 0;
@@ -359,25 +641,16 @@ else
             });
             document.getElementById('monthlyTotal').textContent = formatCurrency(monthlyTotal);
 
-            const proceedBtn = document.getElementById('proceedBtn');
-            const proceedBtn1 = document.getElementById('proceedBtn1');
-            proceedBtn.disabled = true;
-            proceedBtn1.disabled = true;
-
             const totalAmount =  monthlyTotal;
 
             if (monthlyTotal > 0) {
                 if (totalEmployees === 0) {
-                    proceedBtn.disabled = true;
                 } else {
-                    proceedBtn1.disabled = false;
                 }
             }
             if (totalAmount > 0) {
                 if (totalEmployees === 0) {
-                    proceedBtn.disabled = false;
                 } else {
-                    proceedBtn1.disabled = false;
                 }
             }
         }
@@ -423,15 +696,15 @@ else
                 text: '-- Select --'
             }));
             $.each(response, function (i, item) {
-                if (item.MonthYear) {
-                    var month = item.MonthYear.substring(0, 2);
-                    var year = item.MonthYear.substring(2, 6);
+                if (item.mon_yr) {
+                    var month = item.mon_yr.substring(0, 2);
+                    var year = item.mon_yr.substring(2, 6);
                     var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
                         "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
                     var monthText = monthNames[parseInt(month) - 1];
                     var displayText = monthText + "-" + year;
                     $ddl.append($('<option>', {
-                        value: item.MonthYear,
+                        value: item.mon_yr,
                         text: displayText
                     }));
                 }
@@ -439,28 +712,30 @@ else
 
         }
 
-        function onFirmChange() {
-            const ddl = document.getElementById("ddlFirmRate");
-            const row = ddl.closest(".yearly-row");
-            row.dataset.rate = ddl.value;
-            var qty = $('#txtFirmQuantity').val();
-            var rate = $('#ddlFirmRate').val();
-            var value = parseInt(qty) * parseInt(rate);
-            $('#txtFirmAmount').val(value);
-            calculateAll();
-        }
+
 
         function onReturnMonthSelect() {
             var selectedMonth = $('#ddlMonth').val();
-            var record = PendingReturns.find(x => x.MonthYear == selectedMonth);
+            var record = PendingReturns.find(x => x.mon_yr == selectedMonth);
             var returnId = record ? record.ReturnId : null;
-            $('#hdnReturnId').val(returnId.trim());
-            BuildTable();
+            if (returnId != null && returnId != undefined) {
+                $('#hdnReturnId').val(returnId.trim());
+                BuildTable();
+            }
+            else {
+                $('#txtEmployees1').val("");
+                $('#txtTaxAmount1').val("");
+                $('#txtEmployees2').val("");
+                $('#txtTaxAmount2').val("");
+                $('#txtEmployees3').val("");
+                $('#txtTaxAmount3').val("");
+                calculateAll();
+            }
         }
         function BuildTable() {
             var returnid = $('#hdnReturnId').val();
             var totalamount = "";
-            $('#taxTableBody').empty();
+            /*$('#taxTableBody').empty();*/
             $.ajax({
                url: '@Url.Action("GetReturnDetailsByReturnId", "ePayment")',
                 dataType: 'json',
@@ -469,34 +744,22 @@ else
                 },
                 success: function (data) {
                      totalamount = data[0].TotalAmount;
-                    var html = '';
 
                     $.each(data, function (i, item) {
-
-                        html += '<tr class="yearly-row">' +
-                            '<td style="padding:12px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<span>' + item.Range + '</span>' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="number" class="input-qty yearly-qty" value="' + item.TaxAmount + '" id="txtRate' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="text" class="input-rate"  value="' + item.Quantity + '" id="txtEmployees' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;;">' +
-                            '</td>' +
-
-                            '<td style="padding:8px 15px;border-bottom:1px solid #e0e0e0;">' +
-                            '<input type="text" class="input-amount yearly-amount"  value="' + item.PayableTaxAmount + '" id="txtTaxAmount' + (i + 1) + '" style="width:100%;padding:8px;border:1px solid #ced4da;border-radius:4px;">' +
-                            '</td>' +
-
-                            '</tr>';
-
+                        if (item.SlabCode == "144") {
+                            $('#txtEmployees1').val(item.Quantity);
+                            $('#txtTaxAmount1').val(item.TaxAmount);
+                        }
+                        if (item.SlabCode == "145") {
+                            $('#txtEmployees2').val(item.Quantity);
+                            $('#txtTaxAmount2').val(item.TaxAmount);
+                        }
+                        if (item.SlabCode == "146") {
+                            $('#txtEmployees3').val(item.Quantity);
+                            $('#txtTaxAmount3').val(item.TaxAmount);
+                        }
                     });
-
-                    $('#taxTableBody').html(html);
-                    $('#monthlyTotal').text("₹ " + totalamount);
-                    $('#tblMonth :input').prop('disabled', true);
+                    calculateAll();
                     $('#btnProceed').attr('disabled', false);
 
                 },
@@ -512,6 +775,248 @@ else
             var ptin = $('#ptinInput').val();
             var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + returnid + '&tin=' + ptin;
             window.location = paymentUrl;
+        }
+        function attachModalEvents() {
+            const modal = $('#EmpModalOverlay');
+            $('#closeModalBtn, #cancelBtn').on('click', function () {
+                modal.removeClass('active');
+            });
+        }
+
+        function calculateTotalEmployees() {
+
+            let below = parseInt($('#emp_below_15000').val()) || 0;
+            let between = parseInt($('#emp_between_15001_20000').val()) || 0;
+            let above = parseInt($('#emp_above_20000').val()) || 0;
+
+            let total = below + between + above;
+
+            $('#tot_emp').val(total);
+        }
+
+        $('#emp_below_15000, #emp_between_15001_20000, #emp_above_20000')
+            .on('input', function () {
+                calculateTotalEmployees();
+            });
+
+        $('#confirmBtn').on('click', function () {
+            var emp_below_15000 = $('#emp_below_15000').val();
+            var emp_between_15001_20000 = $('#emp_between_15001_20000').val();
+            var emp_above_20000 = $('#emp_above_20000').val();
+            var tot_emp = $('#tot_emp').val();
+
+            if (emp_below_15000 == "" || emp_between_15001_20000 == "" || emp_above_20000 == "" || emp_above_20000=="") {
+                ModernAlert.toast.info('Please enter all Details.');
+                return false;
+            }
+            if (tot_emp == "0") {
+                ModernAlert.toast.info('Total Employees should more than 0');
+                return false;
+            }
+
+            const $confirmBtn = $(this);
+
+            ModernAlert.showConfirm(
+                'Are you sure you want to Update the Employee Details?',
+                'Confirm',
+                function (confirmed) {
+                    if (confirmed) {
+
+                        $confirmBtn.prop('disabled', true).text('Processing...');
+
+                        $.ajax({
+                            url: '@Url.Action("UpdateEmployees", "ePayment")',
+                            type: 'POST',
+                            data: {
+                                ptin: PTIN,
+                                below_15000: emp_below_15000,
+                                between_15001_20000: emp_between_15001_20000,
+                                above_20000: emp_above_20000,
+                                tot_emp: tot_emp
+                            },
+                            success: function (res) {
+                                if (res && res.success) {
+                                    ModernAlert.showSuccess(
+                                        'Employee Details Updated Successfully',
+                                        'Success'
+                                    );
+                                    window.reload();
+                                }
+                                else {
+                                    ModernAlert.toast.info('Unable to Update. Try again later.');
+                                    $confirmBtn.prop('disabled', false).text('Update');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('AJAX Error:', error);
+                                ModernAlert.toast.info('Unable to Update. Try again later.');
+                                $confirmBtn.prop('disabled', false).text('Update');
+                            },
+                            complete: function () {
+                                setTimeout(function () {
+                                    $confirmBtn.prop('disabled', false).text('Update');
+                                }, 2000);
+                            }
+                        });
+
+                    } else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
+        });
+
+        function SubmitReturns() {
+
+            ModernAlert.showConfirm(
+                'Are you sure you want to Submit and Pay?',
+                'Confirm Submit',
+                function (confirmed) {
+                    if (confirmed) {
+                        saveMonthlyReturn();
+                    }
+                    else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
+        }
+
+        function saveMonthlyReturn() {
+            $('#btnProceed').attr('disabled', true);
+             var _ptin = $('#ptinInput').val();
+            if ($("#ddlMonthYear").val() == "0" || $('#ddlMonthYear').val() == "") {
+                ModernAlert.toast.warning('Please Select Tax Period');
+                return false;
+            }
+             var model = {
+                 ReturnId: $('#hdnReturnId').val() || 0,
+                 Ptin: _ptin,
+                 ReturnMonth: $("#ddlMonth").val(),
+                 TotalPayable: monthlyTotal,
+                 FiledBy: _ptin,
+                 DealerId: $("#hdnDealerId").val(),
+                 FormType: "M",
+                 SalSlabCode1: "144",
+                 NoEmp1: $("#txtEmployees1").val(),
+                 TotPble1: $("#txtTaxAmount1").val(),
+                 SalSlabCode2: "145",
+                 NoEmp2: $("#txtEmployees2").val(),
+                 TotPble2: $("#txtTaxAmount2").val(),
+                 SalSlabCode3: "146",
+                 NoEmp3: $("#txtEmployees3").val(),
+                 TotPble3: $("#txtTaxAmount3").val()
+             };
+
+            if (model.NoEmp1 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15000 Employes details');
+                return false;
+            }
+            if (model.NoEmp2 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹15001-₹20000 Employes details');
+                return false;
+            }
+            if (model.NoEmp3 == "") {
+                ModernAlert.toast.warning('Please Enter below ₹20001 & Above Employes details');
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("SavePTMonthlyReturn", "ePayment")',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+
+                    if (res.success) {
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid + '&tin=' + _ptin;
+                        ModernAlert.showAlert('Your Return has been submitted Successfully!', 'You will be Redirecting to Payment Page', 'Return Submitted',
+                            {
+                                autoClose: true,
+                                duration: 500,
+                            }
+                        );
+                        setTimeout(() => {
+                            window.location.href = paymentUrl;
+                        }, 2000);
+                        $('.modern-close').hide();
+
+                    } else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnProceed').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnProceed').attr('disabled', false);
+                }
+            });
+        }
+
+        function onAmount() {
+            if ($('#txtAmountRupees').val() > 0 && $('#ptinInput').val() != "" && $('#taxPeriodFrom').val() != "" && $('#taxPeriodTo').val() != "") {
+                $('#btnProceedOthers').attr('disabled', false);
+            }
+            else {
+                $('#btnProceedOthers').attr('disabled', true);
+            }
+        }
+        function GoandPay() {
+            $('#btnProceedOthers').attr('disabled', true);
+            if ($('#txtAmountRupees').val() == "" || $('#txtAmountRupees').val() == "0") {
+                ModernAlert.toast.warning('Please Enter Valid Amount');
+                return false;
+            }
+            if ($('#taxPeriodFrom').val() == "") {
+                ModernAlert.toast.warning('Please select Tax Period From Date');
+                return false;
+            }
+            if ($('#taxPeriodTo').val() == "") {
+                ModernAlert.toast.warning('Please select Tax Period To Date');
+                return false;
+            }
+            if ($('#ptinInput').val() == "") {
+                ModernAlert.toast.warning('Please Enter Ptin');
+                return false;
+            }
+
+            var data = {
+                ptin: $("#ptinInput").val(),
+                purpose: "",
+                FromDate: $("#taxPeriodFrom").val(),
+                ToDate: $("#taxPeriodTo").val(),
+                Amount: $("#txtAmountRupees").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveOthersPayment", "ePayment")',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+
+                    if (response.success) {
+                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid + '&tin=' + _ptin;
+                        ModernAlert.showAlert('Your Payment has been submitted Successfully!', 'You will be Redirecting to Payment Page', 'Submitted',
+                            {
+                                autoClose: true,
+                                duration: 500,
+                            }
+                        );
+                        setTimeout(() => {
+                            window.location.href = paymentUrl;
+                        }, 2000);
+                        $('.modern-close').hide();
+
+                    } else {
+                        ModernAlert.showError('Unable to submit the Payment Details. Please try again.', 'Submit Failed');
+                        $('#btnProceedOthers').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error occurred");
+                }
+            });
+
         }
     </script>
 </body>

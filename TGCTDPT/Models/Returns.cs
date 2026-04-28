@@ -45,6 +45,7 @@ namespace TGCTDPT.Models
     }
     public class PTReturnModel
     {
+        public string ReturnId { get; set; }
         public string Ptin { get; set; }
         public string ReturnMonth { get; set; }
         public decimal TotalPayable { get; set; }

@@ -6,17 +6,24 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TGCTDPT.BSNL_SMS;
 using TGCTDPT.DAL;
 using TGCTDPT.Models;
-
+using TGCTDPT.Services;
 
 namespace TGCTDPT.Controllers
 {
     public class RegistrationController : Controller
     {
+        private readonly IEmailService _emailService;
+
+        public RegistrationController()
+        {
+            _emailService = new EmailService();
+        }
         // GET: Registration
         private RegistrationDAL dal = new RegistrationDAL();
         private CommonDAL cdal = new CommonDAL();
@@ -787,6 +794,25 @@ namespace TGCTDPT.Controllers
                 return ex.ToString();
             }
 
+        }
+
+        [HttpPost]
+        public async Task<bool> SendApplicationIdtoMail(string email, string applicationId)
+        {
+            string subject = "New Dealer Registration Application Submitted Successfully";
+
+            string body =
+                         "TG COMMERCIAL TAXES DEPARTMENT\n\n" +
+                         "Application Submitted Successfully\n\n" +
+                         "Dear User,\n\n" +
+                         "Your application has been submitted successfully.\n\n" +
+                         "Please note your Application ID: " + applicationId + " for future reference. " +
+                         "We recommend keeping this ID safe, as it will be required for tracking your application.\n\n" +
+                         "If you require any assistance, please contact our support team.\n\n" +
+                         "Thank you,\n" +
+                         "TG Commercial Taxes Department\n\n" +
+                         "Please do not reply to this email.";
+            return await _emailService.SendAsync(email, subject, body);
         }
     }
 }

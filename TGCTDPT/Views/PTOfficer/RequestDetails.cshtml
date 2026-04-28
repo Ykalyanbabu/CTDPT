@@ -118,14 +118,12 @@
 
     <div class="container">
 
-        <!-- HEADER -->
         <div class="header">
             <h2>PTIN Cancel Request Details</h2>
         </div>
 
         <div class="main-box">
 
-            <!-- LEFT SIDE DETAILS -->
             <div class="details-box">
 
                 <table>
@@ -155,7 +153,6 @@
                         <td>@Model.request_status</td>
                     </tr>
 
-                    <!-- ACTION ROW -->
                     <tr class="action-row">
                         <td>Actions</td>
                         <td>
@@ -175,7 +172,6 @@
 
             </div>
 
-            <!-- RIGHT SIDE DOCUMENT -->
             <div class="doc-box">
 
                 <h4>Document Preview</h4>
@@ -204,22 +200,43 @@
     <script>
 
         function approve(id) {
-            if (!confirm("Approve this request?")) return;
-
-            $.post('/PTOfficer/ApproveRequest', { id: id }, function (res) {
-                alert(res.message);
-                location.href = '/PTOfficer/PendingRequests';
-            });
+            ModernAlert.showConfirm(
+                'Are you sure you want to Approve this request?',
+                'Confirm Request',
+                function (confirmed) {
+                    if (confirmed) {
+                        $.post('@Url.Action("ApprovePTINCancelRequest", "PTOfficer")',
+                            { id: id, r_status: 'A' },
+                            function (res) {
+                                alert(res.message);
+                                location.href = '@Url.Action("Pending_Cancel_Revoke_Requests", "PTOfficer")';
+                            });
+                    }
+                    else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
         }
 
         function reject(id) {
-            let reason = prompt("Enter rejection reason:");
-            if (!reason) return;
-
-            $.post('/PTOfficer/RejectRequest', { id: id, reason: reason }, function (res) {
-                alert(res.message);
-                location.href = '/PTOfficer/PendingRequests';
-            });
+            ModernAlert.showConfirm(
+                'Are you sure you want to Reject The Request?',
+                'Confirm Request',
+                function (confirmed) {
+                    if (confirmed) {
+                        $.post('@Url.Action("ApprovePTINCancelRequest", "PTOfficer")',
+                            { id: id, r_status: 'R' },
+                            function (res) {
+                                alert(res.message);
+                                location.href = '@Url.Action("Pending_Cancel_Revoke_Requests", "PTOfficer")';
+                            });
+                    }
+                    else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
         }
 
     </script>
