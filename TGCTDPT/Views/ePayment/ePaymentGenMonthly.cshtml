@@ -126,7 +126,7 @@
 
     .field-group {
         margin-bottom: 1.2rem;
-      /*  display: flex;*/
+        /*  display: flex;*/
         flex-wrap: wrap;
         align-items: center;
         gap: 1rem;
@@ -172,6 +172,7 @@
         align-items: center;
         flex-wrap: wrap;
     }
+
     .payment-tab {
         margin-top: 28px;
         background: #ffffff;
@@ -184,10 +185,9 @@
     .payment-section {
         padding: 0 0 0.5rem 0;
     }
-
 </style>
 
-@if (Session["Tin"] != null)
+@if (Session["Userid"] != null)
 {
     <style>
         .container.payment, .container.Reports {
@@ -213,8 +213,8 @@ else
                     <div class="payment-icon">
                         <i class="fas fa-credit-card"></i>
                     </div>
-                    <h2 class="payment-title">Professional Tax Payment Portal</h2>
-                    <p class="payment-subtitle">Calculate and pay Professional Tax for your business and employees</p>
+                    <h2 class="payment-title">Profession Tax Payment Portal</h2>
+                    <p class="payment-subtitle">Calculate and pay Profession Tax for your business and employees</p>
                 </div>
 
                 <div class="form-row">
@@ -256,7 +256,7 @@ else
                         </label>
                         <div class="purpose-box" id="oth_ret_box">
                             <select class="form-select" id="othRetSelect" style="width: 56%;">
-                                <option value="">-- Select Category --</option>
+                                <option value="0">-- Select Category --</option>
                                 <option>Tax Demand Raised on Audit/Assessment</option>
                                 <option>Interest Demand Raised on Audit/Assessment</option>
                                 <option>Penalty Demand Raised on Audit/Assessment</option>
@@ -268,8 +268,8 @@ else
                         </div>
                         <div class="purpose-box" id="oth_box">
                             <select class="form-select" id="othSelect" style="width: 56%;">
-                                <option value="">-- Select Category --</option>
-                                <option>TDS of Professional Tax by Insurer for Agents</option>
+                                <option value="0">-- Select Category --</option>
+                                <option>TDS of Profession Tax by Insurer for Agents</option>
                                 <option>Payment by Turf Club on behalf of Licensed Persons U/S 5A</option>
                             </select>
                         </div>
@@ -281,9 +281,9 @@ else
                         <div class="section-header">
                             <h3><i class="fas fa-calendar-week"></i> Monthly Tax (For Employees)</h3>
                             @*<div>
-                        <input type="checkbox" id="monthlyReturns" value="submit" />
-                        <label for="monthlyReturns">Click Here to Submit Monthly Returns</label>
-                    </div>*@
+                                    <input type="checkbox" id="monthlyReturns" value="submit" />
+                                    <label for="monthlyReturns">Click Here to Submit Monthly Returns</label>
+                                </div>*@
                         </div>
                         <div style="padding: 18px;">
                             <div>
@@ -400,32 +400,32 @@ else
                     <!-- additional hidden input to store dynamic total for validation -->
                     <input type="hidden" id="othersTotalAmount">
                 </div>
-                    <div class="date-display">
-                        <i class="fas fa-calendar-check"></i>
-                        <div>
-                            <strong>Current Date:</strong>
-                            <span id="todayDate"></span>
-                        </div>
+                <div class="date-display">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <strong>Current Date:</strong>
+                        <span id="todayDate"></span>
                     </div>
+                </div>
 
-                    <div class="actions-section">
-                        <div class="button-group">
-                            <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
-                                <i class="fas fa-redo"></i>
-                                Reset Form
-                            </button>
-                            <button class="btn btn-primary" id="btnProceed" onclick="SubmitReturns();" disabled>
-                                <i class="fas fa-file-alt"></i>
-                                Submit & Proceed to Pay
-                            </button>
-                            <button class="btn btn-primary" id="btnProceedOthers" style="display:none;" onclick="GoandPay();" disabled>
-                                <i class="fas fa-file-alt"></i>
-                                Proceed to Pay
-                            </button>
-                        </div>
+                <div class="actions-section">
+                    <div class="button-group">
+                        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">
+                            <i class="fas fa-redo"></i>
+                            Reset Form
+                        </button>
+                        <button class="btn btn-primary" id="btnProceed" onclick="SubmitReturns();" disabled>
+                            <i class="fas fa-file-alt"></i>
+                            Submit & Proceed to Pay
+                        </button>
+                        <button class="btn btn-primary" id="btnProceedOthers" style="display:none;" onclick="GoandPay();" disabled>
+                            <i class="fas fa-file-alt"></i>
+                            Proceed to Pay
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
         <input type="hidden" id="hdnReturnId" />
     </div>
     <div id="EmpModalOverlay" class="modal-overlay">
@@ -478,7 +478,7 @@ else
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
        var PTIN = '@Session["Tin"]';
-
+        var CatType = "";
         $(document).ready(function () {
 
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
@@ -488,6 +488,9 @@ else
             }
         });
         function onPurposeChange(res) {
+            CatType = res;
+            $('#othRetSelect').val('0');
+            $('#othSelect').val('0');
             if (res == "1") {
                 $('#othersTab').hide();
                 $('#btnProceedOthers').hide();
@@ -635,7 +638,7 @@ else
                 const rate = parseInt(row.dataset.rate) || 0;
                 const amt = qty * rate;
 
-                row.querySelector('.monthly-amount').value = amt.toLocaleString('en-IN');
+                row.querySelector('.monthly-amount').value = amt;
                 monthlyTotal += amt;
                 totalEmployees += qty;
             });
@@ -649,9 +652,7 @@ else
                 }
             }
             if (totalAmount > 0) {
-                if (totalEmployees === 0) {
-                } else {
-                }
+                $('#btnProceed').attr('disabled', false);
             }
         }
 
@@ -743,24 +744,25 @@ else
                     ReturnId: returnid
                 },
                 success: function (data) {
-                     totalamount = data[0].TotalAmount;
-
-                    $.each(data, function (i, item) {
-                        if (item.SlabCode == "144") {
-                            $('#txtEmployees1').val(item.Quantity);
-                            $('#txtTaxAmount1').val(item.TaxAmount);
-                        }
-                        if (item.SlabCode == "145") {
-                            $('#txtEmployees2').val(item.Quantity);
-                            $('#txtTaxAmount2').val(item.TaxAmount);
-                        }
-                        if (item.SlabCode == "146") {
-                            $('#txtEmployees3').val(item.Quantity);
-                            $('#txtTaxAmount3').val(item.TaxAmount);
-                        }
-                    });
-                    calculateAll();
-                    $('#btnProceed').attr('disabled', false);
+                    if (data.length > 0) {
+                        totalamount = data[0].TotalAmount;
+                        $.each(data, function (i, item) {
+                            if (item.SlabCode == "144") {
+                                $('#txtEmployees1').val(item.Quantity);
+                                $('#txtTaxAmount1').val(item.TaxAmount);
+                            }
+                            if (item.SlabCode == "145") {
+                                $('#txtEmployees2').val(item.Quantity);
+                                $('#txtTaxAmount2').val(item.TaxAmount);
+                            }
+                            if (item.SlabCode == "146") {
+                                $('#txtEmployees3').val(item.Quantity);
+                                $('#txtTaxAmount3').val(item.TaxAmount);
+                            }
+                        });
+                        calculateAll();
+                        $('#btnProceed').attr('disabled', false);
+                    }
 
                 },
                 error: function () {
@@ -980,42 +982,28 @@ else
                 return false;
             }
 
-            var data = {
-                ptin: $("#ptinInput").val(),
-                purpose: "",
-                FromDate: $("#taxPeriodFrom").val(),
-                ToDate: $("#taxPeriodTo").val(),
-                Amount: $("#txtAmountRupees").val()
-            };
+            var purpose = ""; var purposeVal = "";
+            if (CatType == "2") {
+                purpose = $('#othRetSelect option:selected').text();
+                purposeVal = $('#othRetSelect').val();
+            }
+            else if (CatType == "3") {
+                purpose = $('#othSelect option:selected').text();
+                purposeVal = $('#othSelect').val();
+            }
 
-            $.ajax({
-                url: '@Url.Action("SaveOthersPayment", "ePayment")',
-                type: 'POST',
-                data: data,
-                success: function (response) {
+            if (purposeVal == "0") {
+                ModernAlert.toast.warning('Please Select Payment Purpose');
+                return false;
+            }
 
-                    if (response.success) {
-                        var paymentUrl = '@Url.Action("PaymentConfirmation", "Payment")' + '?returnId=' + res.returnid + '&tin=' + _ptin;
-                        ModernAlert.showAlert('Your Payment has been submitted Successfully!', 'You will be Redirecting to Payment Page', 'Submitted',
-                            {
-                                autoClose: true,
-                                duration: 500,
-                            }
-                        );
-                        setTimeout(() => {
-                            window.location.href = paymentUrl;
-                        }, 2000);
-                        $('.modern-close').hide();
-
-                    } else {
-                        ModernAlert.showError('Unable to submit the Payment Details. Please try again.', 'Submit Failed');
-                        $('#btnProceedOthers').attr('disabled', false);
-                    }
-                },
-                error: function () {
-                    alert("Error occurred");
-                }
-            });
+            var _ptin = $("#ptinInput").val();
+            var _purpose = purpose;
+            var _FromDate = $("#taxPeriodFrom").val();
+            var _ToDate = $("#taxPeriodTo").val();
+            var _Amount = $("#txtAmountRupees").val();
+            var paymentUrl = '@Url.Action("OtherPaymentConfirmation", "Payment")' + '?ptin=' + _ptin + '&purpose=' + _purpose + '&FromDate=' + _FromDate + '&ToDate=' + _ToDate + '&Amount=' + _Amount;
+            window.location.href = paymentUrl;
 
         }
     </script>

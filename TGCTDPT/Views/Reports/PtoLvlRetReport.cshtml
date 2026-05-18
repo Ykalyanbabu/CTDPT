@@ -1,0 +1,467 @@
+﻿@model PagedList.IPagedList<TGCTDPT.Models.DealerReportModel>
+@using PagedList.Mvc
+@using System.Linq
+
+@{
+    ViewBag.Title = "PtoLvlRetReport";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .wrapper {
+            width: 100%;
+            padding: 5px;
+            margin: 0;
+        }
+
+        .card {
+            width: 200%;
+            min-height: 85vh;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+            .report-table th {
+                background: #dbe2ea;
+                border: 1px solid #cfd6dc;
+                padding: 14px 10px;
+                text-align: center;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .report-table td {
+                border: 1px solid #cfd6dc;
+                padding: 12px 8px;
+                text-align: center;
+                font-size: 14px;
+                word-wrap: break-word;
+            }
+
+        .mail-btn {
+            background: #0b8b80;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+            .mail-btn:hover {
+                background: #0a7269;
+                color: white;
+            }
+
+        .ptin-cell {
+            font-weight: bold;
+            color: #003366;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+            .ptin-cell:hover {
+                color: #0b8b80;
+            }
+
+        .pagination-container {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .pagination {
+            display: inline-flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin: 0 4px;
+            }
+
+                .pagination li a,
+                .pagination li span {
+                    padding: 8px 14px;
+                    border: 1px solid #cfd6dc;
+                    border-radius: 5px;
+                    color: #003366;
+                    text-decoration: none;
+                }
+
+            .pagination .active span {
+                background: #0b8b80;
+                color: white;
+                border-color: #0b8b80;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="card">
+
+            <div class="section-title">
+                Dealer-wise Return Report
+            </div>
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>Division</th>
+                        <th>Circle</th>
+                        <th>PTO</th>
+                        <th>PTIN</th>
+                        <th>TP Name</th>
+                        <th>Total To Be Filed</th>
+                        <th>Filed</th>
+                        <th>Not Filed</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Send Mail</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                    <tr>
+
+                        <td>@item.division_name</td>
+                        <td>@item.circle_name</td>
+                        <td>@item.PTO_name</td>
+                        <td>@item.prof_tin</td>
+                        @*<td>
+                            @Html.ActionLink(
+                                item.prof_tin,
+                                "ReturnBreakupReport",
+                                "Reports",
+                                new
+                                {
+                                    ptin = item.prof_tin,
+                                    year = ViewBag.Year
+                                },
+                                new { @class = "ptin-cell" }
+                            )
+                        </td>*@
+
+                        <td>@item.enterprise_name</td>
+                        <td>@item.TotReturns</td>
+                        <td>@item.ReturnsFiled</td>
+                        <td>@item.BalReturns</td>
+                        <td>@item.mobile</td>
+                        <td>@item.email_id</td>
+
+
+                        <td>
+                            @Html.ActionLink(
+                                "Send_Mail",
+                                "SendReminderMail",
+                                "Reports",
+                                new { ptin = item.prof_tin,
+                                      enterprise_name = item.enterprise_name,
+                                      filed = item.ReturnsFiled,
+                                      to_befiled = item.BalReturns,
+                                
+                                },
+                                new { @class = "mail-btn" }
+                            )
+                        </td>
+
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="11">No Records Found</td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+            <div class="pagination-container">
+                @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("DealerReport", new
+                    {
+                        page,
+                        year = ViewBag.Year,
+                        division = ViewBag.Division,
+                        circle = ViewBag.Circle,
+                        pto = ViewBag.PTO
+                    })
+                )
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+@*@model List<TGCTDPT.Models.DealerReportModel>
+    @{
+        ViewBag.Title = "PtoLvlRetReport";
+        Layout = "~/Views/Shared/_DeptLayout.cshtml";
+    }
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+
+        :root {
+            --primary: #1d4ed8;
+            --border: #e5e7eb;
+        }
+
+        /* CONTAINER */
+        .wrapper {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* TABLE */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+            .report-table thead tr {
+                background: #7a7a7a;
+            }
+
+            .report-table th {
+                color: white;
+                padding: 10px;
+                border: 1px solid var(--border);
+                text-align: center;
+            }
+
+            .report-table td {
+                padding: 8px;
+                border: 1px solid var(--border);
+                text-align: center;
+            }
+
+            .report-table tbody tr:nth-child(even) {
+                background: #fafafa;
+            }
+
+            .report-table tbody tr:hover {
+                background: #eef4ff;
+            }
+
+        /* CLICKABLE */
+        .dealer-link {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+            .dealer-link:hover {
+                text-decoration: underline;
+            }
+
+        /* BUTTON */
+        .notice-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+            .notice-btn:hover {
+                background: #163db5;
+            }
+
+        .empty-row {
+            text-align: center;
+            padding: 20px;
+            color: gray;
+        }
+    </style>
+
+    <div class="wrapper">
+
+        <div class="card">
+
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i> PTO-wise Return Report
+            </div>
+            <div class="filter-box">
+                <label for="year"><strong>Year :</strong></label>
+                <select id="year">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025" selected>2025</option>
+                    <option value="2026">2026</option>
+                </select>
+
+                <label for="month" style="margin-left:20px;"><strong>Month :</strong></label>
+                <select id="month">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="report-table">
+
+                    <thead>
+                        <tr>
+                            <th>Division</th>
+                            <th>Circle</th>
+                            <th>PTO DETAILS</th>
+                            <th>PTIN</th>
+                            <th>Enterprise Name</th>
+                            <th>Total No of Returns</th>
+                            <th>Returns Filed</th>
+                            <th>Balance To be Filed</th>
+                            <th>Last Filed Month</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>-->
+
+                         @if (Model != null && Model.Count > 0)
+                        {
+                         @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.division_name</td>
+                                <td>@item.circle_name</td>
+                                <td>@item.PTO_name</td>
+
+                                <td class="dealer-link" onclick="openReport('@item.prof_tin')">
+                                    @item.prof_tin
+                                </td>
+
+                                <td>@item.enterprise_name</td>
+                                <td>@item.TotReturns</td>
+                                <td>@item.ReturnsFiled</td>
+                                <td>@item.BalReturns</td>
+                                <td>@item.LstFiledMnth</td>
+                                <td>@item.mobile</td>
+                                <td>@item.email_id</td>
+
+                                <td>
+                                    <button class="notice-btn" onclick="sendNotice('@item.prof_tin')">
+                                        Send Email
+                                    </button>
+                                </td>
+                            </tr>
+                        }-->
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="12" class="empty-row">
+                                    No Records Found
+                                </td>
+                            </tr>
+                        }
+
+              </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function openReport(ptin) {
+            window.open('/Reports/PtoLvlRetReport?ptin=' + ptin, '_blank');
+        }
+
+        function sendNotice(ptin) {
+            alert("Send notice to: " + ptin);
+
+            // You can replace this with actual AJAX call later
+            /*
+            $.post('/Reports/SendNotice', { ptin: ptin }, function (res) {
+                alert(res.message);
+            });
+            */
+        }
+
+    </script>*@

@@ -413,7 +413,7 @@
                 if (item.MonthYear) {
                     $ddl.append($('<option>', {
                         value: item.MonthYear,
-                        text: item.MonthYear
+                        text: item.MonthYear + '-' + (parseFloat(item.MonthYear) + 1)
                     }));
                 }
             });

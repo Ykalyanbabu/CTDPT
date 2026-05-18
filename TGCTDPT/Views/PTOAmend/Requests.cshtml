@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "Requests";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/assets/css/ApprovalPending.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="search-container">
+        <div class="search-card">
+            <div class="search-title">
+                <i class="fas fa-search"></i>
+                Search Registration Details
+            </div>
+
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-hashtag search-icon"></i>
+                    <input type="text" class="search-input" id="registrationNumber"
+                           placeholder="Enter Application No.">
+                </div>
+                <button class="search-btn" onclick="searchRegistrations()">
+                    <i class="fas fa-search"></i>
+                    Get Details
+                </button>
+            </div>
+        </div>
+
+        <div class="results-header">
+            <div class="results-title">
+                <i class="fas fa-list"></i>
+                Search Results
+                <span class="results-count" id="resultCount"></span>
+            </div>
+
+            <div class="export-buttons" style="display:none;">
+                <button class="export-btn" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel"></i>
+                    Excel
+                </button>
+                <button class="export-btn" onclick="exportToPDF()">
+                    <i class="fas fa-file-pdf"></i>
+                    PDF
+                </button>
+                <button class="export-btn" onclick="printTable()">
+                    <i class="fas fa-print"></i>
+                    Print
+                </button>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <table class="data-table" id="registrationTable">
+                <thead>
+                    <tr>
+                        <th title="Serial No" align="center">S No.</th>
+                        <th title="Application Reference Number">Application No.</th>
+                        <th title="Enterprise Name">Enterprise Name</th>
+                        <th title="Application Date"> Submitted Date</th>
+                        <th title="Actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h4>No Records Found</h4>
+                <p>Please try searching with a different registration number</p>
+            </div>
+        </div>
+
+        <div class="results-header" style="margin-top: 1rem;display:none;">
+            <div class="pagination-info" id="paginationInfo">
+                Showing 1 to 5 of 5 entries
+            </div>
+            <div class="pagination">
+                <button class="export-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <button class="export-btn" style="background: var(--primary); color: white;">1</button>
+                <button class="export-btn" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+
+        var PendingData = [];
+        $(document).ready(function () {
+            getPendingApprovals();
+        });
+
+        function getPendingApprovals() {
+            $.ajax({
+                url: '@Url.Action("GetPendingApplications", "PTOAmend")',
+                dataType: 'json',
+                data: {
+                    Circle: "1"
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        PendingData = response;
+                        populateTable(response)
+                    }
+                    else {
+
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function populateTable(data) {
+            const tbody = document.getElementById('tableBody');
+            const noResults = document.getElementById('noResults');
+            const resultCount = document.getElementById('resultCount');
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '';
+                noResults.style.display = 'block';
+                resultCount.textContent = '0 Records Found';
+                document.getElementById('paginationInfo').textContent = 'Showing 0 entries';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            resultCount.textContent = `${data.length} Record${data.length > 1 ? 's' : ''} Found`;
+            document.getElementById('paginationInfo').textContent =
+                `Showing 1 to ${data.length} of ${data.length} entries`;
+
+
+            let html = '';
+            data.forEach((item, index) => {
+                let delayClass = 'delay-zero';
+                if (item.delayInDays > 5) delayClass = 'delay-high';
+                else if (item.delayInDays > 0) delayClass = 'delay-low';
+
+                let typeClass = 'badge-original';
+                if (item.typeOfSubmission === 'Renewal') typeClass = 'badge-renewal';
+                else if (item.typeOfSubmission === 'Amendment') typeClass = 'badge-amendment';
+
+                let modeClass = 'badge-online';
+                if (item.modeOfSubmission === 'Offline') modeClass = 'badge-offline';
+
+                let serialNumber = index + 1;
+
+                html += `
+            <tr>
+                <td><span class="serial-number" title="Row ${serialNumber}">${serialNumber}</span></td>
+                <td><span class="app-number" title="${item.ApplicationNumber}">${item.ApplicationNumber}</span></td>
+                <td><span class="enterprise-name" title="${item.EnterpriseName}">${item.EnterpriseName}</span></td>
+                <td title="${item.ApplicationDate}">${item.ApplicationDate}</td>
+                <td>
+                    <div class="action-group">
+                        <button class="action-btn" onclick="viewDetails('${item.ApplicationNumber}')" title="View Details">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+            });
+
+            tbody.innerHTML = html;
+            /*<td><span class="badge ${modeClass}" title="${item.ModeOfSubmission}">${item.ModeOfSubmission}</span></td>*/
+        }
+
+        function searchRegistrations() {
+            const searchInput = document.getElementById('registrationNumber').value.trim();
+            showloader();
+
+            setTimeout(() => {
+                let filteredData = PendingData;
+                if (searchInput) {
+                    filteredData = PendingData.filter(item =>
+                        String(item.ApplicationNumber || '').includes(searchInput)
+                    );
+                }
+                populateTable(filteredData);
+                hideloader();
+                showAlert('success', `Found ${filteredData.length} record(s)`);
+            }, 800);
+        }
+
+       
+        function viewDetails(appNumber) {
+            window.location.href = '@Url.Action("ViewApplication", "PTOAmend")' + '?rnr=' + appNumber;
+        }
+        
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        function showAlert(type, message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 0.75rem 1.5rem;
+                    background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                    color: white;
+                    border-radius: 6px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                    font-size: 0.9rem;
+                    border: 1px solid rgba(255,255,255,0.2);
+                `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            //populateTable(sampleData);
+
+            document.getElementById('registrationNumber').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    searchRegistrations();
+                }
+            });
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+                @@keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @@keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+        document.head.appendChild(style);
+    </script>
+</body>

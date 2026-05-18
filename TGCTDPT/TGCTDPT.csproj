@@ -63,6 +63,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Mydll17032016.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -140,11 +146,14 @@
     <Compile Include="CheckSession.cs" />
     <Compile Include="Controllers\AmendmentsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DealerReportsController.cs" />
     <Compile Include="Controllers\ePaymentController.cs" />
+    <Compile Include="Controllers\FileViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Modify_PTIN_StatusController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PTHomeController.cs" />
+    <Compile Include="Controllers\PTOAmendController.cs" />
     <Compile Include="Controllers\PTOfficerController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\RefundsController.cs" />
@@ -160,6 +169,7 @@
     <Compile Include="DAL\QueryDAL.cs" />
     <Compile Include="DAL\RefundsDAL.cs" />
     <Compile Include="DAL\RegistrationDAL.cs" />
+    <Compile Include="DAL\ReportsDAL.cs" />
     <Compile Include="DAL\ReturnsDAL.cs" />
     <Compile Include="DAL\UserDetails.cs" />
     <Compile Include="Global.asax.cs">
@@ -171,9 +181,11 @@
     <Compile Include="Models\Amendments.cs" />
     <Compile Include="Models\AppStatus.cs" />
     <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\dlr_reports.cs" />
     <Compile Include="Models\ePayment.cs" />
     <Compile Include="Models\FormIISummaryModels.cs" />
     <Compile Include="Models\PaymentConfirmationViewModel.cs" />
+    <Compile Include="Models\PTO_Reports.cs" />
     <Compile Include="Models\QueryViewModel.cs" />
     <Compile Include="Models\RC_Details.cs" />
     <Compile Include="Models\Refunds.cs" />
@@ -188,6 +200,11 @@
     </Compile>
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Web References\BSNL_SMS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Mail_Services\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -219,6 +236,7 @@
     <Content Include="Content\custom-alerts.css" />
     <Content Include="Content\innersite.css" />
     <Content Include="Content\modern-alerts.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -265,7 +283,26 @@
     <Content Include="Views\Modify_PTIN_Status\Cancel_PTIN.cshtml" />
     <Content Include="Views\PTOfficer\RequestDetails.cshtml" />
     <Content Include="Views\PTOfficer\Pending_Cancel_Revoke_Requests.cshtml" />
+    <Content Include="Views\Reports\CirLvlRetReport.cshtml" />
+    <Content Include="Views\Reports\CirPtoLvlRetReport.cshtml" />
+    <Content Include="Views\Reports\DivLvlRetReport.cshtml" />
+    <Content Include="Views\Reports\PtoLvlRetReport.cshtml" />
+    <Content Include="Views\DealerReports\DealerReturns.cshtml" />
+    <Content Include="Views\DealerReports\DealerReportType.cshtml" />
+    <Content Include="Views\DealerReports\DealerDCB.cshtml" />
+    <Content Include="Views\PTOfficer\Reactivate_PTIN.cshtml" />
+    <Content Include="Views\Payment\OtherPaymentConfirmation.cshtml" />
+    <Content Include="Views\Payment\PaymentResponse.cshtml" />
+    <Content Include="Views\Payment\PaymentReturn.cshtml" />
+    <Content Include="Views\PTOAmend\Requests.cshtml" />
+    <Content Include="Views\PTOAmend\ViewApplication.cshtml" />
+    <Content Include="Views\PTOAmend\ViewRequest.cshtml" />
     <None Include="Web References\BSNL_SMS\SMS_BSNL.disco" />
+    <Content Include="Web References\Mail_Services\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\Mail_Services\send_mail.disco" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -314,9 +351,11 @@
     <Content Include="Views\Registration\Mail_Registration.cshtml" />
     <Content Include="Views\PTHome\checkRC.cshtml" />
     <None Include="Web References\BSNL_SMS\SMS_BSNL.wsdl" />
+    <None Include="Web References\Mail_Services\send_mail.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\documets\" />
     <Folder Include="Uploads\Documents\Registration_docs\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
@@ -340,6 +379,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/Mail_Services/send_mail.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Mail_Services\</RelPath>
+      <UpdateFromURL>http://localhost/Mail_Services/send_mail.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>TGCTDPT_Mail_Services_send_mail</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SMSService/SMS_BSNL.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\BSNL_SMS\</RelPath>

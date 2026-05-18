@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Auto_mail_live_test2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Auto_mail_live_test2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auto_mail_live_test2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Auto_mail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Auto_mailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Auto_mailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ITC_circular_09112022">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ITC_circular_09112022Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ITC_circular_09112022Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_mail_Not_paid_list_Auto">
+        <s:complexType />
+      </s:element>
+      <s:element name="PT_mail_Not_paid_list_AutoResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GSTR9c_mail">
+        <s:complexType />
+      </s:element>
+      <s:element name="GSTR9c_mailResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="PT_mail_Not_paid_list">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="circle" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_mail_Not_paid_listResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_mail_Not_paid_listResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Live_mail_Bulk_for_Rupa">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachment_path" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Live_mail_Bulk_for_RupaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Live_mail_Bulk_for_RupaResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Live_mail_Bulk">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachment_path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="gstin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Live_mail_BulkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Live_mail_BulkResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_auto_gen_Sendmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_auto_gen_SendmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_auto_gen_SendmailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_daily_report">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="from_mail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="from_pass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tomail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sub" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachment" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_daily_reportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="send_mail_daily_reportResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_app">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_appResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="send_mail_appResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_ptin_app">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_ptin_appResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="send_mail_ptin_appResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_Vat_reset_password">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TIN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_Vat_reset_passwordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="send_mail_Vat_reset_passwordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_Vat_Registration_OTP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_Vat_Registration_OTPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="send_mail_Vat_Registration_OTPResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_PT_GST_new_users">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="part" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_PT_GST_new_usersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="send_mail_PT_GST_new_usersResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="send_mail_status">
+        <s:complexType />
+      </s:element>
+      <s:element name="send_mail_statusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="send_mail_statusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Auto_mail_live">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Auto_mail_liveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Auto_mail_liveResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GST_payment_report_dateWise">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="start_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="enddate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GST_payment_report_dateWiseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GST_payment_report_dateWiseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="test_mail_live">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bccmailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="test_mail_liveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="test_mail_liveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="test_mail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ccmailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="test_mailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="test_mailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getpr_mail_service_sent_status">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="flag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getpr_mail_service_sent_statusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getpr_mail_service_sent_statusResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Application_Approved">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Application_ApprovedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Send_Application_ApprovedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Reset_Password">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Reset_PasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Send_Reset_PasswordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_ARN_Number">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_ARN_NumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Send_ARN_NumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Application_Number">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Send_Application_NumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Send_Application_NumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Return_Reminder_mail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ptin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="enterprise_name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filed" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tobefiled" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Return_Reminder_mailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Return_Reminder_mailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Auto_mail_live_test2SoapIn">
+    <wsdl:part name="parameters" element="tns:Auto_mail_live_test2" />
+  </wsdl:message>
+  <wsdl:message name="Auto_mail_live_test2SoapOut">
+    <wsdl:part name="parameters" element="tns:Auto_mail_live_test2Response" />
+  </wsdl:message>
+  <wsdl:message name="Auto_mailSoapIn">
+    <wsdl:part name="parameters" element="tns:Auto_mail" />
+  </wsdl:message>
+  <wsdl:message name="Auto_mailSoapOut">
+    <wsdl:part name="parameters" element="tns:Auto_mailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITC_circular_09112022SoapIn">
+    <wsdl:part name="parameters" element="tns:ITC_circular_09112022" />
+  </wsdl:message>
+  <wsdl:message name="ITC_circular_09112022SoapOut">
+    <wsdl:part name="parameters" element="tns:ITC_circular_09112022Response" />
+  </wsdl:message>
+  <wsdl:message name="PT_mail_Not_paid_list_AutoSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_mail_Not_paid_list_Auto" />
+  </wsdl:message>
+  <wsdl:message name="PT_mail_Not_paid_list_AutoSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_mail_Not_paid_list_AutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GSTR9c_mailSoapIn">
+    <wsdl:part name="parameters" element="tns:GSTR9c_mail" />
+  </wsdl:message>
+  <wsdl:message name="GSTR9c_mailSoapOut">
+    <wsdl:part name="parameters" element="tns:GSTR9c_mailResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_mail_Not_paid_listSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_mail_Not_paid_list" />
+  </wsdl:message>
+  <wsdl:message name="PT_mail_Not_paid_listSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_mail_Not_paid_listResponse" />
+  </wsdl:message>
+  <wsdl:message name="Live_mail_Bulk_for_RupaSoapIn">
+    <wsdl:part name="parameters" element="tns:Live_mail_Bulk_for_Rupa" />
+  </wsdl:message>
+  <wsdl:message name="Live_mail_Bulk_for_RupaSoapOut">
+    <wsdl:part name="parameters" element="tns:Live_mail_Bulk_for_RupaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Live_mail_BulkSoapIn">
+    <wsdl:part name="parameters" element="tns:Live_mail_Bulk" />
+  </wsdl:message>
+  <wsdl:message name="Live_mail_BulkSoapOut">
+    <wsdl:part name="parameters" element="tns:Live_mail_BulkResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_auto_gen_SendmailSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_auto_gen_Sendmail" />
+  </wsdl:message>
+  <wsdl:message name="PT_auto_gen_SendmailSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_auto_gen_SendmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_daily_reportSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_daily_report" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_daily_reportSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_daily_reportResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_appSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_app" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_appSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_appResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_ptin_appSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_ptin_app" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_ptin_appSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_ptin_appResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_Vat_reset_passwordSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_Vat_reset_password" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_Vat_reset_passwordSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_Vat_reset_passwordResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_Vat_Registration_OTPSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_Vat_Registration_OTP" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_Vat_Registration_OTPSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_Vat_Registration_OTPResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_PT_GST_new_usersSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_PT_GST_new_users" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_PT_GST_new_usersSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_PT_GST_new_usersResponse" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_statusSoapIn">
+    <wsdl:part name="parameters" element="tns:send_mail_status" />
+  </wsdl:message>
+  <wsdl:message name="send_mail_statusSoapOut">
+    <wsdl:part name="parameters" element="tns:send_mail_statusResponse" />
+  </wsdl:message>
+  <wsdl:message name="Auto_mail_liveSoapIn">
+    <wsdl:part name="parameters" element="tns:Auto_mail_live" />
+  </wsdl:message>
+  <wsdl:message name="Auto_mail_liveSoapOut">
+    <wsdl:part name="parameters" element="tns:Auto_mail_liveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GST_payment_report_dateWiseSoapIn">
+    <wsdl:part name="parameters" element="tns:GST_payment_report_dateWise" />
+  </wsdl:message>
+  <wsdl:message name="GST_payment_report_dateWiseSoapOut">
+    <wsdl:part name="parameters" element="tns:GST_payment_report_dateWiseResponse" />
+  </wsdl:message>
+  <wsdl:message name="test_mail_liveSoapIn">
+    <wsdl:part name="parameters" element="tns:test_mail_live" />
+  </wsdl:message>
+  <wsdl:message name="test_mail_liveSoapOut">
+    <wsdl:part name="parameters" element="tns:test_mail_liveResponse" />
+  </wsdl:message>
+  <wsdl:message name="test_mailSoapIn">
+    <wsdl:part name="parameters" element="tns:test_mail" />
+  </wsdl:message>
+  <wsdl:message name="test_mailSoapOut">
+    <wsdl:part name="parameters" element="tns:test_mailResponse" />
+  </wsdl:message>
+  <wsdl:message name="getpr_mail_service_sent_statusSoapIn">
+    <wsdl:part name="parameters" element="tns:getpr_mail_service_sent_status" />
+  </wsdl:message>
+  <wsdl:message name="getpr_mail_service_sent_statusSoapOut">
+    <wsdl:part name="parameters" element="tns:getpr_mail_service_sent_statusResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Application_ApprovedSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Send_Application_Approved" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Application_ApprovedSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Send_Application_ApprovedResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Reset_PasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Send_Reset_Password" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Reset_PasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Send_Reset_PasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_ARN_NumberSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Send_ARN_Number" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_ARN_NumberSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Send_ARN_NumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Application_NumberSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Send_Application_Number" />
+  </wsdl:message>
+  <wsdl:message name="PT_Send_Application_NumberSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Send_Application_NumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Return_Reminder_mailSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Return_Reminder_mail" />
+  </wsdl:message>
+  <wsdl:message name="PT_Return_Reminder_mailSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Return_Reminder_mailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="send_mailSoap">
+    <wsdl:operation name="Auto_mail_live_test2">
+      <wsdl:input message="tns:Auto_mail_live_test2SoapIn" />
+      <wsdl:output message="tns:Auto_mail_live_test2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail">
+      <wsdl:input message="tns:Auto_mailSoapIn" />
+      <wsdl:output message="tns:Auto_mailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ITC_circular_09112022">
+      <wsdl:input message="tns:ITC_circular_09112022SoapIn" />
+      <wsdl:output message="tns:ITC_circular_09112022SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list_Auto">
+      <wsdl:input message="tns:PT_mail_Not_paid_list_AutoSoapIn" />
+      <wsdl:output message="tns:PT_mail_Not_paid_list_AutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GSTR9c_mail">
+      <wsdl:input message="tns:GSTR9c_mailSoapIn" />
+      <wsdl:output message="tns:GSTR9c_mailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list">
+      <wsdl:input message="tns:PT_mail_Not_paid_listSoapIn" />
+      <wsdl:output message="tns:PT_mail_Not_paid_listSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk_for_Rupa">
+      <wsdl:input message="tns:Live_mail_Bulk_for_RupaSoapIn" />
+      <wsdl:output message="tns:Live_mail_Bulk_for_RupaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk">
+      <wsdl:input message="tns:Live_mail_BulkSoapIn" />
+      <wsdl:output message="tns:Live_mail_BulkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_auto_gen_Sendmail">
+      <wsdl:input message="tns:PT_auto_gen_SendmailSoapIn" />
+      <wsdl:output message="tns:PT_auto_gen_SendmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_daily_report">
+      <wsdl:input message="tns:send_mail_daily_reportSoapIn" />
+      <wsdl:output message="tns:send_mail_daily_reportSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_app">
+      <wsdl:input message="tns:send_mail_appSoapIn" />
+      <wsdl:output message="tns:send_mail_appSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_ptin_app">
+      <wsdl:input message="tns:send_mail_ptin_appSoapIn" />
+      <wsdl:output message="tns:send_mail_ptin_appSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_reset_password">
+      <wsdl:input message="tns:send_mail_Vat_reset_passwordSoapIn" />
+      <wsdl:output message="tns:send_mail_Vat_reset_passwordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_Registration_OTP">
+      <wsdl:input message="tns:send_mail_Vat_Registration_OTPSoapIn" />
+      <wsdl:output message="tns:send_mail_Vat_Registration_OTPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_PT_GST_new_users">
+      <wsdl:input message="tns:send_mail_PT_GST_new_usersSoapIn" />
+      <wsdl:output message="tns:send_mail_PT_GST_new_usersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_status">
+      <wsdl:input message="tns:send_mail_statusSoapIn" />
+      <wsdl:output message="tns:send_mail_statusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail_live">
+      <wsdl:input message="tns:Auto_mail_liveSoapIn" />
+      <wsdl:output message="tns:Auto_mail_liveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GST_payment_report_dateWise">
+      <wsdl:input message="tns:GST_payment_report_dateWiseSoapIn" />
+      <wsdl:output message="tns:GST_payment_report_dateWiseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="test_mail_live">
+      <wsdl:input message="tns:test_mail_liveSoapIn" />
+      <wsdl:output message="tns:test_mail_liveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="test_mail">
+      <wsdl:input message="tns:test_mailSoapIn" />
+      <wsdl:output message="tns:test_mailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getpr_mail_service_sent_status">
+      <wsdl:input message="tns:getpr_mail_service_sent_statusSoapIn" />
+      <wsdl:output message="tns:getpr_mail_service_sent_statusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Approved">
+      <wsdl:input message="tns:PT_Send_Application_ApprovedSoapIn" />
+      <wsdl:output message="tns:PT_Send_Application_ApprovedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Reset_Password">
+      <wsdl:input message="tns:PT_Send_Reset_PasswordSoapIn" />
+      <wsdl:output message="tns:PT_Send_Reset_PasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_ARN_Number">
+      <wsdl:input message="tns:PT_Send_ARN_NumberSoapIn" />
+      <wsdl:output message="tns:PT_Send_ARN_NumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Number">
+      <wsdl:input message="tns:PT_Send_Application_NumberSoapIn" />
+      <wsdl:output message="tns:PT_Send_Application_NumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Return_Reminder_mail">
+      <wsdl:input message="tns:PT_Return_Reminder_mailSoapIn" />
+      <wsdl:output message="tns:PT_Return_Reminder_mailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="send_mailSoap" type="tns:send_mailSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Auto_mail_live_test2">
+      <soap:operation soapAction="http://tempuri.org/Auto_mail_live_test2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail">
+      <soap:operation soapAction="http://tempuri.org/Auto_mail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ITC_circular_09112022">
+      <soap:operation soapAction="http://tempuri.org/ITC_circular_09112022" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list_Auto">
+      <soap:operation soapAction="http://tempuri.org/PT_mail_Not_paid_list_Auto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GSTR9c_mail">
+      <soap:operation soapAction="http://tempuri.org/GSTR9c_mail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list">
+      <soap:operation soapAction="http://tempuri.org/PT_mail_Not_paid_list" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk_for_Rupa">
+      <soap:operation soapAction="http://tempuri.org/Live_mail_Bulk_for_Rupa" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk">
+      <soap:operation soapAction="http://tempuri.org/Live_mail_Bulk" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_auto_gen_Sendmail">
+      <soap:operation soapAction="http://tempuri.org/PT_auto_gen_Sendmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_daily_report">
+      <soap:operation soapAction="http://tempuri.org/send_mail_daily_report" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_app">
+      <soap:operation soapAction="http://tempuri.org/send_mail_app" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_ptin_app">
+      <soap:operation soapAction="http://tempuri.org/send_mail_ptin_app" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_reset_password">
+      <soap:operation soapAction="http://tempuri.org/send_mail_Vat_reset_password" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_Registration_OTP">
+      <soap:operation soapAction="http://tempuri.org/send_mail_Vat_Registration_OTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_PT_GST_new_users">
+      <soap:operation soapAction="http://tempuri.org/send_mail_PT_GST_new_users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_status">
+      <soap:operation soapAction="http://tempuri.org/send_mail_status" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail_live">
+      <soap:operation soapAction="http://tempuri.org/Auto_mail_live" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GST_payment_report_dateWise">
+      <soap:operation soapAction="http://tempuri.org/GST_payment_report_dateWise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test_mail_live">
+      <soap:operation soapAction="http://tempuri.org/test_mail_live" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test_mail">
+      <soap:operation soapAction="http://tempuri.org/test_mail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getpr_mail_service_sent_status">
+      <soap:operation soapAction="http://tempuri.org/getpr_mail_service_sent_status" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Approved">
+      <soap:operation soapAction="http://tempuri.org/PT_Send_Application_Approved" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Reset_Password">
+      <soap:operation soapAction="http://tempuri.org/PT_Send_Reset_Password" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_ARN_Number">
+      <soap:operation soapAction="http://tempuri.org/PT_Send_ARN_Number" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Number">
+      <soap:operation soapAction="http://tempuri.org/PT_Send_Application_Number" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Return_Reminder_mail">
+      <soap:operation soapAction="http://tempuri.org/PT_Return_Reminder_mail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="send_mailSoap12" type="tns:send_mailSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Auto_mail_live_test2">
+      <soap12:operation soapAction="http://tempuri.org/Auto_mail_live_test2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail">
+      <soap12:operation soapAction="http://tempuri.org/Auto_mail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ITC_circular_09112022">
+      <soap12:operation soapAction="http://tempuri.org/ITC_circular_09112022" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list_Auto">
+      <soap12:operation soapAction="http://tempuri.org/PT_mail_Not_paid_list_Auto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GSTR9c_mail">
+      <soap12:operation soapAction="http://tempuri.org/GSTR9c_mail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_mail_Not_paid_list">
+      <soap12:operation soapAction="http://tempuri.org/PT_mail_Not_paid_list" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk_for_Rupa">
+      <soap12:operation soapAction="http://tempuri.org/Live_mail_Bulk_for_Rupa" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Live_mail_Bulk">
+      <soap12:operation soapAction="http://tempuri.org/Live_mail_Bulk" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_auto_gen_Sendmail">
+      <soap12:operation soapAction="http://tempuri.org/PT_auto_gen_Sendmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_daily_report">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_daily_report" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_app">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_app" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_ptin_app">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_ptin_app" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_reset_password">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_Vat_reset_password" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_Vat_Registration_OTP">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_Vat_Registration_OTP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_PT_GST_new_users">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_PT_GST_new_users" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send_mail_status">
+      <soap12:operation soapAction="http://tempuri.org/send_mail_status" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Auto_mail_live">
+      <soap12:operation soapAction="http://tempuri.org/Auto_mail_live" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GST_payment_report_dateWise">
+      <soap12:operation soapAction="http://tempuri.org/GST_payment_report_dateWise" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test_mail_live">
+      <soap12:operation soapAction="http://tempuri.org/test_mail_live" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test_mail">
+      <soap12:operation soapAction="http://tempuri.org/test_mail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getpr_mail_service_sent_status">
+      <soap12:operation soapAction="http://tempuri.org/getpr_mail_service_sent_status" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Approved">
+      <soap12:operation soapAction="http://tempuri.org/PT_Send_Application_Approved" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Reset_Password">
+      <soap12:operation soapAction="http://tempuri.org/PT_Send_Reset_Password" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_ARN_Number">
+      <soap12:operation soapAction="http://tempuri.org/PT_Send_ARN_Number" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Send_Application_Number">
+      <soap12:operation soapAction="http://tempuri.org/PT_Send_Application_Number" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Return_Reminder_mail">
+      <soap12:operation soapAction="http://tempuri.org/PT_Return_Reminder_mail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="send_mail">
+    <wsdl:port name="send_mailSoap" binding="tns:send_mailSoap">
+      <soap:address location="http://localhost/Mail_Services/send_mail.asmx" />
+    </wsdl:port>
+    <wsdl:port name="send_mailSoap12" binding="tns:send_mailSoap12">
+      <soap12:address location="http://localhost/Mail_Services/send_mail.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

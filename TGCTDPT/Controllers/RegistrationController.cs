@@ -13,6 +13,10 @@ using TGCTDPT.BSNL_SMS;
 using TGCTDPT.DAL;
 using TGCTDPT.Models;
 using TGCTDPT.Services;
+using TGCTDPT.BSNL_SMS;
+using TGCTDPT.Mail_Services;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace TGCTDPT.Controllers
 {
@@ -71,7 +75,7 @@ namespace TGCTDPT.Controllers
 
             string fileName = "PT_Registration_Certificate_" + model.prof_tin + ".pdf";
             return View("PrintCertificate", model);
-            
+
         }
 
         public JsonResult CheckPantoPT(string PAN)
@@ -117,7 +121,7 @@ namespace TGCTDPT.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
 
         }
-        
+
         //public ActionResult Mail_Registration()
         //{
         //    return View();
@@ -142,6 +146,15 @@ namespace TGCTDPT.Controllers
                 if (Session["application_id"] == null)
                 {
                     Session["application_id"] = response.application_id.ToString();
+                    Session["email_id"] = model.email_id;
+                    Session["mobile"] = model.mobile_no;
+                    var appl_id = response.application_id.ToString();
+                    if (response.application_id != null)
+                    {
+                        send_mail mail = new send_mail();
+                        var res = mail.PT_Send_Application_Number(appl_id, model.mobile_no, model.email_id);
+                    }
+
                 }
                 return Json(new { success = true, data = response });
             }
@@ -160,7 +173,8 @@ namespace TGCTDPT.Controllers
                 {
                     model.application_id = Session["application_id"].ToString();
                 }
-                else {
+                else
+                {
                     return Json(new { success = false, message = "Unable to Save Data" });
                 }
                 var response = dal.SaveEmployeeDetails(model);
@@ -357,7 +371,8 @@ namespace TGCTDPT.Controllers
 
                 var files = Request.Files;
 
-                basePath = Server.MapPath("~/Uploads/Documents/Registration_docs/");
+                //basePath = Server.MapPath("~/Uploads/Documents/Registration_docs/");
+                basePath = ConfigurationManager.AppSettings["DocumentsPathPTReg"];
 
                 if (!Directory.Exists(basePath))
                 {
@@ -391,7 +406,7 @@ namespace TGCTDPT.Controllers
                             return Json(new { success = false, message = "Only PDF files allowed" });
                         }
 
-                        string masterdocFolder = model[i].master_doc_id.ToString(); 
+                        string masterdocFolder = model[i].master_doc_id.ToString();
 
                         string subFolderPath = Path.Combine(appFolder, masterdocFolder);
 
@@ -410,7 +425,7 @@ namespace TGCTDPT.Controllers
 
                         file.SaveAs(fullPath);
 
-                        filePath = "/Uploads/Documents/Registration_docs/"
+                        filePath = "/Registration/"
                                    + appId + "/"
                                    + masterdocFolder + "/"
                                    + fileName;
@@ -447,14 +462,14 @@ namespace TGCTDPT.Controllers
         }
 
         [HttpPost]
-        public JsonResult SubmitApplication(string AppId)
+        public JsonResult SubmitApplication(string AppId, string mail)
         {
             try
             {
-               
+
                 if (Session["application_id"] != null)
                 {
-                     AppId = Session["application_id"].ToString();
+                    AppId = Session["application_id"].ToString();
                 }
                 else
                 {
@@ -462,6 +477,14 @@ namespace TGCTDPT.Controllers
                 }
 
                 var response = dal.GenerateRNR(AppId);
+
+                var appl_id = response.ToString();
+                var email = mail;
+                if (response.ToString() != null)
+                {
+                    send_mail send_mail = new send_mail();
+                    var res = send_mail.PT_Send_ARN_Number(appl_id, "", email);
+                }
 
                 return Json(new { success = true, data = response });
             }
@@ -608,8 +631,8 @@ namespace TGCTDPT.Controllers
                     return response = "Failed to generate OTP";
                 }
 
-                 SMS_BSNL sm_service = new SMS_BSNL();
-             string smsResponse = sm_service.Track_Reports_Dashboard_Login_OTP(u1.Mobile_No, rndnum, "5");
+                SMS_BSNL sm_service = new SMS_BSNL();
+                string smsResponse = sm_service.Track_Reports_Dashboard_Login_OTP(u1.Mobile_No, rndnum, "5");
                 //string smsResponse = sm_service.Track_Reports_Dashboard_Login_OTP(u1.Mobile_No, rndnum );
                 //string smsResponse = sm_service.smstest1(u1.Mobile_No, rndnum, "5");-- need to call this method
                 //string smsResponse = "Success";
@@ -814,6 +837,8 @@ namespace TGCTDPT.Controllers
                          "Please do not reply to this email.";
             return await _emailService.SendAsync(email, subject, body);
         }
+
+
     }
 }
 

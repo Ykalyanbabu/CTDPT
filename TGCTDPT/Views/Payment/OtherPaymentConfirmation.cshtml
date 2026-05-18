@@ -1,0 +1,749 @@
+﻿@model TGCTDPT.Models.OtherPaymentConfirmationModel
+@{
+    ViewBag.Title = "OtherPaymentConfirmation";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+
+    .payment-confirmation-wrapper {
+        /* height: calc(100vh + 46px);*/ /* Adjust based on your header/footer height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*padding: 9rem;*/
+        overflow: hidden; /* Prevent outer scrolling */
+    }
+
+    .payment-container {
+        width: 100%;
+        max-width: 1100px;
+        height: auto;
+        max-height: 100%;
+        margin: 0 auto;
+    }
+
+    .payment-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-header {
+        background: #7c0799;
+        padding: 1.00rem 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+        .card-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card-header p {
+            margin: 0.25rem 0 0;
+            color: white;
+            font-weight: 700;
+            text-align-last: center;
+        }
+
+    .card-body {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        padding: 1.5rem;
+        /*overflow-y: auto; */ /* Allow scrolling only inside the card body if needed */
+        max-height: calc(100% - 70px); /* Adjust based on header height */
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .card-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #8b0b66, #9c10b9);
+            border-radius: 16px 16px 0 0;
+        }
+
+        /* Hide scrollbar for cleaner look (optional) */
+        .card-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .card-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+            .card-body::-webkit-scrollbar-thumb:hover {
+                background: #a8a8a8;
+            }
+
+    /* Left Panel - Payment Summary */
+    .payment-summary-section {
+        padding-right: 1.5rem;
+        border-right: 2px dashed #e0e0e0;
+    }
+
+    .summary-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .summary-header i {
+            font-size: 1.5rem;
+            color: #ac20bd;
+        }
+
+        .summary-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+    .summary-items {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        background: #f8f9fa;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+        .summary-item:hover {
+            background: #e9ecef;
+        }
+
+        .summary-item .label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #495057;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+            .summary-item .label i {
+                color: #ac20bd;
+                width: 16px;
+                font-size: 0.9rem;
+            }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+            .summary-item .value.amount {
+                color: #28a745;
+                font-size: 1.1rem;
+                font-weight: 700;
+                font-family: 'Segoe UI', monospace;
+            }
+
+
+    /* Right Panel - Payment Actions */
+    .payment-actions-section {
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .actions-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .actions-header h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+            .actions-header h2 i {
+                color: #28a745;
+            }
+
+        .actions-header p {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0 1.5rem;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6e1c8f 0%, #aa0dab 100%);
+        color: white;
+        box-shadow: 0 6px 20px rgba(11, 139, 128, 0.4);
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(11, 139, 128, 0.6);
+            background: linear-gradient(135deg, #aa0dab 0%, #6e1c8f 100%);
+        }
+
+            .btn-primary:hover i {
+                transform: translateX(5px);
+            }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #545b62;
+            transform: translateY(-1px);
+        }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .security-badge {
+        background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+        border: 1px solid #ffc107;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 6px;
+        margin-top: auto;
+    }
+
+        .security-badge i {
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+
+    .badge-text h4 {
+        margin: 0 0 0.25rem;
+        color: #333;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .badge-text p {
+        margin: 0;
+        color: #666;
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    /* Payment status styles - keeping your original style */
+    .payment-status {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: #d4edda;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+    }
+
+        .payment-status i {
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+
+    .status-text h3 {
+        margin: 0;
+        color: #155724;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .status-text p {
+        margin: 0.25rem 0 0;
+        color: #155724;
+        font-size: 0.8rem;
+    }
+
+    /* Loading animation */
+    .fa-spinner {
+        animation: spin 1s linear infinite;
+    }
+
+    @@keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .payment-confirmation-wrapper {
+            height: auto;
+            min-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .card-body {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            overflow-y: visible;
+        }
+
+        .payment-summary-section {
+            padding-right: 0;
+            border-right: none;
+        }
+    }
+
+    #loadingOverlay {
+        backdrop-filter: blur(3px);
+    }
+
+        #loadingOverlay .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+    #errorContainer, #successContainer {
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @@keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    #btnProcessPayment:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+</style>
+<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border-radius:10px; text-align:center; min-width:300px;">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h4 class="mt-3">Processing Payment</h4>
+        <p class="text-muted">Please wait while we process your payment...</p>
+    </div>
+</div>
+<div id="errorContainer" style="display:none; position:fixed; top:20px; right:20px; z-index:9998;">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> <span id="errorMessage"></span>
+        <button type="button" class="btn-close" onclick="closeError()" aria-label="Close"></button>
+    </div>
+</div>
+
+<div class="payment-confirmation-wrapper">
+    <div class="payment-container">
+        <div class="payment-card">
+            @*<div class="card-header">
+                    <p>Review the details below and proceed with the secure payment</p>
+                </div>*@
+
+            <div class="card-body">
+                <!-- LEFT PANEL - Payment Summary -->
+                <div class="payment-summary-section">
+                    <div class="summary-header">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <h2>Payment Summary</h2>
+                    </div>
+
+                    <div class="summary-items">
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-building"></i> Name of the Firm</div>
+                            <div class="value"><span id="spnFirmName">@Model.EnterpriseName</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-id-card"></i> TIN</div>
+                            <div class="value"><span id="spnTIN">@Model.Ptin</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-hashtag"></i> CTD Transaction ID</div>
+                            <div class="value"><span id="spnCTDTransactionId">@Model.CTDTransactionId</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-receipt"></i> Type of TAX</div>
+                            <div class="value"><span id="spnTypeofTax">@Model.TypeofTax</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-tag"></i> Tax Purpose</div>
+                            <div class="value"><span id="spnPurpose">@Model.TaxPurpose</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-calendar-alt"></i> Tax Period From Date</div>
+                            <div class="value"><span id="spnPeriodFrom">@Model.FromDate</span></div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-calendar-alt"></i> Tax Period To Date</div>
+                            <div class="value"><span id="spnPeriodTo">@Model.ToDate</span></div>
+                        </div>
+
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-indian-rupee-sign"></i> Total Amount</div>
+                            <div class="value amount"><span id="spnAmount">₹ @Model.Amount.ToString("N2")</span></div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label"><i class="fas fa-calendar-alt"></i> Remarks</div>
+                            <div class="value"><span id="spnRemarks">@Model.Remarks</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL - Payment Actions -->
+                <div class="payment-actions-section">
+                    <div class="actions-header">
+                        <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
+                        <p>Your payment is protected with bank-level security. All transactions are encrypted and processed securely.</p>
+                    </div>
+
+                    <div class="payment-status">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="status-text">
+                            <h3>Ready to Pay</h3>
+                            <p>All payment details are verified and secure</p>
+                        </div>
+                    </div>
+
+                    <form id="paymentForm">
+                        @Html.Hidden("Ddocode", Model.Ddocode)
+                        @Html.Hidden("Circlecode", Model.Circlecode)
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Go Back</span>
+                            </button>
+                            <button type="button" id="btnProcessPayment" class="btn btn-primary">
+                                <i class="fas fa-lock"></i>
+                                <span>Pay Now</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="security-badge">
+                        <i class="fas fa-shield-check"></i>
+                        <div class="badge-text">
+                            <h4>100% Secure Payment</h4>
+                            <p>Protected by 256-bit SSL encryption. Your card details are never stored on our servers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.AntiForgeryToken()
+<script>
+    var isProcessing = false;
+
+    $(document).ready(function () {
+
+        $('#btnProcessPayment').click(function (e) {
+            e.preventDefault();
+            processPayment();
+        });
+
+        $('#paymentForm').keypress(function (e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                processPayment();
+            }
+        });
+    });
+
+    function processPayment() {
+            if (isProcessing) {
+                showError('Payment is already being processed. Please wait...');
+                return;
+            }
+
+        var _ptin = $('#spnTIN').text();
+
+            
+
+            showLoading(true);
+
+            isProcessing = true;
+
+            $('#btnProcessPayment').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var _ptin = $('#spnTIN').text();
+        var _type = $('#spnTypeofTax').text();
+        var _purpose = $('#spnPurpose').text();
+        var _fdate = $('#spnPeriodFrom').text();
+        var _tdate = $('#spnPeriodTo').text();
+        var _remarks = $('#spnRemarks').text();
+
+
+            $.ajax({
+                url: '@Url.Action("ProcessPaymentOther", "Payment")',
+                type: 'POST',
+                data: {
+                    ptin: _ptin,
+                    type: _type,
+                    purpose: _purpose,
+                    fdate: _fdate,
+                    tdate: _tdate,
+                    remarks: _remarks,
+                    __RequestVerificationToken: token
+                },
+                dataType: 'json',
+                timeout: 30000,
+                success: function(response) {
+                    showLoading(false);
+
+                    if (response.success) {
+                        /*showSuccess('Payment initialized successfully. Redirecting...');
+                        setTimeout(function() {
+                            window.location.href = response.redirectUrl;
+                        }, 1000);*/
+
+                        var form = $('<form>', {
+                            action: response.paymentUrl,
+                            method: 'POST'
+                        });
+
+                        $.each(response.formData, function (key, value) {
+
+                            form.append($('<input>', {
+                                type: 'hidden',
+                                name: key,
+                                value: value
+                            }));
+
+                        });
+                        $('body').append(form);
+
+                        form.submit();
+
+                    }
+                    else {
+
+                        if (response.redirectToLogin) {
+                            window.location.href = '@Url.Action("Home", "PTHome")';
+                            return;
+                        }
+
+                        showError(response.message || 'An error occurred. Please try again.');
+
+                        isProcessing = false;
+
+                        $('#btnProcessPayment').prop('disabled', false).html('<i class="fas fa-lock"></i> Proceed to Payment');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    showLoading(false);
+
+                    var errorMessage = 'An error occurred. Please try again.';
+
+                    if (status === 'timeout') {
+                        errorMessage = 'Request timed out. Please try again.';
+                    } else if (xhr.status === 500) {
+                        errorMessage = 'Server error. Please try again later.';
+                    } else if (xhr.status === 404) {
+                        errorMessage = 'Service not found. Please contact support.';
+                    } else if (xhr.status === 400) {
+                        errorMessage = 'Invalid request. Please refresh the page.';
+                    }
+
+                    showError(errorMessage);
+
+                    isProcessing = false;
+
+                    $('#btnProcessPayment').prop('disabled', false).html('<i class="fas fa-lock"></i> Proceed to Payment');
+
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response:', xhr.responseText);
+                }
+            });
+    }
+    function showLoading(show) {
+        if (show) {
+            $('#loadingOverlay').fadeIn(300);
+        } else {
+            $('#loadingOverlay').fadeOut(300);
+        }
+    }
+    function showError(message) {
+        $('#errorMessage').text(message);
+        $('#errorContainer').fadeIn(300).delay(5000).fadeOut(300);
+    }
+    function showSuccess(message) {
+        $('#successMessage').text(message);
+        $('#successContainer').fadeIn(300).delay(3000).fadeOut(300);
+    }
+    function closeError() {
+        $('#errorContainer').fadeOut(300);
+    }
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            isProcessing = false;
+            $('#btnProcessPayment').prop('disabled', false).html('<i class="fas fa-lock"></i> Proceed to Payment');
+            showLoading(false);
+        }
+    };
+    /*window.addEventListener('beforeunload', function (e) {
+        if (isProcessing) {
+            var confirmationMessage = 'Payment is being processed. Are you sure you want to leave?';
+            e.returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });*/
+
+    $(document).ready(function () {
+        var currentPage = window.location.pathname.toLowerCase();
+
+        $(document).ajaxSend(function (event, jqxhr, settings) {
+            if (currentPage.includes('paymentconfirmation') ||
+                currentPage.includes('processpayment')) {
+                // Don't show global loader, do nothing
+                console.log('Skipping global loader for payment page');
+                return;
+            }
+            if (typeof showloader === 'function') {
+                showloader();
+            }
+        });
+
+        $(document).ajaxComplete(function (event, jqxhr, settings) {
+            if (currentPage.includes('paymentconfirmation') ||
+                currentPage.includes('processpayment')) {
+                return;
+            }
+            if (typeof hideloader === 'function') {
+                hideloader();
+            }
+        });
+    });
+
+    // Initialize animations and effects
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                if (this.disabled) return;
+
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.7);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    width: ${size}px;
+                    height: ${size}px;
+                    top: ${y}px;
+                    left: ${x}px;
+                    pointer-events: none;
+                `;
+
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple effect if not already present
+        if (!document.querySelector('#ripple-style')) {
+            const style = document.createElement('style');
+            style.id = 'ripple-style';
+            style.textContent = `
+                @@keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    });
+</script>

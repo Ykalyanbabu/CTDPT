@@ -8,14 +8,14 @@
 
 <div class="container">
     <div class="body-content">
-        <div class="page-title">Professional Tax Services</div>
+        <div class="page-title">Profession Tax Services</div>
         <div class="card-grid">
             <div class="pt-card" onclick="location.href='@Url.Action("Landing", "Registration")'">
                 <div class="card-icon">
                     <i class="fas fa-file-signature"></i>
                 </div>
                 <h3>New Dealer Registration</h3>
-                <p>Register as a new taxpayer under Professional Tax Act with easy online process.</p>
+                <p>Register as a new taxpayer under Profession Tax Act with easy online process.</p>
                 <div class="card-action">
                     <a href="@Url.Action("Landing", "Registration")">
                         <i class="fas fa-user-plus"></i> Register Now
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="pt-card" onclick="location.href='PT_Payment.html'">
+            <div class="pt-card" onclick="location.href='@Url.Action("PaymentType", "PTHome")'">
                 <div class="card-icon">
                     <i class="fas fa-credit-card"></i>
                 </div>
@@ -55,7 +55,7 @@
                     <i class="fas fa-user-tie"></i>
                 </div>
                 <h3>PTO Login</h3>
-                <p>Secure portal for Professional Tax Officers to access administrative functions.</p>
+                <p>Secure portal for Profession Tax Officers to access administrative functions.</p>
                 <div class="card-action">
                     <a href="@Url.Action("DeptLogin", "PTHome")">
                         <i class="fas fa-user-shield"></i> Officer Login
@@ -68,7 +68,7 @@
                     <i class="fas fa-chart-bar"></i>
                 </div>
                 <h3>Schedule Rates for PT Payment</h3>
-                <p>View complete schedule of Professional Tax rates as per government rules.</p>
+                <p>View complete schedule of Profession Tax rates as per government rules.</p>
                 <div class="card-action">
                     <a href="@Url.Action("Payment_Rates", "Payment")">
                         <i class="fas fa-list-alt"></i> View Rates

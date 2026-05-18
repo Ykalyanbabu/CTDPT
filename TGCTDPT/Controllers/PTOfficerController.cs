@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using TGCTDPT.DAL;
 using TGCTDPT.Models;
+using TGCTDPT.BSNL_SMS;
+using TGCTDPT.Mail_Services;
+using System.IO;
 
 namespace TGCTDPT.Controllers
 {
@@ -14,6 +17,7 @@ namespace TGCTDPT.Controllers
     {
         // GET: PTOfficer
         private readonly FormIISummaryDAL _dal = new FormIISummaryDAL();
+        private readonly RegistrationDAL dal = new RegistrationDAL();
         public ActionResult Index()
         {
             return View();
@@ -120,6 +124,17 @@ namespace TGCTDPT.Controllers
                 
                 if (response == "Success")
                 {
+                    var data = _dal.GetRNR_PT_userid_pwd(rnr);
+                    string ptin = data.prof_tin;
+                    string password = data.password;
+                    string email = data.email;
+
+
+                    if (response.ToString() != null)
+                    {
+                        send_mail send_mail = new send_mail();
+                        send_mail.PT_Send_Application_Approved(ptin, password, email);
+                    }
                     response = strPtin;
                     res = true;
                 }
@@ -209,6 +224,167 @@ namespace TGCTDPT.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+
+
+        public ActionResult Reactivate_PTIN()
+        {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("DeptLogin", "PTHome");
+            }
+            //string StrTIN = Session["Tin"].ToString();
+            //RC_Cancel_ReActivate_Details rcd = _dal.ReactivatePTEntityDetails(StrTIN);
+            RC_Cancel_ReActivate_Details rcd = new RC_Cancel_ReActivate_Details();
+            return View(rcd);
+        }
+
+        [HttpGet]
+        public JsonResult ReactivatePTIN(string ptin)
+        {
+            var rcd = _dal.ReactivatePTEntityDetails(ptin);
+            Session["TIn"] = ptin;
+            return Json(new
+            {
+                enterprise_name = rcd.enterprise_name,
+                division_name = rcd.division_name,
+                circle_name = rcd.circle_name,
+                request_id = rcd.request_id,
+                registration_status = rcd.registration_status,
+                edr = rcd.edr.HasValue ? rcd.edr.Value.ToString("dd/MM/yyyy") : ""
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ReactivationRequest(RC_Cancel_ReActivate_Details model, HttpPostedFileBase file)
+        {
+            if (Session["UserId"] == null || Session["TIn"] == null)
+            {
+                return RedirectToAction("DeptLogin","PTHome");
+            }
+
+            try
+            {
+                if (file == null || file.ContentLength == 0)
+                {
+                    TempData["ErrorMessage"] = "Please upload file";
+                    return RedirectToAction("Reactivate_PTIN");
+                }
+
+                string tin = Session["TIn"].ToString();
+                string userId = Session["UserId"].ToString();
+
+                string fileName = tin + "_" + Path.GetFileName(file.FileName);
+
+                string folderPath = Server.MapPath("~/Uploads/Documents/Requests/RegRevoke/");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string fullPath = Path.Combine(folderPath, fileName);
+
+                file.SaveAs(fullPath);
+
+                model.doc_path = "/Uploads/Documents/Requests/RegRevoke/" + fileName;
+
+                model.created_by = userId;
+
+                if (model.registration_status == "CNCL")
+                {
+                    model.request_status = "A";
+                    model.new_status = "REGD";
+                    model.registration_status = "REGD";
+                      
+
+                    string json = JsonConvert.SerializeObject(model);
+
+                    int result = _dal.SaveReactivateDetails(json);
+
+                    if (result > 0)
+                    {
+                        TempData["SuccessMessage"] = "Request Submitted Successfully.";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Cancellation Request Already Submitted Pending for Approval";
+                    }
+
+                    return RedirectToAction("Reactivate_PTIN");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "TIN is already cancelled.";
+                    return RedirectToAction("Reactivate_PTIN");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Reactivate_PTIN");
+            }
+        }
+        //[HttpPost]
+        //public ActionResult ReactivationRequest(RC_Cancel_ReActivate_Details model, HttpPostedFileBase file)
+        //{
+        //    if (Session["Userid"] == null)
+        //    {
+        //        return RedirectToAction("PTHome", "DeptLogin");
+        //    }
+        //    try
+        //    {
+        //        if (file == null)
+        //        {
+        //            TempData["ErrorMessage"] = "Please upload file";
+        //            return RedirectToAction("Reactivate_PTIN");
+        //        }
+        //        string f_name = file.FileName;
+        //        string fileName = Session["TIn"].ToString() + "_" + Path.GetFileName(file.FileName);
+        //        string path = Server.MapPath("~/Uploads/Documents/Requests/RegRevoke/") + fileName;
+
+        //        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        //        file.SaveAs(path);
+
+        //        model.doc_path = "/Uploads/Documents/Requests/RegRevoke/" + fileName;
+        //        model.created_by = Session["UserId"].ToString();
+
+        //        if (model.registration_status == "CNCL")
+        //        {
+        //            model.request_status = "A";
+        //            model.new_status = "REGD";
+
+        //            string json = JsonConvert.SerializeObject(model);
+
+        //            int result = _dal.SaveCancelReactivateDetails(json);
+        //            if (result > 0)
+        //            {
+        //                TempData["SuccessMessage"] = "Request Submitted Successfully.";
+        //                return RedirectToAction("Reactivate_PTIN");
+        //            }
+        //            else
+        //            {
+        //                TempData["ErrorMessage"] = "Cancellation Request Already Submitted Pending for Approval";
+        //                return RedirectToAction("Reactivate_PTIN");
+
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            TempData["ErrorMessage"] = "TIN is already cancelled.";
+        //            return RedirectToAction("Cancel_PTIN");
+        //        }
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = ex.Message;
+        //        return RedirectToAction("Cancel_PTIN");
+        //    }
+        //}
+
 
     }
 

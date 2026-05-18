@@ -1,0 +1,176 @@
+﻿@model TGCTDPT.Models.DealerReturnsModel
+@{
+    ViewBag.Title = "DealerDCB";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+
+<body>
+
+    <div class="container Reports">
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-chart-bar"></i> Demand Collection Balance Reports</h1>
+        </div>
+
+        <div class="main-card">
+            <div id="demand">
+                <div class="card-body">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>PTIN</label>
+                            <input type="text" class="form-control readonly" value="@Model.ptin" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Name of the Person / Business</label>
+                            <input type="text" class="form-control readonly" value="@Model.enterprise_name" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Effective Date of Registration</label>
+                            <input type="text" class="form-control readonly"
+                                   value="@(Model.rc_effect_date?.ToString("dd/MM/yyyy"))"
+                                   readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Jurisdiction (Circle)</label>
+                            <input type="text" class="form-control readonly" value="@Model.circle" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Jurisdiction (Division)</label>
+                            <input type="text" class="form-control readonly" value="@Model.division" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Financial Year</label>
+                            <select class="form-control select" name="SelectedYear" onchange="this.form.submit()">
+                                <option value="2017" @(Model.f_year == "2017" ? "selected" : "")>2017-18</option>
+                                <option value="2018" @(Model.f_year == "2018" ? "selected" : "")>2018-19</option>
+                                <option value="2019" @(Model.f_year == "2019" ? "selected" : "")>2019-20</option>
+                                <option value="2020" @(Model.f_year == "2020" ? "selected" : "")>2020-21</option>
+                                <option value="2021" @(Model.f_year == "2021" ? "selected" : "")>2021-22</option>
+                                <option value="2022" @(Model.f_year == "2022" ? "selected" : "")>2022-23</option>
+                                <option value="2023" @(Model.f_year == "2023" ? "selected" : "")>2023-24</option>
+                                <option value="2024" @(Model.f_year == "2024" ? "selected" : "")>2024-25</option>
+                                <option value="2025" @(Model.f_year == "2025" ? "selected" : "")>2025-26</option>
+                                <option value="2026" @(Model.f_year == "2026" ? "selected" : "")>2026-27</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- YEARLY -->
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="fas fa-calendar-alt"></i> Yearly DCB(Yearly Demand Collection Balance)
+                        </h3>
+
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Financial Year</th>
+                                    <th>Demand (₹)</th>
+                                    <th>Paid (₹)</th>
+                                    <th>Balance (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.YearlyDCB != null && Model.YearlyDCB.Count > 0)
+                                {
+                                    foreach (var item in Model.YearlyDCB)
+                                    {
+                                        <tr>
+                                            <td>@item.SlNo</td>
+                                            <td>@item.FY</td>
+                                            <td class="amount-cell">@item.to_be_paid</td>
+                                            <td class="amount-cell">@item.amount</td>
+                                            <td class="amount-cell @(item.Balance == 0 ? "zero-amount" : "")">
+                                                @item.Balance
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;">No data found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- MONTHLY -->
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="fas fa-calendar-day"></i> Monthly DCB(Monthly Demand Collection Balance)
+                        </h3>
+
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Financial Year</th>
+                                    <th>Month</th>
+                                    <th>Demand (₹)</th>
+                                    <th>Paid (₹)</th>
+                                    <th>Balance (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.MonthlyDCB != null && Model.MonthlyDCB.Count > 0)
+                                {
+                                    foreach (var item in Model.MonthlyDCB)
+                                    {
+                                        <tr>
+                                            <td>@item.SlNo</td>
+                                            <td>@item.FY</td>
+                                            <td>@item.tax_period</td>
+                                            <td class="amount-cell">@item.to_be_paid</td>
+                                            <td class="amount-cell">@item.amount</td>
+                                            <td class="amount-cell @(item.Balance == 0 ? "zero-amount" : "")">
+                                                @item.Balance
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;">No data found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- TOTALS -->
+                    <div class="totals-section">
+                        <div class="totals-grid">
+                            <div class="total-item">
+                                <span class="total-label">Total Demand</span>
+                                <span class="total-value">₹ @Model.TotalDemand</span>
+                            </div>
+
+                            <div class="total-item">
+                                <span class="total-label">Total Paid</span>
+                                <span class="total-value">₹ @Model.TotalPaid</span>
+                            </div>
+
+                            <div class="total-item">
+                                <span class="total-label">Total Balance</span>
+                                <span class="total-value @(Model.TotalBalance == 0 ? "zero" : "")">
+                                    ₹ @Model.TotalBalance
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

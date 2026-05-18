@@ -267,5 +267,116 @@ namespace TGCTDPT.DAL
 
             return response;
         }
+
+
+
+        public DealerReturnsModel GetDealerDtls(string ptin)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@prof_tin", ptin);
+
+                using (var multi = db.QueryMultiple(
+                    "Get_dlr_ret_filing_dtl",
+                    parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    var dealer = multi.ReadFirstOrDefault<DealerReturnsModel>();
+
+                    return dealer;
+                }
+            }
+        }
+        //public DealerDCB GetDealerDtls(string ptin)
+        //{
+        //    using (IDbConnection db = new SqlConnection(conStr))
+        //    {
+        //        var parameters = new DynamicParameters();
+        //        parameters.Add("@prof_tin", ptin);
+
+        //        using (var multi = db.QueryMultiple(
+        //            "Get_dlr_ret_filing_dtl",
+        //            parameters,
+        //            commandType: CommandType.StoredProcedure))
+        //        {
+        //            var dealer = multi.ReadFirstOrDefault<DealerDCB>();
+
+        //            return dealer;
+        //        }
+        //    }
+        //}
+        public List<dlr_ret_reports> GetReturnDataByYear(string ptin, string year)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@prof_tin", ptin);
+                parameters.Add("@year", year);
+
+                return db.Query<dlr_ret_reports>(
+                    "Get_dlr_ret_filing_by_year",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
+        public List<dlr_ret_reports> DlrReturnDetails(string ptin, int year)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@PTIN", ptin);
+                parameters.Add("@Year", year);
+
+                return db.Query<dlr_ret_reports>(
+                    "sp_GetReturnDetailsByPTIN",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
+        public List<dynamic> GetDlrFinancialYears(string ptin)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@prof_tin", ptin);
+
+                return db.Query<dynamic>(
+                    "get_dlr_return_dtls",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
+
+
+        public DealerDCB GetDealerDCBDtls(string ptin)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@prof_tin", ptin);
+
+                using (var multi = db.QueryMultiple(
+                    "Get_dlr_dcb_dtls",
+                    parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    var dealer = multi.ReadFirstOrDefault<DealerDCB>();
+
+                    dealer.YearlyDCB = multi.Read<YearlyDCB>().ToList();
+
+                    dealer.MonthlyDCB = multi.Read<MonthlyDCB>().ToList();
+
+                    dealer.TotalDemand = dealer.MonthlyDCB.Sum(x => x.to_be_paid);
+                    dealer.TotalPaid = dealer.MonthlyDCB.Sum(x => x.amount);
+                    dealer.TotalBalance = dealer.MonthlyDCB.Sum(x => x.Balance);
+
+                    return dealer;
+                }
+            }
+        }
     }
 }

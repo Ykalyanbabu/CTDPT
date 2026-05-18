@@ -247,11 +247,9 @@ namespace TGCTDPT.DAL
                 parameters.Add("@UserId", user_id);
 
                 return db.Query<RC_Cancel_ReActivate_Details>(
-                    @"select a.request_id,a.prof_tin,a.request_status,a.From_date as edr,a.To_date as effective_date,a.reasons as reason,
-                a.doc_path,c.division_name,c.circle_name,c.user_id from pt_enterprise_regd_status_temp a
-              inner join   Fn_PT_Division_circle_link() b on a.prof_tin = b.prof_tin inner join  Fn_user_reg_mstr() c on b.division_name = c.division_name and b.circle_name = c.circle_name where a.request_status = 'P' and c.user_id = @UserId order by a.inserted_date desc",
+                    "get_pt_pendng_can_Req_dtls",
                     parameters,
-                    commandType: CommandType.Text
+                    commandType: CommandType.StoredProcedure
                 ).ToList();
             }
         }
@@ -259,11 +257,12 @@ namespace TGCTDPT.DAL
         {
             using (IDbConnection db = new SqlConnection(_connStr))
             {
+                var parameters = new DynamicParameters();
+                parameters.Add("@id", id);
                 return db.QueryFirstOrDefault<RC_Cancel_ReActivate_Details>(
-                    @"select a.request_id,a.prof_tin,a.request_status,a.From_date as edr,a.To_date as effective_date,a.reasons as reason,
-                a.doc_path  from pt_enterprise_regd_status_temp a
-              inner join   Fn_PT_Division_circle_link() b on a.prof_tin = b.prof_tin  where a.request_id = @id",
-                    new { id });
+                    "get_pt_can_reqq_dtls",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
             }
         }
         public dynamic ApproveCancellation(int id, string r_status, string user_id)
@@ -280,6 +279,54 @@ namespace TGCTDPT.DAL
                     commandType: CommandType.StoredProcedure);
             }
         }
+        public dynamic GetRNR_PT_userid_pwd(string rnr)
+        {
+            using (IDbConnection db = new SqlConnection(_connStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@rnr", rnr);
+                 
+                return db.QueryFirstOrDefault<dynamic>(
+                    "Pr_Get_Ptin_UserId_PWD",
+                     parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
 
+
+        public int SaveCancelReactivateDetails(string mjsonData)
+        {
+            using (var con = new SqlConnection(_connStr))
+            {
+                return con.QueryFirstOrDefault<int>(
+                    "Save_PTIN_Cancel_Request",
+                    new { @json = mjsonData },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        } public int SaveReactivateDetails(string mjsonData)
+        {
+            using (var con = new SqlConnection(_connStr))
+            {
+                return con.QueryFirstOrDefault<int>(
+                    "Save_PTIN_Revoke_Request",
+                    new { @json = mjsonData },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
+
+
+        public RC_Cancel_ReActivate_Details ReactivatePTEntityDetails(string ptin)
+        {
+            using (var con = new SqlConnection(_connStr))
+            {
+                return con.QueryFirstOrDefault<RC_Cancel_ReActivate_Details>(
+                    "get_revoke_tp",
+                    new { prof_tin = ptin },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
     }
 }

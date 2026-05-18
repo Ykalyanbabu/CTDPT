@@ -1,0 +1,679 @@
+﻿@model TGCTDPT.Models.IfmisPaymentResponse
+
+@{
+    Layout = null;
+    ViewBag.Title = "Payment Response";
+}
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 860px;
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            margin: 0 auto;
+            animation: fadeIn 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            max-height: 98vh;
+        }
+
+        .header {
+            background: linear-gradient(115deg, #1e2b5c 0%, #2c3e66 50%, #1a2639 100%);
+            padding: 0.45rem 0.5rem 0.4rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            flex-shrink: 0;
+        }
+
+            .header h2 {
+                color: white;
+                font-size: 1.35rem;
+                font-weight: 600;
+                letter-spacing: -0.2px;
+                margin: 0;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .header p {
+                color: rgba(255, 255, 255, 0.85);
+                margin-top: 3px;
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+        .info-grid {
+            background: #ffffff;
+            padding: 0.4rem 1.2rem 0.3rem 1.2rem;
+            flex-shrink: 1;
+        }
+
+        .grid-row {
+            display: flex;
+            flex-wrap: nowrap;
+            border-bottom: 1px solid #edf2f7;
+            min-height: 36px;
+            align-items: center;
+        }
+
+        .grid-label {
+            flex: 0 0 34%;
+            max-width: 34%;
+            padding: 0.45rem 0.5rem 0.45rem 0;
+            font-weight: 600;
+            color: #1e2a47;
+            font-size: 0.8rem;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-right: 2px solid #e9eef3;
+        }
+
+        .grid-value {
+            flex: 1;
+            padding: 0.45rem 0.45rem 0.45rem 0.9rem;
+            color: #0f172a;
+            font-weight: 500;
+            font-size: 0.85rem;
+            word-break: break-word;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            color: #b45309;
+            background: #ffefdf;
+        }
+
+        .amount-highlight {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #0f7b3a;
+            background: #eafaf1;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 32px;
+        }
+
+        .button-container {
+            padding: 0.7rem 1.2rem 0.9rem 1.2rem;
+            text-align: center;
+            background: #ffffff;
+            border-top: 1px solid #ecf3fa;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .home-button {
+            background: linear-gradient(100deg, #1f2b48, #2c3e66);
+            color: white;
+            border: none;
+            padding: 7px 22px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+            .home-button:hover {
+                transform: translateY(-1px);
+                background: linear-gradient(100deg, #2a3a60, #1f2e4e);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+            }
+
+            .home-button:active {
+                transform: translateY(1px);
+            }
+
+        @@media (max-height: 800px) {
+            .grid-row {
+                min-height: 34px;
+            }
+
+            .grid-label {
+                padding: 0.4rem 0.4rem 0.4rem 0;
+                font-size: 0.78rem;
+            }
+
+            .grid-value {
+                padding: 0.4rem 0.4rem 0.4rem 0.8rem;
+                font-size: 0.82rem;
+            }
+
+            .info-grid {
+                padding: 0.35rem 1rem 0.25rem 1rem;
+            }
+
+            .header {
+                padding: 0.4rem 0.5rem 0.35rem 0.5rem;
+            }
+
+                .header h2 {
+                    font-size: 1.35rem;
+                }
+
+            .button-container {
+                padding: 0.6rem 1rem 0.8rem 1rem;
+            }
+
+            .home-button {
+                padding: 6px 20px;
+                font-size: 0.78rem;
+            }
+        }
+
+        @@media (max-height: 700px) {
+            .grid-row {
+                min-height: 32px;
+            }
+
+            .grid-label {
+                padding: 0.35rem 0.35rem 0.35rem 0;
+                font-size: 0.75rem;
+            }
+
+            .grid-value {
+                padding: 0.35rem 0.35rem 0.35rem 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            .info-grid {
+                padding: 0.3rem 0.9rem 0.2rem 0.9rem;
+            }
+
+            .status-badge {
+                padding: 2px 10px;
+                font-size: 0.7rem;
+            }
+
+            .amount-highlight {
+                font-size: 0.82rem;
+                padding: 2px 8px;
+            }
+
+            .header h2 {
+                font-size: 1.2rem;
+            }
+
+            .header p {
+                font-size: 0.8rem;
+            }
+
+            .button-container {
+                padding: 0.5rem 0.9rem 0.7rem 0.9rem;
+                gap: 10px;
+            }
+
+            .home-button {
+                padding: 5px 18px;
+                font-size: 0.75rem;
+            }
+        }
+
+        @@media (max-height: 600px) {
+            .grid-row {
+                min-height: 30px;
+            }
+
+            .grid-label {
+                padding: 0.3rem 0.3rem 0.3rem 0;
+                font-size: 0.73rem;
+            }
+
+            .grid-value {
+                padding: 0.3rem 0.3rem 0.3rem 0.6rem;
+                font-size: 0.78rem;
+            }
+
+            .info-grid {
+                padding: 0.25rem 0.8rem 0.2rem 0.8rem;
+            }
+
+            .header {
+                padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+            }
+
+            .button-container {
+                padding: 0.45rem 0.8rem 0.6rem 0.8rem;
+            }
+        }
+
+        @@media (max-width: 600px) {
+            .grid-row {
+                flex-wrap: wrap;
+                min-height: auto;
+            }
+
+            .grid-label {
+                flex: 0 0 100%;
+                max-width: 100%;
+                border-right: none;
+                padding: 0.35rem 0 0.1rem 0;
+                font-weight: 700;
+                font-size: 0.75rem;
+            }
+
+            .grid-value {
+                padding: 0.1rem 0 0.4rem 0.4rem;
+                font-size: 0.8rem;
+            }
+
+            .info-grid {
+                padding: 0.3rem 0.9rem 0.2rem 0.9rem;
+            }
+        }
+
+        @@media print {
+            html, body {
+                position: relative;
+                overflow: visible !important;
+                height: auto;
+                background: white;
+                padding: 0;
+                margin: 0;
+                display: block;
+            }
+
+            body {
+                display: block;
+                padding: 0.2rem;
+                background: white;
+            }
+
+            .container {
+                max-height: none;
+                overflow: visible;
+                display: block;
+                animation: none;
+            }
+
+            .card {
+                max-height: none;
+                overflow: visible;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                border-radius: 12px;
+            }
+
+            .header {
+                background: linear-gradient(115deg, #1e2b5c 0%, #2c3e66 50%, #1a2639 100%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+                .header h2 {
+                    color: white !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                .header p {
+                    color: rgba(255, 255, 255, 0.85) !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+            .status-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .status-pending {
+                color: #b45309 !important;
+                background: #ffefdf !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .amount-highlight {
+                color: #0f7b3a !important;
+                background: #eafaf1 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .grid-label {
+                border-right: 2px solid #e9eef3 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .grid-row {
+                border-bottom: 1px solid #edf2f7 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Hide buttons in print */
+            .button-container {
+                display: none !important;
+            }
+
+            .home-button {
+                display: none !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .grid-label {
+                color: #1e2a47 !important;
+            }
+
+            .grid-value {
+                color: #0f172a !important;
+            }
+        }
+
+        /* Ensure no overflow on any element */
+        .grid-value span, .grid-label span {
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        /* Additional safe guards */
+        .card, .container, body, html {
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    <span></span> Payment Transaction Details
+                </h2>
+                <p>Transaction Information Summary | e-Challan Reference</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Department Transaction Id
+                    </div>
+                    <div class="grid-value" id="depttransid-value">
+                        @Model.depttransid
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> TIN
+                    </div>
+                    <div class="grid-value" id="tin-value">
+                        @Model.remittersname
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Name of the Firm
+                    </div>
+                    <div class="grid-value" id="firm-value">
+                        @Model.enterprisename
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Type of Tax
+                    </div>
+                    <div class="grid-value" id="taxtype-value">
+                        @Model.typeoftax
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Tax Purpose
+                    </div>
+                    <div class="grid-value" id="taxpurpose-value">
+                        @Model.taxpurpose
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Tax Period
+                    </div>
+                    <div class="grid-value" id="period-value">
+                        @Model.returnperiod
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Head of Account
+                    </div>
+                    <div class="grid-value" id="hoa-value">
+                        @Model.hoa
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Status
+                    </div>
+                    <div class="grid-value" id="status-cell">
+                        @{ string statusRaw = Model.bankstatus?.ToString() ?? "";
+                            string statusClass = "";
+                            if (statusRaw.ToLower().Contains("success") || statusRaw.ToLower().Contains("approved") || statusRaw.ToLower().Contains("completed"))
+                            {
+                                statusClass = "status-success";
+                            }
+                            else if (statusRaw.ToLower().Contains("pending") || statusRaw.ToLower().Contains("process"))
+                            {
+                                statusClass = "status-pending";
+                            }
+                            else if (statusRaw.ToLower().Contains("fail") || statusRaw.ToLower().Contains("reject") || statusRaw.ToLower().Contains("declined"))
+                            {
+                                statusClass = "status-failed";
+                            }
+                            else
+                            {
+                                statusClass = "";
+                            } }
+                        <span class="status-badge @statusClass">@Model.bankstatus</span>
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Challan No
+                    </div>
+                    <div class="grid-value" id="challan-value">
+                        @Model.challanno
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Bank Name
+                    </div>
+                    <div class="grid-value" id="bankname-value">
+                        @Model.bankname
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Bank Transaction Id
+                    </div>
+                    <div class="grid-value" id="banktransid-value">
+                        @Model.banktransid
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Amount
+                    </div>
+                    <div class="grid-value" id="amount-cell">
+                        <span class="amount-highlight">@Model.bankamount</span>
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">
+                        <span></span> Bank Transaction Date
+                    </div>
+                    <div class="grid-value" id="date-cell">
+                        @Model.bankdate
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button class="home-button" onclick="goToHome()">🏠 Go to Home</button>
+                <button class="home-button" onclick="printPage()">🖨️ Print Receipt</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function goToHome() {
+            window.location.href ='@Url.Action("Dashboard", "PTHome")';
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        function preventScrolling() {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = '0';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.bottom = '0';
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+        }
+
+        function ensureNoOverflow() {
+            const card = document.querySelector('.card');
+            const viewportHeight = window.innerHeight;
+
+            if (card) {
+                if (card.scrollHeight > viewportHeight - 20) {
+                    document.body.classList.add('ultra-compact');
+
+                    const rows = document.querySelectorAll('.grid-row');
+                    rows.forEach(row => {
+                        row.style.minHeight = '28px';
+                    });
+
+                    const labels = document.querySelectorAll('.grid-label');
+                    labels.forEach(label => {
+                        label.style.padding = '0.25rem 0.3rem 0.25rem 0';
+                        label.style.fontSize = '0.72rem';
+                    });
+
+                    const values = document.querySelectorAll('.grid-value');
+                    values.forEach(value => {
+                        value.style.padding = '0.25rem 0.3rem 0.25rem 0.6rem';
+                        value.style.fontSize = '0.76rem';
+                    });
+
+                    const infoGrid = document.querySelector('.info-grid');
+                    if (infoGrid) {
+                        infoGrid.style.padding = '0.2rem 0.8rem 0.15rem 0.8rem';
+                    }
+
+                    const buttonContainer = document.querySelector('.button-container');
+                    if (buttonContainer) {
+                        buttonContainer.style.padding = '0.4rem 0.8rem 0.6rem 0.8rem';
+                    }
+
+                    const header = document.querySelector('.header');
+                    if (header) {
+                        header.style.padding = '0.3rem 0.5rem 0.25rem 0.5rem';
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('load', function () {
+            preventScrolling();
+            ensureNoOverflow();
+
+            setTimeout(ensureNoOverflow, 100);
+        });
+
+        window.addEventListener('resize', function () {
+            preventScrolling();
+            ensureNoOverflow();
+        });
+
+        preventScrolling();
+    </script>
+</body>

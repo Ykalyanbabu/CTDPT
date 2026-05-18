@@ -10,6 +10,8 @@ using TGCTDPT.Models;
 using TGCTDPT.Services;
 using TGCTDPT.Helpers;
 using System.Web.Security;
+using TGCTDPT.BSNL_SMS;
+using TGCTDPT.Mail_Services;
 
 namespace TGCTDPT.Controllers
 {   
@@ -74,6 +76,10 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult Dashboard()
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Login", "PTHome");
+            }
             return View();
         }
         [HttpPost]
@@ -198,11 +204,14 @@ namespace TGCTDPT.Controllers
 
             int Updresponse = _User.UpdatePassword(PTIN, password);
             bool mailResult = false;
+            
 
             if (Updresponse > 0)
             {
-                mailResult = await SendLoginCredentials(Email, password);
+                // mailResult = await SendLoginCredentials("bsairam3108@gmail.com", password);
 
+                send_mail send_mail = new send_mail();
+                mailResult = send_mail.PT_Send_Reset_Password(PTIN, password,Email);
                 if (mailResult)
                 {
                     return Json(new { success = true, message = "Password has been sent to your EmailID "+ Email });

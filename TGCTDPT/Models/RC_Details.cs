@@ -32,7 +32,7 @@ namespace TGCTDPT.Models
         public int request_id { get; set; }
         public string prof_tin { get; set; }
         public string enterprise_name { get; set; }
-        public DateTime edr { get; set; }
+        public DateTime? edr { get; set; }
         public string division_name { get; set; }
         public string circle_name { get; set; }
         public string registration_status { get; set; }

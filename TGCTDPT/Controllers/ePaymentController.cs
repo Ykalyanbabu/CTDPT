@@ -24,11 +24,11 @@ namespace TGCTDPT.Controllers
 
         public ActionResult ePaymentGenMonthly()
         {
-            if (Session["Tin"] == null)
+            if (Session["Userid"] == null)
             {
                 ViewBag.Layout = "~/Views/Shared/_OuterLayout.cshtml";
             }
-            else 
+            else
             {
                 ViewBag.Layout = "~/Views/Shared/_InnerLayout.cshtml";
             }
@@ -36,7 +36,7 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult ePaymentGenYearly()
         {
-            if (Session["Tin"] == null)
+            if (Session["Userid"] == null)
             {
                 ViewBag.Layout = "~/Views/Shared/_OuterLayout.cshtml";
             }
@@ -52,7 +52,7 @@ namespace TGCTDPT.Controllers
             var response = _rtdal.GetReturnDetails(ptin);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetPaymentPendingReturns(string ptin,string OwnerType)
+        public JsonResult GetPaymentPendingReturns(string ptin, string OwnerType)
         {
             var response = _ptdal.GetPaymentPendingMonthsYears(ptin, OwnerType);
             return Json(response, JsonRequestBehavior.AllowGet);

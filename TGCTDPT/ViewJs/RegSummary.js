@@ -91,7 +91,7 @@ function AssignEnterPriseControls(d) {
     $('#lblApplicationId').html("Application Id: " + d.ApplicationId);
     loadDivisions(d.division_code);
     loadCircles(d.division_code, d.circle_code);
-    loaddistrict(d.district_code,'district');
+    loaddistrict(d.district_code, 'district');
     $('#enterprise_name').val(d.EnterPriseName);
     $('#business_pan').val(d.BusinessPan);
     $('#cobz').val(d.BusinessConstitution);
@@ -105,7 +105,7 @@ function AssignEnterPriseControls(d) {
     //$('#district').val(d.district_code);
     $('#pincode').val(d.Pincode);
     if (d.isemp == "1") {
-        var res ="Yes"
+        var res = "Yes"
         $("input[name='rdb_isemp'][value='" + res + "']").prop("checked", true);
         $('#emp_below_15000').val(d.EmpBelow_15000);
         $('#emp_between_15001_20000').val(d.EmpBetween_15001_20000);
@@ -230,7 +230,7 @@ function BindPartnerTable(r, i) {
             </td>
         </tr>
     `;
-    
+
 }
 function BindAddlPlaceTable(r, i) {
     let obj = {
@@ -269,7 +269,7 @@ function BindAddlPlaceTable(r, i) {
             </td>
         </tr>
     `;
-    
+
 }
 function BindBankTable(r, i) {
 
@@ -304,10 +304,10 @@ function BindBankTable(r, i) {
 function BindDocTable(r, i) {
 
     let obj = {
-        master_docid: r.master_doc_id,   
+        master_docid: r.master_doc_id,
         document_type: r.document_type,
-        document_path: r.document_path,  
-        file: null                       
+        document_path: r.document_path,
+        file: null
     };
 
     documentList.push(obj);
@@ -321,7 +321,7 @@ function BindDocTable(r, i) {
             <td>${r.document_type}</td>
             <td class="text-center">
                 ${r.document_path
-        ? `<button class="btn btn-sm btn-primary viewFile same-size-btn" data-url="${r.document_path}">
+            ? `<button class="btn btn-sm btn-primary viewFile same-size-btn" onclick="return openDocument('${r.document_path}');">
                         View
                    </button>`
             : ''
@@ -383,7 +383,7 @@ function renderTable(tbodyId, rows, rowFn) {
 
 function renderBizDtls(d) {
     if (!d) return;
-  
+
     $('#rnrSpnEnterpriseName').text(d.EnterPriseName);
     $('#rnrSpnAddress').text(d.FullAddress);
     $('#rnrSpnConstitution').text(d.BusinessConstitution);
@@ -527,7 +527,7 @@ function renderDocRow(r, i) {
                         <td>${r.document_type}</td>
                         <td>${r.uploaded_date}</td>
                         <td>${r.document_path
-        ? `<a href="${r.document_path}" target="_blank" class="btn btn-sm" onclick="return openDocument('${r.document_path}');" style="font-size: small;">
+            ? `<a  class="btn btn-sm" onclick="return openDocument('${r.document_path}');" style="font-size: small;">
                                 <i class="fas fa-eye"></i> View
                                </a>`
             : empty()}</td>
@@ -535,7 +535,7 @@ function renderDocRow(r, i) {
 }
 
 
-function openDocument(path) {
+function openDocument11111(path) {
     window.open(baseUrl + path, "_blank");
     return false;
 }
@@ -552,3 +552,144 @@ function updateSerialNumbers(res) {
         $(this).find('td:first').text(index + 1);
     });
 }
+function openDocument(path) {
+    fetchBase64File(path, 'Reg');
+}
+
+function fetchBase64File(fileName, type) {
+
+    $.ajax({
+        url: baseUrl + '/FileView/FetchBase64FileUSINGN',
+        type: 'GET',
+        data: {
+            fileName: fileName,
+            Type: type
+        },
+
+        success: function (response) {
+
+            if (response && response.Base64FileContent) {
+
+                var mimeType = getMimeType(fileName);
+
+                var fileData = 'data:' + mimeType + ';base64,' + response.Base64FileContent;
+
+                var modalContent = '';
+
+                if (mimeType.startsWith('image/')) {
+
+                    modalContent =
+                        '<img src="' + fileData + '" style="width:100%; height:auto;" />';
+
+                    $('#modal-body-content').html(modalContent);
+
+                    $('#fileModal').modal('show');
+                }
+
+                else if (mimeType === 'application/pdf') {
+
+                    const blob = b64toBlob(
+                        response.Base64FileContent,
+                        'application/pdf'
+                    );
+
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    window.open(blobUrl, '_blank');
+                }
+
+                else {
+
+                    modalContent =
+                        '<pre>' + response.Base64FileContent + '</pre>';
+
+                    $('#modal-body-content').html(modalContent);
+
+                    $('#fileModal').modal('show');
+                }
+
+            } else {
+
+                if (response.success === false) {
+                    alert(response.message);
+                }
+
+                $("#result").text("Error: " + response.message);
+            }
+        },
+
+        error: function (xhr, status, error) {
+
+            $("#result").text("AJAX call failed: " + error);
+        }
+    });
+}
+
+
+function b64toBlob(base64, contentType = '') {
+
+    const byteCharacters = atob(base64);
+
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+
+        const slice = byteCharacters.slice(offset, offset + 512);
+
+        const byteNumbers = new Array(slice.length);
+
+        for (let i = 0; i < slice.length; i++) {
+
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, {
+        type: contentType
+    });
+}
+
+
+function getMimeType(fileName) {
+
+    const extension = fileName.split('.').pop().toLowerCase();
+
+    switch (extension) {
+
+        case 'jpg':
+        case 'jpeg':
+            return 'image/jpeg';
+
+        case 'png':
+            return 'image/png';
+
+        case 'gif':
+            return 'image/gif';
+
+        case 'bmp':
+            return 'image/bmp';
+
+        case 'pdf':
+            return 'application/pdf';
+
+        case 'txt':
+            return 'text/plain';
+
+        default:
+            return 'application/octet-stream';
+    }
+}
+$('#fileModal').on('hidden.bs.modal', function () {
+    const iframe = $(this).find('iframe');
+    if (iframe.length) {
+        const src = iframe.attr('src');
+        if (src && src.startsWith('blob:')) {
+            URL.revokeObjectURL(src);
+        }
+    }
+    $('#modal-body-content').html('');
+});

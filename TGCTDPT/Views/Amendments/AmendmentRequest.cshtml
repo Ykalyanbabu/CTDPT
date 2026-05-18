@@ -1164,7 +1164,9 @@
     <script>
 
             var _Ptin = '@Session["Tin"]';
-            var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Amendments")';
+        var getAppDtlsUrl = '@Url.Action("GetApplicationDtls", "Amendments")';
+        var SaveUrl = '@Url.Action("SubmitAmendment", "Amendments")';
+        var HomeUrl = '@Url.Action("Dashboard", "PTHome")';
 
         let gridContainer = document.getElementById('checkboxGrid');
         const counterSpan = document.getElementById('counterDynamic');
@@ -1252,6 +1254,7 @@
         $(document).ready(function () {
             getAmendments();
             LoadApplicationDtls(_Ptin);
+            Load_Banks();
         });
 
         function getAmendments() {
@@ -1272,7 +1275,13 @@
                 }
             });
         }
-
+        var CheckBuz = "";
+        var CheckEmp = "";
+        var CheckKeyPerson = "";
+        var CheckAuth = "";
+        var CheckPartners = "";
+        var CheckBranches = "";
+        var CheckBank = "";
         function onCheckAmendment(id, status) {
             const checkedCount = $('.dynamic-grid input:checkbox:checked').length;
             if (checkedCount > 0) {
@@ -1281,60 +1290,76 @@
             else {
                 $('#divRuleBanner').hide();
             }
+            fn_chkAdditionalPlace();
+            fn_chkAuthorisedprsn();
             if (id == "1") {
                 if (status) {
                     $('#divBusiness').show();
+                    CheckBuz = "Y";
                 }
                 else {
                     $('#divBusiness').hide();
+                    CheckBuz = "N";
                 }
             }
             if (id == "2") {
                 if (status) {
                     $('#divEmployee').show();
+                    CheckEmp = "Y";
                 }
                 else {
                     $('#divEmployee').hide();
+                    CheckEmp = "N";
                 }
             }
             if (id == "3") {
                 if (status) {
                     $('#divKeyDetails').show();
+                    CheckKeyPerson = "Y";
                 }
                 else {
                     $('#divKeyDetails').hide();
+                    CheckKeyPerson = "N";
                 }
             }
             if (id == "4") {
                 if (status) {
                     $('#divAuthPerson').show();
+                    CheckAuth = "Y";
                 }
                 else {
                     $('#divAuthPerson').hide();
+                    CheckAuth = "N";
                 }
             }
             if (id == "5") {
                 if (status) {
                     $('#divPartnerDirector').show();
+                    CheckPartners = "Y";
                 }
                 else {
                     $('#divPartnerDirector').hide();
+                    CheckPartners = "N";
                 }
             }
             if (id == "6") {
                 if (status) {
                     $('#divAdditionalPlace').show();
+                    CheckBranches = "Y";
                 }
                 else {
                     $('#divAdditionalPlace').hide();
+                    CheckBranches = "N";
                 }
             }
             if (id == "7") {
                 if (status) {
                     $('#divBankDtls').show();
+                    CheckBank = "Y";
                 }
                 else {
                     $('#divBankDtls').hide();
+                    CheckBank = "N";
                 }
             }
         }
@@ -1384,9 +1409,7 @@
             $('#btnProceed').show();
             $('#checkboxGrid').show();
         }
-        function SubmitAmendment() {
 
-        }
 
         function loadDivisions(division) {
             $.ajax({
@@ -1398,7 +1421,7 @@
                     dropdown.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.division_code + '">' + item.division_name + '</option>');
+                        dropdown.append('<option value="' + item.division_code + '">' + toProperCase(item.division_name) + '</option>');
                     });
 
                     if (division != null && division != undefined && division != "") {
@@ -1432,7 +1455,7 @@
                     dropdown.append('<option value="">--Select--</option>');
 
                     $.each(data, function (i, item) {
-                        dropdown.append('<option value="' + item.circle_code + '">' + item.circle_name + '</option>');
+                        dropdown.append('<option value="' + item.circle_code + '">' + toProperCase(item.circle_name) + '</option>');
                     });
 
                     if (Circle != null && Circle != undefined && Circle != "") {
@@ -1497,7 +1520,7 @@
                         preloadddl.empty();
                         preloadddl.append('<option value="">--Select--</option>');
                         $.each(data, function (i, item) {
-                            preloadddl.append('<option value="' + item.state_code + '">' + item.state_name + '</option>');
+                            preloadddl.append('<option value="' + item.state_code + '">' + toProperCase(item.state_name) + '</option>');
                         });
                         if (State != null && State != undefined && State != "") {
                             $('#' + ddl).val(State);
@@ -2453,7 +2476,7 @@
             function validate_bnk() {
                 let rowCount = $("#BankDtlsBody tr[data-item]").length;
                 if (rowCount === 0) {
-                    ModernAlert.toast.info('Please add at one row of Bank Details.');
+                    ModernAlert.toast.info('Please add atleast one row of Bank Details.');
                     return false;
                 }
                 else {
@@ -3294,35 +3317,7 @@
                     }
                 }
             }
-            function SubmitModifiedApp() {
 
-                if (AppId == "" || AppId == null || AppId == undefined) {
-                    ModernAlert.showError(res.message || "Failed to Submit");
-                    return false;
-                }
-                else {
-                    $.ajax({
-                        url: '@Url.Action("ReSubmitApplication", "Registration")',
-                        type: "POST",
-                        data: { AppId: AppId },
-                        success: function (res) {
-                            if (res.success) {
-                                ModernAlert.showSuccess(
-                                    'Your Application has been Resubmitted successfully.',
-                                    'Success',
-                                    '@Url.Action("Home", "PTHome")'
-                                );
-                            }
-                            else {
-                                ModernAlert.showError(res.message || "Failed to Submit");
-                            }
-                        },
-                        error: function () {
-                            ModernAlert.showError(res.message || "Failed to Save");
-                        }
-                    });
-                }
-            }
 
             function onOwnerConutryChange() {
                 if ($('#O_country').val() != "1") {
@@ -3445,6 +3440,38 @@
                     $('#hdr1').show();
                 }
             }
+
+        function loaddistrictddls(district, ddl) {
+            $.ajax({
+                url: '@Url.Action("GetDistricts","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    var dropdown1 = $('#district');
+                    var dropdown2 = $('#O_distict');
+                    var dropdown3 = $('#auth_district');
+                    var dropdown4 = $('#dir_prtnr_district');
+                    var dropdown5 = $('#addl_plc_district');
+                    dropdown1.empty(); dropdown2.empty(); dropdown3.empty(); dropdown4.empty(); dropdown5.empty();
+
+                    dropdown1.append('<option value="">--Select--</option>');
+                    dropdown2.append('<option value="">--Select--</option>');
+                    dropdown3.append('<option value="">--Select--</option>');
+                    dropdown4.append('<option value="">--Select--</option>');
+                    dropdown5.append('<option value="">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown1.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                        dropdown2.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                        dropdown3.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                        dropdown4.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                        dropdown5.append('<option value="' + item.district_code + '">' + toProperCase(item.district_name) + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to load Districts');
+                }
+            });
+        }
 
 
     </script>

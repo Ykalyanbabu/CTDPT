@@ -34,8 +34,8 @@ else
                     <div class="payment-icon">
                         <i class="fas fa-credit-card"></i>
                     </div>
-                    <h2 class="payment-title">Professional Tax Payment Portal</h2>
-                    <p class="payment-subtitle">Calculate and pay Professional Tax for your business and employees</p>
+                    <h2 class="payment-title">Profession Tax Payment Portal</h2>
+                    <p class="payment-subtitle">Calculate and pay Profession Tax for your business and employees</p>
                 </div>
 
                 <div class="form-row">
@@ -90,7 +90,7 @@ else
                         <div class="purpose-box" id="oth_box">
                             <select class="form-select" id="othSelect" style="width: 56%;">
                                 <option value="">-- Select Category --</option>
-                                <option>TDS of Professional Tax by Insurer for Agents</option>
+                                <option>TDS of Profession Tax by Insurer for Agents</option>
                                 <option>Payment by Turf Club on behalf of Licensed Persons U/S 5A</option>
                             </select>
                         </div>
@@ -445,7 +445,7 @@ else
                 if (item.mon_yr) {
                     $ddl.append($('<option>', {
                         value: item.mon_yr,
-                        text: item.mon_yr
+                        text: item.mon_yr + '-' + (parseFloat(item.mon_yr) + 1)
                     }));
                 }
             });

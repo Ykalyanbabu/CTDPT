@@ -279,9 +279,11 @@ footer {
     position: relative;
     display: inline-block;
 }
+
     .more-dropdown:hover {
         background: white !important;
     }
+
 .more-btn {
     background: transparent !important;
     border: none;
@@ -355,63 +357,348 @@ footer {
         font-size: 12px;
     }
 
+
+
+
+/* Base responsive adjustments */
 @media (max-width: 992px) {
-    .dropdown-content {
-        right: auto;
-        left: 0;
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 10px 15px;
     }
 
-        .dropdown-content a {
-            white-space: normal;
-            font-size: 11px !important;
-            padding: 10px 12px !important;
+    .logo-section {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+        .logo-section img {
+            height: 45px;
         }
-}
 
-@media (max-width: 768px) {
-    .more-dropdown {
-        width: 100%;
-    }
-
-    .more-btn {
-        width: 100%;
+    .header-actions {
+        margin-top: 5px;
+        flex-wrap: wrap;
         justify-content: center;
     }
 
-    .dropdown-content {
-        width: 100%;
-        position: static;
-        display: none;
-        background: rgba(0,0,0,0.2);
+    .date-time {
+        height: auto;
+        font-size: 13px;
+        padding: 4px 0;
     }
 
-    .more-dropdown.active .dropdown-content {
-        display: block;
+    .menu {
+        justify-content: flex-start;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 8px 12px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        gap: 4px;
     }
 
-    .dropdown-content a {
-        padding-left: 30px !important;
+        .menu::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        .menu::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+
+        .menu::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.5);
+            border-radius: 3px;
+        }
+
+        .menu a {
+            padding: 10px 14px;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+    .more-btn {
+        padding: 10px 14px !important;
+    }
+
+    .main-content {
+        padding: 165px 15px 30px !important;
     }
 }
 
 @media (max-width: 768px) {
-    .more-dropdown .dropdown-content {
-        display: none;
+    .fixed-header-container {
+        position: relative;
+        /* Change from fixed to relative on mobile */
     }
 
-    .more-dropdown.active .dropdown-content {
-        display: block;
+    .site-header {
+        padding: 8px 0;
     }
+
+    .logo-section {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+        .logo-section img {
+            height: 38px;
+        }
+
+    .header-text .dept {
+        font-size: 14px;
+    }
+
+    .header-text .govt {
+        font-size: 11px;
+    }
+
+    .header-actions {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .date-time {
+        font-size: 11px;
+        padding: 5px 8px;
+        background: rgba(0,0,0,0.05);
+        border-radius: 20px;
+        display: inline-flex;
+    }
+
+    .header-actions a.home-link {
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+
+    .menu-bar {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+
+    .menu {
+        padding: 6px 10px;
+        gap: 3px;
+    }
+
+        .menu a {
+            padding: 8px 12px;
+            font-size: 10px;
+            border-radius: 20px;
+        }
+
+            .menu a i {
+                font-size: 10px;
+            }
+
+    .more-btn {
+        padding: 8px 12px !important;
+    }
+
+        .more-btn i.fa-chevron-down {
+            font-size: 8px;
+        }
+
+    .main-content {
+        padding: 20px 12px 30px !important;
+        /* Remove large top padding since header is not fixed */
+    }
+
+    /* Dropdown menu adjustments for mobile */
+    .more-dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: auto;
+        min-width: 200px;
+        background: linear-gradient(135deg, #600664, #75339b, #590568, #531f66);
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        z-index: 1002;
+    }
+
+        .dropdown-content a {
+            padding: 10px 15px !important;
+            font-size: 11px !important;
+            white-space: nowrap;
+        }
 }
 
-/* For very small devices */
-@media (max-width: 480px) {
+@media (max-width: 576px) {
+    .logo-section img {
+        height: 32px;
+    }
+
+    .logo-section {
+        gap: 6px;
+    }
+
+    .header-text .dept {
+        font-size: 12px;
+    }
+
+    .header-text .govt {
+        font-size: 10px;
+    }
+
+    .date-time {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .header-actions a.home-link {
+        padding: 4px 10px;
+    }
+
+        .header-actions a.home-link svg {
+            width: 14px;
+            height: 14px;
+        }
+
+    .menu {
+        padding: 5px 8px;
+        gap: 2px;
+    }
+
+        .menu a {
+            padding: 6px 10px;
+            font-size: 9px;
+        }
+
+            .menu a i {
+                font-size: 9px;
+            }
+
+    .more-btn {
+        padding: 6px 10px !important;
+    }
+
     .main-content {
-        padding: 230px 10px 20px;
+        padding: 15px 10px 25px !important;
+    }
+
+    .dropdown-content {
+        min-width: 180px;
+    }
+
+        .dropdown-content a {
+            padding: 8px 12px !important;
+            font-size: 10px !important;
+        }
+}
+
+/* For very small devices (under 400px) */
+@media (max-width: 400px) {
+    .logo-section img {
+        height: 28px;
+    }
+
+    .header-text .dept {
+        font-size: 10px;
+    }
+
+    .header-text .govt {
+        font-size: 8px;
+    }
+
+    .date-time {
+        font-size: 9px;
+        padding: 2px 5px;
     }
 
     .menu a {
-        padding: 8px 10px;
+        padding: 5px 8px;
+        font-size: 8px;
+    }
+
+        .menu a i {
+            font-size: 8px;
+        }
+
+    .more-btn {
+        padding: 5px 8px !important;
+        font-size: 8px !important;
+    }
+
+    .main-content {
+        padding: 12px 8px 20px !important;
+    }
+}
+
+/* Landscape mode optimization */
+@media (max-width: 850px) and (orientation: landscape) {
+    .fixed-header-container {
+        position: relative;
+    }
+
+    .site-header {
+        padding: 4px 0;
+    }
+
+    .logo-section img {
+        height: 30px;
+    }
+
+    .header-text .dept {
+        font-size: 12px;
+    }
+
+    .header-text .govt {
         font-size: 10px;
+    }
+
+    .menu {
+        padding: 4px 10px;
+    }
+
+        .menu a {
+            padding: 6px 10px;
+            font-size: 9px;
+        }
+
+    .main-content {
+        padding: 15px 12px 20px !important;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (max-width: 768px) {
+    .menu a,
+    .more-btn,
+    .dropdown-content a {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+        .menu a:active,
+        .more-btn:active {
+            background-color: rgba(255,255,255,0.2);
+            transform: scale(0.97);
+        }
+
+    /* Smooth scrolling for menu */
+    .menu {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Fix for header when scrolling on mobile */
+@media (max-width: 768px) {
+    .menu-bar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 999;
     }
 }

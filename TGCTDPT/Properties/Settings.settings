@@ -5,5 +5,8 @@
     <Setting Name="TGCTDPT_BSNL_SMS_SMS_BSNL" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/SMSService/SMS_BSNL.asmx</Value>
     </Setting>
+    <Setting Name="TGCTDPT_Mail_Services_send_mail" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost/Mail_Services/send_mail.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

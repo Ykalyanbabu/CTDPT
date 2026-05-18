@@ -5,7 +5,7 @@
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
 <body>
- 
+
 
     <div class="container Reports">
         <!--<div class="page-header">
@@ -244,7 +244,7 @@
         </div>
     </div>
 
-   
+
     <script src="active.js"></script>
 
     <script>
@@ -301,14 +301,14 @@
                     const activeView = document.querySelector('.view.active');
                     const originalContent = activeView.innerHTML;
                     activeView.innerHTML = `
-                                    <div class="card-body" style="text-align: center; padding: 60px 20px;">
-                                        <div style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;">
-                                            <i class="fas fa-spinner fa-spin"></i>
+                                        <div class="card-body" style="text-align: center; padding: 60px 20px;">
+                                            <div style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;">
+                                                <i class="fas fa-spinner fa-spin"></i>
+                                            </div>
+                                            <h3>Loading Report Data...</h3>
+                                            <p>Fetching data for financial year ${this.value}</p>
                                         </div>
-                                        <h3>Loading Report Data...</h3>
-                                        <p>Fetching data for financial year ${this.value}</p>
-                                    </div>
-                                `;
+                                    `;
 
                     // Simulate API call
                     setTimeout(() => {

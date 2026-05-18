@@ -1,0 +1,423 @@
+﻿@model List<TGCTDPT.Models.DivisionReportModel>
+
+@{
+    ViewBag.Title = "DivLvlRetReport";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0b8b80;
+            --primary-dark: #0a7269;
+            --border-color: #e1e5e9;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .year-box {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .report-table th {
+                background: #dbe2ea;
+                border: 1px solid #cfd6dc;
+                padding: 10px;
+                text-align: center;
+            }
+
+            .report-table td {
+                border: 1px solid #cfd6dc;
+                padding: 8px;
+                text-align: center;
+            }
+
+            .report-table tbody tr:hover {
+                background: #f1f7f7;
+            }
+
+        .division-link {
+            font-weight: bold;
+            color: #003366;
+            text-decoration: none;
+        }
+
+            .division-link:hover {
+                color: #0b8b80;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="card">
+
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Division-wise Return Report
+            </div>
+
+            <div class="year-box">
+                @using (Html.BeginForm("DivisionReport", "Reports", FormMethod.Get))
+                {
+                    <label>Select Year :</label>
+
+                    <select name="year" onchange="this.form.submit()">
+                        @for (int y = 2023; y <= DateTime.Now.Year ; y++)
+                        {
+                            <option value="@y" @(ViewBag.Year == y ? "selected" : "")>@y</option>
+                        }
+                    </select>
+                }
+            </div>
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>Division</th>
+                        <th>Active TPs</th>
+                        <th>No of Returns Filed</th>
+                        <th>% Filed</th>
+                        <th>No of Returns To Be Filed</th>
+                        <th>% Pending</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.ActionLink(
+                                        item.division_name,
+                                        "CircleReport",
+                                        "Reports",
+                                        new
+                                        {
+                                            division = item.division_name,
+                                            year = ViewBag.Year
+                                        },
+                                        new { @class = "division-link" }
+                                    )
+                                </td>
+
+                                <td>@item.ActiveTPs</td>
+                                <td>@item.ReturnsFiled</td>
+                                <td>@item.FiledPercentage %</td>
+                                <td>@item.ToBeFiled</td>
+                                <td>@item.PendingPercentage %</td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">No Records Found</td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+<!--@model List<TGCTDPT.Models.DivisionReportModel>
+@{
+    ViewBag.Title = "DivLvlRetReport";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Division-wise Return Report</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="innerheader.css" rel="stylesheet">
+
+    <style>
+
+        :root {
+            --primary-color: #0b8b80;
+            --primary-dark: #0a7269;
+            --primary-light: #e6f4f3;
+            --secondary-color: #2c3e50;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #e1e5e9;
+        }
+
+        /* PAGE LAYOUT */
+
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            border: 1px solid rgba(255,255,255,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(to right,#0b8b80,#0a7269);
+                border-radius: 16px 16px 0 0;
+            }
+
+        /* TITLE */
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin: -10px 0 20px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* TABLE */
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .report-table th {
+                background: #dbe2ea;
+                border: 1px solid #cfd6dc;
+                padding: 10px;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .report-table td {
+                border: 1px solid #cfd6dc;
+                padding: 10px;
+                text-align: center;
+            }
+
+            .report-table tbody tr:hover {
+                background: #f1f7f7;
+            }
+
+        /* CLICKABLE CIRCLE */
+
+        .circle-link {
+            background: #b7cde0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #003366;
+        }
+
+            .circle-link:hover {
+                background: #9fb8d4;
+            }
+    </style>-->
+@*<script>
+
+        $(document).ready(function () {
+
+            $(".circleReport").click(function () {
+
+                var division = $(this).data("division");
+
+                window.open(
+                    "pt_cir_report.html?division=" + division,
+                    "_blank",
+                    "width=1100,height=650"
+                );
+
+            });
+
+        });
+
+    </script>*@
+
+<!--</head>
+
+<body>-->
+<!-- HEADER -->
+<!--<div id="header-container"></div>
+
+
+    <div class="wrapper">
+
+        <div class="card">
+
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Division-wise Return Report
+            </div>
+            <div class="filter-box">
+                <label for="year"><strong>Year :</strong></label>
+                <select id="year">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025" selected>2025</option>
+                    <option value="2026">2026</option>
+                </select>
+
+                <label for="month" style="margin-left:20px;"><strong>Month :</strong></label>
+                <select id="month">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+        </div>
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Division</th>
+                        <th>No of Active TPs</th>
+                        <th>No of Returns Filed</th>
+                        <th>Filing %</th>
+                        <th>No of Returns Pending</th>
+                        <th>Pending %</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   @* @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="circle-link circleReport"data-division="@item.division_name" data-year-id="year">
+                                @item.division_name
+                            </td>
+                            <td>@item.active_tps</td>
+                            <td>@item.ReturnsFiled</td>
+                            <td>@item.filingprcntg</td>
+                            <td>@item.BalReturns</td>
+                            <td>@item.pndngprcntg</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="innerheader.js"></script>
+    <script src="active.js"></script>
+
+</body>
+</html>-->
+*@
+  

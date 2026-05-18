@@ -1,0 +1,791 @@
+﻿
+@{
+    ViewBag.Title = "ViewRequest";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+<head>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #eef2f5;
+            min-height: 100vh;
+        }
+
+        /* Main layout wrapper */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ========= MAIN CONTENT LAYOUT ========= */
+        .main-dashboard {
+            display: flex;
+            flex: 1;
+            /*padding: 0rem 2rem;*/
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* ========= MAIN CARD (CHECKBOX DYNAMIC PANEL) ========= */
+        .checkbox-panel {
+            flex: 3;
+            min-width: 320px;
+            background: white;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid #eef2f9;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 60%, #ab47bc 100%);
+            padding: 1.2rem 1.8rem;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+            .panel-header h2 {
+                font-size: 1.5rem;
+                color: white;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                justify-content: space-around;
+            }
+
+                .panel-header h2 span {
+                    background: #d4a11e20;
+                    padding: 0.2rem 0.6rem;
+                    font-size: 0.8rem;
+                    border-radius: 30px;
+                    color: #8b6b0e;
+                }
+
+        .instruction {
+            font-size: 0.8rem;
+            color: #4b6a78;
+            margin-top: 0.5rem;
+        }
+
+        /* summary bar - tax department style */
+        .summary-tax {
+            background: #fef7e0;
+            padding: 0.8rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border-bottom: 1px solid #f0e3c2;
+        }
+
+        .selected-counter {
+            background: #0b3b2f;
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .selected-items-text {
+            font-size: 0.8rem;
+            color: #2c4a2e;
+            font-weight: 500;
+            max-width: 65%;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        /* TWO COLUMN CHECKBOX GRID */
+        .dynamic-grid {
+            padding: 1.8rem;
+        }
+
+        .grid-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .checkbox-card {
+            flex: 1 1 calc(50% - 0.8rem);
+            background: #ffffff;
+            border: 1px solid #e4e9f0;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+            .checkbox-card:hover {
+                background: #fafeff;
+                border-color: #bbd4c9;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+            }
+
+            .checkbox-card input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 1.25rem;
+                height: 1.25rem;
+                border: 2px solid #b9c8d0;
+                border-radius: 0.35rem;
+                margin-right: 0.9rem;
+                position: relative;
+                cursor: pointer;
+                background: white;
+                transition: 0.1s;
+                flex-shrink: 0;
+            }
+
+                .checkbox-card input[type="checkbox"]:checked {
+                    background-color: #1f6e52;
+                    border-color: #1f6e52;
+                }
+
+                    .checkbox-card input[type="checkbox"]:checked::after {
+                        content: "✔";
+                        font-size: 0.75rem;
+                        font-weight: bold;
+                        color: white;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+
+            .checkbox-card label {
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: #1f2f3a;
+                cursor: pointer;
+                flex: 1;
+                letter-spacing: -0.2px;
+            }
+
+            .checkbox-card input:checked + label {
+                color: #0f5e48;
+                font-weight: 600;
+            }
+
+        /* action buttons */
+        .action-buttons {
+            padding: 0.2rem 1.8rem 1.8rem 1.8rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            /*border-top: 1px solid #ecf3e8;*/
+            margin-top: -1.5rem;
+            justify-content: space-around;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.55rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f1f4f9;
+            color: #1f3b44;
+        }
+
+        .btn-primary {
+            background: #0b3b2f;
+            color: white;
+            box-shadow: 0 2px 6px rgba(11,59,47,0.2);
+        }
+
+            .btn-primary:hover {
+                background: #1b5e4a;
+                transform: translateY(-1px);
+            }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #cbdde2;
+        }
+
+            .btn-outline:hover {
+                background: #eef3f6;
+            }
+
+        .btn-warning {
+            background: #fff1e0;
+            color: #aa6f20;
+        }
+
+            .btn-warning:hover {
+                background: #ffe2bf;
+            }
+
+        /* footer */
+        .dept-footer {
+            background: #132e27;
+            color: #cbd5d1;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.7rem;
+            margin-top: auto;
+        }
+
+        @@media (max-width: 750px) {
+            .main-dashboard {
+                padding: 1.2rem;
+            }
+
+            .selected-items-text {
+                white-space: normal;
+                max-width: 100%;
+            }
+
+            .checkbox-card {
+                flex: 1 1 100%;
+            }
+
+            .gov-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .datetime-area {
+                text-align: center;
+            }
+        }
+
+        .card {
+            max-width: 1100px !important;
+            margin: 0px auto;
+            padding: 25px;
+            /*border: 2px solid #374151;
+            border-radius: 6px;*/
+            background: #ffffff;
+        }
+
+            .card h5.text-primary {
+                font-weight: 600 !important;
+                border-left: 4px solid #690376;
+                padding-left: 10px;
+                color: blue;
+            }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-dashboard">
+            <div class="checkbox-panel">
+                <div class="panel-header">
+                    <h2>Registration Amendment Request</h2>
+                    @*<div class="instruction"></div>*@
+                </div>
+               
+                <div id="DivEntryPannel" style="display:block;">
+                    <div class="text-center mb-4" id="divRuleBanner" style="display:block;">
+                        <h5 class="fw-bold text-primary" style="color: blue;">Form I and Form II </h5>
+                        <h6>See Section 6 Read with Rule 3(1) and Rule 4(1)</h6>
+                        <h6>
+                            Application for Registration and Certificate for Enrolment/Revision of Certificate of Enrolment <br />
+                            Under the Telangana Professions,Trades,Callings and Employement Act,1987
+                        </h6>
+                    </div>
+                    <div id="divBusiness" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Enterprise Name and Details</h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>
+                                            Division 
+                                        </label>
+                                        <label id="lblDivisionEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Circle
+                                        </label>
+                                        <label id="lblCircleEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Name of the Enterprise/Individual 
+                                        </label>
+                                        <label id="lblEnterprise"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            PAN (Business) 
+                                        </label>
+                                        <label id="lblPANEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Constitution of Business 
+                                        </label>
+                                        <label id="lblConstitution"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Email 
+                                        </label>
+                                        <label id="lblEmailEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number 
+                                        </label>
+                                        <label id="lblMobileEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number 
+                                        </label>
+                                        <label id="lblDoorNoEnter"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name 
+                                        </label>
+                                        <label id="lblRoadEnter"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality
+                                        </label>
+                                        <label id="lblLocalityEnter"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village
+                                        </label>
+                                        <label id="lblCityEnter"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality 
+                                        </label>
+                                        <label id="lblMandalEnter"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            District 
+                                        </label>
+                                        <label id="lblDistrictEnter"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN 
+                                        </label>
+                                        <label id="lblPINEnter"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divEmployee" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Employee Details</h5>
+                                <hr />
+                                <div class="form-group" style="width:150%">
+                                    <label style="margin-top: 15px;">
+                                        <b>
+                                            Do you have Employees?
+                                        </b> 
+                                    </label>
+                                    <div>
+                                        <label id="lblEmpStatus"></label>
+                                    </div>
+                                </div>
+                                <div class="form-grid" style="display: block; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" id="divIsEmp">
+                                    <div class="form-group">
+                                        <label>
+                                            Number Of Employees Earning Below 15000 per month 
+                                        </label>
+                                        <label id="lblBelow"></label>
+                                        <br />
+                                        <label>
+                                            Number Of Employees Earning between 15001 to 20000 per month 
+                                        </label>
+                                        <label id="lblBetween"></label>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Number Of Employees Earning above 20000 per month 
+                                        </label>
+                                        <label id="lblBetween"></label>
+                                        <br />
+                                        <label>
+                                            Total Number Of Employees Working
+                                        </label>
+                                        <label id="lblTotalEmp"></label>
+                                    </div>
+                                    <br />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divKeyDetails" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Owner/Proprietor/Managing Director/Managing Partner/Chairman/Professional Details </h5>
+                                <hr />
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>
+                                            Name  
+                                        </label>
+                                        <label id="lblNameKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Father Name 
+                                        </label>
+                                        <label id="lblFatherNameKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Status of the Individual 
+                                        </label>
+                                        <label id="lblStatusKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Email 
+                                        </label>
+                                        <label id="lblEmailKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number
+                                        </label>
+                                        <label id="lblDoorKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name 
+                                        </label>
+                                        <label id="lblRoadKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Locality 
+                                        </label>
+                                        <label id="lblLocalityKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village 
+                                        </label>
+                                        <label id="lblCityKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mandal / Municipality 
+                                        </label>
+                                        <label id="lblMandalKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Country 
+                                        </label>
+                                        <label id="lblCountryKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group" id="divOwnerState">
+                                        <label>
+                                            State 
+                                        </label>
+                                        <label id="lblStateKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group" id="divOwnerDist">
+                                        <label>
+                                            District 
+                                        </label>
+                                        <label id="lblDistrictKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN 
+                                        </label>
+                                        <label id="lblPINKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PAN(Owner) 
+                                        </label>
+                                        <label id="lblPANKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Aadhaar 
+                                        </label>
+                                        <label id="lblAadharKey" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number
+                                        </label>
+                                        <label id="lblMobileKey" class="form-label"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divAuthPerson" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <form>
+                                <h5 class="mt-2 mb-2 text-primary">Authorised Person Details</h5>
+                                <hr />
+                                <div class="form-group" style="width:150%">
+                                    <label style="margin-top: 15px;">
+                                        <b>
+                                            Have you Nominated any Authorised Person?
+                                        </b> 
+                                    </label>
+                                    <div>
+                                        <label id="lblNomStatus" class="form-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-grid" id="divAuthorised">
+                                    <div class="form-group">
+                                        <label>
+                                            Name  
+                                        </label>
+                                        <label id="lblAuthName" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Father Name 
+                                        </label>
+                                        <label id="lblAuthFather" class="form-label"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Email
+                                        </label>
+                                        <label id="lblAuthEmail" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Door Number 
+                                        </label>
+                                        <label id="lblAuthDoor" class="form-label"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Road / Street / Building Name 
+                                        </label>
+                                        <label id="lblAuthRoad" class="form-label"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            Locality 
+                                        </label>
+                                        <label id="lblAuthLocality" class="form-label"></label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            City / Town / Village
+                                        </label>
+                                        <label id="lblAuthCity" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            District 
+                                        </label>
+                                        <label id="lblAuthDistrict" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PIN 
+                                        </label>
+                                        <label id="lblAuthPin" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            PAN 
+                                        </label>
+                                        <label id="lblAuthPan" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Aadhaar 
+                                        </label>
+                                        <label id="lblAuthAadhar" class="form-label"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile Number
+                                        </label>
+                                        <label id="lblAuthMobile" class="form-label"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div id="divPartnerDirector" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <h6 class="text-primary mb-3" id="hdr1">Partner / Director Details</h6>
+
+                            <div class="table-responsive" id="divPartnerstable">
+                                <table class="table table-bordered table-hover align-middle" id="dirprtnrTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Name</th>
+                                            <th>Director/Partner</th>
+                                            <th>Drawing Remuneration</th>
+                                            <th>Door Number </th>
+                                            <th>Road / Street / <br />Building Name </th>
+                                            <th>Locality </th>
+                                            <th>City / Town / Village </th>
+                                            <th>Mandal / Municipality </th>
+                                            <th>District </th>
+                                            <th>State </th>
+                                            <th>Country </th>
+                                            <th>PIN  </th>
+                                            <th>PAN  </th>
+                                            <th>Aadhar </th>
+                                            <th> Email Id </th>
+                                            <th>Mobile No. </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="PartnerBody">
+                                        <tr id="noDataRow">
+                                            <td colspan="7" class="text-center text-muted">
+                                                No Partner / Director added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divAdditionalPlace" class="container mt-4" style="display: block;">
+                        <div class="card">
+                           
+                            <h6 class="text-primary mb-3" id="h6AddedPlaces"> Additional Place Details</h6>
+
+                            <div class="table-responsive" id="tblAddedPlaces">
+                                <table class="table table-bordered table-hover align-middle" id="AdditionalPlaceTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Country </th>
+                                            <th>State </th>
+                                            <th>District </th>
+                                            <th>Mandal / Municipality </th>
+                                            <th>Door Number </th>
+                                            <th>City / Town / Village </th>
+                                            <th>Road / Street / <br />Building Name </th>
+                                            <th>Locality </th>
+                                            <th>PIN  </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="AddlPlaceBody">
+                                        <tr id="noDataRow1">
+                                            <td colspan="10" class="text-center text-muted">
+                                                No Additional Place added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="divBankDtls" class="container mt-4" style="display: block;">
+                        <div class="card">
+                            <form>
+                                <h6 class="text-primary mb-3" id="h6Addedbank"> Bank Details</h6>
+
+                                <div class="table-responsive" id="tblbnkdtls">
+                                    <table class="table table-bordered table-hover align-middle" id="bankdetailsTable" style="font-size: small;">
+                                        <thead class="table-light" style="text-align: center;">
+                                            <tr>
+                                                <th>S No. </th>
+                                                <th>Bank Name </th>
+                                                <th>Account Number </th>
+                                                <th>Account Holder Name </th>
+                                                <th>IFSC Code </th>
+                                                <th>Bank Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="BankDtlsBody">
+                                            <tr id="noDataRow2">
+                                                <td colspan="10" class="text-center text-muted">
+                                                    No Bank Details Added
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="divDocuments" class="container mt-4" style="display:block;">
+                        <div class="card">
+                            <h6 class="text-primary mb-3">Uploaded Documents List</h6>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover align-middle" id="DocumentsTable" style="font-size: small;">
+                                    <thead class="table-light" style="text-align: center;">
+                                        <tr>
+                                            <th>S No. </th>
+                                            <th>Document Name </th>
+                                            <th style="width:120px;" class="text-center">View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FilesBody">
+                                        <tr id="noDataRowFiles">
+                                            <td colspan="5" class="text-center text-muted">
+                                                No Files added
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="action-buttons" style="margin: 5px 0px 0px 0px;">
+                        <button class="btn btn-primary" id="btnApprove"  style="background-color: #8f0aa7; width: 15%;">Approve</button>
+                        <button class="btn btn-primary" id="btnReject"  style="background-color: #8f0aa7; width: 15%;">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>

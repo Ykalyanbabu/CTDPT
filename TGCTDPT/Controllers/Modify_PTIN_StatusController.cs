@@ -22,9 +22,9 @@ namespace TGCTDPT.Controllers
             return View(rcd);
         }
 
-        public ActionResult Reactivate_PTIN()
+        public ActionResult Reactivate_PTIN(string StrTIN)
         {
-            string StrTIN = Session["TIn"].ToString();
+             
             RC_Cancel_ReActivate_Details rcd = dal.CanPTEntityDetails(StrTIN);
             return View(rcd);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,8 +21,8 @@ namespace TGCTDPT.Controllers
         {
             return View();
         }
-       
-        public ActionResult PaymentConfirmation(string returnId,string tin)
+
+        public ActionResult PaymentConfirmation(string returnId, string tin)
         {
             if (tin != null && tin != "")
             {
@@ -41,29 +42,40 @@ namespace TGCTDPT.Controllers
             }
             return View(data);
         }
-        public ActionResult OtherPaymentConfirmation(string returnId, string tin)
+        public ActionResult OtherPaymentConfirmation(string ptin, string purpose, string FromDate, string ToDate, string Amount, string Remarks)
         {
-            if (tin != null && tin != "")
+            if (ptin != null && ptin != "")
             {
-                Session["Tin"] = tin;
+                Session["Tin"] = ptin;
             }
             if (Session["Tin"] == null)
             {
                 return RedirectToAction("Home", "PTHome");
             }
-            var data = dal.GetReturnById(returnId);
-            Session["ReturnId"] = data.ReturnId; ;
-            if (data != null)
+            var data = new OtherPaymentConfirmationModel();
+            var ddo = dal.GetddocodebyTin(ptin);
+            if (ddo != null)
             {
                 var rnrno = dal.GetNextRnr();
                 Session["CTDTId"] = rnrno;
+                Session["TAmount"] = Amount;
                 data.CTDTransactionId = rnrno;
+                data.Ptin = ptin;
+                data.TypeofTax = "Profession Tax";
+                data.TaxPurpose = purpose;
+                data.FromDate = FromDate;
+                data.ToDate = ToDate;
+                data.EnterpriseName = ddo.EnterpriseName;
+                data.Ddocode = ddo.Ddocode;
+                data.Circlecode = ddo.Circlecode;
+                data.Amount = Convert.ToInt32(Amount);
+                data.Remarks = Remarks;
             }
             return View(data);
         }
 
         [HttpPost]
-        public ActionResult ProcessPayment(string returnId)
+        public ActionResult ProcessPaymentOld(string returnId)
         {
             try
             {
@@ -146,93 +158,269 @@ namespace TGCTDPT.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult PaymentReturn()
+        [HttpPost]
+        public ActionResult ProcessPayment(string returnId)
         {
             try
             {
-                var model = new PaymentReceiptViewModel();
-
-                if (Request.HttpMethod == "POST")
+                if (Session["Tin"] == null)
                 {
-                    model.CTDTransactionId = Request.Form["depttransid"] ?? Request.QueryString["depttransid"];
-                    model.Amount = Request.Form["bankamount"]?.Trim() ?? Request.QueryString["bankamount"];
-                    model.BankName = Request.Form["bankname"]?.Trim() ?? Request.QueryString["bankname"];
-                    model.BankAckNo = Request.Form["banktransid"]?.Trim() ?? Request.QueryString["banktransid"];
-                    model.ChallanNo = Request.Form["challanno"]?.Trim() ?? Request.QueryString["challanno"];
-                    model.PaymentDate = Request.Form["trydate"]?.Trim() ?? Request.QueryString["trydate"];
-                    model.Status = Request.Form["bankstatus"]?.ToUpper().Trim() ?? Request.QueryString["bankstatus"]?.ToUpper();
-                    model.HOA = Request.Form["hoa"]?.Trim() ?? Request.QueryString["hoa"];
-                }
-                else
-                {
-                    /*model.CTDTransactionId = Request.QueryString["depttransid"];
-                    model.Amount = Request.QueryString["bankamount"];
-                    model.BankName = Request.QueryString["bankname"];
-                    model.BankAckNo = Request.QueryString["banktransid"];
-                    model.ChallanNo = Request.QueryString["challanno"];
-                    model.PaymentDate = Request.QueryString["trydate"];
-                    model.Status = Request.QueryString["bankstatus"]?.ToUpper();
-                    model.HOA = Request.QueryString["hoa"];*/
-
-                    model.CTDTransactionId = "3611425242422";
-                    model.Amount = "2000";
-                    model.BankName = "Axis Bank";
-                    model.BankAckNo = "961812345867876";
-                    model.ChallanNo = "65032156799";
-                    model.PaymentDate = "28-Feb-2026";
-                    model.Status = "Success";
-                    model.HOA = "36GHZ56776489999";
-                    model.TypeofTax = "PT";
-                    model.Ptin = "361814757567";
-                    model.EnterpriseName = "Sai Ram Jingri Pvt.Ltd";
-                    model.TaxPurpose = "Return Tax";
-                    model.ReturnPeriod = "2024-2025";
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Session expired. Please login again.",
+                        redirectToLogin = true
+                    });
                 }
 
-                //if (!string.IsNullOrEmpty(model.CTDTransactionId))
-                //{
-                //    var paymentDetails = dal.GetReturnById(model.CTDTransactionId);
-                //    if (paymentDetails != null)
-                //    {
-                //        model.TypeofTax = paymentDetails.TypeofTax;
-                //        model.Ptin = paymentDetails.Ptin;
-                //        model.EnterpriseName = paymentDetails.EnterpriseName;
-                //        model.TaxPurpose = paymentDetails.TaxPurpose;
-                //        model.ReturnPeriod = paymentDetails.ReturnPeriod;
-                //    }
-                //}
+                var data = dal.GetReturnById(returnId);
 
-                //LogPaymentReturn(model);
-
-                if (model.Status == "SUCCESS" || model.Status == "SUCCESSFUL")
+                if (data == null)
                 {
-                    //UpdatePaymentStatus(model.CTDTransactionId, "Success", model.BankAckNo, model.ChallanNo);
-
-                    TempData["PaymentSuccess"] = true;
-                    TempData["SuccessMessage"] = "Payment processed successfully!";
-                }
-                else
-                {
-                    //UpdatePaymentStatus(model.CTDTransactionId, "Failed", model.BankAckNo, model.ChallanNo);
-                    TempData["PaymentSuccess"] = false;
-                    TempData["ErrorMessage"] = "Payment failed. Please try again.";
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Invalid payment transaction"
+                    });
                 }
 
-                //return View("PaymentReceipt", model);
-                return View(model);
+                string ddocode = data.Ddocode?.ToString();
+                string hoa = data.Hoa?.ToString();
+                string deptCode = data.DeptId?.ToString();
+                string amount = Convert.ToDecimal(data.Amount).ToString("0.00");
+
+                string dru = ConfigurationManager.AppSettings["ReturnUrl"];
+
+                string deptTransId = Session["CTDTId"].ToString();
+
+                var paymentId = dal.InsertPTPaymentDetails(
+                    Session["CTDTId"].ToString(),
+                    Session["Tin"].ToString(),
+                    data.TypeofTax,
+                    data.ReturnPeriod,
+                    data.ReturnPeriod,
+                    Convert.ToInt32(data.Amount),
+                    data.TaxPurpose,
+                    Session["Tin"].ToString(),
+                    Session["ReturnId"].ToString()
+                );
+
+                if (string.IsNullOrEmpty(paymentId))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Unable to initialize payment. Please try again."
+                    });
+                }
+
+                string paymentGatewayUrl = ConfigurationManager.AppSettings["PaymentUrl"];
+
+                return Json(new
+                {
+                    success = true,
+                    paymentUrl = paymentGatewayUrl,
+
+                    formData = new
+                    {
+                        dru = dru,
+                        deptcode = deptCode,
+                        depttransid = deptTransId,
+                        ddocode = ddocode,
+                        hoa = hoa,
+                        remittersname = Session["Tin"].ToString(),
+                        amount = Convert.ToDecimal(amount).ToString("0.00")
+                    }
+                });
             }
             catch (Exception ex)
             {
-               
-                TempData["ErrorMessage"] = "Error processing payment return: " + ex.Message;
-                return RedirectToAction("Home", "PTHome");
+                return Json(new
+                {
+                    success = false,
+                    message = "Error processing payment: " + ex.Message
+                });
             }
         }
-
-        private void LogPaymentAttempt(string transactionId, string paymentUrl)
+        [HttpPost]
+        public ActionResult ProcessPaymentOther(string ptin, string type, string purpose, string fdate, string tdate, string remarks)
         {
-            
+            try
+            {
+                if (Session["Tin"] == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Session expired. Please login again.",
+                        redirectToLogin = true
+                    });
+                }
+
+                var ddo = dal.GetddocodebyTin(ptin);
+
+                if (ddo == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Invalid payment transaction"
+                    });
+                }
+
+                string ddocode = ddo.Ddocode?.ToString();
+                string hoa = ddo.Hoa?.ToString();
+                string deptCode = ddo.DeptId?.ToString();
+                string amount = Convert.ToDecimal(Session["TAmount"].ToString()).ToString("0.00");
+
+                string dru = ConfigurationManager.AppSettings["ReturnUrl"];
+
+                string deptTransId = Session["CTDTId"].ToString();
+
+                var paymentId = dal.InsertPTPaymentDetailsOther(
+                    Session["CTDTId"].ToString(),
+                    Session["Tin"].ToString(),
+                    type,
+                    fdate,
+                    tdate,
+                    Convert.ToInt32(Session["TAmount"].ToString()),
+                    purpose,
+                    Session["Tin"].ToString(),
+                    remarks
+                );
+
+                if (string.IsNullOrEmpty(paymentId))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Unable to initialize payment. Please try again."
+                    });
+                }
+
+                string paymentGatewayUrl = ConfigurationManager.AppSettings["PaymentUrl"];
+
+                return Json(new
+                {
+                    success = true,
+                    paymentUrl = paymentGatewayUrl,
+
+                    formData = new
+                    {
+                        dru = dru,
+                        deptcode = deptCode,
+                        depttransid = deptTransId,
+                        ddocode = ddocode,
+                        hoa = hoa,
+                        remittersname = Session["Tin"].ToString(),
+                        amount = Convert.ToDecimal(amount).ToString("0.00")
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error processing payment: " + ex.Message
+                });
+            }
+        }
+        [HttpPost]
+        public ActionResult PaymentResponse()
+        {
+            try
+            {
+                var response = new IfmisPaymentResponse();
+
+                response.bankstatus = Request.Form["bankstatus"] ?? "";
+                response.challanno = Request.Form["challanno"] ?? "";
+                response.depttransid = Request.Form["depttransid"] ?? "";
+                response.bankname = Request.Form["bankname"] ?? "";
+                response.bankdate = Request.Form["bankdate"] ?? "";
+                response.hoa = Request.Form["hoa"] ?? "";
+                response.remittersname = Request.Form["remittersname"] ?? "";
+                response.ddocode = Request.Form["ddocode"] ?? "";
+                response.trydate = Request.Form["trydate"] ?? "";
+                response.banktransid = Request.Form["banktransid"] ?? "";
+
+                decimal amount = 0;
+                decimal bankamount = 0;
+
+                decimal.TryParse(
+                    Request.Form["amount"],
+                    out amount);
+
+                decimal.TryParse(
+                    Request.Form["bankamount"],
+                    out bankamount);
+
+                response.amount = amount.ToString();
+                response.bankamount = bankamount.ToString();
+
+                var transId = dal.InsertPaymentResponseLog(
+                    response.bankstatus,
+                    response.challanno,
+                    response.depttransid,
+                    response.bankname,
+                    response.bankdate,
+                    response.amount,
+                    response.hoa,
+                    response.remittersname,
+                    response.ddocode,
+                    response.bankamount,
+                    response.trydate,
+                    response.banktransid
+                );
+
+                var data = dal.GetDeatailsbyPaymentId(response.depttransid);
+
+                if (data != null)
+                {
+                    response.enterprisename = data.EnterpriseName;
+                    response.typeoftax = data.TypeofTax;
+                    response.taxpurpose = data.TaxPurpose;
+                    response.remittersname = data.Ptin;
+                    response.returnperiod = data.ReturnPeriod;
+                }
+
+                dal.UpdatePTPaymentResponse(
+                    response.depttransid,
+                    response.challanno,
+                    response.hoa,
+                    response.bankname,
+                    response.bankstatus,
+                    response.banktransid
+                );
+
+                string status =
+                    (response.bankstatus ?? "")
+                    .Trim()
+                    .ToUpper();
+
+                if (status == "SUCCESS")
+                {
+                    return View("PaymentResponse", response);
+                }
+                else if (status == "PENDING")
+                {
+                    return View("PaymentResponse", response);
+                }
+                else
+                {
+                    return View("PaymentResponse", response);
+                }
+            }
+            catch (Exception ex)
+            {
+                /*dal.InsertErrorLog(
+                    "PaymentResponse",
+                    ex.Message,
+                    ex.StackTrace
+                );*/
+
+                return View("PaymentResponse");
+            }
         }
     }
 }

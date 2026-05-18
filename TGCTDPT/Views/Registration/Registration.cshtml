@@ -3268,10 +3268,11 @@
                 return false;
             }
             else {
+                var email_id = $("#email_id").val();
                 $.ajax({
                     url: '@Url.Action("SubmitApplication", "Registration")',
                     type: "POST",
-                    data: { AppId: AppId },
+                    data: { AppId: AppId,mail:email_id },
                     success: function (res) {
                         if (res.success) {
                             ModernAlert.showSuccess(

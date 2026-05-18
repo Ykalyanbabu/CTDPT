@@ -218,7 +218,7 @@ namespace TGCTDPT.DAL
         {
             using (var con = new SqlConnection(conStr))
             {
-                var result = con.QueryFirstOrDefault<string>(
+                string result = con.QueryFirstOrDefault<string>(
                     "usp_generate_rnr_number",
                     new
                     {

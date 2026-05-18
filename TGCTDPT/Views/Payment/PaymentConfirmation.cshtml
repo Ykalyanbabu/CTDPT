@@ -8,7 +8,7 @@
 <style>
 
     .payment-confirmation-wrapper {
-       /* height: calc(100vh + 46px);*/ /* Adjust based on your header/footer height */
+        /* height: calc(100vh + 46px);*/ /* Adjust based on your header/footer height */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -553,12 +553,32 @@
                     showLoading(false);
 
                     if (response.success) {
-                        showSuccess('Payment initialized successfully. Redirecting...');
+                        /*showSuccess('Payment initialized successfully. Redirecting...');
                         setTimeout(function() {
                             window.location.href = response.redirectUrl;
-                        }, 1000);
-                    } else {
-                        
+                        }, 1000);*/
+
+                        var form = $('<form>', {
+                            action: response.paymentUrl,
+                            method: 'POST'
+                        });
+
+                        $.each(response.formData, function (key, value) {
+
+                            form.append($('<input>', {
+                                type: 'hidden',
+                                name: key,
+                                value: value
+                            }));
+
+                        });
+                        $('body').append(form);
+
+                        form.submit();
+
+                    }
+                    else {
+
                         if (response.redirectToLogin) {
                             window.location.href = '@Url.Action("Home", "PTHome")';
                             return;
@@ -622,13 +642,13 @@
             showLoading(false);
         }
     };
-    window.addEventListener('beforeunload', function (e) {
+    /*window.addEventListener('beforeunload', function (e) {
         if (isProcessing) {
             var confirmationMessage = 'Payment is being processed. Are you sure you want to leave?';
             e.returnValue = confirmationMessage;
             return confirmationMessage;
         }
-    });
+    });*/
 
     $(document).ready(function () {
         var currentPage = window.location.pathname.toLowerCase();

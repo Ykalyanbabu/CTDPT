@@ -1,0 +1,972 @@
+﻿
+@{
+    ViewBag.Title = "ViewApplication";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+
+<head>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+
+        /* main container */
+        .amendment-dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            max-width: 1350px !important;
+            margin: 0 auto;
+            padding: 150px 20px 40px;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* header */
+        .review-header {
+            background: white;
+            border-radius: 28px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.3rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e9edf2;
+        }
+
+        .title-section h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4663, #2c6e9e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-section p {
+            font-size: 0.8rem;
+            color: #5f7f9f;
+            margin-top: 5px;
+            letter-spacing: 0.2px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #cfdfed;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c5a8c;
+        }
+
+            .btn-outline:hover {
+                background: #eef3fc;
+                border-color: #2c5a8c;
+                transform: translateY(-1px);
+            }
+
+        /* GRID 2 columns */
+        .comparison-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+        }
+
+        /* cards */
+        .data-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid #eef2f8;
+        }
+
+        .card-head {
+            padding: 1rem 1.5rem;
+            background: #fbfdff;
+            border-bottom: 2px solid #eef2f8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .card-head i {
+                font-size: 1.4rem;
+            }
+
+            .card-head h2 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                letter-spacing: -0.2px;
+            }
+
+        .badge-version {
+            margin-left: auto;
+            background: #eef2fa;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #2c5a8c;
+        }
+
+        /* content spacing */
+        .card-body {
+            padding: 1.2rem 1.5rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+
+        /* section blocks inside card */
+        .info-section {
+            border: 1px solid #f0f4fa;
+            border-radius: 20px;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .section-title {
+            background: #fafcff;
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid #eef3fc;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1f4e6e;
+        }
+
+            .section-title i {
+                color: #2c7a6e;
+                font-size: 0.9rem;
+            }
+
+        /* 2 column grid for fields */
+        .fields-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem 1.5rem;
+            padding: 1rem 1.2rem;
+        }
+
+        .field-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .field-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b8aac;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .field-value {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1f3b4c;
+            border-bottom: 1px dashed #e5eaef;
+            padding: 5px 0;
+            word-break: break-word;
+        }
+
+        .changed-highlight {
+            background: #fff7e0;
+            border-left: 3px solid #f4a261;
+            padding-left: 8px;
+            border-radius: 8px;
+        }
+
+        .amendment-tag {
+            font-size: 0.6rem;
+            background: #feeedf;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 8px;
+            color: #c7582c;
+            font-weight: 500;
+        }
+
+        /* ========= REDESIGNED SCROLLABLE TABLE (PARTNER SECTION) ========= */
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            border-radius: 16px;
+            margin-top: 4px;
+            scrollbar-width: thin;
+        }
+
+        .partner-table {
+            min-width: 1350px; /* ensures horizontal scroll, not breaking layout */
+            width: max-content;
+            border-collapse: collapse;
+            font-size: 0.72rem;
+            background: white;
+        }
+
+            .partner-table th {
+                background: #f8fafd;
+                padding: 12px 10px;
+                font-weight: 700;
+                font-size: 0.7rem;
+                color: #235b7c;
+                border-bottom: 1.5px solid #e2e9f0;
+                text-align: left;
+                white-space: nowrap;
+            }
+
+            .partner-table td {
+                padding: 10px 10px;
+                border-bottom: 1px solid #f0f4fa;
+                white-space: nowrap;
+                color: #1f3f54;
+            }
+
+        .table-highlight-row {
+            background: #fff9ef;
+        }
+
+        .badge-new {
+            background: #f0b37b;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 30px;
+            margin-left: 6px;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* activites table */
+        .compact-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+            .compact-table th {
+                background: #f8fafd;
+                padding: 8px 10px;
+                font-weight: 600;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .compact-table td {
+                padding: 8px 10px;
+                border-bottom: 1px solid #f0f3f8;
+            }
+
+        hr {
+            margin: 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            background: #fff;
+            width: fit-content;
+            padding: 6px 20px;
+            border-radius: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #5f7f9e;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        @@media (max-width: 1050px) {
+            body {
+                padding: 16px;
+            }
+
+            .comparison-layout {
+                gap: 1rem;
+            }
+
+            .fields-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@media (max-width: 800px) {
+            .comparison-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+
+        @@media print {
+            .action-buttons {
+                display: none;
+            }
+
+            .table-scroll-container {
+                overflow-x: visible;
+            }
+
+            .partner-table {
+                min-width: auto;
+                width: 100%;
+                font-size: 0.65rem;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .data-card {
+                break-inside: avoid;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="amendment-dashboard">
+        <!-- Header -->
+        <div class="review-header">
+            <div class="title-section">
+                <h1><i class="fas fa-code-compare"></i> Amendment Review</h1>
+
+            </div>
+
+        </div>
+
+        <div class="comparison-layout">
+            <div class="data-card">
+                <div class="card-head">
+                    <i class="fas fa-database" style="color:#2c7a6e;"></i>
+                    <h2> Original Registration</h2>
+                    @*<span class="badge-version"><i class="fas fa-check-circle"></i> Current on record</span>*@
+                </div>
+                <div class="card-body" id="originalBody">
+                    <div class="info-section" id="divEnterPrise">
+                        <div class="section-title"> Enterprise Name &amp; Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Division</div>
+                                <div class="field-value" id="lblDivisionEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Circle</div>
+                                <div class="field-value" id="lblCircleEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Enterprise Name</div>
+                                <div class="field-value" id="lblEnterprise"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN (Business)</div>
+                                <div class="field-value" id="lblPANEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Constitution</div>
+                                <div class="field-value" id="lblConstitution"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblEmainEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblMobileEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblDoorNoEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblRoadEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblLocalityEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City/Town</div>
+                                <div class="field-value" id="lblCityEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mandal</div>
+                                <div class="field-value" id="lblMandalEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblDistrictEnter"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblPINEnter"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divEmp">
+                        <div class="section-title"> Employee Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees Status</div>
+                                <div class="field-value" id="lblEmpStatus"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (&lt;15000)</div>
+                                <div class="field-value" id="lblBelow"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (15001-20000)</div>
+                                <div class="field-value" id="lblBetween"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (&gt;20000)</div>
+                                <div class="field-value" id="lblAbove"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Total Employees</div>
+                                <div class="field-value" id="lblTotalEmp"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divKeyPerson">
+                        <div class="section-title"> Key Person Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Name</div>
+                                <div class="field-value" id="lblNameKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Father Name</div>
+                                <div class="field-value" id="lblFatherNameKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Status of Individual</div>
+                                <div class="field-value" id="lblStatusKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblEmailKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblDoorKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblRoadKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblLocalityKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City</div>
+                                <div class="field-value" id="lblCityKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mandal</div>
+                                <div class="field-value" id="lblMandalKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Country</div>
+                                <div class="field-value" id="lblCountryKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> State</div>
+                                <div class="field-value" id="lblStateKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblDistrictKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblPINKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN (Owner)</div>
+                                <div class="field-value" id="lblPANKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Aadhaar</div>
+                                <div class="field-value" id="lblAadharKey"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblMobileKey"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divAuth">
+                        <div class="section-title"> Authorised Person Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Nominated?</div>
+                                <div class="field-value" id="lblNomStatus"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Name</div>
+                                <div class="field-value" id="lblAuthName"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Father Name</div>
+                                <div class="field-value" id="lblAuthFather"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblAuthEmail"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblAuthDoor"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblAuthRoad"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblAuthLocality"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City</div>
+                                <div class="field-value" id="lblAuthCity"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblAuthDistrict"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblAuthPin"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN</div>
+                                <div class="field-value" id="lblAuthPan"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Aadhaar</div>
+                                <div class="field-value" id="lblAuthAadhar"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblAuthMobile"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divPartners">
+                        <div class="section-title"> Partner / Director Details </div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Name</th>
+                                        <th>Director/Partner</th>
+                                        <th>Drawing Remuneration</th>
+                                        <th>Door Number</th>
+                                        <th>Road/Building</th>
+                                        <th>Locality</th>
+                                        <th>City/Village</th>
+                                        <th>Mandal</th>
+                                        <th>District</th>
+                                        <th>State</th>
+                                        <th>Country</th>
+                                        <th>PIN</th>
+                                        <th>PAN</th>
+                                        <th>Aadhaar</th>
+                                        <th>Email Id</th>
+                                        <th>Mobile No</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPartners">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divBranches">
+                        <div class="section-title"> Additional Places of Business </div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                        <th>District</th>
+                                        <th>Mandal / Municipality</th>
+                                        <th>Door Number</th>
+                                        <th>City / Town / Village</th>
+                                        <th>
+                                            Road / Street /
+                                            Building Name
+                                        </th>
+                                        <th>Locality</th>
+                                        <th>PIN</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyBranches">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divBanks">
+                        <div class="section-title">
+                             Bank Details
+                        </div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Bank Name</th>
+                                        <th>Account Number</th>
+                                        <th>Account Holder Name</th>
+                                        <th>IFSC Code</th>
+                                        <th>Bank Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyBanks">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="card-head">
+                    <i class="fas fa-pen-ruler" style="color:#c95a3a;"></i>
+                    <h2>Amendment Request</h2>
+                    @*<span class="badge-version"><i class="fas fa-clock"></i> Pending review</span>*@
+                </div>
+                <div class="card-body" id="amendmentBody">
+                    <div class="info-section" id="divEnterPriseAmend">
+                        <div class="section-title"> Enterprise Name &amp; Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Division</div>
+                                <div class="field-value" id="lblDivisionEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Circle</div>
+                                <div class="field-value" id="lblCircleEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Enterprise Name</div>
+                                <div class="field-value" id="lblEnterpriseAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN (Business)</div>
+                                <div class="field-value" id="lblPANEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Constitution</div>
+                                <div class="field-value" id="lblConstitutionAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblEmainEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblMobileEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblDoorNoEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblRoadEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblLocalityEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City/Town</div>
+                                <div class="field-value" id="lblCityEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mandal</div>
+                                <div class="field-value" id="lblMandalEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblDistrictEnterAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblPINEnterAmend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divEmpAmend">
+                        <div class="section-title"> Employee Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees Status</div>
+                                <div class="field-value" id="lblEmpStatusAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (&lt;15000)</div>
+                                <div class="field-value" id="lblBelowAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (15001-20000)</div>
+                                <div class="field-value" id="lblBetweenAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Employees (&gt;20000)</div>
+                                <div class="field-value" id="lblAboveAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Total Employees</div>
+                                <div class="field-value" id="lblTotalEmpAmend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divKeyPersonAmend">
+                        <div class="section-title"> Key Person Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Name</div>
+                                <div class="field-value" id="lblNameKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Father Name</div>
+                                <div class="field-value" id="lblFatherNameKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Status of Individual</div>
+                                <div class="field-value" id="lblStatusKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblEmailKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblDoorKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblRoadKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblLocalityKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City</div>
+                                <div class="field-value" id="lblCityKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mandal</div>
+                                <div class="field-value" id="lblMandalKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Country</div>
+                                <div class="field-value" id="lblCountryKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> State</div>
+                                <div class="field-value" id="lblStateKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblDistrictKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblPINKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN (Owner)</div>
+                                <div class="field-value" id="lblPANKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Aadhaar</div>
+                                <div class="field-value" id="lblAadharKeyAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblMobileKeyAmend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divAuthAmend">
+                        <div class="section-title"> Authorised Person Details</div>
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Nominated?</div>
+                                <div class="field-value" id="lblNomStatusAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Name</div>
+                                <div class="field-value" id="lblAuthNameAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Father Name</div>
+                                <div class="field-value" id="lblAuthFatherAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Email</div>
+                                <div class="field-value" id="lblAuthEmailAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Door No</div>
+                                <div class="field-value" id="lblAuthDoorAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Road/Street</div>
+                                <div class="field-value" id="lblAuthRoadAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Locality</div>
+                                <div class="field-value" id="lblAuthLocalityAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> City</div>
+                                <div class="field-value" id="lblAuthCityAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> District</div>
+                                <div class="field-value" id="lblAuthDistrictAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PIN</div>
+                                <div class="field-value" id="lblAuthPinAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> PAN</div>
+                                <div class="field-value" id="lblAuthPanAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Aadhaar</div>
+                                <div class="field-value" id="lblAuthAadharAmend"></div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-label"><i class="" style="font-size:8px;"></i> Mobile</div>
+                                <div class="field-value" id="lblAuthMobileAmend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divPartnersAmend">
+                        <div class="section-title"> Partner / Director Details</div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Name</th>
+                                        <th>Director/Partner</th>
+                                        <th>Drawing Remuneration</th>
+                                        <th>Door Number</th>
+                                        <th>Road/Building</th>
+                                        <th>Locality</th>
+                                        <th>City/Village</th>
+                                        <th>Mandal</th>
+                                        <th>District</th>
+                                        <th>State</th>
+                                        <th>Country</th>
+                                        <th>PIN</th>
+                                        <th>PAN</th>
+                                        <th>Aadhaar</th>
+                                        <th>Email Id</th>
+                                        <th>Mobile No</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPartnersAmend">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divBranchesAmend">
+                        <div class="section-title"> Additional Places of Business</div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                        <th>District</th>
+                                        <th>Mandal / Municipality</th>
+                                        <th>Door Number</th>
+                                        <th>City / Town / Village</th>
+                                        <th>
+                                            Road / Street /
+                                            Building Name
+                                        </th>
+                                        <th>Locality</th>
+                                        <th>PIN</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyBranchesAmend">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="info-section" id="divBanksAmend">
+                        <div class="section-title">
+                            Bank Details
+
+                        </div>
+                        <div class="table-scroll-container">
+                            <table class="partner-table">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Bank Name</th>
+                                        <th>Account Number</th>
+                                        <th>Account Holder Name</th>
+                                        <th>IFSC Code</th>
+                                        <th>Bank Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyBanksAmend">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+
+    <script>
+       
+    </script>
+</body>
