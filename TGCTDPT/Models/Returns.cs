@@ -27,6 +27,7 @@ namespace TGCTDPT.Models
         public string Form1Reg { get; set; }
         public string MonthYear { get; set; }
         public string ReturnId { get; set; }
+        public string Amount { get; set; }
     }
     public class EnterpriseDetails
     {
@@ -42,6 +43,7 @@ namespace TGCTDPT.Models
         public string ProfType { get; set; }
         public string ProfTypeBranch { get; set; }
         public string ProfTypePartnar { get; set; }
+        public string OwnerType { get; set; }
     }
     public class PTReturnModel
     {

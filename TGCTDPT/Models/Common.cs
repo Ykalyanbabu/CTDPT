@@ -30,4 +30,9 @@ namespace TGCTDPT.Models
         public string state_name { get; set; }
         public string state_short_code { get; set; }
     }
+    public class Codes
+    {
+        public string ddocode { get; set; }
+        public string stocode { get; set; }
+    }
 }

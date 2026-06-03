@@ -42,6 +42,7 @@ namespace TGCTDPT.Models
         public string reason { get; set; }
         public string doc_path { get; set; }
         public string created_by { get; set; }
+        public string FileName { get; set; }
 
     }
 }

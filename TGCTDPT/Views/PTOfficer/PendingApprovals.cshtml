@@ -94,9 +94,14 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
-
+    @if (TempData["SessionExpired"] != null)
+    {
+        <script>
+        alert('@TempData["SessionExpired"]');
+        </script>
+    }
     <script>
-        
+
         var PendingData = [];
         $(document).ready(function () {
             getPendingApprovals();
@@ -204,7 +209,7 @@
             window.location.href = '@Url.Action("ViewApplication", "PTOfficer")' + '?rnr=' + appNumber;
         }
 
-       
+
 
         function showLoading() {
             document.getElementById('loadingOverlay').style.display = 'flex';

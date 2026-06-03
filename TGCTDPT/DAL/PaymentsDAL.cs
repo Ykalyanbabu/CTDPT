@@ -57,6 +57,17 @@ namespace TGCTDPT.DAL
                 );
             }
         }
+        public List<TransactionDetails> GetTransactionDetails(string paymentId)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<TransactionDetails>(
+                    "pr_get_payment_transaction_details",
+                    new { PaymentId = paymentId },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
         public string GetNextRnr()
         {
             using (var con = new SqlConnection(conStr))
@@ -201,6 +212,93 @@ namespace TGCTDPT.DAL
 
                         var result = cmd.ExecuteScalar();
                         return result?.ToString() ?? challanno;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<EnterpriseDetails> GetProftinDetails(string ptin,string UserId)
+        {
+            var dtls = new List<EnterpriseDetails>();
+            using (var con = new SqlConnection(conStr))
+            {
+                SqlCommand cmd = new SqlCommand("pr_get_proftin_details", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@strPtin", ptin);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                con.Open();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                    dtls.Add(new EnterpriseDetails
+                    {
+                        PTIN = dr["prof_tin"].ToString(),
+                        OwnerType = dr["owner_type"].ToString(),
+                        ProfType = dr["Form1_reg"].ToString(),
+                        Circle = dr["circle_name"].ToString(),
+                        Division = dr["division_name"].ToString(),
+                        EnterPriseName = dr["enterprise_name"].ToString()
+                    });
+            }
+            return dtls;
+        }
+        public List<ReturnDetails> GetReturnDetails(string ptin, string type)
+        {
+            var dtls = new List<ReturnDetails>();
+            using (var con = new SqlConnection(conStr))
+            {
+                SqlCommand cmd = new SqlCommand("PR_GET_FILED_NOT_PAYED_RETURNS", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Ptin", ptin);
+                cmd.Parameters.AddWithValue("@Type", type);
+                con.Open();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                    dtls.Add(new ReturnDetails
+                    {
+                        ReturnId = dr["return_id"].ToString(),
+                        MonthYear = dr["return_month"].ToString(),
+                        Amount = dr["total_payable"].ToString()
+                    });
+            }
+            return dtls;
+        }
+        public string InsertChallanPaymentDetails(string PaymentId,string Ptin, string FromDate, string ToDate, string InsType, string ChallanNo, string ChallanDate,
+            string InsNo, string InsDate,string Purpose, string Amount, string Bank, string DdoCode, string StoCode, string FormType, string ReturnId,string UserId)
+        {
+            try
+            {
+                using (var con = new SqlConnection(conStr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("pr_insert_pt_payment_challan_details", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@pt_payment_id", PaymentId);
+                        cmd.Parameters.AddWithValue("@prof_tin", Ptin);
+                        cmd.Parameters.AddWithValue("@taxperiodFrom", FromDate);
+                        cmd.Parameters.AddWithValue("@taxperiodTo", ToDate);
+                        cmd.Parameters.AddWithValue("@instrument_type", InsType);
+                        cmd.Parameters.AddWithValue("@challan_no", ChallanNo);
+                        cmd.Parameters.AddWithValue("@challan_date", ChallanDate);
+                        cmd.Parameters.AddWithValue("@instrument_no", InsNo);
+                        cmd.Parameters.AddWithValue("@instrument_date", InsDate);
+                        cmd.Parameters.AddWithValue("@amount", Amount);
+                        cmd.Parameters.AddWithValue("@purpose", Purpose);
+                        cmd.Parameters.AddWithValue("@bank_name", Bank);
+                        cmd.Parameters.AddWithValue("@inserted_user_id", UserId);
+                        cmd.Parameters.AddWithValue("@ddo_code", DdoCode);
+                        cmd.Parameters.AddWithValue("@sto_code", StoCode);
+                        cmd.Parameters.AddWithValue("@form_type", FormType);
+                        cmd.Parameters.AddWithValue("@returnid", ReturnId);
+
+                        con.Open();
+
+                        var result = cmd.ExecuteScalar();
+                        return result?.ToString() ?? PaymentId;
                     }
                 }
             }

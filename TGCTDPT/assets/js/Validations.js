@@ -38,3 +38,12 @@ function toProperCase(str) {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 }
+function ValidatePIN(res) {
+    var aadhaar = document.getElementById(res.id);
+    var value = aadhaar.value.trim();
+    if (value === "") return true;
+    if (value.length != 6) {
+        ModernAlert.toast.info('Invalid PIN Code');
+        $('#' + res.id).val("");
+    }
+}

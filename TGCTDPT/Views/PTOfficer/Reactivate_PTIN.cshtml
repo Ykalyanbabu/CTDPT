@@ -857,7 +857,7 @@
                     <!-- Effective Date -->
                     <div class="form-group field-group">
                         <label class="form-label">
-                            <i class="fas fa-calendar"></i> Effective Date of Cancellation:
+                            <i class="fas fa-calendar"></i> Effective Date of Reactivation:
                         </label>
                         @Html.TextBoxFor(m => m.effective_date, new { @type = "date", @class = "form-input", max = DateTime.Now.ToString("yyyy-MM-dd"), required = "required" })
                     </div>
@@ -882,7 +882,7 @@
                         {
                             @class = "form-input",
                             maxlength = "1000",
-                            placeholder = "Enter the reason for cancellation",
+                            placeholder = "Enter the reason for Reactivation",
                             required = "required"
                         })
                     </div>

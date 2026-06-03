@@ -178,8 +178,9 @@
 
                 @if (!string.IsNullOrEmpty(Model.doc_path))
                 {
-                    <iframe src="@Url.Content(Model.doc_path)"></iframe>
-
+                    <div id="documentContainer">
+                        <iframe id="docFrame"></iframe>
+                    </div>
                     <br /><br />
 
                     <a href="@Url.Content(Model.doc_path)" target="_blank" class="btn btn-download">
@@ -192,12 +193,197 @@
                 }
 
             </div>
+            @*@if (!string.IsNullOrEmpty(Model.doc_path))
+                {
+                    <div id="documentContainer">
+
+                        <iframe id="docFrame"></iframe>
+
+                    </div>
+
+                    <br />
+
+                    <button class="btn btn-download"
+                            onclick="openDocument('@Model.doc_path')">
+
+                        <i class="fas fa-eye"></i> View Document
+                    </button>
+
+                    <a href="@Url.Content(Model.doc_path)"
+                       target="_blank"
+                       class="btn btn-download">
+
+                        <i class="fas fa-download"></i> Download Document
+                    </a>
+                }
+                else
+                {
+                    <p style="color:red;">No document uploaded</p>
+                }*@
 
         </div>
 
     </div>
 
     <script>
+
+        $(document).ready(function () {
+
+        var path = '@Model.FileName';
+
+        if (path && path !== '') {
+
+            openDocument(path);
+        }
+    });
+
+
+    function openDocument(path) {
+
+        fetchBase64File(path, 'Cancel');
+    }
+
+
+    function fetchBase64File(fileName, type) {
+
+        $.ajax({
+
+            url: baseUrl + '/FileView/FetchBase64FileUSINGN',
+
+            type: 'GET',
+
+            data: {
+                fileName: fileName,
+                Type: type
+            },
+
+            success: function (response) {
+
+                if (response && response.Base64FileContent) {
+
+                    var mimeType = getMimeType(fileName);
+
+                    if (mimeType === 'application/pdf') {
+
+                        const blob = b64toBlob(
+                            response.Base64FileContent,
+                            mimeType
+                        );
+
+                        const blobUrl =
+                            URL.createObjectURL(blob);
+
+                        $('#docFrame').attr('src', blobUrl);
+                    }
+
+                    else if (
+                        mimeType.startsWith('image/')
+                    ) {
+
+                        var imageData =
+                            'data:' +
+                            mimeType +
+                            ';base64,' +
+                            response.Base64FileContent;
+
+                        $('#docFrame').attr('src', imageData);
+                    }
+
+                    else {
+
+                        var fileData =
+                            'data:' +
+                            mimeType +
+                            ';base64,' +
+                            response.Base64FileContent;
+
+                        $('#docFrame').attr('src', fileData);
+                    }
+
+                } else {
+
+                    alert('File not found');
+                }
+            },
+
+            error: function () {
+
+                alert('Error loading document');
+            }
+        });
+    }
+
+
+    function b64toBlob(base64, contentType = '') {
+
+        const byteCharacters = atob(base64);
+
+        const byteArrays = [];
+
+        for (
+            let offset = 0;
+            offset < byteCharacters.length;
+            offset += 512
+        ) {
+
+            const slice = byteCharacters.slice(
+                offset,
+                offset + 512
+            );
+
+            const byteNumbers = new Array(slice.length);
+
+            for (let i = 0; i < slice.length; i++) {
+
+                byteNumbers[i] =
+                    slice.charCodeAt(i);
+            }
+
+            const byteArray =
+                new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        return new Blob(byteArrays, {
+            type: contentType
+        });
+    }
+
+
+    function getMimeType(fileName) {
+
+        const extension = fileName
+            .split('.')
+            .pop()
+            .toLowerCase();
+
+        switch (extension) {
+
+            case 'jpg':
+            case 'jpeg':
+                return 'image/jpeg';
+
+            case 'png':
+                return 'image/png';
+
+            case 'gif':
+                return 'image/gif';
+
+            case 'bmp':
+                return 'image/bmp';
+
+            case 'pdf':
+                return 'application/pdf';
+
+            case 'txt':
+                return 'text/plain';
+
+            default:
+                return 'application/octet-stream';
+        }
+    }
+
 
         function approve(id) {
             ModernAlert.showConfirm(

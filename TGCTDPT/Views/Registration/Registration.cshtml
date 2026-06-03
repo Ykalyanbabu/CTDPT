@@ -771,7 +771,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="pincode" class="form-control" min="6" max="6" onkeypress="return isNumber(event)">
+                                    <input type="text" id="pincode" class="form-control" min="6" max="6" onblur="ValidatePIN(this);" onkeypress="return isNumber(event);">
                                 </div>
                                 <div style="grid-column:1/-1; display:flex; justify-content:flex-start;font-size:15px;">
                                     <label>
@@ -981,7 +981,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="O_pincode" onkeypress="return isNumber(event)">
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="O_pincode" onblur="ValidatePIN(this);" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1135,7 +1135,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" id="auth_pincode" maxlength="6" minlength="6" class="form-control" onkeypress="return isNumber(event)">
+                                    <input type="text" id="auth_pincode" maxlength="6" minlength="6" class="form-control" onblur="ValidatePIN(this);" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1298,7 +1298,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="dir_prtnr_pincode" maxlength="6" minlength="6" onkeypress="return isNumber(event)">
+                                    <input type="text" class="form-control" id="dir_prtnr_pincode" onblur="ValidatePIN(this);" maxlength="6" minlength="6" onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -1497,7 +1497,7 @@
                                     <label>
                                         PIN <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" maxlength="6" minlength="6" id="addl_plc_pincode" onkeypress="return isNumber(event)">
+                                    <input type="text" class="form-control" maxlength="6" minlength="6" onblur="ValidatePIN(this);" id="addl_plc_pincode" onkeypress="return isNumber(event)">
                                 </div>
                                 <div style="align-content: flex-end;">
                                     <button type="button" class="btn btn-success px-4 w-auto" id="btnAddPlace" style="margin: 0px 0px 15px 0px;font-size: medium;">
@@ -2302,6 +2302,11 @@
                     ModernAlert.toast.info('Please fill all required fields');
                     return false;
                 }
+                if ($('#pincode').val().length != 6) {
+                    ModernAlert.toast.info('Invalid Pincode');
+                    $('#pincode').focus();
+                    return false;
+                }
 
                 var gonext = true;
                 console.log(gonext);
@@ -2552,8 +2557,8 @@
                         }
                     }
                 }
-                if ($('#O_pincode').val() == "") {
-                    ModernAlert.toast.info('Please enter Owner Pincode');
+                if ($('#O_pincode').val() == "" || $('#O_pincode').val().length != 6) {
+                    ModernAlert.toast.info('Please enter valid Owner Pincode');
                     $('#O_pincode').focus();
                     return false;
                 }
@@ -2753,6 +2758,11 @@
 
             if (!valid) {
                 ModernAlert.toast.info('please fill all required fields correctly.');
+                return false;
+            }
+            if ($('#auth_pincode').val().length != 6) {
+                ModernAlert.toast.info('Invalid Pincode');
+                $('#auth_pincode').focus();
                 return false;
             }
 
@@ -3624,7 +3634,7 @@
                     }
                 }
                 if ($('#addl_plc_pincode').val() == "" || $('#addl_plc_pincode').val().length != 6) {
-                    ModernAlert.toast.info('Please enter Pin Code');
+                    ModernAlert.toast.info('Please enter valid Pin Code');
                     $('#addl_plc_pincode').focus();
                     return false;
                 }
@@ -4083,8 +4093,8 @@
                         }
                     }
                 }
-                if ($('#dir_prtnr_pincode').val() == "") {
-                    ModernAlert.toast.info('Please enter Pincode');
+                if ($('#dir_prtnr_pincode').val() == "" || $('#dir_prtnr_pincode').val().length != 6) {
+                    ModernAlert.toast.info('Please enter valid Pincode');
                     $('#dir_prtnr_pincode').focus()
                     return false;
                 }

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Commercial Taxes Department, Telangana</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />*@
+    <link href="~/Content/fontall.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/site.css" />
     <link href="~/Content/custom-alerts.css" rel="stylesheet" />
     <link href="~/Content/modern-alerts.css" rel="stylesheet" />
@@ -18,91 +20,351 @@
     @RenderSection("styles", required: false)
 
     <style>
-        /* User Name Display - Simple & Clean */
-        .user-name-display {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+            background: #f4f7fc;
+            color: #1e2a3e;
+            line-height: 1.4;
+        }
+
+        .site-header {
+            background: #f0f5f7;
+            padding: 0;
+            height: 84px;
+            display: flex;
+            align-items: stretch;
+            border-bottom: none;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+
+
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-left: 15px;
+        }
+
+            .logo-section img {
+                height: 55px;
+                width: auto;
+            }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+            .header-text .dept {
+                font-size: 18px;
+                font-weight: 700;
+                color: #6a0dad;
+            }
+
+            .header-text .govt {
+                font-size: 14px;
+                color: #333;
+            }
+
+
+        .header-actions {
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+            gap: 0;
+        }
+
+        .date-time {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-family: monospace;
+            font-size: 16px;
+            color: #222;
+            background: transparent;
+            border-radius: 0;
+        }
+
+
+        .topbar-user .btn {
+            background: transparent;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 40px;
+            transition: all 0.2s;
+        }
+
+            .topbar-user .btn:hover {
+                background: rgba(255,255,255,0.1);
+            }
+
+
+        .custom-dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #e3e3ec;
+            height: 100%;
+            padding: 0 20px;
+            min-width: 180px;
+            border-left: 1px solid #d0d0d0;
+        }
+
+        #profileDropdownBtn {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+            #profileDropdownBtn:hover {
+                background: transparent;
+            }
+
+        .header-profile-user {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            /*border: 2px solid #ffd966;*/
+        }
+
+        .user-name-text {
+            color: blue;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-name-sub-text {
+            color: #444;
+            font-size: 12px;
+        }
+
+
+
+        .dropdown-menu-custom {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
+            border: 1px solid #e5e5e5;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all .2s ease;
+        }
+
+        .custom-dropdown.show .dropdown-menu-custom {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header-custom {
+            padding: 12px 15px;
+            background: #faf7e8;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .dropdown-item-custom {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 0 15px;
-            margin-right: 15px;
-            border-right: 2px solid #e0e0e0;
-            font-size: 14px;
-            color: white;
-            white-space: nowrap;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #222;
         }
 
-            .user-name-display i {
-                color: white;
-                font-size: 16px;
+            .dropdown-item-custom:hover {
+                background: #f5f5f5;
             }
 
-            .user-name-display span {
-                font-weight: 700;
-            }
-
-            .user-name-display .user-label {
-                color: white;
-                font-weight: normal;
-                margin-right: 5px;
-            }
-
-            /* Simple hover effect */
-            .user-name-display:hover {
-                color: deepskyblue;
-            }
-
-                .user-name-display:hover i {
-                    transform: scale(1.1);
-                    transition: transform 0.2s ease;
-                }
-
-        /* Updated Menu Bar Layout */
+        /* Menu Bar */
         .menu-bar {
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 99;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .menu-bar {
+            background: #600664;
+            margin: 0;
+            padding: 0;
+            height: 44px;
+            box-shadow: none;
+            border: none;
         }
 
         .menu {
+            max-width: 100%;
+            height: 44px;
             display: flex;
+            justify-content: left;
             align-items: center;
-            justify-content: space-between;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
 
         .menu-left {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
+            height: 44px;
         }
 
-        .menu-right {
+            .menu-left a,
+            .more-btn {
+                height: 44px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 0 18px;
+                color: white;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+            }
+
+                .menu-left a:hover,
+                .more-btn:hover {
+                    /*background: rgba(255,255,255,.12);*/
+                    color: black;
+                }
+
+        .dropdown-content {
+            top: 44px;
+        }
+
+        .user-name-display {
             display: flex;
             align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 6px 16px;
+            border-radius: 40px;
+            margin-right: 12px;
+            color: #0f172a;
         }
 
-        /* Responsive */
+
+
+        /* main content */
+        .main-content {
+            /*min-height: 65vh;
+                    padding: 28px 24px;
+                    max-width: 1400px;*/
+            /* margin: 30px auto;*/
+        }
+
+        footer {
+            background: #0f2b3b;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            margin-top: 40px;
+        }
+
+        .fixed-header-container {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* misc */
+        .fa, .fas, .far {
+            font-size: 0.9rem;
+        }
+
         @@media (max-width: 768px) {
-            .user-name-display .user-label {
-                display: none;
+            .menu-left a, .menu-right a {
+                padding: 8px 12px;
+                font-size: 0.8rem;
             }
 
-            .user-name-display {
-                padding: 0 10px;
-                margin-right: 10px;
-            }
-        }
-
-        @@media (max-width: 576px) {
             .user-name-display span:last-child {
-                max-width: 100px;
+                max-width: 110px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+
+            .logo-section img {
+                height: 40px;
+            }
+
+            .header-text .dept {
+                font-size: 0.9rem;
+            }
+
+            .site-header {
+                height: auto;
+                padding: 10px;
+            }
+
+            .header-container {
+                flex-direction: column;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .custom-dropdown {
+                min-width: auto;
+            }
+
+            .menu {
+                justify-content: flex-start;
+                overflow-x: auto;
+            }
+        }
+
+        .custom-dropdown {
+            position: relative;
+            background: #e1e1ec;
+            color: black;
+        }
+
+            .custom-dropdown .dropdown-menu-custom {
+                right: 0;
+                left: auto;
+            }
+
+        .btn.material-shadow-none {
+            box-shadow: none;
+            background: transparent;
+            transition: 0.2s;
+        }
+
+            .btn.material-shadow-none:hover {
+                background: rgba(255,255,240,0.1);
+                border-radius: 50px;
+            }
+
+        .dropdown-item-custom i {
+            color: #b91c1c;
         }
     </style>
 </head>
@@ -119,14 +381,28 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <div class="date-time" id="dateTime" title="Date and Time">Loading...</div>
-                </div>
-                <div class="header-actions">
-                    <a href="@Url.Action("Home", "PTHome")" class="home-link" title="Home">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
-                        </svg>
-                    </a>
+                    <div class="date-time" id="dateTime">Loading...</div>
+                    <div class="custom-dropdown" id="divProfile">
+                        <button type="button" class="btn material-shadow-none" id="profileDropdownBtn" aria-label="User menu">
+                            <span class="d-flex align-items-center">
+                                <img class="rounded-circle header-profile-user" src="~/assets/images/user.png" alt="Avatar">
+                                <span class="text-start ms-xl-2 d-none d-xl-inline-block">
+                                    <span class="fw-medium user-name-text" id="lblUserDisplayName">Officer</span>
+                                    <span class="d-block fs-12 user-name-sub-text" id="lblDesig">Profession Tax Officer</span>
+                                    <span class="d-block fs-12 user-name-sub-text" id="lblEmpId">0012345</span>
+                                </span>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu-custom" id="profileDropdownMenu">
+                            <div class="dropdown-header-custom" id="lblwelcome">
+                                <i class="fa fa-user-circle me-2"></i><span>Welcome</span>
+                            </div>
+                            <a class="dropdown-item-custom" href="@Url.Action("DeptLogout", "PTHome")" id="logoutLink">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span style="color: #b91c1c;">Logout</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,11 +410,11 @@
         <div class="menu-bar">
             <div class="menu" id="mainMenu">
                 <div class="menu-left">
-                    <div class="user-name-display">
+                    @*<div class="user-name-display">
                         <i class="fas fa-user-circle"></i>
                         <span class="user-label">Welcome,</span>
                         <span id="userDisplayName">Loading...</span>
-                    </div>
+                    </div>*@
 
                     <a href="@Url.Action("PTOHome", "PTOfficer")"><i class="fa fa-home"></i>Home</a>
                     <div class="more-dropdown">
@@ -148,8 +424,9 @@
                         <div class="dropdown-content">
                             <a href="@Url.Action("PendingApprovals", "PTOfficer")"><i class="fa fa-star"></i>Pending for Approval</a>
                             <a href="@Url.Action("Pending_Cancel_Revoke_Requests", "PTOfficer")"><i class="fa fa-star"></i>Cancellation of Registration</a>
-                            <a href="#"><i class="fa fa-star"></i>Amendment for Registration</a>
-                            <a href="#"><i class="fa fa-star"></i>Refunds</a>
+                            <a href="@Url.Action("ChallanEntry", "PTOfficer")"><i class="fa fa-star"></i>Challan Entry</a>
+                            @*<a href="#"><i class="fa fa-star"></i>Amendment for Registration</a>
+                                <a href="#"><i class="fa fa-star"></i>Refunds</a>*@
                         </div>
                     </div>
                     <div class="more-dropdown">
@@ -157,9 +434,9 @@
                             <i class="fa fa-circle-info"></i>Reports <i class="fa fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-content">
-                            <a href="#" ><i class="fa fa-star"></i>Approved Registrations</a>
-                            <a href="#" ><i class="fa fa-star"></i>DCB Reports</a>
-                            <a href="#" ><i class="fa fa-star"></i>Return Non-Filers Report</a>
+                            @*<a href="#" style="display:none;"><i class="fa fa-star"></i>Approved Registrations</a>
+                                <a href="#" style="display:none;"><i class="fa fa-star"></i>DCB Reports</a>*@
+                            <a href="#"><i class="fa fa-star"></i>Return Non-Filers Report</a>
                         </div>
                     </div>
                 </div>
@@ -263,35 +540,88 @@
 
         function updateUserInfo() {
             var UserId = '@Session["Userid"]';
-            var UserName = "";
+            var userName = "";
             if (UserId != null && UserId != "") {
-                UserName = '@Session["DisplayName"]';
+                userName = '@Session["DisplayName"]';
             }
             else {
 
-                UserName = 'Guest User';
+                userName = 'PT Officer';
             }
-            const userDisplayElement = document.getElementById('userDisplayName');
-            if (userDisplayElement) {
-                userDisplayElement.textContent = UserName;
-            }
+            const userDisplaySpan = document.getElementById('userDisplayName');
+            if (userDisplaySpan) userDisplaySpan.innerText = userName;
+            const lblUserDisplayName = document.getElementById('lblUserDisplayName');
+            if (lblUserDisplayName) lblUserDisplayName.innerText = userName;
+            const welcomeHeader = document.querySelector('#lblwelcome span');
+            if (welcomeHeader) welcomeHeader.innerText =  userName;
+            const lblDesig = document.getElementById('lblDesig');
+            if (lblDesig) lblDesig.innerText = "PT Officer";
+            const lblEmpId = document.getElementById('lblEmpId');
+            if (lblEmpId) lblEmpId.innerText = "";
         }
+
+    (function setupProfileDropdown() {
+        const profileDiv = document.getElementById('divProfile');
+        const dropdownBtn = document.getElementById('profileDropdownBtn');
+        const dropdownMenu = document.getElementById('profileDropdownMenu');
+
+        if (!profileDiv || !dropdownBtn || !dropdownMenu) return;
+
+
+        dropdownBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isOpen = profileDiv.classList.contains('show');
+
+            if (isOpen) {
+                profileDiv.classList.remove('show');
+            } else {
+                profileDiv.classList.add('show');
+            }
+        });
+
+
+        document.addEventListener('click', function (event) {
+            if (!profileDiv.contains(event.target)) {
+                profileDiv.classList.remove('show');
+            }
+        });
+
+
+        const logoutItem = document.getElementById('logoutLink');
+        if (logoutItem) {
+            logoutItem.addEventListener('click', function (e) {
+                e.preventDefault();
+                var link = $(this).attr('href');
+                ModernAlert.showConfirm('Are you sure you want to logout?', 'Confirm Logout', (confirmed) => {
+                    if (confirmed) {
+                        window.location.href = link;
+                    }
+                });
+            });
+        }
+    })();
 
         (function () {
             function updateDateTime() {
                 const now = new Date();
+
                 const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const month = now.toLocaleString('en-US', { month: 'short' });
                 const year = now.getFullYear();
+
+                const weekday = now.toLocaleString('en-US', { weekday: 'long' });
+
                 let hours = now.getHours();
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
+
                 const ampm = hours >= 12 ? 'PM' : 'AM';
                 hours = hours % 12 || 12;
 
                 const dateTimeElement = document.getElementById("dateTime");
                 if (dateTimeElement) {
-                    dateTimeElement.innerHTML = `${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
+                    dateTimeElement.innerHTML =
+                        `${weekday}, ${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
                 }
             }
 
@@ -319,6 +649,27 @@
                 }
             );
         });
+        function checkSessionStatus() {
+        $.ajax({
+            url: '@Url.Action("GetSessionStatus", "PTHome")',
+            type: 'GET',
+            cache: false,
+            success: function (response) {
+                if (response === "Y") {
+                    alert("Your session has expired. Redirecting to home page.");
+                    window.location.href = '@Url.Action("Home", "PTHome")';
+                    clearInterval(sessionChecker);
+                }
+            },
+            error: function () {
+                console.log("Error while checking session status.");
+            }
+        });
+    }
+
+   /*Check every 1 minute (60000 ms)*/
+    var sessionChecker = setInterval(checkSessionStatus, 60000);
     </script>
+   
 </body>
 </html>

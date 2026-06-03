@@ -1,0 +1,331 @@
+﻿@model TGCTDPT.Models.emp_dir_prtnr
+@{
+    ViewBag.Title = "UpdateEmpDirector";
+    Layout = "~/Views/Shared/_InnerLayout1.cshtml";
+}
+@if (TempData["Message"] != null)
+{
+<script>
+    alert('@TempData["Message"]');
+</script>
+}
+<link href="~/assets/css/Modifyrcstatus.css" rel="stylesheet" />
+
+
+<head>
+
+
+    <style>
+        :root {
+            --primary-color: #0b8b80;
+            --primary-dark: #0a7269;
+            --primary-light: #e6f4f3;
+            --secondary-color: #2c3e50;
+            --accent-color: #0b5ed7;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #e1e5e9;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: Segoe UI,Arial;
+            background: #f4f6f9
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 25px rgba(0,0,0,.1)
+        }
+
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #460846;
+            padding-bottom: 6px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 10px
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        select, input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+            width: 100%
+        }
+
+            select:focus, input:focus {
+                border-color: #460846;
+                outline: none
+            }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #500b8b, #7d10b9);
+            color: #fff
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 5px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center
+        }
+
+        th {
+            background: #f1f5f9
+        }
+
+        @@media(max-width:768px) {
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+            .form-control:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+            }
+    </style>
+</head>
+
+@using (Html.BeginForm("UpdateEmpDirector", "ePayment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="refund-container">
+    <div class="form-card">
+
+        <!-- Header -->
+        <div class="form-header">
+            <div class="form-header-text">
+                <h1>PTIN Employee/Director/Partner Details Updation</h1>
+            </div>
+        </div>
+
+        <div class="form-body">
+
+            @Html.HiddenFor(m => m.Prof_tin)
+            @Html.HiddenFor(m => m.enterprise_name)
+
+            <div class="form-grid-2 fields-grid">
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> No Of Directors:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.no_of_director,
+                    new
+                    {
+                    @class = "form-input",
+                    type = "number",min="0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-building"></i> No Of Partners:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.no_of_partners,
+                    new
+                    {
+                    @class = "form-input",
+                    type = "number",min="0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-map-marker-alt"></i> No Of Branches:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.no_of_Branches,
+                    new
+                    {
+                    @class = "form-input",
+                    type = "number",min="0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i> No Of ATMs:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.no_of_atm,
+                    new
+                    {
+                    @class = "form-input",
+                    type = "number",
+                    min = "0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i> No Of Employees below 15000 Salary:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.emp_15000,
+                    new
+                    {
+                    @class = "form-input",
+                    id = "emp_15000",
+                    type = "number",
+                    min = "0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i>No Of Employees Above 15000 Salary:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.emp_150001,
+                    new
+                    {
+                    @class = "form-input",
+                    id = "emp_150001",
+                    type = "number",
+                    min = "0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i> No Of Employees Above 20000 Salary:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.emp_20000,
+                    new
+                    {
+                    @class = "form-input",
+                    id = "emp_20000",
+                    type = "number",
+                    min="0"
+                    })
+                </div>
+
+                <div class="form-group field-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar"></i> Total No Of Employees:
+                    </label>
+
+                    @Html.TextBoxFor(m => m.no_of_emp,
+                    new
+                    {
+                    @class = "form-input",
+                    id = "no_of_emp",
+                    @readonly = "readonly",
+                    type = "number",min="0"
+                    })
+                </div>
+
+            </div>
+
+            <div class="actions-section submit-bar">
+                <div class="button-group">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    function calculateTotalEmployees() {
+
+        var emp15000 = parseInt($("#emp_15000").val()) || 0;
+        var emp150001 = parseInt($("#emp_150001").val()) || 0;
+        var emp20000 = parseInt($("#emp_20000").val()) || 0;
+
+        var total = emp15000 + emp150001 + emp20000;
+
+        $("#no_of_emp").val(total);
+    }
+
+    $("#emp_15000, #emp_150001, #emp_20000")
+        .on("keyup change", function () {
+
+            calculateTotalEmployees();
+
+        });
+
+
+
+</script>

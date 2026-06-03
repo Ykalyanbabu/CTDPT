@@ -32,6 +32,14 @@ namespace TGCTDPT.Controllers
             {
                 return RedirectToAction("Home", "PTHome");
             }
+            if (Session["Userid"] == null)
+            {
+                ViewBag.Layout = "~/Views/Shared/_OuterLayout.cshtml";
+            }
+            else
+            {
+                ViewBag.Layout = "~/Views/Shared/_InnerLayout1.cshtml";
+            }
             var data = dal.GetReturnById(returnId);
             Session["ReturnId"] = data.ReturnId; ;
             if (data != null)

@@ -1,0 +1,855 @@
+﻿
+@{
+    ViewBag.Title = "PaymentsReport";
+    Layout = "~/Views/Shared/_DeptLayout.cshtml";
+}
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>Payment Receipt | Tax Payment Voucher</title>
+    <style>
+
+        .main-content {
+            max-width: 1200px !important;
+            margin: 0 auto;
+            padding: 150px 20px 40px;
+            min-height: calc(106vh - 100px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            font-family: 'Segoe UI',sans-serif;
+            background: #eef2f7;
+        }
+
+        body {
+            padding: 10px;
+        }
+
+        .container {
+            /* height: calc(100vh - 20px);*/
+            display: flex;
+            flex-direction: column;
+        }
+
+        .receipt-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 18px;
+            overflow: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .receipt-header {
+            padding: 12px 12px;
+            background: linear-gradient(90deg, #7e097f, #69235b);
+            color: #fff;
+            text-align: center;
+            flex-shrink: 0;
+            margin: -20px 0px 0px 0px;
+            border-radius: 15px;
+        }
+
+            .receipt-header h1 {
+                font-size: 17px;
+                margin: 0;
+            }
+
+        .receipt-sub {
+            margin-top: 1px;
+            font-size: 10px;
+        }
+
+        .searchbar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /*margin-bottom: 6px;*/
+            margin: 6px 0px 6px 0px;
+            background: #b9b9b9;
+            padding: 8px 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+            .searchbar label {
+                font-size: 15px;
+                font-weight: 700;
+                color: #163247;
+                white-space: nowrap;
+            }
+
+            .searchbar input {
+                height: 32px;
+                font-size: 15px;
+                font-family: 'Segoe UI',sans-serif;
+            }
+
+                .searchbar input:focus {
+                    outline: none;
+                    border-color: #234d69;
+                }
+
+        .btn {
+            height: 32px;
+            padding: 0 12px;
+            border: none;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #163247;
+            color: #fff;
+        }
+
+            .btn-primary:hover {
+                background: #234d69;
+            }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid #ccd6e0;
+            color: #163247;
+        }
+
+        .receipt-content {
+            flex: 1;
+            padding: 6px 10px;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .info-panel {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 10px;
+            align-content: start;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            min-height: 32px;
+            padding: 4px 8px;
+            border: 1px solid #edf1f5;
+            border-radius: 8px;
+            background: #fafcff;
+        }
+
+        .info-label {
+            width: 44%;
+            font-size: 13px;
+            font-weight: 700;
+            color: #163247;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.1;
+        }
+
+        .info-value {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 600;
+            color: #222;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1.1;
+        }
+
+        .status-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-success {
+            background: #dff6e8;
+            color: #157347;
+        }
+
+        .status-pending {
+            background: #fff4df;
+            color: #b26a00;
+        }
+
+        .amount-strong {
+            font-weight: 800;
+            color: #157347;
+            background: #e8f7ef;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .challan-highlight {
+            font-family: monospace;
+            background: #eef3f8;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-top: 1px solid #e5ebf2;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            height: 30px;
+            min-width: 110px;
+            padding: 0 14px;
+            border: none;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #290ee1;
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: #189392;
+            border: 1px solid #ccd6e0;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* MOBILE */
+        @@media(max-width:900px) {
+
+            body {
+                overflow: auto;
+            }
+
+            .container {
+                height: auto;
+            }
+
+            .info-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .receipt-content {
+                overflow: auto;
+            }
+
+            .info-row {
+                min-height: 42px;
+            }
+
+            .info-value {
+                white-space: normal;
+            }
+        }
+
+        /* PRINT */
+        @@media print {
+
+            body {
+                overflow: visible;
+                background: #fff;
+                padding: 0;
+            }
+
+            .searchbar,
+            .action-bar, #mainMenu, .header-actions, #footer, .home-button, .button-container {
+                display: none;
+            }
+
+            .container {
+                height: auto;
+            }
+
+            .receipt-card {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .info-panel {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .button-container {
+            padding: 0.7rem 1.2rem 0.9rem 1.2rem;
+            text-align: center;
+            background: #ffffff;
+            border-top: 1px solid #ecf3fa;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .home-button {
+            background: linear-gradient(100deg, #1f2b48, #2c3e66);
+            color: white;
+            border: none;
+            padding: 7px 22px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+            .home-button:hover {
+                transform: translateY(-1px);
+                background: linear-gradient(100deg, #2a3a60, #1f2e4e);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+            }
+
+            .home-button:active {
+                transform: translateY(1px);
+            }
+
+        .msg {
+            font-size: 14px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border-left: 3px solid;
+            display: none;
+            flex-shrink: 0;
+        }
+
+            .msg.info {
+                background: #ffc965;
+                border-color: var(--purple);
+                color: black;
+                text-align-last: center;
+                font-weight: 600;
+            }
+
+            .msg.err {
+                background: #fff0f0;
+                border-color: #dc2626;
+                color: #b91c1c
+            }
+    </style>
+</head>
+<body>
+    <div class="receipt-header">
+        <h1>
+            <span></span>PAYMENT STATUS REPORT
+        </h1>
+    </div>
+    @*<div class="searchbar">
+        <label>&#128269; PTIN</label>
+        <input id="txtPtin" type="text" style="width:25%;" placeholder="PTIN" class="form-control" />
+        <button class="btn btn-primary" onclick="GetPtinDetails();">Get Details</button>
+    </div>*@
+    <div class="msg" id="msg"></div>
+    <div class="container" id="divReceipt" >
+
+        <div class="receipt-card">
+
+            <div class="receipt-content">
+                <div class="info-panel">
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span>PTIN</div>
+                        <input type="text" id="txtPtin" class="form-control" style="width: 100%;" />
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span>Act</div>
+                        <input type="text" id="txtPtin" value="PT" class="form-control" readonly style="width: 100%;" />
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span>Tax Division</div>
+                        <select id="ddlDivision" class="form-control" style="width: 100%;">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span> Tax Circle</div>
+                        <select id="ddlCircle" class="form-control" style="width: 100%;">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span>Payment For</div>
+                        <div class="info-value">
+                            <select id="ddlPaymentFor" class="form-control" style="width: 100%;">
+                                <option value="0">--Select--</option>
+                                <option value="One Time Settlement Scheme">One Time Settlement Scheme</option>
+                                <option value="Return Tax">Return Tax</option>
+                                <option value="Demand Raised">Demand Raised</option>
+                                <option value="Interest">Interest</option>
+                                <option value="Penalty">Penalty</option>
+                                <option value="Arears">Arears</option>
+                                <option value="Appeal Fee">Appeal Fee</option>
+                                <option value="Compounding Fee">Compounding Fee</option>
+                                <option value="User Charges">User Charges</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-row" id="divReturnTP">
+                        <div class="info-label"><span class="icon-em"></span>Transaction Status</div>
+                        <div class="info-value">
+                            <select id="ddlTaxPeriod" class="form-control" style="width: 100%;">
+                                <option value="0">--Select--</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Realised</option>
+                                <option value="2">Bounced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-row" id="divReturnTP">
+                        <div class="info-label"><span class="icon-em"></span>Instrument Type</div>
+                        <div class="info-value">
+                            <select id="ddlTaxPeriod" class="form-control" style="width: 100%;">
+                                <option value="0">--Select--</option>
+                                <option value="1">Challan</option>
+                                <option value="2">EPayment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><span class="icon-em"></span>Payment Statuse</div>
+                        <div class="info-value" id="taxtype-value">
+                            <label class="radio-item">
+                                @Html.RadioButton("ReturnType", "A")
+                                <span>Active</span>
+                            </label>
+
+                            <label class="radio-item">
+                                @Html.RadioButton("ReturnType", "D")
+                                <span>Deleted</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="info-row" id="divReturnTPFrom">
+                        <div class="info-label"><span class="icon-em"></span> Tax Period From Date</div>
+                        <div class="info-value">
+                            <input type="date" id="txtFromDate" class="form-control" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="info-row" id="divReturnTPTo">
+                        <div class="info-label"><span class="icon-em"></span> Tax Period To Date</div>
+                        <div class="info-value">
+                            <input type="date" id="txtToDate" class="form-control" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="button-container">
+                @*<button class="home-button" id="btnSubmit" onclick="onSubmit()">
+                        Submit
+                    </button>*@
+                <button class="submit-button" id="btnGet" onclick="onGetReport()">
+                    <span class="transition"></span>
+                    <span class="gradient"></span>
+                    <span class="label">Get Report</span>
+                </button>
+            </div>
+        </div>
+        <input type="hidden" id="hdnReturnId" />
+    </div>
+
+    <script>
+        var PendingReturns = [];
+        $(document).ready(function () {
+            LoadBanks();
+        });
+
+        function GetPtinDetails() {
+
+            var _tin = $('#txtPtin').val();
+            if (!_tin) {
+                showMsg('Please enter a Ptin', false);
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("GetProftinDetails", "PTOfficer")',
+                type: 'GET',
+                data: {
+                    Ptin: _tin
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        var data = response[0];
+                        $('#lblEnterpriseName').text(data.EnterPriseName);
+                        $('#lblPtin').text(data.PTIN);
+                        $('#lblDivision').text(data.Division);
+                        $('#lblCircle').text(data.Circle);
+                        $('input[name="ReturnType"][value="' + data.OwnerType + '"]').prop('checked', true);
+                        LoadDdoCodes(data.PTIN);
+                        $('#divReceipt').show();
+                    }
+                    else {
+                        $('#divReceipt').hide();
+                        ModernAlert.toast.info('Invalid PTIN or Entered PTIN does not belongs to your Jurisdiction');
+                        return;
+                    }
+                },
+                error: function () {
+                    alert('Server Error');
+                }
+            });
+
+        }
+
+        function onPaymentForChange() {
+            $('#txtAmount').val("");
+            $('#txtAmount').attr('disabled', false);
+            if ($('#ddlPaymentFor').val().toUpperCase() == "RETURN TAX") {
+                $('#divReturnTPFrom').hide();
+                $('#divReturnTPTo').hide();
+                $('#divReturnTP').show();
+                OnRadioChange();
+            }
+            else {
+                $('#divReturnTPFrom').show();
+                $('#divReturnTPTo').show();
+                $('#divReturnTP').hide();
+            }
+        }
+        function OnRadioChange() {
+            PendingReturns = [];
+            var _ptin = $('#lblPtin').text();
+            var ownertype = $('input[name="ReturnType"]:checked').val();
+            var paymentType = $('#ddlPaymentFor').val();
+            if (ownertype != "" && paymentType.toUpperCase() == "RETURN TAX") {
+
+                $.ajax({
+                url: '@Url.Action("GetReturnDetails", "PTOfficer")',
+                type: 'GET',
+                data: {
+                    Ptin: _ptin,
+                    Type: ownertype
+                },
+                success: function (response) {
+                    if (response.length > 0) {
+                        PendingReturns = response;
+                        if (ownertype == "M") {
+                            BindMonthsDropdown(response);
+                        }
+                        if (ownertype == "Y") {
+                            BindYearsDropdown(response);
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function () {
+                    alert('Server Error');
+                }
+            });
+            }
+
+        }
+
+        function BindMonthsDropdown(response) {
+            var $ddl = $('#ddlTaxPeriod');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    var month = item.MonthYear.substring(0, 2);
+                    var year = item.MonthYear.substring(2, 6);
+                    var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                    var monthText = monthNames[parseInt(month) - 1];
+                    var displayText = monthText + "-" + year;
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: displayText
+                    }));
+                }
+            });
+
+        }
+        function BindYearsDropdown(response) {
+            var $ddl = $('#ddlTaxPeriod');
+            $ddl.empty();
+            $ddl.append($('<option>', {
+                value: '0',
+                text: '-- Select --'
+            }));
+            $.each(response, function (i, item) {
+                if (item.MonthYear) {
+                    $ddl.append($('<option>', {
+                        value: item.MonthYear,
+                        text: item.MonthYear + '-' + (parseFloat(item.MonthYear) + 1)
+                    }));
+                }
+            });
+        }
+        function onReturnMonthSelect() {
+            var selectedMonth = $('#ddlTaxPeriod').val();
+            var record = PendingReturns.find(x => x.MonthYear == selectedMonth);
+            var returnId = record ? record.ReturnId.trim() : null;
+            if (returnId != null && returnId != undefined) {
+                $('#hdnReturnId').val(returnId.trim());
+                $('#txtAmount').val(record.Amount);
+                $('#txtAmount').attr('disabled', true);
+            }
+            else {
+                $('#txtAmount').text("");
+                $('#txtAmount').attr('disabled', false);
+            }
+        }
+        function LoadBanks() {
+            $.ajax({
+                url: '@Url.Action("GetBanks","Registration")',
+                type: 'GET',
+                success: function (data) {
+                    bankList = data;
+                    var dropdown = $('#ddlBank');
+
+                    dropdown.empty();
+
+                    dropdown.append('<option value="0">--Select--</option>');
+
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.bank_id + '">' + item.bank_name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to Load Banks');
+                }
+            });
+        }
+        function LoadDdoCodes(tin) {
+            $.ajax({
+                url: '@Url.Action("GetDDOCodes", "PTOfficer")',
+                type: 'GET',
+                data: {
+                    Ptin: tin
+                },
+                success: function (data) {
+                    var dropdown = $('#ddlddocode');
+                    dropdown.empty();
+                    dropdown.append('<option value="0">--Select--</option>');
+                    $.each(data, function (i, item) {
+                        dropdown.append('<option value="' + item.ddocode + '">' + item.ddocode + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Failed to Load Ddo Codes');
+                }
+            });
+        }
+        function onSubmit() {
+            var ownertype = $('input[name="ReturnType"]:checked').val();
+            if ($('#lblPtin').text() == "") {
+                ModernAlert.toast.warning('Please Enter PTIN');
+                return false;
+            }
+            if (ownertype == "" || ownertype == null || ownertype == undefined) {
+                ModernAlert.toast.warning('Please select Demand/Return Type');
+                return false;
+            }
+            if ($('#ddlPaymentFor').val()=="0") {
+                ModernAlert.toast.warning('Please select Demand/Return Type');
+                return false;
+            }
+            if ($('#ddlddocode').val() == "0" || $('#ddlddocode').val() == "") {
+                ModernAlert.toast.warning('Please enter DDO Code');
+                return false;
+            }
+            if ($('#txtSTOCode').val() == "") {
+                ModernAlert.toast.warning('Please enter STO Code');
+                return false;
+            }
+            if ($('#txtChallanNo').val() == "") {
+                ModernAlert.toast.warning('Please enter Challan Number');
+                return false;
+            }
+            if ($('#txtChallanDate').val() == "") {
+                ModernAlert.toast.warning('Please select Challan Date');
+                return false;
+            }
+            if ($('#ddlBank').val() == "") {
+                ModernAlert.toast.warning('Please select Bank');
+                return false;
+            }
+            if ($('#txtAmount').val() == "" || parseInt($('#txtAmount').val()) < 1) {
+                ModernAlert.toast.warning('Please enter Valid Amount');
+                return false;
+            }
+            if ($('#ddlPaymentFor').val().toUpperCase() == "RETURN TAX") {
+                if ($('#ddlTaxPeriod').val() == "0") {
+                    ModernAlert.toast.warning('Please select Tax Period');
+                    return false;
+                }
+            }
+            else {
+                if ($('#txtFromDate').val() == "") {
+                    ModernAlert.toast.warning('Please select Tax Period From Date');
+                    return false;
+                }
+                if ($('#txtToDate').val() == "") {
+                    ModernAlert.toast.warning('Please select Tax Period To Date');
+                    return false;
+                }
+                if ($('#txtFromDate').val() > $('#txtToDate').val()) {
+                    ModernAlert.toast.warning('Tax period To should be greater than Tax period From');
+                    return false;
+                }
+            }
+
+
+            ModernAlert.showConfirm(
+                'Are you sure you want to Submit the Data?',
+                'Confirm Submit',
+                function (confirmed) {
+                    if (confirmed) {
+                        fn_submitdata();
+                    }
+                    else {
+                        ModernAlert.toast.info('Action cancelled');
+                    }
+                }
+            );
+        }
+
+        function fn_submitdata() {
+            var _ptin = $('#lblPtin').text();
+            var ownertype = $('input[name="ReturnType"]:checked').val();
+            var Paymentfor = $('#ddlPaymentFor').val();
+            var _fromDate = "";
+            var _toDate = "";
+            if (Paymentfor.toUpperCase() == "RETURN TAX") {
+                _fromDate = $('#ddlTaxPeriod').val();
+                _toDate = $('#ddlTaxPeriod').val();
+            }
+            else {
+                _fromDate = $('#txtFromDate').val();
+                _toDate = $('#txtToDate').val();
+            }
+
+            var model = {
+                Ptin: _ptin,
+                FromDate: _fromDate,
+                ToDate: _toDate,
+                InsType: "CHALLAN",
+                ChallanNo: $("#txtChallanNo").val(),
+                ChallanDate: $("#txtChallanDate").val(),
+                InsNo: $("#txtChallanNo").val(),
+                InsDate: $("#txtChallanDate").val(),
+                Purpose: $('#ddlPaymentFor').val(),
+                Amount: $("#txtAmount").val(),
+                Bank: $('#ddlBank option:selected').text(),
+                DdoCode: $('#ddlddocode').val(),
+                StoCode: $("#txtSTOCode").val(),
+                FormType: ownertype,
+                ReturnId: $('#hdnReturnId').val() || 0,
+            };
+            $('#btnSubmit').attr('disabled', true);
+            $.ajax({
+                url: '@Url.Action("SubmitChallanDetails", "PTOfficer")',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.success) {
+                        $('#btnSubmit').hide();
+                        ModernAlert.showSuccess(
+                                    'Challan Details has been submitted Successfully with Transaction Id: ' + res.message,
+                                    'Success',
+                                    '@Url.Action("ChallanEntry", "PTOfficer")'
+                                );
+                        $('.modern-close').hide();
+                    }
+                    else {
+                        ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
+                        $('#btnSubmit').attr('disabled', false);
+                    }
+                },
+                error: function () {
+                    alert("Error while saving.");
+                    $('#btnSubmit').attr('disabled', false);
+                }
+            });
+        }
+
+
+        function adjustLayoutForSmallHeights() {
+            const cardEl = document.querySelector('.receipt-card');
+            const viewportH = window.innerHeight;
+            if (cardEl && viewportH < 720) {
+                const rows = document.querySelectorAll('.info-row');
+                rows.forEach(row => {
+                    const label = row.querySelector('.info-label');
+                    const value = row.querySelector('.info-value');
+                    if (label) label.style.padding = '0.6rem 0.5rem 0.6rem 0';
+                    if (value) value.style.padding = '0.6rem 0.5rem 0.6rem 1rem';
+                });
+            } else {
+
+                const rows = document.querySelectorAll('.info-row');
+                rows.forEach(row => {
+                    const label = row.querySelector('.info-label');
+                    const value = row.querySelector('.info-value');
+                    if (label) label.style.padding = '';
+                    if (value) value.style.padding = '';
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            adjustLayoutForSmallHeights();
+
+        });
+        window.addEventListener('resize', () => adjustLayoutForSmallHeights());
+
+        function showMsg(txt, err) {
+            const el = document.getElementById('msg');
+            el.textContent = txt; el.className = 'msg ' + (err ? 'err' : 'info'); el.style.display = 'block';
+            if (!err) setTimeout(() => { el.style.display = 'none' }, 2500);
+        }
+
+    </script>
+
+
+</body>

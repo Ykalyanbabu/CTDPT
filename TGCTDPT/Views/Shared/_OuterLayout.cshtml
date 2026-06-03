@@ -70,10 +70,10 @@
                     <div class="dropdown-content">
                         <a href="~/assets/documets/Help_Document.pdf" target="_blank"><i class="fa fa-star"></i>PT MODULE DOCUMENT</a>
                         <a href="~/assets/documets/PT_Module.pdf" target="_blank"><i class="fa fa-star"></i>PT MODULE NAVIGATION HELP</a>
-                        
+
                     </div>
                 </div>
-
+                @*<a href="@Url.Action("ViewPaymentReceipt", "PTHome")"><i class="fa fa-circle-info"></i>PAYMENT STATUS</a>*@
             </div>
         </div>
     </div>
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    <footer>
+    <footer id="footer">
         <div class="footer-content">
             <div class="copyright">
                 &copy; @DateTime.Now.Year - Commercial Taxes Department, Government of Telangana. All Rights Reserved.
@@ -168,18 +168,24 @@
         (function () {
             function updateDateTime() {
                 const now = new Date();
+
                 const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const month = now.toLocaleString('en-US', { month: 'short' }); 
                 const year = now.getFullYear();
+
+                const weekday = now.toLocaleString('en-US', { weekday: 'long' }); 
+
                 let hours = now.getHours();
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
+
                 const ampm = hours >= 12 ? 'PM' : 'AM';
                 hours = hours % 12 || 12;
 
                 const dateTimeElement = document.getElementById("dateTime");
                 if (dateTimeElement) {
-                    dateTimeElement.innerHTML = `${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
+                    dateTimeElement.innerHTML =
+                        `${weekday}, ${day}-${month}-${year} | ${hours}:${minutes}:${seconds} ${ampm}`;
                 }
             }
 

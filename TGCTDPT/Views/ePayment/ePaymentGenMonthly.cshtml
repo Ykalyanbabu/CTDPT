@@ -477,9 +477,16 @@ else
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-       var PTIN = '@Session["Tin"]';
+        var PTIN = '@Session["Tin"]';
+        var UserId = '@Session["Userid"]';
         var CatType = "";
         $(document).ready(function () {
+            if (UserId == "" || UserId == null || UserId == undefined) {
+                $('#ptinInput').attr('disabled', false);
+            }
+            else {
+                $('#ptinInput').attr('disabled', true);
+            }
 
             if (PTIN != "" && PTIN != null && PTIN != undefined) {
                 $('#ptinInput').val(PTIN);

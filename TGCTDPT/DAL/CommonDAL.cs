@@ -55,5 +55,15 @@ namespace TGCTDPT.DAL
                 ).ToList();
             }
         }
+        public List<Codes> GetDdoCodes(string Ptin)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                return con.Query<Codes>(
+                    "pr_get_ddocodes", new { strPtin = Ptin },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
+        }
     }
 }

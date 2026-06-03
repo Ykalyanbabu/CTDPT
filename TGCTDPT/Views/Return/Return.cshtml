@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Return";
-    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    Layout = "~/Views/Shared/_InnerLayout1.cshtml";
 }
 <link href="~/assets/css/custom.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -199,8 +199,11 @@
 
             <!-- ACTIONS -->
             <div class="actions">
-                <button class="primary" style="display:none;" id="btnProceed" onclick="onProceed();" disabled>Proceed for e-Payment</button>
-                <button class="primary" id="btnSave" onclick="SubmitReturns();">Save</button>
+                <button class="submit-button" id="btnSave" onclick="SubmitReturns()">
+                    <span class="transition"></span>
+                    <span class="gradient"></span>
+                    <span class="label">Submit</span>
+                </button>
             </div>
             <div style="display:none;">
                 <input type="hidden" id="hdnPtin" />
@@ -555,7 +558,7 @@
             $('#lblPartnersAmount').text(PartnersValue);
             $('#lblBranchesAmount').text(BranchesValue);
 
-            var Total = (parseInt(DirectorsValue) + parseInt(PartnersValue) + parseInt(BranchesValue));
+            var Total = (parseInt(DirectorsValue) + parseInt(PartnersValue) + parseInt(BranchesValue) + parseInt(enityValue));
             $('#totalYearly').text(Total);
         }
 
@@ -656,8 +659,7 @@
                                              }
                         );
                         $('.modern-close').hide();
-                        $('#btnProceed').attr('disabled', false);
-                        $('#btnSave').attr('disabled', false);
+                        /*$('#btnProceed').attr('disabled', false);*/
                     } else {
                         ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');
                         $('#btnSave').attr('disabled', false);
@@ -728,7 +730,7 @@
                                              }
                         );
                         $('.modern-close').hide();
-                        $('#btnProceed').attr('disabled', false);
+                        /*$('#btnProceed').attr('disabled', false);*/
                         $('#btnSave').attr('disabled', false);
                     } else {
                         ModernAlert.showError('Unable to submit the Return Details. Please try again.', 'Submit Failed');

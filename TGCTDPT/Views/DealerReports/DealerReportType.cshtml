@@ -1,111 +1,346 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "DealerReportType";
-    Layout = ViewBag.Layout;
+    Layout = "~/Views/Shared/_InnerLayout1.cshtml";
 }
- 
+
 @if (Session["Tin"] != null)
 {
     <style>
-        .container {
-            max-width: 1400px;
+        .reports-wrapper {
+            max-width: 1200px;
             background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            /* padding: 4px; */
-            margin: -31px 0px 83px 1px;
-            height: 370px;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            margin: 15px auto 30px auto;
+            overflow: hidden;
         }
     </style>
 }
 else
 {
     <style>
-        .container {
-            max-width: 1400px;
+        .reports-wrapper {
+            max-width: 1200px;
             background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            /* padding: 4px; */
-            margin: 0px 0px 0px 0px;
-            height: 370px;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.08);
+            margin: 15px auto 30px auto;
+            overflow: hidden;
         }
     </style>
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="reports-wrapper">
+    <div class="report-card">
+        <!-- Header -->
+        <div class="report-header">
+            @*<div class="header-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>*@
+            <h2>Select Report Type</h2>
+            @*<p>Choose the report you want to generate</p>*@
+        </div>
 
-            <div class="card shadow-lg border-0">
+        <!-- Reports Grid -->
+        <div class="reports-grid">
 
-                <!-- Header -->
-                <div class="card-header text-center text-white payment-header">
-                    <h4 class="mb-1">
-                        <i class="fa fa-credit-card"></i> Select Report Type
-                    </h4>
-                    <small>Choose your preferred Report </small>
+            <!-- Report 1: Returns Report -->
+            <a href="@Url.Action("DealerReturns", "DealerReports")" class="report-item">
+                <div class="report-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                    <i class="fas fa-calendar-alt"></i>
                 </div>
-
-                <!-- Buttons -->
-                <div class="card-body text-center">
-
-                    <div class="row justify-content-center" style="text-align: -webkit-center;">
-
-                        <div class="col-md-5 mb-3" style="width: 50%;">
-                            <a href="@Url.Action("DealerReturns","DealerReports")"
-                               class="btn payment-btn monthly-btn w-100">
-                                📅 Returns Report
-                            </a>
-                        </div>
-
-                        <div class="col-md-5 mb-3" style="width: 50%;">
-                            <a href="@Url.Action("DealerDCB","DealerReports")"
-                               class="btn payment-btn yearly-btn w-100">
-                                💳 DCB  Report(Demand Collection Balance)
-                            </a>
-                        </div>
-
-                    </div>
-
+                <div class="report-info">
+                    <h3>Returns Report</h3>
+                    @*<p>Monthly & quarterly filing summary</p>
+                    <span class="report-badge">GSTR · Compliance</span>*@
                 </div>
+                <div class="report-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
 
-            </div>
+            <!-- Report 2: DCB Report -->
+            <a href="@Url.Action("DealerDCB", "DealerReports")" class="report-item">
+                <div class="report-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="report-info">
+                    <h3>DCB Report</h3>
+                    
+                </div>
+                <div class="report-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+            
+            @*<a href="/DealerReports/InvoiceAnalysis" class="report-item">
+                <div class="report-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="report-info">
+                    <h3>Invoice Analytics</h3>
+                    <p>Track invoice volumes & trends</p>
+                    <span class="report-badge">B2B · B2C</span>
+                </div>
+                <div class="report-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            
+          
+            <a href="/DealerReports/PaymentRecon" class="report-item">
+                <div class="report-icon" style="background: linear-gradient(135deg, #ec489a, #db2777);">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div class="report-info">
+                    <h3>Payment Reconciliation</h3>
+                    <p>Match payments with liabilities</p>
+                    <span class="report-badge">Challan Status</span>
+                </div>
+                <div class="report-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+         
+            <a href="javascript:void(0);" class="report-item disabled">
+                <div class="report-icon" style="background: linear-gradient(135deg, #9ca3af, #6b7280);">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="report-info">
+                    <h3>Annual Summary</h3>
+                    <p>Yearly performance & audit reports</p>
+                    <span class="report-badge coming">Coming Soon</span>
+                </div>
+                <div class="report-arrow">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </a>*@
+          
 
         </div>
     </div>
 </div>
 
 <style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-
-    .payment-header {
-        background: linear-gradient(to right, #83079d 0%, #60135d 100%);
-        padding: 15px;
-        margin: 0px 0px 15px 0px;
-        color: white;
+    body {
+        background: #f5f7fb;
+        font-family: 'Inter', sans-serif;
     }
 
-    .payment-btn {
-        padding: 15px;
-        font-size: 16px;
+    /* ======================
+       WRAPPER
+    ====================== */
+
+    .reports-wrapper {
+        max-width: 1000px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+        overflow: hidden;
+    }
+
+    /* ======================
+       CARD
+    ====================== */
+
+    .report-card {
+        background: #fff;
+    }
+
+    /* ======================
+       HEADER
+    ====================== */
+
+    .report-header {
+        text-align: center;
+        padding: 18px 20px;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    .header-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        margin: 0 auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg,#8b5cf6,#7c3aed);
+    }
+
+        .header-icon i {
+            color: #fff;
+            font-size: 18px;
+        }
+
+    .report-header h2 {
+        font-size: 20px;
         font-weight: 600;
-        border-radius: 30px;
-        color: white;
-        transition: 0.3s;
-        margin: 0px 0px 25px -2px;
+        margin-bottom: 2px;
+        color: #1f2937;
     }
 
-    .monthly-btn {
-        background: linear-gradient(90deg, #7984cd, #5d3e91);
+    .report-header p {
+        font-size: 13px;
+        color: #6b7280;
+        margin: 0;
     }
 
-    .yearly-btn {
-        background: linear-gradient(90deg,#06b6d4,#22c55e);
+    /* ======================
+       REPORT LIST
+    ====================== */
+
+    .reports-grid {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 
-    .payment-btn:hover {
-        transform: scale(1.05);
-        color: white;
+    .report-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid #edf2f7;
+        border-radius: 12px;
+        text-decoration: none;
+        background: #fff;
+        transition: all .2s ease;
     }
+
+        .report-item:hover {
+            background: #fafbff;
+            border-color: #d8dff0;
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+
+    /* ======================
+       ICON
+    ====================== */
+
+    .report-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .report-icon i {
+            color: #fff;
+            font-size: 16px;
+        }
+
+    /* ======================
+       CONTENT
+    ====================== */
+
+    .report-info {
+        flex: 1;
+    }
+
+        .report-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .report-info p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+    /* ======================
+       BADGE
+    ====================== */
+
+    .report-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        font-size: 10px;
+        font-weight: 500;
+        border-radius: 20px;
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+
+        .report-badge.coming {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+    /* ======================
+       ARROW
+    ====================== */
+
+    .report-arrow {
+        color: #9ca3af;
+        font-size: 13px;
+        transition: .2s;
+    }
+
+    .report-item:hover .report-arrow {
+        color: #8b5cf6;
+        transform: translateX(2px);
+    }
+
+    /* ======================
+       DISABLED
+    ====================== */
+
+    .report-item.disabled {
+        opacity: .65;
+        cursor: default;
+    }
+
+        .report-item.disabled:hover {
+            transform: none;
+            background: #fff;
+            box-shadow: none;
+        }
+
+    /* ======================
+       MOBILE
+    ====================== */
+
+    @@media(max-width:768px) {
+
+        .reports-wrapper {
+            margin: 10px;
+            border-radius: 12px;
+        }
+
+        .report-header {
+            padding: 15px;
+        }
+
+        .report-item {
+            padding: 10px;
+        }
+
+        .report-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .report-info h3 {
+            font-size: 13px;
+        }
+
+        .report-info p {
+            font-size: 11px;
+        }
+    }
+    /*.main-content {
+        margin: 30px auto;
+    }*/
 </style>

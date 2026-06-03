@@ -155,6 +155,7 @@
     <Compile Include="Controllers\PTHomeController.cs" />
     <Compile Include="Controllers\PTOAmendController.cs" />
     <Compile Include="Controllers\PTOfficerController.cs" />
+    <Compile Include="Controllers\PTOReportsController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\RefundsController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Models\AppStatus.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\dlr_reports.cs" />
+    <Compile Include="Models\emp_dir_prtnr.cs" />
     <Compile Include="Models\ePayment.cs" />
     <Compile Include="Models\FormIISummaryModels.cs" />
     <Compile Include="Models\PaymentConfirmationViewModel.cs" />
@@ -211,6 +213,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\app.min.css" />
     <Content Include="assets\css\ApprovalPending.css" />
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\forms.css" />
@@ -226,6 +229,7 @@
     <Content Include="assets\images\logo.png" />
     <Content Include="assets\images\map.jpg" />
     <Content Include="assets\images\RisingTelanganaLogo.jpeg" />
+    <Content Include="assets\images\user.png" />
     <Content Include="assets\js\tgloader.js" />
     <Content Include="assets\js\Validations.js" />
     <Content Include="BaseUrl\baseUrl.js" />
@@ -234,6 +238,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom-alerts.css" />
+    <Content Include="Content\fontall.min.css" />
     <Content Include="Content\innersite.css" />
     <Content Include="Content\modern-alerts.css" />
     <Content Include="Content\PagedList.css" />
@@ -297,6 +302,12 @@
     <Content Include="Views\PTOAmend\Requests.cshtml" />
     <Content Include="Views\PTOAmend\ViewApplication.cshtml" />
     <Content Include="Views\PTOAmend\ViewRequest.cshtml" />
+    <Content Include="Views\PTHome\ViewPaymentReceipt.cshtml" />
+    <Content Include="Views\Shared\_InnerLayout1.cshtml" />
+    <Content Include="Views\ePayment\UpdateEmpDirector.cshtml" />
+    <Content Include="Views\PTOfficer\ChallanEntry.cshtml" />
+    <Content Include="Views\DealerReports\ViewReturn.cshtml" />
+    <Content Include="Views\PTOReports\PaymentsReport.cshtml" />
     <None Include="Web References\BSNL_SMS\SMS_BSNL.disco" />
     <Content Include="Web References\Mail_Services\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>

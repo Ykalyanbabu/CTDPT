@@ -23,17 +23,35 @@ namespace TGCTDPT.Models
         public decimal TotalPaid { get; set; }
         public decimal TotalBalance { get; set; }
     }
-     
+
     public class dlr_ret_reports
-        {
-            public int SlNo { get; set; }
-            public string For_Month { get; set; }
-            public string ReturnID { get; set; }
-            public DateTime? FilingDate { get; set; }
-            public string Status { get; set; }
-            public decimal? AmountPaid { get; set; }
-        }
-    public class DealerDCB 
+    {
+        public int SlNo { get; set; }
+        public string For_Month { get; set; }
+        public string ReturnID { get; set; }
+        public DateTime? FilingDate { get; set; }
+        public string Status { get; set; }
+        public decimal? AmountPaid { get; set; }
+    }
+    public class dlr_ret_dtls
+    {
+        public string ptin { get; set; }
+        public string enterprise_name { get; set; }
+        public string return_id { get; set; }
+        public string ctdtransaction_id { get; set; }
+        public string return_month { get; set; }
+        public DateTime? filed_date { get; set; }
+        public int _0_emp { get; set; }
+        public int _150_emp { get; set; }
+        public int _200_emp { get; set; }
+        public int no_of_dir { get; set; }
+        public int no_of_prtnr { get; set; }
+        public int no_of_brnch { get; set; }
+        public int Entity { get; set; }
+        public string trans_status { get; set; }
+        public decimal? total_payable { get; set; }
+    }
+    public class DealerDCB
     {
         public string ptin { get; set; }
         public string enterprise_name { get; set; }

@@ -18,18 +18,26 @@ namespace TGCTDPT.Controllers
         // GET: PTOfficer
         private readonly FormIISummaryDAL _dal = new FormIISummaryDAL();
         private readonly RegistrationDAL dal = new RegistrationDAL();
+        private readonly PaymentsDAL pdal = new PaymentsDAL();
+        private readonly CommonDAL cdal = new CommonDAL();
         public ActionResult Index()
         {
             return View();
         }
         public ActionResult PTOHome()
         {
+            if (Session["Userid"] == null)
+            {
+                TempData["SessionExpired"] = "Your session has expired. Please login again.";
+                return RedirectToAction("Home", "PTHome");
+            }
             return View();
         }
         public ActionResult PendingApprovals()
         {
             if (Session["Userid"] == null)
             {
+                TempData["SessionExpired"] = "Your session has expired. Please login again.";
                 return RedirectToAction("Home", "PTHome");
             }
             return View();
@@ -38,12 +46,22 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Userid"] == null)
             {
+                TempData["SessionExpired"] = "Your session has expired. Please login again.";
                 return RedirectToAction("Home", "PTHome");
             }
             ViewBag.rnr = rnr;
             return View();
         }
-        
+        public ActionResult ChallanEntry()
+        {
+            if (Session["Userid"] == null)
+            {
+                TempData["SessionExpired"] = "Your session has expired. Please login again.";
+                return RedirectToAction("Home", "PTHome");
+            }
+            return View();
+        }
+
         [HttpGet]
         public JsonResult GetPendingApplications(string Circle)
         {
@@ -193,6 +211,10 @@ namespace TGCTDPT.Controllers
         }
         public ActionResult Pending_Cancel_Revoke_Requests()
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
             string user_id = Session["UserID"]?.ToString();
             var data = _dal.GetPendingRequests(user_id);
             return View(data);
@@ -200,6 +222,10 @@ namespace TGCTDPT.Controllers
 
         public ActionResult RequestDetails(int id)
         {
+            if (Session["Userid"] == null)
+            {
+                return RedirectToAction("Home", "PTHome");
+            }
             var data = _dal.GetRequestDetails(id); 
             return View(data);
         }
@@ -231,7 +257,7 @@ namespace TGCTDPT.Controllers
         {
             if (Session["Userid"] == null)
             {
-                return RedirectToAction("DeptLogin", "PTHome");
+                return RedirectToAction("Home", "PTHome");
             }
             //string StrTIN = Session["Tin"].ToString();
             //RC_Cancel_ReActivate_Details rcd = _dal.ReactivatePTEntityDetails(StrTIN);
@@ -325,67 +351,77 @@ namespace TGCTDPT.Controllers
                 return RedirectToAction("Reactivate_PTIN");
             }
         }
-        //[HttpPost]
-        //public ActionResult ReactivationRequest(RC_Cancel_ReActivate_Details model, HttpPostedFileBase file)
-        //{
-        //    if (Session["Userid"] == null)
-        //    {
-        //        return RedirectToAction("PTHome", "DeptLogin");
-        //    }
-        //    try
-        //    {
-        //        if (file == null)
-        //        {
-        //            TempData["ErrorMessage"] = "Please upload file";
-        //            return RedirectToAction("Reactivate_PTIN");
-        //        }
-        //        string f_name = file.FileName;
-        //        string fileName = Session["TIn"].ToString() + "_" + Path.GetFileName(file.FileName);
-        //        string path = Server.MapPath("~/Uploads/Documents/Requests/RegRevoke/") + fileName;
 
-        //        Directory.CreateDirectory(Path.GetDirectoryName(path));
-        //        file.SaveAs(path);
+        [HttpGet]
+        public JsonResult GetProftinDetails(string ptin)
+        {
+            var response = pdal.GetProftinDetails(ptin, Session["Userid"].ToString());
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetReturnDetails(string Ptin,string Type)
+        {
+            var response = pdal.GetReturnDetails(Ptin, Type);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetDDOCodes(string Ptin)
+        {
+            var response = cdal.GetDdoCodes(Ptin);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult SubmitChallanDetails(string Ptin, string FromDate, string ToDate, string InsType, string ChallanNo, string ChallanDate,
+            string InsNo, string InsDate,string Purpose, string Amount, string Bank, string DdoCode, string StoCode, string FormType, string ReturnId)
+        {
+            try
+            {
+                if (Session["Userid"] == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Session expired. Please login again.",
+                        redirectToLogin = true
+                    });
+                }
 
-        //        model.doc_path = "/Uploads/Documents/Requests/RegRevoke/" + fileName;
-        //        model.created_by = Session["UserId"].ToString();
+                string paymentID = DateTime.Now.ToString("yyyyMMddssffff");
 
-        //        if (model.registration_status == "CNCL")
-        //        {
-        //            model.request_status = "A";
-        //            model.new_status = "REGD";
+                var paymentId = pdal.InsertChallanPaymentDetails(
+                    paymentID,
+                    Ptin,
+                    FromDate,
+                    ToDate,
+                    InsType,
+                    ChallanNo,
+                    ChallanDate,
+                    InsNo,
+                    InsDate, Purpose, Amount, Bank, DdoCode, StoCode, FormType, ReturnId, Session["Userid"].ToString()
+                );
 
-        //            string json = JsonConvert.SerializeObject(model);
+                if (string.IsNullOrEmpty(paymentId))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Unable to Save Details. Please try again."
+                    });
+                }
 
-        //            int result = _dal.SaveCancelReactivateDetails(json);
-        //            if (result > 0)
-        //            {
-        //                TempData["SuccessMessage"] = "Request Submitted Successfully.";
-        //                return RedirectToAction("Reactivate_PTIN");
-        //            }
-        //            else
-        //            {
-        //                TempData["ErrorMessage"] = "Cancellation Request Already Submitted Pending for Approval";
-        //                return RedirectToAction("Reactivate_PTIN");
-
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["ErrorMessage"] = "TIN is already cancelled.";
-        //            return RedirectToAction("Cancel_PTIN");
-        //        }
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = ex.Message;
-        //        return RedirectToAction("Cancel_PTIN");
-        //    }
-        //}
-
-
+                return Json(new
+                {
+                    success = true,
+                    message = paymentID
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error processing : " + ex.Message
+                });
+            }
+        }
     }
 
 }

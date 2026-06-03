@@ -232,5 +232,69 @@ namespace TGCTDPT.DAL
             }
             return response;
         }
+        public StatusResponse UpdateEmpDirector(emp_dir_prtnr model)
+        {
+            StatusResponse response = new StatusResponse();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conStr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("pr_upd_empdirector_dtls", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@prof_tin", model.Prof_tin);
+                        cmd.Parameters.AddWithValue("@emp_15000", model.emp_15000);
+                        cmd.Parameters.AddWithValue("@emp_150001", model.emp_150001);
+                        cmd.Parameters.AddWithValue("@emp_20000", model.emp_20000);
+                        cmd.Parameters.AddWithValue("@no_of_emp", model.no_of_emp);
+                        cmd.Parameters.AddWithValue("@no_of_atm", model.no_of_atm);
+                        cmd.Parameters.AddWithValue("@no_of_director", model.no_of_director);
+                        cmd.Parameters.AddWithValue("@no_of_Branches", model.no_of_Branches);
+                        cmd.Parameters.AddWithValue("@no_of_partners", model.no_of_partners);
+                        cmd.Parameters.AddWithValue("@inserted_userid", model.inserted_userid);
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                response.Status = reader["Sts"].ToString();
+                            }
+                        }
+                        if (response.Status == "Success")
+                        {
+                            response.Message = "Updated successfully.";
+                        }
+                        else
+                        {
+                            response.Message = "Failed to Update.";
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                response.Status = "Failed";
+                response.Message = $"Database error: {sqlEx.Message}";
+            }
+            catch (Exception ex)
+            {
+                response.Status = "Failed";
+                response.Message = $"Error: {ex.Message}";
+            }
+            return response;
+        }
+        public emp_dir_prtnr GetEntitydetails(string StrTIN)
+        {
+            using (var con = new SqlConnection(conStr))
+            {
+                var result = con.QueryFirstOrDefault<emp_dir_prtnr>(
+                    "Proc_PT_GetTINDetails_1",
+                    new { @StrTIN = StrTIN },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
     }
 }

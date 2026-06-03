@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -41,13 +42,15 @@ namespace TGCTDPT.Controllers
                 }
 
                 string fileName = Session["TIn"].ToString() + "_" + Path.GetFileName(file.FileName);
-                string path = Server.MapPath("~/Uploads/Documents/Requests/RegCancel/") + fileName;
+                /*string path = Server.MapPath("~/Uploads/Documents/Requests/RegCancel/") + fileName;*/
+                string path = ConfigurationManager.AppSettings["DocumentsPathPTCancelReq"] + fileName;
 
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 file.SaveAs(path);
 
-                model.doc_path = "/Uploads/Documents/Requests/RegCancel/" + fileName;
+                model.doc_path = "/Requests/Cancel/" + fileName;
                 model.created_by = Session["TIn"].ToString();
+                model.FileName = fileName;
 
                 if (model.registration_status == "REGD")
                 {

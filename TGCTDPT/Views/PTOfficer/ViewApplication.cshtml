@@ -999,13 +999,13 @@
             <button class="btn btn-reset" id="btnQuery" onclick="onQuery();" style="background: #2e595a; color: white; display: block;">
                 Raise Query
             </button>
-            <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;display:none;">
+            <button class="btn btn-reset" id="btnReject" style="background: red;color: white;font-weight: bolder;display:block;">
                 Reject
             </button>
             <button class="btn btn-reset" id="btnPrint" onclick="window.print();" style="background: #1b7510; color: white; font-weight: bolder;">
                 Print
             </button>
-            <button class="btn btn-reset" id="btnTransfer"  style="background: #c729d1; color: white; font-weight: bolder;">
+            <button class="btn btn-reset" id="btnTransfer" style="background: #c729d1; color: white; font-weight: bolder;">
                 Transfer
             </button>
             <button class="btn btn-reset" id="btngo" onclick="gotoApprovals();" style="background: rgb(163 146 62); color: white; font-weight: bolder; display: none;">
@@ -1033,7 +1033,7 @@
         </div>
     </div>
     <div id="TransferModalOverlay" class="modal-overlay">
-        <div class="reject-modal" >
+        <div class="reject-modal">
             <div class="modal-header" style="background-color: #a32bc1;">
                 <h3 style="color: white;"><i class="fas fa-arrow-right-arrow-left"></i> Transfer Application</h3>
                 <button class="modal-close" id="closeTransferModalBtn" style="color: white;"><i class="fas fa-times"></i></button>
@@ -1061,14 +1061,20 @@
                         </select>
                     </div>
                 </div>
-                </div>
+            </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" id="confirmTransferBtn" style="background: #43957a;color: white;">Transfer</button>
                 <button class="btn" id="cancelTransferBtn" style="background-color: #d50d0d;color: white;">Cancel</button>
             </div>
 
-            </div>
+        </div>
     </div>
+    @if (TempData["SessionExpired"] != null)
+    {
+        <script>
+        alert('@TempData["SessionExpired"]');
+        </script>
+    }
     <script>
 
         $(document).ready(function () {
@@ -1293,7 +1299,8 @@
         }
 
         function openDocument(url) {
-            window.open(baseUrl + url, '_blank');
+            /*window.open(baseUrl + url, '_blank');*/
+            fetchBase64File(url, 'Reg');
             return false;
         }
 
@@ -1541,5 +1548,133 @@
                 }
             );
         });
+        function fetchBase64File(fileName, type) {
+
+            $.ajax({
+                url: baseUrl + '/FileView/FetchBase64FileUSINGN',
+                type: 'GET',
+                data: {
+                    fileName: fileName,
+                    Type: type
+                },
+
+                success: function (response) {
+
+                    if (response && response.Base64FileContent) {
+
+                        var mimeType = getMimeType(fileName);
+
+                        var fileData = 'data:' + mimeType + ';base64,' + response.Base64FileContent;
+
+                        var modalContent = '';
+
+                        if (mimeType.startsWith('image/')) {
+
+                            modalContent =
+                                '<img src="' + fileData + '" style="width:100%; height:auto;" />';
+
+                            $('#modal-body-content').html(modalContent);
+
+                            $('#fileModal').modal('show');
+                        }
+
+                        else if (mimeType === 'application/pdf') {
+
+                            const blob = b64toBlob(
+                                response.Base64FileContent,
+                                'application/pdf'
+                            );
+
+                            const blobUrl = URL.createObjectURL(blob);
+
+                            window.open(blobUrl, '_blank');
+                        }
+
+                        else {
+
+                            modalContent =
+                                '<pre>' + response.Base64FileContent + '</pre>';
+
+                            $('#modal-body-content').html(modalContent);
+
+                            $('#fileModal').modal('show');
+                        }
+
+                    } else {
+
+                        if (response.success === false) {
+                            alert(response.message);
+                        }
+
+                        $("#result").text("Error: " + response.message);
+                    }
+                },
+
+                error: function (xhr, status, error) {
+
+                    $("#result").text("AJAX call failed: " + error);
+                }
+            });
+        }
+
+
+        function b64toBlob(base64, contentType = '') {
+
+            const byteCharacters = atob(base64);
+
+            const byteArrays = [];
+
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+
+                const slice = byteCharacters.slice(offset, offset + 512);
+
+                const byteNumbers = new Array(slice.length);
+
+                for (let i = 0; i < slice.length; i++) {
+
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                const byteArray = new Uint8Array(byteNumbers);
+
+                byteArrays.push(byteArray);
+            }
+
+            return new Blob(byteArrays, {
+                type: contentType
+            });
+        }
+
+
+        function getMimeType(fileName) {
+
+            const extension = fileName.split('.').pop().toLowerCase();
+
+            switch (extension) {
+
+                case 'jpg':
+                case 'jpeg':
+                    return 'image/jpeg';
+
+                case 'png':
+                    return 'image/png';
+
+                case 'gif':
+                    return 'image/gif';
+
+                case 'bmp':
+                    return 'image/bmp';
+
+                case 'pdf':
+                    return 'application/pdf';
+
+                case 'txt':
+                    return 'text/plain';
+
+                default:
+                    return 'application/octet-stream';
+            }
+        }
+
     </script>
 </body>

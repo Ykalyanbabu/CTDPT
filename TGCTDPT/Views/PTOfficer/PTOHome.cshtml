@@ -54,16 +54,16 @@
             box-shadow: var(--card-shadow);
         }
 
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
+            .welcome-banner::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                animation: rotate 20s linear infinite;
+            }
 
         .welcome-content {
             position: relative;
@@ -99,10 +99,10 @@
             transition: var(--transition);
         }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.2);
-        }
+            .stat-card:hover {
+                transform: translateY(-4px);
+                background: rgba(255, 255, 255, 0.2);
+            }
 
         .stat-value {
             font-size: 1.875rem;
@@ -134,10 +134,10 @@
             backdrop-filter: blur(10px);
         }
 
-        .modern-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--hover-shadow);
-        }
+            .modern-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--hover-shadow);
+            }
 
         .card-header {
             padding: 1.5rem;
@@ -158,14 +158,14 @@
             color: var(--dark);
         }
 
-        .card-title i {
-            font-size: 1.5rem;
-            color: var(--primary);
-            background: white;
-            padding: 0.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+            .card-title i {
+                font-size: 1.5rem;
+                color: var(--primary);
+                background: white;
+                padding: 0.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
 
         .toggle-icon {
             width: 32px;
@@ -194,9 +194,9 @@
             background: white;
         }
 
-        .card-content.active {
-            max-height: 500px;
-        }
+            .card-content.active {
+                max-height: 500px;
+            }
 
         .content-inner {
             padding: 1.5rem;
@@ -222,12 +222,12 @@
             border: 1px solid transparent;
         }
 
-        .menu-item:hover {
-            background: white;
-            border-color: var(--primary);
-            transform: translateX(8px);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
-        }
+            .menu-item:hover {
+                background: white;
+                border-color: var(--primary);
+                transform: translateX(8px);
+                box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
+            }
 
         .menu-icon {
             width: 40px;
@@ -291,27 +291,32 @@
             text-decoration: none;
         }
 
-        .quick-action-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-        }
+            .quick-action-btn:hover {
+                background: var(--primary);
+                border-color: var(--primary);
+                color: white;
+                transform: translateY(-2px);
+            }
 
-        .quick-action-btn:hover i {
-            color: white;
-        }
+                .quick-action-btn:hover i {
+                    color: white;
+                }
 
-        .quick-action-btn i {
-            font-size: 1.25rem;
-            color: var(--primary);
-            transition: var(--transition);
-        }
+            .quick-action-btn i {
+                font-size: 1.25rem;
+                color: var(--primary);
+                transition: var(--transition);
+            }
 
         /* Animations */
         @@keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @@keyframes fadeIn {
@@ -319,6 +324,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -360,8 +366,13 @@
         }
 
         @@keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
     </style>
 </head>
@@ -375,8 +386,8 @@
                     <i class="fas fa-building me-2"></i>PT Officer Home
                 </h6>
                 @*<p class="welcome-subtitle">
-            Manage registrations, approvals, and reports efficiently
-        </p>*@
+                        Manage registrations, approvals, and reports efficiently
+                    </p>*@
 
                 <!-- Stats Overview -->
                 <div class="stats-grid" style="display:none">
@@ -432,25 +443,33 @@
                                 <span class="menu-text">Cancellation of Registration</span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
-                            <a href="@Url.Action("Reactivate_PTIN", "PTOfficer")" class="menu-item">
+                            <a href="@Url.Action("Reactivate_PTIN", "PTOfficer")" class="menu-item" style="display:none;">
                                 <div class="menu-icon">
                                     <i class="fas fa-times-circle"></i>
                                 </div>
                                 <span class="menu-text">Revoke Registration</span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
-                            <a href="#" class="menu-item">
+                            <a href="@Url.Action("Requests", "PTOAmend")" class="menu-item" style="display:none;">
                                 <div class="menu-icon">
                                     <i class="fas fa-edit"></i>
                                 </div>
                                 <span class="menu-text">Amendment for Registration</span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
-                            <a href="#" class="menu-item">
+                            <a href="#" class="menu-item" style="display:none;">
                                 <div class="menu-icon">
                                     <i class="fas fa-undo-alt"></i>
                                 </div>
                                 <span class="menu-text">Refunds</span>
+                                <span class="badge"></span>
+                                <i class="fas fa-arrow-right menu-arrow"></i>
+                            </a>
+                            <a href="@Url.Action("ChallanEntry", "PTOfficer")" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-rupee"></i>
+                                </div>
+                                <span class="menu-text">Challan Entry</span>
                                 <span class="badge"></span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
@@ -473,14 +492,14 @@
                 <div class="card-content" id="reports-content">
                     <div class="content-inner">
                         <div class="menu-items">
-                            <a href="ApprovedReport.html" class="menu-item">
+                            <a href="ApprovedReport.html" class="menu-item" style="display:none;">
                                 <div class="menu-icon">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
                                 <span class="menu-text">Approved Registrations</span>
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
-                            <a href="pt_div_report.html" class="menu-item">
+                            <a href="pt_div_report.html" class="menu-item" style="display:none;">
                                 <div class="menu-icon">
                                     <i class="fas fa-rupee-sign"></i>
                                 </div>
@@ -488,12 +507,12 @@
                                 <i class="fas fa-arrow-right menu-arrow"></i>
                             </a>
                             <a href="@Url.Action("DivisionReport", "Reports",new { year = DateTime.Now.Year })" class="menu-item">
-                                    <div class="menu-icon">
-                                        <i class="fas fa-file-excel"></i>
-                                    </div>
-                                    <span class="menu-text">Return Non-Filers Reports</span>
-                                    <i class="fas fa-arrow-right menu-arrow"></i>
-                                </a>
+                                <div class="menu-icon">
+                                    <i class="fas fa-file-excel"></i>
+                                </div>
+                                <span class="menu-text">Return Non-Filers Reports</span>
+                                <i class="fas fa-arrow-right menu-arrow"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -501,49 +520,49 @@
 
             <!-- Additional Card for Recent Activity -->
             @*<div class="modern-card animate-fade-in" style="animation-delay: 0.3s" >
-                <div class="card-header" onclick="toggleCard('activity-content')">
-                    <div class="card-title">
-                        <i class="fas fa-history"></i>
-                        <span>Recent Activity</span>
+                    <div class="card-header" onclick="toggleCard('activity-content')">
+                        <div class="card-title">
+                            <i class="fas fa-history"></i>
+                            <span>Recent Activity</span>
+                        </div>
+                        <div class="toggle-icon" id="activity-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
                     </div>
-                    <div class="toggle-icon" id="activity-toggle">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div class="card-content" id="activity-content">
-                    <div class="content-inner">
-                        <div class="menu-items">
-                            <div class="menu-item" style="cursor: default;">
-                                <div class="menu-icon" style="background: var(--success);">
-                                    <i class="fas fa-check"></i>
+                    <div class="card-content" id="activity-content">
+                        <div class="content-inner">
+                            <div class="menu-items">
+                                <div class="menu-item" style="cursor: default;">
+                                    <div class="menu-icon" style="background: var(--success);">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 500;">ABC Corp - Approved</div>
+                                        <div style="font-size: 0.75rem; color: var(--secondary);">2 minutes ago</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div style="font-weight: 500;">ABC Corp - Approved</div>
-                                    <div style="font-size: 0.75rem; color: var(--secondary);">2 minutes ago</div>
+                                <div class="menu-item" style="cursor: default;">
+                                    <div class="menu-icon" style="background: var(--warning);">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 500;">XYZ Ltd - Pending</div>
+                                        <div style="font-size: 0.75rem; color: var(--secondary);">15 minutes ago</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="menu-item" style="cursor: default;">
-                                <div class="menu-icon" style="background: var(--warning);">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div>
-                                    <div style="font-weight: 500;">XYZ Ltd - Pending</div>
-                                    <div style="font-size: 0.75rem; color: var(--secondary);">15 minutes ago</div>
-                                </div>
-                            </div>
-                            <div class="menu-item" style="cursor: default;">
-                                <div class="menu-icon" style="background: var(--danger);">
-                                    <i class="fas fa-exclamation"></i>
-                                </div>
-                                <div>
-                                    <div style="font-weight: 500;">Tech Solutions - Return Due</div>
-                                    <div style="font-size: 0.75rem; color: var(--secondary);">1 hour ago</div>
+                                <div class="menu-item" style="cursor: default;">
+                                    <div class="menu-icon" style="background: var(--danger);">
+                                        <i class="fas fa-exclamation"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 500;">Tech Solutions - Return Due</div>
+                                        <div style="font-size: 0.75rem; color: var(--secondary);">1 hour ago</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
         </div>
 
         <!-- Quick Actions Row -->
@@ -566,7 +585,12 @@
             </a>
         </div>
     </div>
-
+    @if (TempData["SessionExpired"] != null)
+    {
+        <script>
+        alert('@TempData["SessionExpired"]');
+        </script>
+    }
     <script>
         $('#btnBack').hide();
         function toggleCard(contentId) {

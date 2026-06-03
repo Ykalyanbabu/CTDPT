@@ -94,4 +94,57 @@ namespace TGCTDPT.Models
         public string typeoftax { get; set; }
         public string taxpurpose { get; set; }
     }
+
+    public class CyberChallanModel
+    {
+        public string challanno { get; set; }
+        public string depttransid { get; set; }
+        public string hoa { get; set; }
+        public string bankamount { get; set; }
+        public string banktransid { get; set; }
+        public string ddocode { get; set; }
+        public string deptcode { get; set; }
+        public string bankcode { get; set; }
+        public string remittersname { get; set; }
+        public string scrolldate { get; set; }
+        public string bankstatus { get; set; }
+        public string status { get; set; }
+        public string bankdate { get; set; }
+        public string challan_date { get; set; }
+
+        public string enterprisename { get; set; }
+        public string typeoftax { get; set; }
+        public string taxpurpose { get; set; }
+        public string returnperiod { get; set; }
+
+
+    }
+    public class TransactionDetails
+    {
+        public string challanno { get; set; }
+        public string depttransid { get; set; }
+        public string hoa { get; set; }
+        public string bankamount { get; set; }
+        public string banktransid { get; set; }
+        public string ddocode { get; set; }
+        public string deptcode { get; set; }
+        public string bankcode { get; set; }
+        public string remittersname { get; set; }
+        public string scrolldate { get; set; }
+        public string bankstatus { get; set; }
+        public string status { get; set; }
+        public string bankdate { get; set; }
+        public string challan_date { get; set; }
+
+        public string enterprisename { get; set; }
+        public string typeoftax { get; set; }
+        public string taxpurpose { get; set; }
+        public string returnperiod { get; set; }
+
+
+    }
+    public class CyberChallanResponse
+    {
+        public List<CyberChallanModel> challandetails { get; set; }
+    }
 }

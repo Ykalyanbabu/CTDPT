@@ -378,5 +378,20 @@ namespace TGCTDPT.DAL
                 }
             }
         }
+        public dlr_ret_dtls GetReturnByReturnId(string ptin, string returnid)
+        {
+            using (IDbConnection db = new SqlConnection(conStr))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ptin", ptin);
+                parameters.Add("@returnid", returnid);
+
+                return db.QueryFirstOrDefault<dlr_ret_dtls>(
+                    "Pr_Get_return_by_return_id",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+        }
     }
 }

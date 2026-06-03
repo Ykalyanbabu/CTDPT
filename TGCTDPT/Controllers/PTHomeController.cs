@@ -82,6 +82,10 @@ namespace TGCTDPT.Controllers
             }
             return View();
         }
+        public ActionResult ViewPaymentReceipt()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeptLogin(string username, string password)
@@ -318,6 +322,21 @@ namespace TGCTDPT.Controllers
             //    PageSize = Size.A4,
             //    PageMargins = new Margins(10, 10, 10, 10)
             //};
+        }
+        public JsonResult GetSessionStatus()
+        {
+            string IsSessionExpired = "N";
+
+            if (Session["Userid"] != null)
+            {
+                IsSessionExpired = "N";
+            }
+            else 
+            {
+                IsSessionExpired = "Y";
+            }
+            
+            return Json(IsSessionExpired, JsonRequestBehavior.AllowGet);
         }
     }
 }
